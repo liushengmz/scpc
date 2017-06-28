@@ -1,0 +1,76 @@
+
+CREATE TABLE daily_config.`tbl_cp_pool` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cp_id` int(11) NOT NULL,
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `name` varchar(64) DEFAULT NULL,
+  `status` bit(1) NOT NULL DEFAULT b'0',
+  `fee` int(11) DEFAULT NULL COMMENT '价格,单位：分',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='集合名';
+
+ CREATE TABLE daily_config.`tbl_cp_pool_set` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cp_pool_id` int(11) NOT NULL,
+  `trone_order_id` int(11) NOT NULL,
+  `priority` int(11) NOT NULL DEFAULT '30' COMMENT '默认优先级',
+  `status` bit(1) NOT NULL DEFAULT b'0',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE  `daily_log`.`tbl_custom_fee_count` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_id` varchar(45) NOT NULL COMMENT '通常指 imsi  或 mobile。同一个通道必须明确标识方式',
+  `trone_id` int(11) NOT NULL,
+  `fee_date` date NOT NULL COMMENT '计费日期',
+  `count` int(11) NOT NULL COMMENT '计费条数',
+  `city_id` int(11) NOT NULL DEFAULT '416',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UN_KEY` (`custom_id`,`trone_id`,`fee_date`),
+  KEY `IX_trone_id` (`trone_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户日限表';
+
+ 
+ALTER TABLE `daily_log`.`tbl_api_order_201706` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;
+
+ALTER TABLE `daily_log`.`tbl_api_order_201707` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;
+
+ALTER TABLE `daily_log`.`tbl_api_order_201708` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;
+
+ALTER TABLE `daily_log`.`tbl_api_order_201709` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;
+
+ALTER TABLE `daily_log`.`tbl_api_order_201710` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;
+
+ALTER TABLE `daily_log`.`tbl_api_order_201711` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;
+
+ALTER TABLE `daily_log`.`tbl_api_order_201712` 
+ADD COLUMN `cp_pool_id` INT NULL DEFAULT 0  AFTER `is_hidden`,
+ADD COLUMN `description` VARCHAR(128) NULL COMMENT '最终输出的消息说明' AFTER `cp_pool_id`,
+ADD COLUMN `duration` INT NULL COMMENT '处理请求消耗的时间（ms）' AFTER `description`,
+ADD INDEX `IX_POOL_ID` (`cp_pool_id` ASC)  ;

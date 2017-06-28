@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script src="scripts/jquery-3.1.1.js"></script>
+    <script src="scripts/ToolsForm.js"></script>
+    <link href="css/base.css" rel="stylesheet" />
+    <style type="text/css">
+        .tooltip { position: absolute; max-width: 600px; max-height: 600px; overflow: auto; border: 1px dotted #ffd800; background: #fffef7; }
+            .tooltip p { margin: 5px; padding: 0; font-size: 1em; border-bottom: 1px dotted #666; min-height: 3em; margin-bottom: 2px; padding-bottom: 2px; }
+                .tooltip p::first-letter { font-size: 2.8em; line-height: 1em; margin: 5px 5px 0 0; color: #ff6a00; float: left; display: block; }
+                .tooltip p:last-child { border-bottom-style: none; margin-bottom: 0; }
+                .tooltip p label { margin-right: 0.5em; white-space: nowrap; }
+                    .tooltip p label:hover { color: #f00; }
+                    .tooltip p label:last-child { clear: both; }
+    </style>
+    <script type="text/javascript">
+        var data = [{ "key": "abc", "name": "abc", "id": "1" }, { "key": "asc", "name": "dafadf", "id": "2" }, { "key": "zoom", "name": "放大", "id": "3" }];
+
+        $(document).ready(function () {
+            $.getJSON("ajax/getCpPinYin.ashx", null, function (e) { data = e; });
+        });
+
+        var toolFrm = new ToolsFrm();
+        toolFrm.frameCSSName = "tooltip";
+        toolFrm.Init();
+
+        toolFrm.onShowHide = function (sender, e) { }
+
+        toolFrm.OnFrameCreate = function (e) {
+            e.cnt.innerHTML = "Loading...";
+        }
+
+
+        function searchAndShow(cnt, keyword) {
+            var group = [];
+            var items = []
+
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                if (keyword != null && keyword != "" && item.key.indexOf(keyword.toUpperCase()) == -1 && item.name.indexOf(keyword) == -1)
+                    continue;
+                var k = item.key.substring(0, 1);
+                items = group[k];
+                if (items == null) {
+                    items = [];
+                    group[k] = items;
+                }
+                items.push(item);
+            }
+            var html = "";
+            for (var k in group) {
+                html += "<p>" + k;
+                var items = group[k];
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    html += "<label onclick='item_onclick(this,{id:" + item.id + ",name:\"" + item.name + "\"});' >" + item.name + "</label> ";
+                }
+                html += "</p>";
+            }
+            if (html == "")
+                html = "<p>无匹配项</p>";
+            cnt.innerHTML = html;
+
+        }
+
+        function txt_onfocus(sender, e) {
+            var hTime = setTimeout(function () {
+                clearTimeout(hTime);
+                hTime = null;
+                if (toolFrm.button != null)
+                    return;
+                sender.select();
+                toolFrm.ShowHide({ event: sender });
+                txt_onkeyup(null, "");
+            }, 100);
+        }
+
+        function txt_onblur(sender, e) {
+            var label = document.getElementsByClassName("tooltip")[0].getElementsByTagName("label");
+            if (label.length == 1)
+                label[0].click();
+            
+            var id = parseInt(sender.getAttribute("data-id"));
+            if (isNaN(id))
+                return;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].id == id) {
+                    sender.value = data[i].id + "," + data[i].name;
+                    return;
+                }
+            }
+            sender.value = "";
+        }
+
+        function txt_onkeyup(sender, e) {
+            searchAndShow(document.getElementsByClassName("tooltip")[0], e == null ? sender.value : e);
+        }
+        function item_onclick(sender, e) {
+            toolFrm.button.value = e.id + "," + e.name;
+            toolFrm.button.setAttribute("data-id", e.id);
+        }
+
+    </script>
+</head>
+<body>
+    <input onfocus="txt_onfocus(this, null)" onclick="txt_onfocus(this, null)" onblur="txt_onblur(this,null)" onkeyup="txt_onkeyup(this, null)" />
+
+
+    asdfasd
+    adfasdf
+    asdf
+    <p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p><p>asfasdfa</p>
+
+</body>
+</html>

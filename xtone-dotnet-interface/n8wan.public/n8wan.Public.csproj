@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{638EE824-4BD3-4EC8-9C9D-129437F20187}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>n8wan.Public</RootNamespace>
+    <AssemblyName>n8wan.Public</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net40\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>d:\backup\我的文档\visual studio 2013\Projects\CPoolTest\packages\Newtonsoft.Json.10.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\DBDriver.cs" />
+    <Compile Include="Database\MySqlDBClass.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="LightDataModel\tbl_cityItem.cs" />
+    <Compile Include="LightDataModel\tbl_countryItem.cs" />
+    <Compile Include="LightDataModel\tbl_cpItem.cs" />
+    <Compile Include="LightDataModel\tbl_cp_mr_dailyItem.cs" />
+    <Compile Include="LightDataModel\tbl_cp_poolItem.cs" />
+    <Compile Include="LightDataModel\tbl_cp_push_urlItem.cs" />
+    <Compile Include="LightDataModel\tbl_cp_trone_rateItem.cs" />
+    <Compile Include="LightDataModel\tbl_currencyItem.cs" />
+    <Compile Include="LightDataModel\tbl_custom_fee_countItem.cs" />
+    <Compile Include="LightDataModel\tbl_day_month_limitItem.cs" />
+    <Compile Include="LightDataModel\tbl_groupItem.cs" />
+    <Compile Include="LightDataModel\tbl_mobile_white_listItem.cs" />
+    <Compile Include="LightDataModel\tbl_mr_dailyItem.cs" />
+    <Compile Include="LightDataModel\tbl_sp_troneItem.cs" />
+    <Compile Include="LightDataModel\tbl_sp_trone_apiItem.cs" />
+    <Compile Include="LightDataModel\tbl_trone_orderItem.cs" />
+    <Compile Include="LightDataModel\tbl_trone_paycodeItem.cs" />
+    <Compile Include="LightDataModel\tbl_zyl_detailItem.cs" />
+    <Compile Include="LightDataModel_manual\DynamicDataItem.cs" />
+    <Compile Include="LightDataModel_manual\ProvinceHoldConfg.cs" />
+    <Compile Include="LightDataModel_manual\ProvinceHoldData.cs" />
+    <Compile Include="LightDataModel_manual\tbl_api_orderItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_api_orderItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cityItemPlus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cpItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cp_mrItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cp_mrItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cp_mr_daily.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cp_poolItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cp_push_urlItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_cp_trone_rateItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_custom_fee_countItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_day_month_limitItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_moItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\DynamicTableList.cs" />
+    <Compile Include="LightDataModel_manual\tbl_moItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_mrItem.cs" />
+    <Compile Include="LightDataModel\tbl_phone_locateItem.cs" />
+    <Compile Include="LightDataModel\tbl_provinceItem.cs" />
+    <Compile Include="LightDataModel\tbl_spItem.cs" />
+    <Compile Include="LightDataModel\tbl_sp_api_urlItem.cs" />
+    <Compile Include="LightDataModel\tbl_troneItem.cs" />
+    <Compile Include="LightDataModel\tbl_userItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_mrItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_mr_dailyItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_phone_locateItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_provinceItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_request_logItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_request_logItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_sp_api_urlItemPlus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_sp_troneItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_sp_trone_apiItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_troneItemPlus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_trone_orderItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_trone_paycodeItemPlus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_xypayItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_xypayItem_plus.cs" />
+    <Compile Include="LightDataModel_manual\tbl_xy_userItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_xy_userItem_plus.cs" />
+    <Compile Include="Logical\AppFixSync.cs" />
+    <Compile Include="Logical\AsyncSendPush.cs" />
+    <Compile Include="Logical\AutoMapPush.cs" />
+    <Compile Include="Logical\BaseSPCallback_Log.cs" />
+    <Compile Include="Logical\ClearCacheHttpHandler.cs" />
+    <Compile Include="Logical\CPPusher.cs" />
+    <Compile Include="Logical\E_SP_SYNC_MODE.cs" />
+    <Compile Include="Logical\HTAPIPusher.cs" />
+    <Compile Include="Logical\IHold_DataItem.cs" />
+    <Compile Include="Logical\IPushModel.cs" />
+    <Compile Include="Logical\ISMS_DataItem.cs" />
+    <Compile Include="Logical\CityToPhone.cs" />
+    <Compile Include="Logical\ITimeCacheItem.cs" />
+    <Compile Include="Logical\StaticCacheTimeline.cs" />
+    <Compile Include="Logical\XmlBaseSync.cs" />
+    <Compile Include="Logical\JSonBaseSync.cs" />
+    <Compile Include="Logical\MiGopBaseSync.cs" />
+    <Compile Include="Logical\MMBaseSync.cs" />
+    <Compile Include="Logical\AgainPusher.cs" />
+    <Compile Include="Logical\MrTestHandler.cs" />
+    <Compile Include="Logical\StaticCache.cs" />
+    <Compile Include="Logical\old_sp_callback_map.cs" />
+    <Compile Include="Logical\AppUserFixSync.cs" />
+    <Compile Include="Logical\TroneDayLimit.cs" />
+    <Compile Include="Logical\UserLoginProc.cs" />
+    <Compile Include="Model\CPDataPushModel.cs" />
+    <Compile Include="Model\SpTroneCountInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Logical\BaseSPCallback.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shotgun.Library\Shotgun.Library.csproj">
+      <Project>{c357d039-e3b2-4f1c-bcb3-d8895d133ae0}</Project>
+      <Name>Shotgun.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,70 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/css/base.css" rel="stylesheet" />
+    <link href="/css/manage.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+    <script type="text/javascript">
+        if (top != this) {
+            document.write(" <link href=\"/css/embed.css\" rel=\"stylesheet\" />");
+        }
+    </script>
+</head>
+<body>
+    <div class="bn">
+        <div class="logo"><a href="/"></a></div>
+        <div class="userinfo"><span class="blue"><%# Page.User.Identity.Name %></span>，您好。</div>
+    </div>
+    <div class="left">
+        <%--        <ul>
+            <li><a href="/Report/?startDate=<%# DateTime.Today.ToString("yyyy-MM-dd")%>">汇总报表</a></li>
+            <li><a href="/Report/ReportByChannel.aspx?startDate=<%=DateTime.Today.ToString("yyyy-MM-dd")%>">渠道汇总报表</a></li>
+            <li><a href="sy/Report.aspx">首游短信 报表</a></li>
+        </ul>
+        --%>
+        <hr />
+        <ul>
+            <li><a href="/cp/tbl_cpList.aspx">CP用户管理</a></li>
+            <li><a href="/cp/tbl_cp_push_urlList.aspx">推送API配置管理(CP)</a></li>
+            <li><a href="/cp/tbl_trone_orderList.aspx">已经分配指令</a></li>
+        </ul>
+        <hr />
+        <ul>
+            <li><a href="/sp/tbl_spList.aspx">SP名称管理</a></li>
+            <li><a href="/sp/tbl_sp_api_urlList.aspx">同步API配置管理(SP)</a></li>
+            <li><a href="/sp/tbl_troneList.aspx">指令列表</a></li>
+        </ul>
+        <hr />
+        <ul>
+            <li><a href="/report/UnmatchTrone.aspx">未匹配数据</a></li>
+            <li><a href="/report/UnmatchCPTrone.aspx">未匹配CP数据</a></li>
+            <li><a href="/report/">同步报表</a></li>
+        </ul>
+        <hr />
+        <ul>
+            <li><a href="/config/tbl_mobile_white_list.aspx">同步白名单</a></li>
+            <li><a href="/imsi2area.aspx">IMSI转地区</a></li>
+            <li><a href="/passport/clearcache.ashx" target="_blank">清除本地缓存</a></li>
+            <li><a href="<%#n8wan.Public.Library.syncUrlPerfix() %>/clearcache.ashx" target="_blank">清除同步缓存</a></li>
+        </ul>
+
+        <%--        <hr />
+        <ul>
+            <li><a href="/admin/">管理员管理</a></li>
+            <li><a href="/admin/operatuserEditor.aspx?action=me" target="_self">修改登陆密码</a></li>
+        </ul>--%>
+    </div>
+    <div class="right">
+        <asp:ContentPlaceHolder runat="server" ID="body" />
+    </div>
+    <script type="text/javascript">
+        if (typeof (page_onload) != "undefined")
+            page_onload();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" Class="n8wan.codepool.Handler.Sms2WebHandler,codepool.n8wan.com" %> 

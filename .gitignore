@@ -1,0 +1,39 @@
+/HtProject/WebRoot/WEB-INF/classes
+/HtProject/target
+/CloudData/bin
+/credit_base/build
+/Ht_Daily_Analy/bin
+/HtProject-sp-callback/WebRoot/WEB-INF/classes
+/HtProject-sp-callback/target
+/SjDataSplit/bin
+
+#java below
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+obj
+bin
+target
+/xtone-dotnet-interface/spcallback.n8wan.com/pushlog
+/xtone-dotnet-interface/admin.n8wan.com/log
+/xtone-dotnet-interface/admin.n8wan.com/PushLog
+/xtone-dotnet-interface/spcallback.n8wan.com/Log
+/xtone-dotnet-interface/packages
+/xtone-dotnet-interface/api2sp.n8wan.com/splog
+/xtone-dotnet-interface/api2sp.n8wan.com/API
+/xtone-dotnet-interface/api2sp.n8wan.com/log
+/xtone-dotnet-interface/api2sp.n8wan.com/splog
+
+
+
+
+
+

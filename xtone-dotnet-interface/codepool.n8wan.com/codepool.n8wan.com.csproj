@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{923FEF5A-52E0-481C-8AE0-9F8345DFDF6C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>n8wan.codepool</RootNamespace>
+    <AssemblyName>codepool.n8wan.com</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>d:\Backup\我的文档\Visual Studio 2013\Projects\CPoolTest\packages\Newtonsoft.Json.10.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseCodePool.cs" />
+    <Compile Include="BasePool.cs" />
+    <Compile Include="CodePool.cs" />
+    <Compile Include="CodePoolStep2.cs" />
+    <Compile Include="Dao\CustomFee.cs" />
+    <Compile Include="Dao\PoolSet.cs" />
+    <Compile Include="ErrorCode.cs" />
+    <Compile Include="Handler\PoolFirstHandler.cs" />
+    <Compile Include="Handler\PoolSecondHandler.cs" />
+    <Compile Include="Handler\Sms2WebHandler.cs" />
+    <Compile Include="Handler\UpdateUserLimitHandler.cs" />
+    <Compile Include="IResultResponseModel.cs" />
+    <Compile Include="Model\APIModel.cs" />
+    <Compile Include="Model\ApiResultModel.cs" />
+    <Compile Include="Model\HtPoolResultModel.cs" />
+    <Compile Include="Model\PoolResultModel.cs" />
+    <Compile Include="NoSqlModel\PoolSetInfoModel.cs" />
+    <Compile Include="ResultModelManager.cs" />
+    <Compile Include="NoSqlModel\CustomLastTroneModel.cs" />
+    <Compile Include="NoSqlModel\PoolSetModel.cs" />
+    <Compile Include="NoSqlModel\CustomLimitInfo.cs" />
+    <Compile Include="NoSqlModel\CustomFeeModel.cs" />
+    <Compile Include="NoSqlModel\Sms2WebModel.cs" />
+    <Compile Include="NoSqlModel\VCodeCacheModel.cs" />
+    <Compile Include="TelcomMoCallback.cs" />
+    <Compile Include="TelcomModel\Body.cs" />
+    <Compile Include="TelcomModel\Message.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TelcomModel\MoHead.cs" />
+    <Compile Include="TelcomModel\MoToISMS.cs" />
+    <Compile Include="TelcomModel\notifySmsReceptionRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\n8wan.public\n8wan.Public.csproj">
+      <Project>{638ee824-4bd3-4ec8-9c9d-129437f20187}</Project>
+      <Name>n8wan.Public</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shotgun.Library\Shotgun.Library.csproj">
+      <Project>{c357d039-e3b2-4f1c-bcb3-d8895d133ae0}</Project>
+      <Name>Shotgun.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

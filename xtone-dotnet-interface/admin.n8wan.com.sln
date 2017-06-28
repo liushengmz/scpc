@@ -1,0 +1,96 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "admin.n8wan.com", "http://localhost:9365", "{9E21195B-F450-419F-874B-8BEAA5FA7027}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{638ee824-4bd3-4ec8-9c9d-129437f20187}|n8wan.Public.dll;{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}|Shotgun.Library.dll;{923fef5a-52e0-481c-8ae0-9f8345dfdf6c}|codepool.n8wan.com.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_9365"
+		Debug.AspNetCompiler.PhysicalPath = "admin.n8wan.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_9365\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_9365"
+		Release.AspNetCompiler.PhysicalPath = "admin.n8wan.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_9365\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "admin.n8wan.com\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n8wan.Public", "n8wan.public\n8wan.Public.csproj", "{638EE824-4BD3-4EC8-9C9D-129437F20187}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "spcallback.n8wan.com", "http://localhost:6615", "{935730EB-8D7C-47DE-AFE3-17F396CFE3A4}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{638ee824-4bd3-4ec8-9c9d-129437f20187}|n8wan.Public.dll;{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}|Shotgun.Library.dll;{923fef5a-52e0-481c-8ae0-9f8345dfdf6c}|codepool.n8wan.com.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_6615"
+		Debug.AspNetCompiler.PhysicalPath = "spcallback.n8wan.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_6615\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_6615"
+		Release.AspNetCompiler.PhysicalPath = "spcallback.n8wan.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_6615\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "spcallback.n8wan.com\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shotgun.Library", "Shotgun.Library\Shotgun.Library.csproj", "{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codepool.n8wan.com", "codepool.n8wan.com\codepool.n8wan.com.csproj", "{923FEF5A-52E0-481C-8AE0-9F8345DFDF6C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E21195B-F450-419F-874B-8BEAA5FA7027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E21195B-F450-419F-874B-8BEAA5FA7027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E21195B-F450-419F-874B-8BEAA5FA7027}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E21195B-F450-419F-874B-8BEAA5FA7027}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{935730EB-8D7C-47DE-AFE3-17F396CFE3A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{935730EB-8D7C-47DE-AFE3-17F396CFE3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{935730EB-8D7C-47DE-AFE3-17F396CFE3A4}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{935730EB-8D7C-47DE-AFE3-17F396CFE3A4}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{923FEF5A-52E0-481C-8AE0-9F8345DFDF6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{923FEF5A-52E0-481C-8AE0-9F8345DFDF6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{923FEF5A-52E0-481C-8AE0-9F8345DFDF6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{923FEF5A-52E0-481C-8AE0-9F8345DFDF6C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,54 @@
+/* CSS Document */
+html, body, div, p, span, em, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, iframe, form, blockquote, fieldset, legend, label, input, textarea, button, pre, hr, table, tbody, th, td{margin:0; padding:0}
+html,body{width:100%; height:100%}
+body, button, input, select, textarea{font:12px/1.5 Tahoma, Arial, Verdana, "宋体"; color:#444444}
+h1, h2, h3, h4, h5, h6, button, input, select, textarea{font-size:100%; font-weight:normal}
+img{border:0; vertical-align:middle;}
+/*img{border:0; vertical-align:middle;margin-top: 11px;}*/
+em, i, strong, th{font-style:normal}
+ol, ul{list-style:none}
+table{border-collapse:collapse; border-spacing:0}
+.fleft{float:left}
+.fright{float:right}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{display:inline-block}
+/* Hides from IE-mac \*/
+*html .clearfix{height:1%}
+.clearfix{display:block}
+/* End hide from IE-mac */
+.clear{clear:both;}
+
+a{text-decoration:none; color:#23589A; outline:none; blr:expression(this.onFocus=this.blur())}
+a:hover{text-decoration:underline;color:#6CA6CD;}
+
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner{border:none; padding:0}
+
+w100{width:100%}
+
+.mt5{margin-top:5px}
+.mt10{margin-top:10px}
+.mt15{margin-top:15px}
+.mt20{margin-top:20px}
+.mt25{margin-top:25px}
+.mt30{margin-top:30px}
+.mt35{margin-top:35px}
+.mt40{margin-top:40px}
+.mt45{margin-top:45px}
+.mt50{margin-top:50px}
+.ml5{margin-left:5px}
+.ml10{margin-left:10px}
+.ml15{margin-left:15px;color:#7e7e7e;}
+.ml20{margin-left:20px}
+.ml25{margin-left:25px}
+.ml30{margin-left:30px}
+.ml35{margin-left:35px}
+.ml40{margin-left:40px}
+.ml45{margin-left:45px}
+.ml50{margin-left:50px}
+
+.bg_fff{background:#fff ; overflow:hidden;}
+.zz_left{ background-color: #fff;}
+.left_grxx{background-color: #fff;}

@@ -1,0 +1,20 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
+#built application files
+*.apk
+*.ap_
+
+# generated files
+bin/
+gen/
+
+# .idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/

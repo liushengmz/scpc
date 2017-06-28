@@ -1,0 +1,85 @@
+﻿<%@ WebHandler Language="C#" Class="shouyoushiji_unicom_phy" %>
+
+using System;
+using System.Web;
+using System.Xml;
+
+public class shouyoushiji_unicom_phy : gzzyPublic.Logical.GenericSMS
+{
+    XmlElement root;
+    string _linkId;
+    protected override string GetLinkId()
+    {
+        if (root != null)
+            return _linkId;
+        if (Request.TotalBytes < 10)
+            return null;
+        try
+        {
+            var doc = new XmlDocument();
+            doc.Load(Request.InputStream);
+            root = doc.DocumentElement;
+            var node = root.SelectSingleNode("TransactionID");
+            _linkId = node.InnerText;
+        }
+        catch
+        {
+            _linkId = string.Empty;
+        }
+        return _linkId;
+    }
+
+
+    public override string InsertMR(LightDataModel.sms_genericItem m)
+    {
+        foreach (XmlNode node in root.ChildNodes)
+        {
+            if (node.NodeType != XmlNodeType.Element)
+                continue;
+            switch (node.Name)
+            {
+                case "Result": m.status = node.InnerText; break;
+                case "UserID": m.mobile = node.InnerText; break;
+                case "Price":
+                    m.price = int.Parse(node.InnerText);
+                    m.msg = "vpb" + node.InnerText; break;
+                case "Dest": m.port = node.InnerText; break;
+            }
+        }
+        if (!"DELIVRD".Equals(m.status))
+            return "'DELIVRD' only";
+
+        return null;
+    }
+
+    protected override void WriteSuccess(string msg)
+    {
+        if (string.IsNullOrEmpty(msg) || msg == "ok")
+            msg = "success";
+        Response.Write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SyncAppOrderResp>" +
+            "<TransactionID>" + GetLinkId() + "</TransactionID>" +
+            "<hRet>" + msg + "</hRet></SyncAppOrderResp>");
+    }
+
+    protected override void WriteError(string msg)
+    {
+        Response.Write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SyncAppOrderResp>" +
+            "<TransactionID>" + GetLinkId() + "</TransactionID>" +
+            "<hRet>" + msg + "</hRet></SyncAppOrderResp>");
+    }
+
+    protected override void DoPush(bool IsNew, LightDataModel.sms_genericItem m)
+    {
+        var cp = new gzzyPublic.CPPush.AutoMapPush();
+        cp.dBase = dBase;
+        cp.API_Config_Id = API_Config_Id;
+        //cp.UnionUserId = -1;
+        cp.LogFile = Server.MapPath(string.Format("~/PushLog/{0:yyyyMMdd}.log", DateTime.Today));
+
+        if (!cp.LoadCPAPI())
+            return;
+
+        cp.PushObject = m;
+        cp.DoPush();
+    }
+}

@@ -1,0 +1,88 @@
+﻿<%@ WebHandler Language="C#" Class="aige_unicom_phy" %>
+
+using System;
+using System.Web;
+using System.Xml;
+
+public class aige_unicom_phy : gzzyPublic.Logical.GenericSMS
+{
+    XmlElement root;
+    string _linkId;
+
+    protected override string GetLinkId()
+    {
+        if (root != null)
+            return _linkId;
+        if (Request.TotalBytes < 10)
+            return null;
+        try
+        {
+            var doc = new XmlDocument();
+            doc.Load(Request.InputStream);
+            root = doc.DocumentElement;
+            var node = root.SelectSingleNode("orderid");
+            _linkId = node.InnerText;
+        }
+        catch
+        {
+            _linkId = string.Empty;
+            return _linkId;
+        }
+        return _linkId;
+    }
+
+    protected override void WriteSuccess(string msg)
+    {
+        Response.Write("ok");
+        if (string.IsNullOrEmpty(msg))
+            return;
+        Response.Write(' ');
+        Response.Write(msg);
+    }
+
+
+    public override string InsertMR(LightDataModel.sms_genericItem m)
+    {
+        foreach (XmlNode node in root.ChildNodes)
+        {
+            if (node.NodeType != XmlNodeType.Element)
+                continue;
+            switch (node.Name)
+            {
+                case "hRet": m.status = node.InnerText; break;
+                case "phonenum": m.mobile = node.InnerText; break;
+                case "payfee":
+                    m.price = int.Parse(node.InnerText);
+                    break;
+                //case "Dest": m.port = node.InnerText; break;
+            }
+        }
+
+        if (!"0".Equals(m.status))
+            return "hRet = '0' only";
+
+        var l = _linkId.Length;
+        if (l > 16)
+            m.cpParam = _linkId.Substring(l - 16);
+
+        
+
+        return null;
+    }
+
+
+    protected override void DoPush(bool IsNew, LightDataModel.sms_genericItem m)
+    {
+        var cp = new gzzyPublic.CPPush.AutoMapPush();
+        cp.dBase = dBase;
+        cp.API_Config_Id = API_Config_Id;
+        //cp.UnionUserId = -1;
+        cp.LogFile = Server.MapPath(string.Format("~/PushLog/{0:yyyyMMdd}.log", DateTime.Today));
+
+        if (!cp.LoadCPAPI())
+            return;
+
+        cp.PushObject = m;
+        cp.DoPush();
+    }
+}

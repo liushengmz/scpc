@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "api2sp.n8wan.com", "api2sp.n8wan.com\", "{EBF6A030-9733-44CB-AAD9-803A287401FE}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{f091ab23-b01e-48ae-b5cd-00d583ea42ca}|sdk_Request.dll;{638EE824-4BD3-4EC8-9C9D-129437F20187}|n8wan.Public.dll;{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}|Shotgun.Library.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/api2sp.n8wan.com"
+		Debug.AspNetCompiler.PhysicalPath = "api2sp.n8wan.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\api2sp.n8wan.com\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/api2sp.n8wan.com"
+		Release.AspNetCompiler.PhysicalPath = "api2sp.n8wan.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\api2sp.n8wan.com\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "59639"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdk_Request", "sdk_Request\sdk_Request.csproj", "{F091AB23-B01E-48AE-B5CD-00D583EA42CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n8wan.Public", "n8wan.public\n8wan.Public.csproj", "{638EE824-4BD3-4EC8-9C9D-129437F20187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shotgun.Library", "Shotgun.Library\Shotgun.Library.csproj", "{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBF6A030-9733-44CB-AAD9-803A287401FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF6A030-9733-44CB-AAD9-803A287401FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBF6A030-9733-44CB-AAD9-803A287401FE}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF6A030-9733-44CB-AAD9-803A287401FE}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{F091AB23-B01E-48AE-B5CD-00D583EA42CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F091AB23-B01E-48AE-B5CD-00D583EA42CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F091AB23-B01E-48AE-B5CD-00D583EA42CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F091AB23-B01E-48AE-B5CD-00D583EA42CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638EE824-4BD3-4EC8-9C9D-129437F20187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

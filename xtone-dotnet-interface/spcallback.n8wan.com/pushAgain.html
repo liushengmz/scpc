@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.0.0-beta1/jquery.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style type="text/css">
+        body {
+            font: 14px/2em arial,'微软雅黑';
+            white-space: pre;
+            margin: 2em;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(checkproc);
+
+        var hTime = null;
+        function checkproc() {
+            if (hTime != null)
+                clearInterval(hTime);
+            $.get({
+                url: "pushagain.ashx",
+                cache: false,
+                success: function (html) {
+                    $("body").html(html)
+                    if (html.indexOf("\n") == -1) {
+                        hTime = setInterval(checkproc, 1280);
+                    }
+                },
+                dataType: "html"
+            });
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

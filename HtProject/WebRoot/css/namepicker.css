@@ -1,0 +1,91 @@
+@CHARSET "UTF-8";
+
+.center 
+{
+  width: 400px;
+  padding: 0px;
+  border: 1px solid #B7B7B7;
+  background-color:#F6F5F3;
+  position: absolute;
+}
+
+.searchDiv
+{
+	width: 200px;float: right;
+}
+
+.guideData
+{
+	margin-left: 5px;
+}
+
+.guideData a
+{
+	color: #CD661D;
+	text-decoration: none;
+	margin-right: 7px;
+	line-height: 26px; 
+	font-weight: bold;
+}
+
+.guideData a:hover
+{
+	color: #CD6839;
+	text-decoration: underline;
+}
+
+.dataDiv
+{
+	overflow:auto;
+	height:500px;
+	padding-top: 2px;
+}
+
+.dataDivMain
+{
+	
+}
+
+.dataDivMain div
+{
+	margin-bottom: 2px;
+}
+
+.dataHeadDiv
+{
+	width:20px;
+	text-align: center;
+	background-color:#CDC9C9;
+	float:left;
+	margin-top: 2px;
+	margin-left: 1px; 
+	border: 1px solid #CD661D;
+	font-weight: bold;
+	color:#CD661D;
+	line-height: 1.6em
+}
+
+.dataParentdiv
+{
+	float:left;
+	width: 360px;
+}
+
+.dataParentdiv div
+{
+	float: left;
+	margin-left: 3px;
+	margin-top: 2px;
+	background-color: #EBEBEB;
+	line-height: 1.6em;
+	letter-spacing: 1px;
+}
+
+.dataParentdiv div:hover
+{
+	font-weight: bold;
+	cursor: pointer;
+	/*border:1px solid #CD8500;*/
+}
+
+

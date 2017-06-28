@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">爱爱快放</string>
+    <string name="title_alert">提示信息</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="main_free">体验区</string>
+    <string name="main_gold">黄金区</string>
+    <string name="main_diamond">钻石区</string>
+    <string name="main_my">我的</string>
+    <string name="vip_title">当前片库：≈1800部</string>
+    <string name="my_username">您的专属账号：</string>
+    <string name="my_password">密码：</string>
+    <string name="my_show">点击显示</string>
+    <string name="my_level">头衔</string>
+    <string name="my_level_normal">普通会员</string>
+    <string name="my_level_gold">黄金会员</string>
+    <string name="my_level_diamond">钻石会员</string>
+    <string name="my_special">特权</string>
+    <string name="my_special_normal">观看体验区电影</string>
+    <string name="my_special_gold">享受约百部成人体验电影</string>
+    <string name="my_special_diamond">享受所有电影及图库</string>
+    <string name="my_cozuo">操作</string>
+    <string name="my_cozuo_c">开通会员</string>
+    <string name="my_cozuo_cc_2">升级钻石会员特权</string>
+    <string name="my_cozuo_cc_3">顶级会员</string>
+    <string name="my_cozuo_c_2">升级钻石</string>
+    <string name="my_cozuo_c_3">升级黑金</string>
+    <string name="my_cozuo_ccc_2">立即升级会员</string>
+    <string name="my_qq">客服电话：13002459732</string>
+    <string name="my_time">工作时间：工作日09:00至18:00</string>
+    <string name="my_ps">ps：联系客服时请提供您的账号和遇到的问题。</string>
+    <string name="gold_header_title">当前片库：≈1800部</string>
+    <string name="diamond_header_title">当前片库：≈3000部</string>
+    <string name="footer">购买VIP，尽享万部精彩视频</string>
+</resources>

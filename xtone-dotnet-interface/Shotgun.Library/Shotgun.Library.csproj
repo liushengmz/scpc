@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C357D039-E3B2-4F1C-BCB3-D8895D133AE0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shotgun</RootNamespace>
+    <AssemblyName>Shotgun.Library</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MySQL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;MySQL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\ConfigDBClass.cs" />
+    <Compile Include="Database\IDBDriver.cs" />
+    <Compile Include="Database\DefaultBaseDataSpecial.cs" />
+    <Compile Include="Database\IBaseDataPerformance.cs" />
+    <Compile Include="Database\MsSqlDBClass.cs" />
+    <Compile Include="Database\BDException.cs" />
+    <Compile Include="Database\BDClass_p2.cs" />
+    <Compile Include="Database\BDClass.cs" />
+    <Compile Include="Database\BDClass_p3.cs" />
+    <Compile Include="Database\IBaseDataClass.cs" />
+    <Compile Include="Database\IBaseDataClass2.cs" />
+    <Compile Include="Database\IBaseDataSpecial.cs" />
+    <Compile Include="Database\IUpateDataInfo.cs" />
+    <Compile Include="Library\ExtensionLightData.cs" />
+    <Compile Include="Library\ExtensionListitem.cs" />
+    <Compile Include="Library\math2.cs" />
+    <Compile Include="Library\PinYinConverter.cs" />
+    <Compile Include="Library\Static_Json.cs" />
+    <Compile Include="Model\List\IDBQueries.cs" />
+    <Compile Include="Security\AdminCookieEnCode.cs" />
+    <Compile Include="Security\AdminInfo.cs" />
+    <Compile Include="Security\AdminSignIn.cs" />
+    <Compile Include="Security\AuthorInfo.cs" />
+    <Compile Include="Security\DESEncrypt.cs" />
+    <Compile Include="Security\LoginHandler.cs" />
+    <None Include="Database\MySqlDBClass.cs" />
+    <Compile Include="Database\AccessDBClass.cs" />
+    <Compile Include="Library\AsyncRemoteRequest.cs" />
+    <Compile Include="Library\Char2Char.cs" />
+    <Compile Include="Library\DeCode_UBB.cs" />
+    <Compile Include="Library\eMail.cs" />
+    <Compile Include="Library\ErrLogRecorder.cs" />
+    <Compile Include="Library\FilesUpload.cs" />
+    <Compile Include="Library\FileUploadConfig.cs" />
+    <Compile Include="Library\HTMLSafe.cs" />
+    <Compile Include="Library\LogoMark.cs" />
+    <Compile Include="Library\ListControlExtrFunction.cs" />
+    <Compile Include="Library\PageSpliter.cs" />
+    <Compile Include="Library\PageTitleFixer.cs" />
+    <Compile Include="Library\SimpleLogRecord.cs" />
+    <Compile Include="Library\StaticFile.cs" />
+    <Compile Include="Mail\BaseMailHandler.cs" />
+    <Compile Include="Mail\WebMail.cs" />
+    <Compile Include="Model\Data\Table.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Model\Filter\DataFilterCollections.cs" />
+    <Compile Include="Model\Filter\EmptyFilter.cs" />
+    <Compile Include="Model\Filter\EM_Safe_Field_MASK.cs" />
+    <Compile Include="Model\Filter\RowToFilter.cs" />
+    <Compile Include="Model\Filter\DataFilter.cs" />
+    <Compile Include="Model\Filter\EM_SortKeyWord.cs" />
+    <Compile Include="Model\Filter\IDataFilter.cs" />
+    <Compile Include="Model\Filter\TableFilter.cs" />
+    <Compile Include="Model\List\BaseListModel.cs" />
+    <Compile Include="Model\List\EM_PAGE_Mode.cs" />
+    <Compile Include="Model\List\GenericListModel.cs" />
+    <Compile Include="Model\List\IListModel.cs" />
+    <Compile Include="Model\List\LightDataQueries.cs" />
+    <Compile Include="Model\Logical\ILogical.cs" />
+    <Compile Include="Library\PagePlus.cs" />
+    <Compile Include="Model\Logical\LightDataModel.cs" />
+    <Compile Include="PagePlus\GZipPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PagePlus\IGZipPage.cs" />
+    <Compile Include="PagePlus\IPageDataBase.cs" />
+    <Compile Include="PagePlus\PageDataBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PagePlus\PagePlus.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PagePlus\PageTitleFixer.cs" />
+    <Compile Include="PagePlus\ReturnURL.cs" />
+    <Compile Include="PagePlus\SimpleHttpHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Library\PublicFunction_shotgun.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

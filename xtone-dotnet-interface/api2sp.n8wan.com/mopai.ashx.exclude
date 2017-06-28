@@ -1,0 +1,68 @@
+﻿<%@ WebHandler Language="C#" Class="mopai" %>
+
+using System;
+using System.Web;
+
+public class mopai : Shotgun.PagePlus.SimpleHttpHandler<Shotgun.Database.MySqlDBClass>
+{
+    public override void BeginProcess()
+    {
+        var qs = Request.Url.Query;
+        if (string.IsNullOrEmpty(qs))
+            return;
+        qs = qs.Substring(1);
+
+        var urlMd5 = Shotgun.Library.Static.StrId(System.Text.RegularExpressions.Regex.Replace(qs, "sid=.+?&", ""));
+
+        var l = LightDataModel.tbl_mm_requestItem.GetQueries(dBase);
+        l.Filter.AndFilters.Add(LightDataModel.tbl_mm_requestItem.Fields.url_md5, urlMd5);
+        l.SortKey.Add(LightDataModel.tbl_mm_requestItem.Fields.id, Shotgun.Model.Filter.EM_SortKeyWord.desc);
+        l.Fields = new string[] { LightDataModel.tbl_mm_requestItem.Fields.result, LightDataModel.tbl_mm_requestItem.Fields.time };
+
+        var last = l.GetRowByFilters();
+
+        if (last == null || (DateTime.Now - last.time).TotalMinutes > 5)
+        {
+            last = NewRequest(qs);
+            if (last == null)
+                return;
+            last.url_md5 = urlMd5;
+            dBase.SaveData(last);
+        }
+
+        Response.Write(last.result);
+    }
+
+    LightDataModel.tbl_mm_requestItem NewRequest(string url)
+    {
+        var m = new LightDataModel.tbl_mm_requestItem();
+
+        using (var web = new System.Net.WebClient())
+        {
+            url = NewIp(url);
+            var rlt = web.DownloadString(url);
+            //if (rlt.Contains("\"result\":\"-5\""))
+            //{
+            //    url = NewIp(url);
+            //    rlt = web.DownloadString(url);
+            //}
+            if (!rlt.Contains("\"result\":\"0\""))
+            {
+                Response.Write(rlt);
+                return null;
+            }
+
+            m.result = rlt;
+            m.time = DateTime.Now;
+        }
+        return m;
+    }
+
+    string NewIp(string url)
+    {
+        return System.Text.RegularExpressions.Regex.Replace(url, @"&ip\=(\d+)\.(\d+)", "&ip=113.97");
+    }
+
+
+
+}

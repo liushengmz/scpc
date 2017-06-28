@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>登陆</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link href="/css/base.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function page_onload() {
+            var frm = document.forms[0];
+            var s = location.search;
+            var rx = /returnurl=([^&]+)/i;
+            var mc = rx.exec(s);
+            if (mc == null)
+                return;
+            frm["returnURL"].value = decodeURIComponent(mc[1]);
+        }
+    </script>
+    <style type="text/css">
+        .loginbox { border: 1px solid #ccc; margin: 0 auto; width: 250px; padding: 1px; }
+            .loginbox h1 { font-size: 14px; background-color: #ccc; margin: 0; padding: 0; text-align: center; }
+        form { margin: 0; padding: 4px; }
+        .bt { text-align: center; margin: 10px; }
+        body { width: auto; margin-top: 100px; }
+    </style>
+</head>
+<body onload="page_onload()">
+    <div class="loginbox">
+        <h1>登录</h1>
+        <form action="login.ashx" method="post">
+            用户名：<input name="username" style="width: 180px;" /><br />
+            密　码：<input type="password" name="password" style="width: 180px;" />
+
+            <div class="bt">
+                <input type="submit" value="登陆" />
+                <input type="hidden" name="returnURL" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>

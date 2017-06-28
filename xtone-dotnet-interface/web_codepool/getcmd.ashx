@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" Class="n8wan.codepool.Handler.PoolFirstHandler,codepool.n8wan.com" %>

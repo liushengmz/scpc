@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>lv_base</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- <filter> <filter-name>characterEncodingFilter</filter-name> <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
+		<init-param> <param-name>encoding</param-name> <param-value>UTF-8</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>characterEncodingFilter</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> -->
+
+
+	<filter>
+		<filter-name>AppInit</filter-name>
+		<filter-class>com.system.handler.AppInitHttpHandler</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AppInit</filter-name>
+		<url-pattern>/AppInit</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>VideoList</filter-name>
+		<filter-class>com.system.handler.VideoListHttpHandler</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>VideoList</filter-name>
+		<url-pattern>/VideoList</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>OrderInfo</filter-name>
+		<filter-class>com.system.handler.OrderInfoHttpHandler</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>OrderInfo</filter-name>
+		<url-pattern>/OrderInfo</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>callback</filter-name>
+		<filter-class>com.system.handler.bolinCallbackHttpHandler</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>callback</filter-name>
+		<url-pattern>/bolincall</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>leyou_callback</filter-name>
+		<filter-class>com.system.handler.LeyouCallbackHttpHandler</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>leyou_callback</filter-name>
+		<url-pattern>/leyoupay</url-pattern>
+	</filter-mapping>
+
+
+	<servlet>
+		<servlet-name>CacheInit</servlet-name>
+		<servlet-class>com.system.servlet.LoadCacheServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+</web-app>

@@ -11,6 +11,28 @@ import com.system.util.StringUtil;
 
 public class MrServer
 {
+	//为上市公司打造的
+	public Map<String, Object> getWjMrData(ReportParamsModel params)
+	{
+		Map<String, Object> result = new MrDao().getWjMrAnalyData(params);
+		
+		//如果数据类型，只能重新处理标题
+		if(params.getShowType() ==15)
+		{
+			String[] titles = {"实时","隔天","IVR","第三方支付"};
+			
+			@SuppressWarnings("unchecked")
+			List<MrReportModel> list = (List<MrReportModel>)result.get("list");
+			if(list!=null)
+			for(MrReportModel model : list)
+			{
+				model.setTitle1(titles[StringUtil.getInteger(model.getTitle1(),0)]);
+			}
+		}
+		
+		return result;
+	}
+	
 	//将参数集中起来
 	public Map<String, Object> getMrData(ReportParamsModel params)
 	{
@@ -32,6 +54,29 @@ public class MrServer
 		
 		return result;
 	}
+	
+	//为上市公司打造的方法
+	public Map<String, Object> getWjMrAnalyData(ReportParamsModel params)
+	{
+		Map<String, Object> result = new MrDao().getWjMrAnalyData(params);
+		
+		//如果数据类型，只能重新处理标题
+		if(params.getShowType() ==15)
+		{
+			String[] titles = {"实时","隔天","IVR","第三方支付"};
+			
+			@SuppressWarnings("unchecked")
+			List<MrReportModel> list = (List<MrReportModel>)result.get("list");
+			if(list!=null)
+			for(MrReportModel model : list)
+			{
+				model.setTitle1(titles[StringUtil.getInteger(model.getTitle1(),0)]);
+			}
+		}
+		
+		return result;
+	}
+	
 	
 	
 	public Map<String, Object> getMrData(String startDate, String endDate,

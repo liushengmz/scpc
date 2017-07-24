@@ -19,6 +19,7 @@ public class ReportParamsModel
 	private int jsType;
 	private int showType;
 	private boolean onlyShowSync;
+	private int companyId;
 	
 	public String getStartDate()
 	{
@@ -155,6 +156,14 @@ public class ReportParamsModel
 	public void setOnlyShowSync(boolean onlyShowSync)
 	{
 		this.onlyShowSync = onlyShowSync;
+	}
+	public int getCompanyId()
+	{
+		return companyId;
+	}
+	public void setCompanyId(int companyId)
+	{
+		this.companyId = companyId;
 	}
 	
 	

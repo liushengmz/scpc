@@ -131,6 +131,8 @@
 					<td>业务</td>
 					<td>价格</td>
 					<td>CP</td>
+					<td>指令</td>
+					<td>linkid</td>
 					<td>同步</td>
 				</tr>
 			</thead>
@@ -152,6 +154,8 @@
 					<td><%= model.getSpTroneName() %></td>
 					<td><%= model.getPrice() %></td>
 					<td><%= model.getCpName() %></td>
+					<td><%= model.getOrder() %></td>
+					<td><%= model.getLinkId() %></td>
 					<td><%= model.getSynFlag()==1 ? "已同步" : "未同步" %></td>
 				</tr>
 						<%

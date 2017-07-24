@@ -31,7 +31,7 @@ public class MrDetailDataDao
 			chkType = "a.imsi";
 		}
 		
-		String sql = " SELECT a.`imei`,a.`imsi`,a.`mobile`,";
+		String sql = " SELECT a.linkid,a.ori_order,a.`imei`,a.`imsi`,a.`mobile`,";
 		sql += " g.`name` province_name,h.`name` city_name,e.`short_name` sp_name,d.`name` sp_trone_name,";
 		sql += " b.`price`,f.`short_name` cp_name,a.`syn_flag`,a.`create_date`";
 		sql += " FROM daily_log.`tbl_mr_"+ table +"` a";
@@ -65,6 +65,9 @@ public class MrDetailDataDao
 					vo.setCpName(StringUtil.getString(rs.getString("cp_name"), ""));
 					vo.setSynFlag(rs.getInt("syn_flag"));
 					vo.setCreateDate(rs.getString("create_date"));
+					vo.setLinkId(StringUtil.getString(rs.getString("linkid"), ""));
+					vo.setOrder(StringUtil.getString(rs.getString("ori_order"), ""));
+					
 					list.add(vo);
 				}
 				

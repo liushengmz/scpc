@@ -15,6 +15,7 @@
 	String address = StringUtil.getString(request.getParameter("address"), "");
 	String contractStartDate = StringUtil.getString(request.getParameter("contract_start_date"), StringUtil.getDefaultDate());
 	String contractEndDate = StringUtil.getString(request.getParameter("contract_end_date"), StringUtil.getDefaultDate());
+	int coId = StringUtil.getInteger(request.getParameter("co_id"), 0);
 	int commerceUserId = StringUtil.getInteger(request.getParameter("commerce_user_id"), -1);
 	int status = StringUtil.getInteger(request.getParameter("status"), 1);
 
@@ -34,6 +35,7 @@
 	model.setContractEndDate(contractEndDate);
 	model.setCommerceUserId(commerceUserId);
 	model.setStatus(status);
+	model.setCoId(coId);
 	
 	if(id>0)
 	{

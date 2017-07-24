@@ -18,6 +18,110 @@ import com.system.util.StringUtil;
 
 public class MrDao
 {
+	//为上市公司打造的方法
+	public Map<String, Object> getWjMrAnalyData(ReportParamsModel params)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String query = "";
+		
+		if(params.getSpId() >0)
+			query += " and d.id = " + params.getSpId();
+		
+		if(params.getCpId()>0)
+			query += " and e.id = " + params.getCpId();
+		
+		if(params.getSpTroneId()>0)
+			query += " and h.id = " + params.getSpTroneId();
+		
+		if(params.getCompanyId()>0)
+		{
+			query += " and o.id = " + params.getCompanyId();
+		}
+		
+		String[] result = getSortType(params.getShowType());
+		String queryParams = result[0];
+		String joinId = result[1];
+		
+		String sql = "select a.show_title,aa,bb,cc,dd from (";
+		sql += " select  " + joinId + " join_id," + queryParams + " show_title,sum(a.data_rows) aa,sum(a.amount) bb ";
+		sql += " from daily_log.tbl_mr_summer a";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order b on a.trone_order_id = b.id ";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on h.sp_id = d.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id ";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user j ON d.commerce_user_id = j.id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user k ON e.commerce_user_id = k.id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_company o on d.co_id = o.id";
+		
+		sql += " where a.mr_date >= '" + params.getStartDate() + "' and a.mr_date <= '" + params.getEndDate() + "' " + query;
+		sql += " group by join_id order by show_title asc )a";
+		sql += " left join(";
+		sql += " select  " + joinId + " join_id," + queryParams + " show_title,sum(a.data_rows) cc,sum(a.amount) dd ";
+		sql += " from daily_log.tbl_cp_mr_summer a ";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order b on a.trone_order_id = b.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id ";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on h.sp_id = d.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user j ON d.commerce_user_id = j.id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user k ON e.commerce_user_id = k.id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_company o on d.co_id = o.id";
+		
+		sql += " where a.mr_date >= '" + params.getStartDate() + "' and a.mr_date <= '" + params.getEndDate() + "' " + query;
+		sql += " group by join_id order by show_title asc";
+		sql += " )b on a.join_id = b.join_id;";
+		
+		
+		JdbcControl control = new JdbcControl();
+		
+		final List<Object> datalist = new ArrayList<Object>();
+		
+		map.put("list", control.query(sql, new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				List<MrReportModel> list = new ArrayList<MrReportModel>();
+				int dataRows=0,showDataRows = 0;
+				double amount=0,showAmount = 0;
+				while(rs.next())
+				{
+					MrReportModel model = new MrReportModel();
+					
+					model.setTitle1(rs.getString("show_title"));
+					model.setDataRows(rs.getInt(2));
+					model.setAmount(rs.getFloat(3));
+					model.setShowDataRows(rs.getInt(4));
+					model.setShowAmount(rs.getFloat(5));
+					
+					dataRows += model.getDataRows();
+					showDataRows += model.getShowDataRows();
+					amount += model.getAmount();
+					showAmount += model.getShowAmount();
+					
+					list.add(model);
+				}
+				
+				datalist.add(dataRows);
+				datalist.add(showDataRows);
+				datalist.add(amount);
+				datalist.add(showAmount);
+				
+				return list;
+			}
+		}));
+		
+		map.put("datarows", datalist.get(0));
+		map.put("showdatarows", datalist.get(1));
+		map.put("amount", datalist.get(2));
+		map.put("showamount", datalist.get(3));
+		
+		return map;
+	}
+	
+	
 	public Map<String, Object> getMrAnalyData(ReportParamsModel params)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -98,7 +202,7 @@ public class MrDao
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id ";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on h.sp_id = d.id";
-		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on a.cp_id = e.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_province f on a.province_id = f.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_city g on a.city_id = g.id";
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user j ON d.commerce_user_id = j.id";
@@ -238,7 +342,7 @@ public class MrDao
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id ";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on h.sp_id = d.id";
-		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on a.cp_id = e.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_province f on a.province_id = f.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_city g on a.city_id = g.id";
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user j ON d.commerce_user_id = j.id";
@@ -374,7 +478,7 @@ public class MrDao
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order b on a.trone_order_id = b.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on c.sp_id = d.id";
-		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on a.cp_id = e.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_province f on a.province_id = f.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_city g on a.city_id = g.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id ";
@@ -519,7 +623,7 @@ public class MrDao
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order b on a.trone_order_id = b.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on c.sp_id = d.id";
-		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on a.cp_id = e.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_province f on a.province_id = f.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_city g on a.city_id = g.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id ";
@@ -643,7 +747,7 @@ public class MrDao
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order b on a.trone_order_id = b.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone c on b.trone_id = c.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp d on c.sp_id = d.id";
-		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on a.cp_id = e.id";
+		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp e on b.cp_id = e.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_province f on a.province_id = f.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_city g on a.city_id = g.id";
 		sql += " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone h on c.sp_trone_id = h.id";
@@ -1462,7 +1566,7 @@ public class MrDao
 		return map;
 	}
 	
-	//sortType 1:天  2:周  3：月  4：SP 5：CP 6：TRONE 7 CP通道 8省份 9城市 10SP业务 11小时 12SP商务 13CP商务 14运营商 15数据类型 16一级业务线 17二级业务线
+	//sortType 1:天  2:周  3：月  4：SP 5：CP 6：TRONE 7 CP通道 8省份 9城市 10SP业务 11小时 12SP商务 13CP商务 14运营商 15数据类型 16一级业务线 17二级业务线18CP业务19公司
 	private String[] getSortType(int sortType)
 	{
 		String joinId = " a.mr_date ";
@@ -1548,6 +1652,11 @@ public class MrDao
 			case 18: //真的是CP业务
 				queryParams = "  CONCAT(1000 + d.id,'-',h.name,'-',e.short_name) ";
 				joinId = " b.cp_jiesuanlv_id ";
+				break;
+				
+			case 19: //公司
+				queryParams = " o.co_short_name ";
+				joinId = " o.id ";
 				break;
 				
 			default:

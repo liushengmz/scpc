@@ -229,6 +229,7 @@ public class StringUtil
 	
 	private static DecimalFormat df1 = new DecimalFormat("###0.00%");
 	private static DecimalFormat df2 = new DecimalFormat("###0.00");
+	private static DecimalFormat df3 = new DecimalFormat("###0.0");
 	
 	public static String getPercent(int data1,int data2)
 	{
@@ -251,6 +252,11 @@ public class StringUtil
 	public static String getDecimalFormat(float data)
 	{
 		return df2.format(data);
+	}
+	
+	public static String getDecimalFormat2(float data)
+	{
+		return df3.format(data);
 	}
 	
 	public static String getDecimalFormat(double data)
@@ -466,7 +472,7 @@ public class StringUtil
 //		String[] oriSources = {"A","b","C"};
 //		int[] values = {1,1,0};
 //		System.out.println(concatStrings(oriSources, values, "|"));
-		
+		System.out.println(getDecimalFormat2(123.59364F));
 		
 	}
 	

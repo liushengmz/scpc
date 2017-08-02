@@ -1,3 +1,4 @@
+<%@page import="com.system.model.ReportMoSummer"%>
 <%@page import="com.system.server.MoServer"%>
 <%@page import="com.system.util.ConfigManager"%>
 <%@page import="com.system.vo.DetailDataVo"%>
@@ -25,13 +26,9 @@
 	String endDate = StringUtil
 			.getString(request.getParameter("enddate"), defaultEndDate);
 	
-	int spId = StringUtil.getInteger(request.getParameter("sp_id"), -1);
-	int spTroneId = StringUtil.getInteger(request.getParameter("sp_trone"), -1);
 	String keyWord  = StringUtil.getString(request.getParameter("keyword"), "");
 	
-	List<SpModel> spList = new SpServer().loadSp();
-	List<SpTroneModel> spTroneList = new SpTroneServer().loadSpTroneList();
-	List<DetailDataVo> list = isFirstLoad ? new MoServer().loadMoDetail(startDate, endDate, spId, spTroneId, keyWord) : new ArrayList<DetailDataVo>();
+	List<ReportMoSummer> list = isFirstLoad ? new MoServer().loadMoSummer(startDate, endDate,keyWord) : new ArrayList<ReportMoSummer>();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -48,83 +45,11 @@
 <script type="text/javascript" src="../sysjs/AndyNamePickerV20.js"></script><link href="../css/namepicker.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
-	var spList = new Array();
-	<%
-	for(SpModel spModel : spList)
-	{
-		%>
-		spList.push(new joSelOption(<%= spModel.getId() %>,1,'<%= spModel.getShortName() %>'));
-		<%
-	}
-	%>
-	
-	function onSpDataSelect(joData)
-	{
-		$("#sel_sp").val(joData.id);
-		troneChange();
-	}
-	
-	function onCpDataSelect(joData)
-	{
-		$("#sel_cp").val(joData.id);
-		troneOrderChange();
-	}
-
-	var spTroneArray = new Array();
-	<%
-	for(SpTroneModel spTroneModel : spTroneList)
-	{
-		%>
-	spTroneArray.push(new joBaseObject(<%= spTroneModel.getId() %>,<%=spTroneModel.getSpId() %>,'<%= spTroneModel.getSpTroneName() %>'));	
-		<%
-	}
-	%>
-	
-	$(function()
-	{
-		//SP的二级联动
-		$("#sel_sp").val(<%= spId %>);
-		$("#sel_sp").change(troneChange);
-		troneChange();
-		$("#sel_sp_trone").val(<%= spTroneId %>);
-	});
-	
-	
-	var npSpTroneArray = new Array();
-	
-	<%
-	for(SpTroneModel spTroneModel : spTroneList)
-	{
-		%>
-		npSpTroneArray.push(new joSelOption(<%= spTroneModel.getId() %>,<%=spTroneModel.getSpId() %>,'<%= spTroneModel.getSpTroneName() %>'));	
-		<%
-	}
-	%>
-	
-	function npSpTroneChange(jodata)
-	{
-		$("#sel_sp_trone").val(jodata.id);
-	}
-	
-	function troneChange()
-	{
-		var spId = $("#sel_sp").val();
-		
-		$("#sel_sp_trone").empty(); 
-		$("#sel_sp_trone").append("<option value='-1'>全部</option>");
-		for(i=0; i<spTroneArray.length; i++)
-		{
-			if(spTroneArray[i].pid==spId || spId=="-1")
-			{
-				$("#sel_sp_trone").append("<option value='" + spTroneArray[i].id + "'>" + spTroneArray[i].name + "</option>");
-			}
-		}
-	}	
 </script>
 <body>
 	<div class="main_content">
 		<div class="content" >
-			<form action="mo_detail.jsp"  method="post" style="margin-top: 10px" >
+			<form action="mo_summer.jsp"  method="post" style="margin-top: 10px" >
 				<input type="hidden" name="first_load" value="1" />
 				<dl>
 					<dd class="dd01_me" style="margin-left:-15px">开始时间</dd>
@@ -137,24 +62,6 @@
 						<input name="enddate" type="text" value="<%=endDate%>" 
 							onclick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width: 120px;">
 					</dd>
-					<dd class="dd01_me">SP</dd>
-					<dd class="dd04_me">
-						<select name="sp_id" id="sel_sp" style="width: 110px;" title="选择SP" onclick="namePicker(this,spList,onSpDataSelect)">
-							<option value="-1">全部</option>
-							<%
-							for(SpModel sp : spList)
-							{
-								%>
-							<option value="<%= sp.getId() %>"><%= sp.getShortName() %></option>	
-								<%
-							}
-							%>
-						</select>
-					</dd>
-					<dd class="dd01_me">SP业务</dd>
-						<dd class="dd04_me">
-						<select name="sp_trone" id="sel_sp_trone" style="width: 110px;" ></select>
-					</dd>
 					<dd class="dd01_me">关键字</dd>
 						<dd class="dd03_me">
 						<input type="text" value="<%= keyWord %>" name="keyword" />
@@ -162,7 +69,6 @@
 					<dd class="ddbtn" style="margin-left: 10px; margin-top: 0px;">
 						<input class="btn_match" name="search" value="查 询" type="submit"  />
 					</dd>
-					<dd><label style="margin-left: 20px;">总条数：<%= list.size() %></label></dd>
 					</dl>
 			</form>
 		</div>
@@ -173,18 +79,16 @@
 					<td>CP</td>
 					<td>SP</td>
 					<td>SP业务</td>
-					<td>IMEI</td>
-					<td>IMSI</td>
-					<td>手机号</td>
-					<td>LinkID</td>
-					<td>时间</td>
-					<td>省份</td>
-					<td>城市</td>
-					<td>价格</td>
-					<td>指令</td>
 					<td>通道</td>
+					<td>价格</td>
 					<td>配置指令</td>
 					<td>配置通道</td>
+					<td>上量指令</td>
+					<td>MO数据</td>
+					<td>MR数据</td>
+					<td>MR同步数据</td>
+					<td>MO转化率</td>
+					<td>下游MO转化率</td>
 				</tr>
 			</thead>
 			<tbody>		
@@ -192,7 +96,7 @@
 				<%
 					int index = 1;
 					if(list!=null)
-					for(DetailDataVo model : list)
+					for(ReportMoSummer model : list)
 					{
 						%>
 				<tr>
@@ -200,18 +104,16 @@
 					<td><%= model.getCpName() %></td>
 					<td><%= model.getSpName() %></td>
 					<td><%= model.getSpTroneName() %></td>
-					<td><%= model.getImei() %></td>
-					<td><%= model.getImsi() %></td>
-					<td><%= model.getMobile()  %></td>
-					<td><%= model.getLinkId() %></td>
-					<td><%= model.getCreateDate() %></td>
-					<td><%= model.getProvinceName() %></td>
-					<td><%= model.getCityName() %></td>
+					<td><%= model.getTroneName() %></td>
 					<td><%= model.getPrice() %></td>
-					<td><%= model.getOrder() %></td>
+					<td><%= model.getTroneOrders() %></td>
 					<td><%= model.getTroneNum() %></td>
-					<td><%= model.getConfigOrder() %></td>
-					<td><%= model.getConfigTrone() %></td>
+					<td><%= model.getCpTroneOrders() %></td>
+					<td><%= model.getMoDataRows() %></td>
+					<td><%= model.getMrDataRows() %></td>
+					<td><%= model.getSynMrDataRows() %></td>
+					<td><%= StringUtil.getPercent(model.getMrDataRows(),model.getMoDataRows()) %></td>
+					<td><%= StringUtil.getPercent(model.getSynMrDataRows(),model.getMoDataRows()) %></td>
 				</tr>
 						<%
 					}

@@ -20,7 +20,9 @@
 	
 	List<SpModel> spList = new SpServer().loadSp();
 	List<CpModel> cpList = new CpServer().loadCp();
-	List<FinancialSpCpDataShowModel> list = loadData > 0 ? new FinalcialSpCpDataServerSj().loadData(startDate, endDate,spId,cpId,dataType) : new ArrayList<FinancialSpCpDataShowModel>();
+	
+	//List<FinancialSpCpDataShowModel> list = loadData > 0 ?  new FinalcialSpCpDataServerSj().loadData(startDate, endDate, spId, cpId, dataType):new ArrayList<FinancialSpCpDataShowModel>();
+	List<FinancialSpCpDataShowModel> list = loadData > 0 ?  new FinalcialSpCpDataServer().loadData(startDate, endDate, spId, cpId, dataType):new ArrayList<FinancialSpCpDataShowModel>();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

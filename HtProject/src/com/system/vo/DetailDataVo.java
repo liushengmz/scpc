@@ -16,6 +16,25 @@ public class DetailDataVo
 	private String createDate;
 	private String order;
 	private String troneNum;
+	private String linkId;
+	private String configOrder;
+	public String getConfigOrder()
+	{
+		return configOrder;
+	}
+	public String getConfigTrone()
+	{
+		return configTrone;
+	}
+	public void setConfigOrder(String configOrder)
+	{
+		this.configOrder = configOrder;
+	}
+	public void setConfigTrone(String configTrone)
+	{
+		this.configTrone = configTrone;
+	}
+	private String configTrone;
 	
 	public int getId()
 	{
@@ -129,6 +148,14 @@ public class DetailDataVo
 	public void setCreateDate(String createDate)
 	{
 		this.createDate = createDate;
+	}
+	public String getLinkId()
+	{
+		return linkId;
+	}
+	public void setLinkId(String linkId)
+	{
+		this.linkId = linkId;
 	}
 	
 	

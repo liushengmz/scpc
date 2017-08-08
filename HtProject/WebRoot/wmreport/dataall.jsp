@@ -135,11 +135,11 @@
 								for(WmDataShowModel.SpTroneModel.TroneModel.TroneOrderModel troneOrderModel : troneModel.troneOrderList)
 								{
 									out.print("<td>" + troneOrderModel.dataRows + "</td>");
-									out.print("<td>" + StringUtil.getDecimalFormat(troneOrderModel.dataAmount) + "</td>");
+									out.print("<td>" + StringUtil.getDecimalFormat2((float)troneOrderModel.dataAmount) + "0</td>");
 									out.print("<td>" + troneOrderModel.cpName + "</td>");
 									out.print("<td>" + troneOrderModel.cpPrice + "</td>");
 									out.print("<td>" + troneOrderModel.showDataRows + "</td>");
-									out.print("<td>" + StringUtil.getDecimalFormat(troneOrderModel.showDataAmount) + "</td>");
+									out.print("<td>" + StringUtil.getDecimalFormat2((float)troneOrderModel.showDataAmount) +"0</td>");
 									out.print("<td><a style='cursor:pointer;' onclick='showDetail(" + troneOrderModel.troneOrderId + ")'>详细</a></td>");
 									out.print("</tr>\r\n");
 									out.print("<tr>");

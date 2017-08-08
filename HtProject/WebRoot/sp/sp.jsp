@@ -86,6 +86,7 @@
 				<tr>
 					<td>序号</td>
 					<td>SPID</td>
+					<td>所属公司</td>
 					<td>全称</td>
 					<td>简称</td>
 					<td>联系人</td>
@@ -108,6 +109,7 @@
 				<tr <%= model.getStatus() == 0 ? stopStyle : "" %>>
 					<td><%=(pageIndex-1)*Constant.PAGE_SIZE + rowNum++ %></td>
 					<td><%= model.getId() + 1000 %></td>
+					<td><%= model.getCoShortName() %></td>
 					<td><%=model.getFullName()%></td>
 					<td><%=model.getShortName()%></td>
 					<td><%=model.getContactPerson()%></td>

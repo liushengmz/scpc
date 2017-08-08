@@ -183,6 +183,13 @@
 				<final.name>dis.n8wan.com</final.name>
 			</properties>
 		</profile>
+		<profile>
+			<id>szlz</id>
+			<properties>
+				<runtime.env>config\szlz</runtime.env>
+				<final.name>HtProject</final.name>
+			</properties>
+		</profile>
 	</profiles>
 	<dependencies>
 		<dependency>

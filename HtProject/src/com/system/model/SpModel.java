@@ -16,6 +16,9 @@ public class SpModel
 	private String	phone;
 	private String	mail;
 	private String commerceUserName;
+	private int coId;
+	private String coShortName;
+	private String coFullName;
 	
 	private int status;
 
@@ -155,6 +158,36 @@ public class SpModel
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getCoId()
+	{
+		return coId;
+	}
+
+	public void setCoId(int coId)
+	{
+		this.coId = coId;
+	}
+
+	public String getCoShortName()
+	{
+		return coShortName;
+	}
+
+	public void setCoShortName(String coShortName)
+	{
+		this.coShortName = coShortName;
+	}
+
+	public String getCoFullName()
+	{
+		return coFullName;
+	}
+
+	public void setCoFullName(String coFullName)
+	{
+		this.coFullName = coFullName;
 	}
 	
 	

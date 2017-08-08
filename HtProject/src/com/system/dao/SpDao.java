@@ -200,7 +200,7 @@ public class SpDao
 	
 	public SpModel loadSpById(int id)
 	{
-		String sql = "select * from " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp where id = " + id;
+		String sql = "select a.*,b.co_short_name from " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp a left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_company b on a.co_id = b.id  where a.id = " + id;
 		return (SpModel)new JdbcControl().query(sql, new QueryCallBack()
 		{
 			@Override
@@ -220,6 +220,7 @@ public class SpDao
 					model.setContractStartDate(StringUtil.getString(rs.getString("contract_start_date"), ""));
 					model.setContractEndDate(StringUtil.getString(rs.getString("contract_end_date"), ""));
 					model.setCommerceUserId(rs.getInt("commerce_user_id"));
+					model.setCoId(rs.getInt("co_id"));
 					//添加状态
 					model.setStatus(rs.getInt("status"));
 					return model;
@@ -232,12 +233,12 @@ public class SpDao
 	
 	public boolean addSp(SpModel model)
 	{
-		String sql = "insert into " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp(full_name,short_name,contract_person,qq,mail,phone,address,contract_start_date,contract_end_date,commerce_user_id,status) "
+		String sql = "insert into " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp(full_name,short_name,contract_person,qq,mail,phone,address,contract_start_date,contract_end_date,commerce_user_id,status,co_id) "
 				+ "value('" + model.getFullName() + "','" + model.getShortName()
 				+ "','" + model.getContactPerson() + "','" + model.getQq()
 				+ "','" + model.getMail() + "','" + model.getPhone() + "','"
 				+ model.getAddress() + "','" + model.getContractStartDate()
-				+ "','" + model.getContractEndDate() + "',"+ model.getCommerceUserId() +","+model.getStatus()+")";
+				+ "','" + model.getContractEndDate() + "',"+ model.getCommerceUserId() +","+model.getStatus()+"," + model.getCoId() + ")";
 		return new JdbcControl().execute(sql);
 	}
 
@@ -250,7 +251,7 @@ public class SpDao
 				+ "',mail='" + model.getMail() + "',phone='" + model.getPhone()
 				+ "',address='" + model.getAddress() + "',contract_start_date='"
 				+ model.getContractStartDate() + "',contract_end_date='"
-				+ model.getContractEndDate() + "',commerce_user_id=" + model.getCommerceUserId() +",status="+model.getStatus()+" where id =" + model.getId();
+				+ model.getContractEndDate() + "',commerce_user_id=" + model.getCommerceUserId() +",status="+model.getStatus()+",co_id = " + model.getCoId() + " where id =" + model.getId();
 		return new JdbcControl().execute(sql);
 	}
 	
@@ -341,7 +342,8 @@ public class SpDao
 	 */
 	public Map<String, Object> loadSp(int pageIndex,int status,String keyWord)
 	{
-		String sql = "select " + Constant.CONSTANT_REPLACE_STRING + " from " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp a left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user b on a.commerce_user_id = b.id where 1=1 ";
+		String sql = "select " + Constant.CONSTANT_REPLACE_STRING + " from " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp a left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_user b on a.commerce_user_id = b.id "
+				+ " left join " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_company c on a.co_id = c.id  where 1=1 ";
 		if(status>=0){
 			sql+=" and a.status="+status;
 		}
@@ -349,7 +351,7 @@ public class SpDao
 		
 		if(!StringUtil.isNullOrEmpty(keyWord))
 		{
-			sql += " AND (full_name LIKE '%" + keyWord + "%' or short_name LIKE '%"+ keyWord +"%' or b.nick_name like '%" + keyWord + "%' or a.id = '" + keyWord + "' )";
+			sql += " AND (full_name LIKE '%" + keyWord + "%' or short_name LIKE '%"+ keyWord +"%' or b.nick_name like '%" + keyWord + "%' or c.co_name like '%" + keyWord + "%' or c.co_short_name like '%" + keyWord + "%' or a.id = '" + keyWord + "'  )";
 		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -393,6 +395,10 @@ public class SpDao
 					model.setCommerceUserName(StringUtil.getString(rs.getString("nick_name"), ""));
 					//添加状态
 					model.setStatus(rs.getInt("status"));
+					//company msg
+					model.setCoId(rs.getInt("co_id"));
+					model.setCoFullName(StringUtil.getString(rs.getString("co_name"), ""));
+					model.setCoShortName(StringUtil.getString(rs.getString("co_short_name"), ""));
 					
 					list.add(model);
 				}

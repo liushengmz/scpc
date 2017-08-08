@@ -1,3 +1,5 @@
+<%@page import="com.system.model.params.ReportParamsModel"%>
+<%@page import="com.system.server.MrServer"%>
 <%@page import="com.system.server.UserServer"%>
 <%@page import="com.system.model.UserModel"%>
 <%@page import="com.system.util.ConfigManager"%>
@@ -51,6 +53,9 @@
 	int dataType = StringUtil.getInteger(request.getParameter("data_type"), -1);
 	int spCommerceUserId = StringUtil.getInteger(request.getParameter("commerce_user"), -1);
 	int cpCommerceUserId = StringUtil.getInteger(request.getParameter("cp_commerce_user"), -1);
+	int jsTypeId = StringUtil.getInteger(request.getParameter("js_type"), -1);
+	int isUnHoldData = StringUtil.getInteger(request.getParameter("is_unhold_data"), -1);
+	
 	
 	int spCommerceId = StringUtil.getInteger(ConfigManager.getConfigData("SP_COMMERCE_GROUP_ID"),-1);
 	List<UserModel> userList = new UserServer().loadUserByGroupId(spCommerceId);
@@ -58,7 +63,27 @@
 	int cpCommerceId = StringUtil.getInteger(ConfigManager.getConfigData("CP_COMMERCE_GROUP_ID"),-1);
 	List<UserModel> cpCommerceUserList = new UserServer().loadUserByGroupId(cpCommerceId);
 
-	Map<String, Object> map =  new MrSjServer().getMrData(startDate,endDate, spId,spTroneId, troneId, cpId, troneOrderId, provinceId, cityId,operatorId,dataType,spCommerceUserId,cpCommerceUserId,sortType);
+	//Map<String, Object> map =  new MrSjServer().getMrData(startDate,endDate, spId,spTroneId, troneId, cpId, troneOrderId, provinceId, cityId,operatorId,dataType,spCommerceUserId,cpCommerceUserId,sortType);
+	
+	ReportParamsModel params = new ReportParamsModel();
+	params.setStartDate(startDate);
+	params.setEndDate(endDate);
+	params.setShowType(sortType);
+	params.setSpId(spId);
+	params.setCpId(cpId);
+	params.setSpTroneId(spTroneId);
+	params.setTroneId(troneId);
+	params.setTroneOrderId(troneOrderId);
+	params.setProvinceId(provinceId);
+	params.setCityId(cityId);
+	params.setOperatorId(operatorId);
+	params.setDataType(dataType);
+	params.setSpCommerceUserId(spCommerceUserId + "");
+	params.setCpCommerceUserId(cpCommerceUserId + "");
+	params.setJsType(jsTypeId);
+	params.setIsUnHoldData(isUnHoldData);
+	
+	Map<String, Object> map = new MrServer().getMrData(params);
 	
 	List<SpModel> spList = new SpServer().loadSp();
 	List<CpModel> cpList = new CpServer().loadCp();
@@ -436,7 +461,6 @@
 					<dd class="ddbtn" style="margin-left: 10px; margin-top: 0px;">
 						<input class="btn_match" name="search" value="查 询" type="submit" />
 					</dd>
-					<dd class="dd01_me" ><a style="color:blue;" href="mr_lr.jsp?<%= request.getQueryString() %>">查看利润</a></dd>
 					</dl>
 			</form>
 		</div>

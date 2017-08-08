@@ -154,6 +154,11 @@ public class TroneOrderServer
 		return new TroneOrderDao().loadTroneOrder(userId,spId, spTroneId, cpId, status ,pageIndex,keyWord);
 	}
 	
+	public Map<String, Object> loadSpTroneOrder(int userId,int spId,int spTroneId,int cpId, int status,int pageIndex,String keyWord)
+	{
+		return new TroneOrderDao().loadSpTroneOrder(userId,spId, spTroneId, cpId, status ,pageIndex,keyWord);
+	}
+	
 	public static void main(String[] args)
 	{
 		new TroneOrderServer().loadPayCodeExportModelListByCpSpTroneId(129, -1, -1);

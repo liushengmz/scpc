@@ -650,7 +650,7 @@ public class TroneOrderDao
 		return map;
 	} 
 	/**
-	 * SP商务-CP业务管理查询
+	 * CP商务-CP业务管理查询
 	 * @param userId
 	 * @param spId
 	 * @param spTroneId
@@ -671,6 +671,114 @@ public class TroneOrderDao
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_sp` d ON c.`sp_id` = d.`id`";
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_cp` e ON a.`cp_id` = e.`id`";
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_user` f ON f.`id` = e.`commerce_user_id`";
+				
+		sql += " WHERE 1=1 and e.id <> 34";
+		
+		String wheres = "";
+		
+		if(spId>0)
+			wheres += " and d.id = " + spId;
+		if(spTroneId>0)
+			wheres += " and c.id = " + spTroneId;
+		if(cpId>0)
+			wheres += " and e.id = " + cpId;
+		if(status>=0)
+			wheres += " and a.disable = " + status;
+		if(userId>0){
+			wheres += " and f.id = " + userId;
+		}
+		
+		if(!StringUtil.isNullOrEmpty(keyWord))
+		{
+			wheres += " and (d.short_name like '%" + keyWord + "%' or d.full_name like '%" + keyWord 
+					+ "%' or e.short_name like '%" + keyWord + "%' or e.full_name like '%" + keyWord 
+					+ "%' or c.name like '%" + keyWord + "%' or b.orders like '%" + keyWord 
+					+ "%' or b.trone_name like '%" + keyWord + "%' or b.trone_num like '%" 
+					+ keyWord + "%' OR a.`order_num` LIKE '%"+ keyWord +"%')";
+		}
+		
+		String limit = " limit "  + Constant.PAGE_SIZE*(pageIndex-1) + "," + Constant.PAGE_SIZE;
+		
+		String orders = " order by a.id desc ";
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		JdbcControl control = new JdbcControl();
+		map.put("rows",control.query(sql.replace(Constant.CONSTANT_REPLACE_STRING, "count(*)") + wheres,new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				if(rs.next())
+					return rs.getInt(1);
+				
+				return 0;
+			}
+		}));
+		
+		map.put("list", control.query(sql.replace(Constant.CONSTANT_REPLACE_STRING, query) + wheres + orders + limit, new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				List<TroneOrderModel> list = new ArrayList<TroneOrderModel>();
+				while(rs.next())
+				{
+					TroneOrderModel model = new TroneOrderModel();
+					
+					model.setId(rs.getInt("id"));
+					model.setSpId(rs.getInt("sp_id"));
+					model.setTroneId(rs.getInt("trone_id"));
+					model.setOrderNum(StringUtil.getString(rs.getString("order_num"), ""));
+					model.setCpId(rs.getInt("cp_id"));
+					model.setCpShortName(StringUtil.getString(rs.getString("cp_name"), ""));
+					model.setOrderTroneName(StringUtil.getString(rs.getString("order_trone_name"), ""));
+					model.setSpTroneName(StringUtil.getString(rs.getString("sp_trone_name"), ""));
+					model.setSpShortName(StringUtil.getString(rs.getString("sp_name"), ""));
+					model.setDynamic(rs.getInt("is_dynamic"));
+					model.setPushUrlId(rs.getInt("push_url_id"));
+					model.setDisable(rs.getInt("disable"));
+					model.setIsUnKnow(rs.getInt("is_unknow"));
+					model.setTroneName(StringUtil.getString(rs.getString("trone_name"), ""));
+					model.setHoldPercent(rs.getInt("hold_percent"));
+					model.setHoldAmount(rs.getFloat("hold_amount"));
+					model.setIsHoldCustom(rs.getInt("hold_is_Custom"));
+					model.setSpTroneId(rs.getInt("sp_trone_id"));
+					model.setPrice(rs.getFloat("price"));
+					model.setHoldAcount(rs.getInt("hold_start"));
+					model.setCommerceUserId(rs.getInt("commerce_user_id"));
+					model.setIsUnholdData(rs.getInt("is_unhold_data"));
+					list.add(model);
+				}
+				return list;
+			}
+		}));
+		
+		return map;
+	} 
+	
+	/**
+	 * SP商务-CP业务管理查询
+	 * @param userId
+	 * @param spId
+	 * @param spTroneId
+	 * @param cpId
+	 * @param status
+	 * @param pageIndex
+	 * @param keyWord
+	 * @return
+	 */
+	public Map<String, Object> loadSpTroneOrder(int userId,int spId,int spTroneId,int cpId, int status,int pageIndex,String keyWord)
+	{
+		String query = " b.sp_trone_id,e.commerce_user_id,c.`name` sp_trone_name,a.*, b.price,d.id sp_id, b.`trone_name`,d.`short_name` sp_name,e.`short_name` cp_name ";
+		
+		String sql = "select " + Constant.CONSTANT_REPLACE_STRING ;
+		sql += " FROM " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_trone_order` a";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_trone` b ON a.`trone_id` = b.`id`";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_sp_trone` c ON b.`sp_trone_id` = c.`id`";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_sp` d ON c.`sp_id` = d.`id`";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_cp` e ON a.`cp_id` = e.`id`";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_user` f ON f.`id` = d.`commerce_user_id`";
 				
 		sql += " WHERE 1=1 and e.id <> 34";
 		

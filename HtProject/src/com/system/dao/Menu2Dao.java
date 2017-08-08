@@ -270,7 +270,7 @@ public class Menu2Dao
 		String sql="SELECT a.id AS menu_2_id, a.name AS menu_2_name,a.menu_1_id,b.name AS menu_1_name,a.remark FROM " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_menu_2  a "
 				+" LEFT JOIN  " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_menu_1  b ON a.menu_1_id=b.id" 
 				+" LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_group_right c ON c.menu_2_id= a.id"  
-				+" WHERE c.group_id IN (SELECT group_id FROM " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_group_user d where d.user_id="+userId+")";
+				+" WHERE c.group_id IN (SELECT group_id FROM " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_group_user d where d.user_id="+userId+" ) group by a.id,b.id";
 		
 		return (List<UserMenuModel>)new JdbcControl().query(sql, new QueryCallBack()
 		{

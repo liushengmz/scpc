@@ -1,3 +1,5 @@
+<%@page import="com.system.dao.CompanyDao"%>
+<%@page import="com.system.model.CompanyModel"%>
 <%@page import="com.system.server.UserServer"%>
 <%@page import="com.system.model.UserModel"%>
 <%@page import="com.system.util.ConfigManager"%>
@@ -18,6 +20,7 @@
 	int spCommerceId = StringUtil.getInteger(ConfigManager.getConfigData("SP_COMMERCE_GROUP_ID"),-1);
 	List<UserModel> list = new UserServer().loadUserByGroupId(spCommerceId);
 	String query = StringUtil.getString(request.getParameter("query"), "");
+	List<CompanyModel> coList = new CompanyDao().loadCompany();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -48,6 +51,7 @@
 		$("#input_contract_start_date").val("<%= model.getContractStartDate() %>");
 		$("#input_contract_end_date").val("<%= model.getContractEndDate() %>");
 		$("#sel_commerce_user_id").val("<%= model.getCommerceUserId() %>");
+		$("#sel_co_id").val("<%= model.getCoId() %>");
 		setRadioCheck("status",
 				<%=model.getStatus()%>
 					);
@@ -101,6 +105,25 @@
 					<dd class="dd03_me">
 						<input type="text" name="short_name" id="input_short_name"
 							style="width: 200px">
+					</dd>
+					
+					<br />
+					<br />
+					<br />
+					<dd class="dd00_me"></dd>
+					<dd class="dd01_me">所属公司</dd>
+					<dd class="dd04_me">
+						<select name="co_id" id="sel_co_id">
+							<option value="-1">请选择</option>
+							<%
+							for(CompanyModel cpmodel : coList)
+							{
+								%>
+							<option value="<%= cpmodel.getId() %>"><%= cpmodel.getShortName() %></option>	
+								<%
+							}
+							%>
+						</select>
 					</dd>
 
 					<br />

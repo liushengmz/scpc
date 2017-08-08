@@ -165,7 +165,7 @@ namespace n8wan.codepool
 
             //mo.ip=
             //var sms = new TelcomModel.MoToISMS(mo);
-            var city = n8wan.Public.Logical.BaseSPCallback.FillAreaInfo(dBase, mo);
+            var city = Library.GetCityInfo(dBase, mo.mobile, mo.imsi);
             mo.city_id = city.id;
             mo.province_id = city.province_id;
             var trone = n8wan.Public.Logical.BaseSPCallback.FillToneId(dBase, mo);

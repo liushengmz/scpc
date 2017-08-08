@@ -8,6 +8,10 @@ namespace n8wan.Public.Model
     public class CPDataPushModel
     {
         static Dictionary<NameKey, string> _nkMap;
+        /// <summary>
+        /// 用于追加到同步的，固定参数值串
+        /// </summary>
+        private static string _fixed;
         public enum NameKey { mobile, msg, port, linkid, cpparam, price, servicecode, provinceId, virtualMobile, paycode, ordernum }
 
         static CPDataPushModel()
@@ -32,8 +36,15 @@ namespace n8wan.Public.Model
             foreach (var f in fields)
             {
                 var d = f.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+
                 if (d.Length != 2)
                     continue;
+                if ("fixed".Equals(d[0], StringComparison.OrdinalIgnoreCase))
+                {
+                    _fixed = d[1];
+                    continue;
+                }
+
                 int i;
                 if (!int.TryParse(d[0], out i))
                     continue;
@@ -105,7 +116,10 @@ namespace n8wan.Public.Model
                     continue;
                 sb.AppendFormat("{0}={1}&", System.Web.HttpUtility.UrlEncode(kv.Key), System.Web.HttpUtility.UrlEncode(kv.Value));
             }
-            sb.Length--;
+            if (!string.IsNullOrEmpty(_fixed))
+                sb.Append(_fixed);
+            else
+                sb.Length--;
             return sb.ToString();
         }
 

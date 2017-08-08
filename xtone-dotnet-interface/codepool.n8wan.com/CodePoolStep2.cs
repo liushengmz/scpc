@@ -14,7 +14,7 @@ namespace n8wan.codepool
         public override bool Init(System.Web.HttpRequest request)
         {
             var vCode = request["vcode"];
-            var tab = request["ordernum"];
+            var tab = request["ordernum"] ?? request["linkid"];
             if (tab == null || tab.Length < 7)
                 return SetErrorMesage(ErrorCode.Parameter_Miss, "ordernum不能为空");
             if (string.IsNullOrEmpty(vCode))

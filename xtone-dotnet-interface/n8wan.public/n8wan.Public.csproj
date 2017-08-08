@@ -128,6 +128,7 @@
     <Compile Include="Logical\E_SP_SYNC_MODE.cs" />
     <Compile Include="Logical\HTAPIPusher.cs" />
     <Compile Include="Logical\IHold_DataItem.cs" />
+    <Compile Include="Logical\ILoger.cs" />
     <Compile Include="Logical\IPushModel.cs" />
     <Compile Include="Logical\ISMS_DataItem.cs" />
     <Compile Include="Logical\CityToPhone.cs" />

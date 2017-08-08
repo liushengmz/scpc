@@ -21,7 +21,11 @@ namespace n8wan.Public.Logical
 
         private AgainPusher()
         {
-            this.logFile = AppDomain.CurrentDomain.BaseDirectory + string.Format("pushlog/R_{0:yyyyMMdd-HH}.log", DateTime.Now);
+            var h = System.Web.HttpContext.Current;
+            if (h != null)
+                this.logFile = h.Server.MapPath(string.Format("~/pushlog/R_{0:yyyyMMdd-HH}.log", DateTime.Now));
+            else
+                this.logFile = AppDomain.CurrentDomain.BaseDirectory + string.Format("pushlog/R_{0:yyyyMMdd-HH}.log", DateTime.Now);
         }
 
 
@@ -91,13 +95,14 @@ namespace n8wan.Public.Logical
                     }
                     catch (Exception ex)
                     {
-                        WriteLog("处理错误!" + ex.Message);
+                        WriteLog("处理错误!" + ex.ToString());
                     }
                     finally
                     {
                         _lastInstance = null;
                         ((IDisposable)dBase).Dispose();
                     }
+
                 });
             return true;
 
@@ -202,6 +207,7 @@ namespace n8wan.Public.Logical
             cp.TrackLog = sb;
 
 
+
             if (!cp.LoadCPAPI())
             {
                 SetErrorMesage(sb.ToString());
@@ -210,7 +216,9 @@ namespace n8wan.Public.Logical
 
             cp.PushObject = m;
             if (cp.DoPush())
+            {
                 return true;
+            }
             SetErrorMesage(sb.ToString());
             return false;
 

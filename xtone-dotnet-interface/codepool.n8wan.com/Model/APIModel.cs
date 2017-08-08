@@ -15,8 +15,8 @@ namespace n8wan.codepool.Model
         /// <summary>
         /// API平台，传递给SP使用的透传参数 (如果后台配置API匹配模式为透传参数时。此处存储的值和传递给SP的内容是一致)
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
-        public String apiExdata{get;set;}
+        [DataMember(EmitDefaultValue = false)]
+        public String apiExdata { get; set; }
 
         /// <summary>
         /// 指求请求的API接口代码ID（不能修改）
@@ -26,99 +26,99 @@ namespace n8wan.codepool.Model
         /// <summary>
         /// 用户的IP（渠道传入）
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public int cid { get; set; }
         /// <summary>
         /// 用户的IP（渠道传入）
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String clientIp { get; set; }
         /// <summary>
         /// 用户传入的验证码
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String cpVerifyCode { get; set; }
         /// <summary>
         /// 渠道的透传内容
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String extrData { get; set; }
         /// <summary>
         /// 对应tbl_api_order表的ID
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public int id { get; set; }
         /// <summary>
         /// 渠道传入
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String imei { get; set; }
         /// <summary>
         /// 渠道传入
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String imsi { get; set; }
         /// <summary>
         /// 调用者IP的，非渠道传入IP
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String ip { get; set; }
         /// <summary>
         /// 扣量伪装（尚未支持）
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public int isHidden { get; set; }
         /// <summary>
         /// 渠道传入
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public int lac { get; set; }
         /// <summary>
         /// 渠道传入
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string mobile { get; set; }
         /// <summary>
         /// 短信上行内容 （一般由系统填充）
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string msg { get; set; }
         /// <summary>
         /// 渠道传入
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String netType { get; set; }
         /// <summary>
         /// 渠道传入
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String packageName { get; set; }
         /// <summary>
         ///短信上行端口 （一般由系统填充）
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String port { get; set; }
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String sdkVersion { get; set; }
         /// <summary>
         /// 用于存储SP回应结果的参数，用于关联同步的sp的订单号请存储到spLinkId字段
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String spExField { get; set; }
         /// <summary>
         /// 用于存储SP生成的订单号
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String spLinkId { get; set; }
         /// <summary>
         /// 相关联的SP通道ID
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public int troneId { get; set; }
         /// <summary>
         /// 输出状态（一般由系统填充）
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public int status { get; set; }
         /// <summary>
         /// CP业务ID（等同于CP的Paycode）
@@ -128,18 +128,18 @@ namespace n8wan.codepool.Model
         /// <summary>
         /// 预留的SP需求字段，可根据业务要求渠道进行传参
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public String extraParams { get; set; }
 
         /// <summary>
         /// 渠道传入参数
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string iccid { get; set; }
         /// <summary>
         /// 渠道传入参数
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string userAgent { get; set; }
 
         public object Clone()
@@ -158,6 +158,7 @@ namespace n8wan.codepool.Model
         internal static APIModel CopyFrom(LightDataModel.tbl_api_orderItem _orderInfo)
         {
             var m = new APIModel();
+            m.apiExdata = _orderInfo.api_exdata;
             m.cid = _orderInfo.cid;
             m.clientIp = _orderInfo.clientip;
             m.cpVerifyCode = _orderInfo.cp_verifyCode;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shotgun.Database;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -261,5 +262,54 @@ namespace n8wan.Public
                 syncUrlFix = string.Empty;
             return syncUrlFix;
         }
+
+        /// <summary>
+        /// 根据传手机或IMSI查得归属地，优先手机号
+        /// </summary>
+        /// <param name="dBase"></param>
+        /// <returns>始终不为空</returns>
+        public static LightDataModel.tbl_cityItem GetCityInfo(IBaseDataClass2 dBase, string phone, string imsi)
+        {
+
+            if (string.IsNullOrEmpty(phone) && string.IsNullOrEmpty(imsi))
+                return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
+
+            if (phone == null)
+                phone = string.Empty;
+
+            int spNum = 0;
+            if (phone.Length == 11 && phone.StartsWith("1"))//传统手机
+                int.TryParse(phone.Substring(0, 7), out spNum);
+            else if (phone.Length != 15) //非手机号 非IMSI
+            {
+                phone = imsi;
+                if (string.IsNullOrEmpty(phone) || phone.Length != 15)
+                    return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
+            } //else 长为15
+
+            if (spNum == 0)
+            {
+                if (phone.Length == 15 && phone.StartsWith("460"))//IMSI
+                {
+                    var t = GetPhoneByImsi(phone);
+                    if (string.IsNullOrEmpty(t) || t.Length != 7)
+                        return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
+                    spNum = int.Parse(t);
+                }
+                else
+                    return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
+            }
+
+
+
+            var cityInfo = LightDataModel.tbl_phone_locateItem.GetRowByMobile(dBase, spNum);
+            if (cityInfo == null)
+                return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
+
+            return cityInfo;
+
+        }
+
+
     }
 }

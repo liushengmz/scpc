@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Shotgun.Library;
+using n8wan.Public.Model;
 
 namespace n8wan.Public.Logical
 {
-    public class CPPusher : Shotgun.Model.Logical.Logical
+    public class CPPusher : Shotgun.Model.Logical.Logical, ILoger
     {
 
         /// <summary>
@@ -270,35 +271,49 @@ namespace n8wan.Public.Logical
 
         protected virtual void SendQuery()
         {
+
             if (string.IsNullOrEmpty(API_PushUrl))
             {
                 WriteLog(-1, "No Push URL");
                 return;
             }
+            var pm = new CPDataPushModel();
+            pm.Mobile = PushObject.GetValue(Logical.EPushField.Mobile);
+            pm.Servicecode = PushObject.GetValue(Logical.EPushField.ServiceCode);
+            pm.Linkid = _linkID;
+            pm.Msg = PushObject.GetValue(Logical.EPushField.Msg);
+            pm.Port = PushObject.GetValue(Logical.EPushField.port);
+            pm.Price = decimal.ToInt32(_trone.price * 100);
+            pm.Cpparam = PushObject.GetValue(Logical.EPushField.cpParam);
+#pragma warning disable
+            pm.ProvinceId = int.Parse(PushObject.GetValue(EPushField.province));
+#pragma warning restore
+            pm.PayCode = _config.id;
+            pm.VirtualMobile = GetVirtualMobile();
+            pm.Url = API_PushUrl;
+            asyncSendData(pm.ToString(), null);
+            //var ptrs = new Dictionary<string, string>();
+            //ptrs.Add("mobile", PushObject.GetValue(Logical.EPushField.Mobile));
+            //ptrs.Add("servicecode", PushObject.GetValue(Logical.EPushField.ServiceCode));
+            //ptrs.Add("linkid", _linkID);
+            //ptrs.Add("msg", PushObject.GetValue(Logical.EPushField.Msg));
+            ////ptrs.Add("status", PushObject.GetValue(Logical.EPushField.Status));
+            //ptrs.Add("port", PushObject.GetValue(Logical.EPushField.port));
 
-            var ptrs = new Dictionary<string, string>();
-            ptrs.Add("mobile", PushObject.GetValue(Logical.EPushField.Mobile));
-            ptrs.Add("servicecode", PushObject.GetValue(Logical.EPushField.ServiceCode));
-            ptrs.Add("linkid", _linkID);
-            ptrs.Add("msg", PushObject.GetValue(Logical.EPushField.Msg));
-            //ptrs.Add("status", PushObject.GetValue(Logical.EPushField.Status));
-            ptrs.Add("port", PushObject.GetValue(Logical.EPushField.port));
+            //ptrs.Add("price", (_trone.price * 100).ToString("0"));
+            //ptrs.Add("cpparam", PushObject.GetValue(Logical.EPushField.cpParam));
+            //ptrs.Add("provinceId", PushObject.GetValue(EPushField.province));
+            //ptrs.Add("paycode", _config.id.ToString("100000"));
 
-            ptrs.Add("price", (_trone.price * 100).ToString("0"));
-            ptrs.Add("cpparam", PushObject.GetValue(Logical.EPushField.cpParam));
-            ptrs.Add("provinceId", PushObject.GetValue(EPushField.province));
-            ptrs.Add("paycode", _config.id.ToString("100000"));
+            //ptrs.Add("virtualMobile", GetVirtualMobile());
 
-            ptrs.Add("virtualMobile", GetVirtualMobile());
-
-            string qs = UrlEncode(ptrs);
-            string url;
-            if (API_PushUrl.Contains('?'))
-                url = API_PushUrl + "&" + qs;
-            else
-                url = API_PushUrl + "?" + qs;
-
-            asyncSendData(url, null);
+            //string qs = UrlEncode(ptrs);
+            //string url;
+            //if (API_PushUrl.Contains('?'))
+            //    url = API_PushUrl + "&" + qs;
+            //else
+            //    url = API_PushUrl + "?" + qs;
+            //asyncSendData(url, null);
         }
 
         protected string GetVirtualMobile()
@@ -310,6 +325,7 @@ namespace n8wan.Public.Logical
         {
             this._url = url;
             this._postdata = postData;
+
             if (IsSyncPush)
                 SendData(null);
             else
@@ -326,7 +342,6 @@ namespace n8wan.Public.Logical
 
             if (this._url == null || this._url.StartsWith("#"))
             {
-
                 WriteLog(0, "虚似推送");
                 return;
             }
@@ -436,7 +451,7 @@ namespace n8wan.Public.Logical
                     stm = new StreamWriter(LogFile, true);
                     stm.WriteLine("{0:HH:mm:ss} {1} {2} {3} {4}", DateTime.Now, this._linkID, this._url, p, msg);
                 }
-                catch { }
+                catch (Exception) { }
                 finally
                 {
                     if (stm != null)
@@ -448,19 +463,6 @@ namespace n8wan.Public.Logical
         protected void WriteLog(int p, string msg, System.Diagnostics.Stopwatch stwc)
         {
             WriteLog(p, string.Format("{0:0}ms - {1}", stwc.Elapsed.TotalMilliseconds, msg));
-        }
-
-        public static string UrlEncode(Dictionary<string, string> fields)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (var kv in fields)
-            {
-                sb.AppendFormat("&{0}={1}",
-                    System.Web.HttpUtility.UrlEncode(kv.Key),
-                    System.Web.HttpUtility.UrlEncode(kv.Value));
-            }
-            sb.Remove(0, 1);
-            return sb.ToString();
         }
 
 
@@ -495,5 +497,34 @@ namespace n8wan.Public.Logical
         public StringBuilder TrackLog { get; set; }
         #endregion
 
+
+        void ILoger.WriteLog(int p, string msg)
+        {
+            WriteLog(p, msg);
+        }
+
+        void ILoger.WriteLog(string msg)
+        {
+            if (string.IsNullOrEmpty(LogFile))
+                return;
+            var fi = new FileInfo(LogFile);
+            if (!fi.Directory.Exists)
+                fi.Directory.Create();
+            lock (logFileLocker)
+            {
+                StreamWriter stm = null;
+                try
+                {
+                    stm = new StreamWriter(LogFile, true);
+                    stm.WriteLine("{0:HH:mm:ss} {1}", DateTime.Now, msg);
+                }
+                catch (Exception) { }
+                finally
+                {
+                    if (stm != null)
+                        stm.Dispose();
+                }
+            }
+        }
     }
 }

@@ -80,7 +80,7 @@ namespace n8wan.codepool
 
             _orderInfo.imei = request["imei"];
             _orderInfo.imsi = request["imsi"];
-            _orderInfo.clientip = request["clientip"] ?? "0.0.0.0";
+            _orderInfo.clientip = request["clientip"] ?? request["ip"] ?? "0.0.0.0";
 
             if (int.TryParse(request["lac"], out i))
                 _orderInfo.lac = i;

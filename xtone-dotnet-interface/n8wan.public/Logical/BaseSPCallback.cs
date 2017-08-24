@@ -22,7 +22,7 @@ namespace n8wan.Public.Logical
         const string C_VIRTUAL_PORT = "virtualport";
         const string C_VIRTUAL_MSG = "virtualmsg";
         const string C_IVR_TIME = "ivr_time";
-        const string C_STATUS_KEYWORD = "status|DELIVRD|fail|success|succ|ok|stat|statu";//状态关键字检测
+        const string C_STATUS_KEYWORD = "status|DELIVRD|fail|success|succ|ok|stat|statu|hret";//状态关键字检测
         /// <summary>
         /// IVR通道类别ID
         /// </summary>
@@ -93,6 +93,11 @@ namespace n8wan.Public.Logical
         static List<string> _linkidProcing = new List<string>();
 
         /// <summary>
+        /// 最终输出的结果（响应sp）
+        /// </summary>
+        private string _finalResult;
+
+        /// <summary>
         /// 设置当前接收的同步数据是否同步渠道
         /// </summary>
         protected E_CP_SYNC_MODE SyncFlag { get; set; }
@@ -105,6 +110,41 @@ namespace n8wan.Public.Logical
         private bool IsPhyFile { get; set; }
 
         public sealed override void BeginProcess()
+        {
+
+            var stw = new System.Diagnostics.Stopwatch();
+            stw.Start();
+            try
+            {
+                BeginProcess2();
+            }
+            catch (Exception ex)
+            {
+                _finalResult = "<Error>:" + ex.Message;
+                throw;
+            }
+            finally
+            {
+                stw.Stop();
+                Shotgun.Library.SimpleLogRecord.WriteLog("mo_mr_call",
+                    string.Format(" +{0}ms, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
+                        stw.ElapsedMilliseconds,
+                        Request.HttpMethod,
+                        Request.ContentLength,
+                        IsPhyFile,
+                        _linkId,
+                        _IsMo,
+                        _finalResult,
+                        Request.UserHostAddress,
+                        Request.Url
+                        )
+                    );
+            }
+
+        }
+
+
+        private void BeginProcess2()
         {
 
             var ua = Request.UserAgent;
@@ -194,27 +234,47 @@ namespace n8wan.Public.Logical
         #region 提供快速linkid锁定处理(防止SP在短时间内重同步)
         private void RemoveFastLink()
         {
+            var linkid = GetLinkId();
+            if (string.IsNullOrEmpty(linkid))
+                return;
+
+            var curLinkid = string.Format("{0}#{1}", IsMo ? "MO" : "MR", linkid);//当前订单号
+
             lock (_linkidProcing)
             {
-                var link = GetLinkId();
-                if (string.IsNullOrEmpty(link))
+                if (string.IsNullOrEmpty(curLinkid))
                     return;
-                _linkidProcing.Remove(link);
+                _linkidProcing.Remove(curLinkid);
             }
         }
-
+        /// <summary>
+        /// 快速检查linkid是否在队列。当存在MO的MR同步队列时，会等待
+        /// </summary>
+        /// <returns></returns>
         private bool FastLinkCheck()
         {
-            lock (_linkidProcing)
-            {
-                var linkid = GetLinkId();
-                if (string.IsNullOrEmpty(linkid))
-                    return false;
-                if (_linkidProcing.Contains(linkid))
-                    return true;
-                _linkidProcing.Add(linkid);
+            var linkid = GetLinkId();
+            if (string.IsNullOrEmpty(linkid))
                 return false;
+
+            var curLinkid = string.Format("{0}#{1}", IsMo ? "MO" : "MR", linkid);//当前订单号
+            var xLinkid = string.Format("{0}#{1}", !IsMo ? "MO" : "MR", linkid);//互补的订单号 Mo的Mr 或是 Mr的Mo
+            for (var i = 0; i < 100; i++)
+            {
+
+                lock (_linkidProcing)
+                {
+                    if (!_linkidProcing.Contains(xLinkid))
+                    {//互补订单不在队列
+                        if (_linkidProcing.Contains(curLinkid))
+                            return true;
+                        _linkidProcing.Add(curLinkid);
+                        return false;
+                    }
+                }
+                System.Threading.Thread.Sleep(200);//200ms i max:100 最大等待时间20s
             }
+            return true;
         }
         #endregion
 
@@ -277,15 +337,22 @@ namespace n8wan.Public.Logical
                     isms.price = GetFee(api.MoPrice);
 
                 err = InsertMO();
-                MoCopyToMr();
+                MegerMoMr();
             }
             else
             {//MR
                 if (!string.IsNullOrEmpty(api.MrPrice))
                     isms.price = GetFee(api.MrPrice);
-                MoCopyToMr();
+                MegerMoMr();//顺序 让MR配置优先于MO的复制（通常是配置问题）
                 err = InsertMR();
             }
+
+            if (HasMoTroneOrderId && !string.IsNullOrEmpty(api.MrStatus))
+            {
+                if (_MoItem != null && _MrItem != null)
+                    _MoItem.status = _MrItem.status;//将mr的状态更新到mo上，以便数据统计
+            }
+
             if (string.IsNullOrEmpty(isms.ori_trone) && U2DMap.ContainsKey("ori_trone"))
             {//虚似端口
                 if (C_VIRTUAL_PORT.Equals(U2DMap["ori_trone"], StringComparison.OrdinalIgnoreCase))
@@ -342,6 +409,11 @@ namespace n8wan.Public.Logical
             if (!string.IsNullOrEmpty(err))
             {
                 WriteError(err);
+                if (_MoItem != null && HasMoTroneOrderId && !string.IsNullOrEmpty(api.MrStatus))
+                {
+                    try { _MoItem.SaveToDatabase(dBase); }
+                    catch (Exception) { }
+                }
                 return;
             }
             try
@@ -729,7 +801,7 @@ namespace n8wan.Public.Logical
         }
 
 
-        private void MoCopyToMr()
+        private void MegerMoMr()
         {
             if (_MrItem == null || _MoItem == null)
                 return;
@@ -750,6 +822,8 @@ namespace n8wan.Public.Logical
 
                 _MrItem[field] = _MoItem[field];
             }
+
+
         }
 
         private string InsertMR()
@@ -932,6 +1006,7 @@ namespace n8wan.Public.Logical
         /// <param name="msg">需要输出的完整内容</param>
         protected virtual void WriteMessage(string msg)
         {
+            _finalResult = msg;
             Response.Write(msg);
         }
         #endregion
@@ -1257,5 +1332,6 @@ namespace n8wan.Public.Logical
                 return _hasMoTroneOrderId != 0;
             }
         }
+
     }
 }

@@ -10,7 +10,7 @@ public class test : Shotgun.PagePlus.SimpleHttpHandler<Shotgun.Database.MySqlDBC
 
     public override void BeginProcess()
     {
-        Response.Write(AppDomain.CurrentDomain.BaseDirectory);
+        dBase.ExecuteScalar("select x;");
 
     }
 }

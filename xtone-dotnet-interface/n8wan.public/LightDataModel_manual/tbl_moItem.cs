@@ -113,6 +113,8 @@ namespace LightDataModel
             /// </summary>
             public const string syn_flag = "syn_flag";
 
+            public const string status = "status";
+
             #endregion
 
         }
@@ -206,6 +208,8 @@ namespace LightDataModel
         /// </summary>
         private bool _syn_flag;
 
+        private string _status;
+
         #endregion
 
         public override string IdentifyField { get { return identifyField; } }
@@ -213,11 +217,9 @@ namespace LightDataModel
         public static readonly string identifyField = "id";
 
 
-
         public int id
         {
-            get;
-            set;
+            get; set;
         }
 
         #region 表字段值存取
@@ -701,12 +703,31 @@ namespace LightDataModel
             }
         }
 
+        public string status
+        {
+            get { return this._status; }
+            set
+            {
+#if false && true
+				RemoveNullFlag(Fields.status);
+#elif !false
+                if (value == null)
+                    SetNullFlag(Fields.status);
+                else
+                    RemoveNullFlag(Fields.status);
+#endif
+
+                SetFieldHasUpdate(Fields.status, this._status, value);
+                this._status = value;
+            }
+        }
+
         #endregion
         #region 空值相关方法
         protected override string[] GetNullableFields()
         {
             return new string[]{null
-			,"imei"
+            ,"imei"
 ,"imsi"
 ,"mobile"
 ,"mcc"
@@ -727,6 +748,7 @@ namespace LightDataModel
 ,"ivr_time"
 ,"report_flag"
 ,"syn_flag"
+,"status"
 };
         }
         public bool IsimeiNull() { return IsNull(Fields.imei); }
@@ -792,6 +814,9 @@ namespace LightDataModel
         public bool Issyn_flagNull() { return IsNull(Fields.syn_flag); }
 
         public void Setsyn_flagNull() { SetNull(Fields.syn_flag); }
+        public bool IsstatusNull() { return IsNull(Fields.status); }
+
+        public void SetstatusNull() { SetNull(Fields.status); }
 
         #endregion
 

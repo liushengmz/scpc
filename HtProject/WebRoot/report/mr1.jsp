@@ -407,7 +407,7 @@ function arrayReverse(arr) {
 </script>
 <body>
 	<div class="main_content">
-		<div class="content">
+		<div class="content" style="position: fixed; left: 0px; right: 0px; border-left: 1px #c3c3c3 solid;">
 			<form action="mr1.jsp" method="get" style="margin-top: 10px">
 				<dl>
 					<dd class="dd01_me">开始日期</dd>
@@ -595,7 +595,7 @@ function arrayReverse(arr) {
 				</dl>
 			</form>
 		</div>
-		<table cellpadding="0" cellspacing="0" id="table_id">
+		<table cellpadding="0" cellspacing="0" id="table_id" style="margin-top: 80px;">
 			<thead>
 				<tr>
 					<td>序号</td>

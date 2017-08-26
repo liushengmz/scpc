@@ -1,3 +1,5 @@
+<%@page import="com.system.cache.RightConfigCacheMgr"%>
+<%@page import="com.system.model.SysConfigModel"%>
 <%@page import="com.system.util.ConfigManager"%>
 <%@page import="com.system.model.MenuHeadModel"%>
 <%@page import="com.system.server.RightServer"%>
@@ -12,40 +14,31 @@
 		return;
 	
 	List<MenuHeadModel> headList = userRightModel.getMenuHeadList();
+	
 	if(headList==null || headList.size()==0)
 		return;
 	
-	String logoImg = ConfigManager.getConfigData("SYSTEM_LOGO", "logo.png");
-	
-	String sysTitle = ConfigManager.getConfigData("SYSTEM_TITLE","运营管理平台");
-	
 	String sysUser = ConfigManager.getConfigData("SYSTEM_USER","SZHT");
 	
-	String splitorBand = "";
+	SysConfigModel headOrgConfig = RightConfigCacheMgr.getSysConfig(1, sysUser);
 	
-	if("SJHD".equalsIgnoreCase(sysUser))
-	{
-		splitorBand = "style=\"background-image: url('head_data/splitor_sjhd.png'); background-size:contain;\"";
-	}
-	else if("SZWX".equalsIgnoreCase(sysUser))
-	{
-		int[] userIds = {18,19,20};
-		
-		for(int id : userIds)
-		{
-			if(id==user.getId())
-			{
-				logoImg = "";
-				break;
-			}
-		}
-	}
+	String welcomTitle = ConfigManager.getConfigData("SYSTEM_TITLE","运营管理平台");
+	
+	String sysName = "";
+	
+	if(headOrgConfig!=null)
+		sysName = headOrgConfig.getName();
+	
+	SysConfigModel userConfigModel = RightConfigCacheMgr.getSysConfig(3, user.getId() + "");
+	
+	if(userConfigModel!=null)
+		sysName = userConfigModel.getName();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title><%= sysTitle %></title>
+<title><%= welcomTitle %></title>
 
 <link href="head_data/public.css" rel="stylesheet" type="text/css" />
 
@@ -83,8 +76,8 @@
 
 <body>
 	<div class="header" style="background-color: #F7F7F7;height: 50px;">
-		<div class="logo" style="float: left">
-			<img src="head_data/<%= logoImg %>" style="margin-left: -20px; padding: 0px;" alt="">
+		<div style="float: left;margin-left: 20px;font-weight: bold;font-size: x-large;margin-top: 8px;">
+			<%= sysName %>
 		</div>
 		<div
 			style="float: right;height: 100%;line-height: 50px;text-align: center;font-size: 14px;">
@@ -95,7 +88,7 @@
 			&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="goEditInfo()">修改资料</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="loginaction.jsp?type=-1" target="_parent">退出</a>&nbsp;&nbsp;
 		</div>
 	</div>
-	<div class="nav" <%= splitorBand %>>
+	<div class="nav">
 		<div class="nav_left">&nbsp;</div>
 		<div class="nav_right">
 			<%

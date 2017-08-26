@@ -48,8 +48,8 @@ public class MoDao
 			sql += " AND (a.ori_order LIKE '%" + keyWord + "%' OR a.ori_trone LIKE '%" + 
 					keyWord + "%' or b.orders like '%" + keyWord + "%' or b.trone_num like '%" + 
 					keyWord + "%' or a.mobile like '%" + keyWord + "%' or a.linkid like '%" + 
-					keyWord + "%' or d.full_name like '%" + keyWord + "%' or c.name like '%" + 
-					keyWord + "%' or f.full_name like '%" + keyWord + "%') ";
+					keyWord + "%' or d.full_name like '%" + keyWord + "%' or d.short_name like '%" + keyWord + "%' or c.name like '%" + 
+					keyWord + "%' or h.full_name like '%" + keyWord + "%' or h.short_name like '%" + keyWord + "%') ";
 		}
 		
 		sql += "  ORDER BY a.id DESC LIMIT 1000";

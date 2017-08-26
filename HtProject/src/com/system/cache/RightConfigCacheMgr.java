@@ -12,11 +12,13 @@ import com.system.dao.Menu2Dao;
 import com.system.dao.MenuHeadDao;
 import com.system.dao.PublicUrlDao;
 import com.system.dao.RightAccessDao;
+import com.system.dao.SysConfigDao;
 import com.system.dao.UserDao;
 import com.system.model.Menu1Model;
 import com.system.model.Menu2Model;
 import com.system.model.MenuHeadModel;
 import com.system.model.PublicUrlModel;
+import com.system.model.SysConfigModel;
 import com.system.model.UserModel;
 import com.system.model.UserRightModel;
 
@@ -48,6 +50,9 @@ public class RightConfigCacheMgr
 	//线程使用者的USERID KEY:线程ID VALUE：用户的USER ID
 	public static Map<Long, Integer> threadPolls = new HashMap<Long, Integer>();
 	
+	//系统数据字典
+	public static List<SysConfigModel> sysConfigCache = new ArrayList<SysConfigModel>();
+	
 	public static void refreshAllCache()
 	{
 		refreshPubUrlCache();
@@ -56,6 +61,7 @@ public class RightConfigCacheMgr
 		refreshMenu1ListCache();
 		refreshMenu2ListCache();
 		refreshUserRightCache();
+		refreshSysConfigCache();
 	}
 	
 	private static void refreshPubUrlCache()
@@ -70,7 +76,11 @@ public class RightConfigCacheMgr
 		logger.info("refreshPubUrlCache finish");
 	}
 	
-	
+	private static void refreshSysConfigCache()
+	{
+		sysConfigCache = new SysConfigDao().loadSysConfigList();
+		logger.info("refreshSysConfigCache finish");
+	}
 	private static void refreshUserListCache()
 	{
 		userListCache  = new UserDao().loadActityUserList();
@@ -100,4 +110,15 @@ public class RightConfigCacheMgr
 		userRightCache = new RightAccessDao().loadUserRight();
 		logger.info("refreshUserRightCache finish");
 	}
+	
+	public static SysConfigModel getSysConfig(int type,String flag)
+	{
+		for(SysConfigModel model : sysConfigCache)
+		{
+			if(model.getType()==type && model.getFlag().equalsIgnoreCase(flag))
+				return model;
+		}
+		return null;
+	}
+	
 }

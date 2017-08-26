@@ -1,3 +1,4 @@
+<%@page import="com.system.util.ConfigManager"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.system.server.TroneOrderServer"%>
@@ -14,6 +15,7 @@
 		return;
 	}
 	String orderNum = new SimpleDateFormat("yyyyMMddHHmmsss").format(new Date());
+	String simulateSyncUrl = ConfigManager.getConfigData("SIMULATE_SYNC_URL", "");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -43,7 +45,7 @@
 		var linkid = $("#input_linkid").val();
 		var cpParams = encodeURI($("#input_cpparams").val());
 		
-		var url = "<%= model.getCpUrl() %>?mobile=" + mobile + "&msg=" + msg + "&port=" + troneNum + "&linkid=" + linkid + "&cpparam=" + cpParams + "<%= model.getTroneOrderId() > 0 ? "&paycode=" + (100000+id) + "&ordernum=" + orderNum : "" %>";
+		var url = "<%= StringUtil.isNullOrEmpty(simulateSyncUrl) ? model.getCpUrl() : simulateSyncUrl %>?synurl=<%= model.getCpUrl() %>&mobile=" + mobile + "&msg=" + msg + "&port=" + troneNum + "&linkid=" + linkid + "&cpparam=" + cpParams + "<%= model.getTroneOrderId() > 0 ? "&paycode=" + (100000+id) + "&ordernum=" + orderNum : "" %>";
 		
 		open(url);
 	}

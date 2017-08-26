@@ -182,7 +182,6 @@
 					<td>城市</td>
 					<td>价格</td>
 					<td>指令</td>
-					<td>通道</td>
 					<td>配置指令</td>
 					<td>配置通道</td>
 				</tr>
@@ -209,7 +208,6 @@
 					<td><%= model.getCityName() %></td>
 					<td><%= model.getPrice() %></td>
 					<td><%= model.getOrder() %></td>
-					<td><%= model.getTroneNum() %></td>
 					<td><%= model.getConfigOrder() %></td>
 					<td><%= model.getConfigTrone() %></td>
 				</tr>

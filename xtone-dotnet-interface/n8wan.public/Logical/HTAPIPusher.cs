@@ -85,7 +85,7 @@ namespace n8wan.Public.Logical
                     mr.imsi = _apiOrder.imsi;
                 if (mr.province_id == 32 && (!string.IsNullOrEmpty(mr.mobile) || !string.IsNullOrEmpty(mr.imsi)))
                 {
-                    var city = BaseSPCallback.FillAreaInfo(dBase, mr);
+                    var city = Library.GetCityInfo(dBase, mr.mobile, mr.imsi);
                     mr.city_id = city.id;
                     mr.province_id = city.province_id;
                 }

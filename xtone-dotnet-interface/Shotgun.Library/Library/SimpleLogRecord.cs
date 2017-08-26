@@ -17,7 +17,21 @@ namespace Shotgun.Library
             if (logFile == null)
                 logFile = string.Empty;
             FileInfo fi;
-            if (logFile.Length > 2 && logFile.Substring(1, 1) == ":")
+            //是否绝路径
+            bool isAbsPath;
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
+                    isAbsPath = logFile.Length > 2 && logFile.Substring(1, 1) == ":";
+                    break;
+                default:
+                    isAbsPath = logFile.StartsWith(AppDomain.CurrentDomain.BaseDirectory);
+                    break;
+            }
+            if (isAbsPath)
             {
                 fi = new FileInfo(logFile);
             }
@@ -34,6 +48,7 @@ namespace Shotgun.Library
                     di.Create();
 
                 sWrite = new StreamWriter(fi.FullName, true);
+                sWrite.NewLine = "\r\n";
                 sWrite.WriteLine("{0},{1}", DateTime.Now.ToString("HH:mm:ss"), msg);
                 sWrite.Flush();
             }

@@ -2,6 +2,7 @@
 #define DB_LOG_RECORD
 #endif
 
+using LightDataModel;
 using Shotgun.Database;
 using Shotgun.Model.Logical;
 using System;
@@ -22,6 +23,10 @@ namespace n8wan.Public.Logical
         const string C_VIRTUAL_MSG = "virtualmsg";
         const string C_IVR_TIME = "ivr_time";
         const string C_STATUS_KEYWORD = "status|DELIVRD|fail|success|succ|ok|stat|statu";//状态关键字检测
+        /// <summary>
+        /// IVR通道类别ID
+        /// </summary>
+        const int C_IVR_TRONE_TYPE = 2;
 
         /// <summary>
         /// 未找到端口
@@ -48,6 +53,23 @@ namespace n8wan.Public.Logical
         /// 多条SP通道
         /// </summary>
         const int C_TM_MULTI_TRONE = -6;
+
+        /// <summary>
+        /// IVR业务类型配置错误
+        /// </summary>
+        const int C_IVR_TRONE_TYPE_ERROR = -7;
+
+        /// <summary>
+        /// IVR时间格式配置错误
+        /// </summary>
+        const int C_IVR_TIME_CFG_ERROR = -8;
+
+        /// <summary>
+        /// MO数据库是否有trone_order_id字段
+        /// </summary>
+        static int _hasMoTroneOrderId = -1;
+
+
 
         /// <summary>
         /// url映射数据库字段(sql,url)
@@ -296,7 +318,15 @@ namespace n8wan.Public.Logical
                         isms.trone_id = C_TM_SERVER_IP_ERROR;
                     }
                     else if (isms.trone_id == 0)
+                    {
                         trone = FillToneId(dBase, isms);
+                        if (trone != null && IsMo && HasMoTroneOrderId)
+                        {
+                            var torder = FindTroneOrder(_MoItem);
+                            if (torder != null)
+                                _MoItem.trone_order_id = torder.id;
+                        }
+                    }
                 }
 #if !DEBUG
                 catch (Exception ex)
@@ -316,8 +346,6 @@ namespace n8wan.Public.Logical
             }
             try
             {
-                if (_MoItem != null)
-                    dBase.SaveData(_MoItem);
 
                 if (_MrItem != null)
                 {
@@ -331,6 +359,9 @@ namespace n8wan.Public.Logical
                     _MrItem.IsMatch = _MrItem.trone_id > 0;
                     dBase.SaveData(_MrItem);
                 }
+
+                if (_MoItem != null)
+                    dBase.SaveData(_MoItem);
             }
             catch (System.Data.Common.DbException)
             {
@@ -366,6 +397,29 @@ namespace n8wan.Public.Logical
 
             WriteDebug(db3.PerformanceReport());
             WriteDebug("ALL done", true);
+        }
+
+        /// <summary>
+        /// 查找匹配的TroneOrder.Id
+        /// </summary>
+        /// <param name="sms"></param>
+        /// <returns>tbl_trone_orderItem</returns>
+        private tbl_trone_orderItem FindTroneOrder(ISMS_DataItem sms)
+        {
+            var _allCfg = tbl_trone_orderItem.QueryByTroneIdWithCache(dBase, sms.trone_id);
+
+            if (_allCfg == null || _allCfg.Count() == 0)
+                return null;
+
+            foreach (var cfg in _allCfg)
+            {
+                if (cfg.is_unknow)
+                    continue;
+                if (!AutoMapPush.IsMatch(cfg, sms.ori_order))
+                    continue;
+                return cfg;
+            }
+            return null;
         }
 
         /// <summary>
@@ -505,55 +559,20 @@ namespace n8wan.Public.Logical
 
         protected virtual void FillAreaInfo(LightDataModel.tbl_mrItem m)
         {
-            var city = FillAreaInfo(dBase, m);
+            var city = n8wan.Public.Library.GetCityInfo(dBase, m.mobile, m.imsi);
             m.city_id = city.id;
             m.province_id = city.province_id;
         }
+
 
         /// <summary>
         /// 填充手机号归属地信息
         /// </summary>
         /// <param name="m"></param>
+        [Obsolete("已经迁至n8wan.Public.Library.GetCityInfo")]
         public static LightDataModel.tbl_cityItem FillAreaInfo(IBaseDataClass2 dBase, Logical.ISMS_DataItem m)
         {
-            var num = m.mobile;
-
-            if (string.IsNullOrEmpty(num) && string.IsNullOrEmpty(m.imsi))
-                return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
-
-            if (num == null)
-                num = string.Empty;
-
-            int spNum = 0;
-            if (num.Length == 11 && num.StartsWith("1"))//传统手机
-                int.TryParse(num.Substring(0, 7), out spNum);
-            else if (num.Length != 15) //非手机号 非IMSI
-            {
-                num = m.imsi;
-                if (string.IsNullOrEmpty(num) || num.Length != 15)
-                    return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
-            } //else 长为15
-
-            if (spNum == 0)
-            {
-                if (num.Length == 15 && num.StartsWith("460"))//IMSI
-                {
-                    var t = Public.Library.GetPhoneByImsi(num);
-                    if (string.IsNullOrEmpty(t) || t.Length != 7)
-                        return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
-                    spNum = int.Parse(t);
-                }
-                else
-                    return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
-            }
-
-
-
-            var cityInfo = LightDataModel.tbl_phone_locateItem.GetRowByMobile(dBase, spNum);
-            if (cityInfo == null)
-                return new LightDataModel.tbl_cityItem() { id = 416, province_id = 32 };
-
-            return cityInfo;
+            return n8wan.Public.Library.GetCityInfo(dBase, m.mobile, m.imsi);
         }
 
         private void DoPush(LightDataModel.tbl_troneItem trone)
@@ -619,10 +638,24 @@ namespace n8wan.Public.Logical
 
             cp.PushObject = _MrItem;
             if (cp.DoPush() && _MrItem.cp_id != 34)
+            {
+                if (_MoItem != null && HasMoTroneOrderId)
+                {
+                    _MoItem.syn_flag = _MrItem.syn_flag != 0;
+                    _MoItem.trone_order_id = _MrItem.trone_order_id;
+                    _MoItem.report_flag = true;
+
+                    try { _MoItem.SaveToDatabase(dBase); }
+                    catch { }
+                }
                 return;
+            }
             if (!cp.IsSuccess)
                 sb.AppendLine(cp.ErrorMesage);
             WriteTrackLog(sb);
+
+
+
 
         }
 
@@ -735,6 +768,11 @@ namespace n8wan.Public.Logical
                     _MrItem[kv.Key] = GetComboParamValue(kv.Value);
             }
             FillAreaInfo(_MrItem);
+            if (_MoItem != null)
+            {
+                _MoItem.city_id = _MrItem.city_id;
+                _MoItem.province_id = _MrItem.province_id;
+            }
             if (string.IsNullOrEmpty(api.MrStatus))
                 return null;
 
@@ -779,6 +817,10 @@ namespace n8wan.Public.Logical
             return -3; //未知模式
         }
 
+        /// <summary>
+        /// 填充MO信息
+        /// </summary>
+        /// <returns>返回错误描述，null 为成功</returns>
         private string InsertMO()
         {
 
@@ -794,7 +836,15 @@ namespace n8wan.Public.Logical
                 _MoItem[kv.Key] = GetComboParamValue(kv.Value);
             }
 
+            var city = Library.GetCityInfo(dBase, _MoItem.mobile, _MoItem.imsi);
+            _MoItem.city_id = city.id;
+            _MoItem.province_id = city.province_id;
+
+            if (!HasMoTroneOrderId)
+                return null;
+
             return null;
+
 
             //MO不再检查 status
             //if (string.IsNullOrEmpty(api.MoStatus))
@@ -894,18 +944,7 @@ namespace n8wan.Public.Logical
         /// <returns></returns>
         public static LightDataModel.tbl_troneItem FillToneId(Shotgun.Database.IBaseDataClass2 dBase, Logical.ISMS_DataItem m)
         {
-            //var csl = LightDataModel.tbl_troneItem.GetQueries(dBase);
-            //csl.Filter.AndFilters.Add(LightDataModel.tbl_troneItem.Fields.sp_api_url_id, m.sp_api_url_id);
-            //csl.Filter.AndFilters.Add(LightDataModel.tbl_troneItem.Fields.trone_num, m.ori_trone);
-            //csl.Filter.AndFilters.Add(LightDataModel.tbl_troneItem.Fields.status, 1);
 
-            //csl.Fields = new string[] { LightDataModel.tbl_troneItem.Fields.id,LightDataModel.tbl_troneItem.Fields.trone_num,
-            //    LightDataModel.tbl_troneItem.Fields.orders,LightDataModel.tbl_troneItem.Fields.is_dynamic,LightDataModel.tbl_troneItem.Fields.price,
-            //    LightDataModel.tbl_troneItem.Fields.match_price,LightDataModel.tbl_troneItem.Fields.sp_trone_id};
-
-            //csl.PageSize = int.MaxValue;
-
-            //var cmds = csl.GetDataList();
             var cmds = LightDataModel.tbl_troneItem.QueryTronesByPort(dBase, m.sp_api_url_id, m.ori_trone);
             if (cmds == null && cmds.Count() == 0)
                 return null;//没有可用通道
@@ -977,12 +1016,28 @@ namespace n8wan.Public.Logical
             var sp_trone = LightDataModel.tbl_sp_troneItem.GetRowById(dBase, trone.sp_trone_id, null);
             if (sp_trone == null)
                 return null;
+            m.trone_type = sp_trone.trone_type;
             if (m is LightDataModel.tbl_mrItem)
             {
-                ((LightDataModel.tbl_mrItem)m).sp_trone_id = sp_trone.id;
+                var mr = (LightDataModel.tbl_mrItem)m;
+                mr.sp_trone_id = sp_trone.id;
+                if (mr.ivr_time > 20)
+                {
+                    m.trone_id = C_IVR_TIME_CFG_ERROR;
+                    return null;
+                }
+                else if (mr.ivr_time > 0)
+                {
+                    if (m.trone_type != C_IVR_TRONE_TYPE)
+                    { //通道类型检查
+                        m.trone_id = C_IVR_TRONE_TYPE_ERROR;
+                        return null;
+                    }
+                }
             }
-            m.trone_type = sp_trone.trone_type;
-            return trone;//没有匹配通道
+
+
+            return trone;
         }
 
 
@@ -1116,7 +1171,7 @@ namespace n8wan.Public.Logical
                 return api.id;
             }
         }
-
+        [Obsolete("应该没用了，可以删除")]
         public System.Web.Caching.Cache Cache { get { return System.Web.HttpRuntime.Cache; } }
 
         /// <summary>
@@ -1179,5 +1234,28 @@ namespace n8wan.Public.Logical
         }
 
         public bool IsNew { get; set; }
+
+        /// <summary>
+        /// 是否有mo.trone_order_id
+        /// </summary>
+        public bool HasMoTroneOrderId
+        {
+            get
+            {
+                if (_hasMoTroneOrderId != 1)
+                    return _hasMoTroneOrderId != 0;
+                var d = System.Configuration.ConfigurationManager.AppSettings["MoTroneOrderId"];
+                if (string.IsNullOrEmpty(d))
+                    return (_hasMoTroneOrderId = 0) != 0;
+
+                DateTime dt;
+                if (DateTime.TryParse(d, out dt))
+                    _hasMoTroneOrderId = dt > DateTime.Today ? 0 : 1;
+                else
+                    _hasMoTroneOrderId = 0;
+
+                return _hasMoTroneOrderId != 0;
+            }
+        }
     }
 }

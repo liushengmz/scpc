@@ -34,26 +34,47 @@ namespace Shotgun.PagePlus
                 return;
 
             }
+
             NormalPage(context);
+
+            var ver = context.Request.ServerVariables["SERVER_SOFTWARE"];
+            if (!string.IsNullOrEmpty(ver) && ver.IndexOf("Jexus", StringComparison.OrdinalIgnoreCase) != -1)
+            {//已经知在linux jexus 5.8.2 存在此问题
+                context.Response.End();
+            }
+
+
         }
 
         #endregion
 
         void NormalPage(HttpContext context)
         {
-            IHttpHandler handler = PageParser.GetCompiledPageInstance(
-                    context.Request.Path,
-                    context.Request.PhysicalPath, context);
-            context.Handler = handler;
+            IHttpHandler handler = null;
             try
             {
+
+                handler = PageParser.GetCompiledPageInstance(
+                      context.Request.Path,
+                      context.Request.PhysicalPath, context);
+                context.Handler = handler;
                 handler.ProcessRequest(context);
+
             }
             catch (System.Threading.ThreadAbortException) { }
+            catch (Exception ex)
+            {
+                context.Response.Write(ex.ToString());
+            }
             finally
             {
-                if (handler is IDisposable)
-                    ((IDisposable)handler).Dispose();
+
+                if (handler != null)
+                {
+                    if (handler is IDisposable)
+                        ((IDisposable)handler).Dispose();
+                }
+
             }
         }
     }

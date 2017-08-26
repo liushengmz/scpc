@@ -6,7 +6,7 @@ using System.Text;
 namespace LightDataModel
 {
     /// <summary>
-    /// tbl_mo_201511数据模型
+    /// tbl_mo_201707数据模型
     /// </summary>
     public partial class tbl_moItem : Shotgun.Model.Logical.DynamicDataItem
     {
@@ -53,6 +53,10 @@ namespace LightDataModel
             /// </summary>
             public const string trone_id = "trone_id";
             /// <summary>
+            /// daily_config.tbl_trone_order.id
+            /// </summary>
+            public const string trone_order_id = "trone_order_id";
+            /// <summary>
             /// 原始通道
             /// </summary>
             public const string ori_trone = "ori_trone";
@@ -92,8 +96,22 @@ namespace LightDataModel
             public const string sp_api_url_id = "sp_api_url_id";
 
             public const string sp_id = "sp_id";
-
+            /// <summary>
+            /// IVR的分钟数
+            /// </summary>
+            public const string ivr_time = "ivr_time";
+            /// <summary>
+            /// 0为默认通道，1为包月,2为IVR
+            /// </summary>
             public const string trone_type = "trone_type";
+            /// <summary>
+            /// 是否回传了状态报告，0为否，1为是
+            /// </summary>
+            public const string report_flag = "report_flag";
+            /// <summary>
+            /// 同步给CP标识，默认1为需要同步，0为不需要同步
+            /// </summary>
+            public const string syn_flag = "syn_flag";
 
             #endregion
 
@@ -127,6 +145,10 @@ namespace LightDataModel
         /// 通道ID
         /// </summary>
         private int _trone_id;
+        /// <summary>
+        /// daily_config.tbl_trone_order.id
+        /// </summary>
+        private int _trone_order_id;
         /// <summary>
         /// 原始通道
         /// </summary>
@@ -167,14 +189,29 @@ namespace LightDataModel
         private int _sp_api_url_id;
 
         private int _sp_id;
-
+        /// <summary>
+        /// IVR的分钟数
+        /// </summary>
+        private int _ivr_time;
+        /// <summary>
+        /// 0为默认通道，1为包月,2为IVR
+        /// </summary>
         private int _trone_type;
+        /// <summary>
+        /// 是否回传了状态报告，0为否，1为是
+        /// </summary>
+        private bool _report_flag;
+        /// <summary>
+        /// 同步给CP标识，默认1为需要同步，0为不需要同步
+        /// </summary>
+        private bool _syn_flag;
 
         #endregion
 
         public override string IdentifyField { get { return identifyField; } }
 
         public static readonly string identifyField = "id";
+
 
 
         public int id
@@ -329,6 +366,27 @@ namespace LightDataModel
 
                 SetFieldHasUpdate(Fields.trone_id, this._trone_id, value);
                 this._trone_id = value;
+            }
+        }
+        /// <summary>
+        /// daily_config.tbl_trone_order.id
+        /// </summary>
+        public int trone_order_id
+        {
+            get { return this._trone_order_id; }
+            set
+            {
+#if true && true
+                RemoveNullFlag(Fields.trone_order_id);
+#elif !true
+			    if (value == null)
+                    SetNullFlag(Fields.trone_order_id);
+                else
+                    RemoveNullFlag(Fields.trone_order_id);
+#endif
+
+                SetFieldHasUpdate(Fields.trone_order_id, this._trone_order_id, value);
+                this._trone_order_id = value;
             }
         }
         /// <summary>
@@ -558,14 +616,37 @@ namespace LightDataModel
                 this._sp_id = value;
             }
         }
+        /// <summary>
+        /// IVR的分钟数
+        /// </summary>
+        public int ivr_time
+        {
+            get { return this._ivr_time; }
+            set
+            {
+#if true && true
+                RemoveNullFlag(Fields.ivr_time);
+#elif !true
+			    if (value == null)
+                    SetNullFlag(Fields.ivr_time);
+                else
+                    RemoveNullFlag(Fields.ivr_time);
+#endif
 
+                SetFieldHasUpdate(Fields.ivr_time, this._ivr_time, value);
+                this._ivr_time = value;
+            }
+        }
+        /// <summary>
+        /// 0为默认通道，1为包月,2为IVR
+        /// </summary>
         public int trone_type
         {
             get { return this._trone_type; }
             set
             {
-#if true && true
-                RemoveNullFlag(Fields.trone_type);
+#if true && false
+				RemoveNullFlag(Fields.trone_type);
 #elif !true
 			    if (value == null)
                     SetNullFlag(Fields.trone_type);
@@ -575,6 +656,48 @@ namespace LightDataModel
 
                 SetFieldHasUpdate(Fields.trone_type, this._trone_type, value);
                 this._trone_type = value;
+            }
+        }
+        /// <summary>
+        /// 是否回传了状态报告，0为否，1为是
+        /// </summary>
+        public bool report_flag
+        {
+            get { return this._report_flag; }
+            set
+            {
+#if true && true
+                RemoveNullFlag(Fields.report_flag);
+#elif !true
+			    if (value == null)
+                    SetNullFlag(Fields.report_flag);
+                else
+                    RemoveNullFlag(Fields.report_flag);
+#endif
+
+                SetFieldHasUpdate(Fields.report_flag, this._report_flag, value);
+                this._report_flag = value;
+            }
+        }
+        /// <summary>
+        /// 同步给CP标识，默认1为需要同步，0为不需要同步
+        /// </summary>
+        public bool syn_flag
+        {
+            get { return this._syn_flag; }
+            set
+            {
+#if true && true
+                RemoveNullFlag(Fields.syn_flag);
+#elif !true
+			    if (value == null)
+                    SetNullFlag(Fields.syn_flag);
+                else
+                    RemoveNullFlag(Fields.syn_flag);
+#endif
+
+                SetFieldHasUpdate(Fields.syn_flag, this._syn_flag, value);
+                this._syn_flag = value;
             }
         }
 
@@ -590,6 +713,7 @@ namespace LightDataModel
 ,"province_id"
 ,"city_id"
 ,"trone_id"
+,"trone_order_id"
 ,"ori_trone"
 ,"ori_order"
 ,"linkid"
@@ -600,7 +724,9 @@ namespace LightDataModel
 ,"mo_date"
 ,"sp_api_url_id"
 ,"sp_id"
-,"trone_type"
+,"ivr_time"
+,"report_flag"
+,"syn_flag"
 };
         }
         public bool IsimeiNull() { return IsNull(Fields.imei); }
@@ -624,6 +750,9 @@ namespace LightDataModel
         public bool Istrone_idNull() { return IsNull(Fields.trone_id); }
 
         public void Settrone_idNull() { SetNull(Fields.trone_id); }
+        public bool Istrone_order_idNull() { return IsNull(Fields.trone_order_id); }
+
+        public void Settrone_order_idNull() { SetNull(Fields.trone_order_id); }
         public bool Isori_troneNull() { return IsNull(Fields.ori_trone); }
 
         public void Setori_troneNull() { SetNull(Fields.ori_trone); }
@@ -654,9 +783,15 @@ namespace LightDataModel
         public bool Issp_idNull() { return IsNull(Fields.sp_id); }
 
         public void Setsp_idNull() { SetNull(Fields.sp_id); }
-        public bool Istrone_typeNull() { return IsNull(Fields.trone_type); }
+        public bool Isivr_timeNull() { return IsNull(Fields.ivr_time); }
 
-        public void Settrone_typeNull() { SetNull(Fields.trone_type); }
+        public void Setivr_timeNull() { SetNull(Fields.ivr_time); }
+        public bool Isreport_flagNull() { return IsNull(Fields.report_flag); }
+
+        public void Setreport_flagNull() { SetNull(Fields.report_flag); }
+        public bool Issyn_flagNull() { return IsNull(Fields.syn_flag); }
+
+        public void Setsyn_flagNull() { SetNull(Fields.syn_flag); }
 
         #endregion
 

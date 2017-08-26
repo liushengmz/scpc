@@ -46,8 +46,10 @@ namespace n8wan.Public.Logical
                 base.SetConfig(defCfg);
                 return base.DoPush();
             }
+
             tbl_trone_orderItem tOrder = null;
             int matchCount = 0;
+            string rel = PushObject.GetValue(EPushField.Msg);
             foreach (var m in _allCfg)
             {
                 if (m.is_unknow)
@@ -57,7 +59,7 @@ namespace n8wan.Public.Logical
                     defCfg = m;
                     continue;
                 }
-                if (!IsMatch(m))
+                if (!IsMatch(m, rel))
                     continue;
 
                 if (tOrder == null)
@@ -98,6 +100,8 @@ namespace n8wan.Public.Logical
 
         }
 
+
+
         private tbl_trone_orderItem CreateDefaultTrone()
         {
 
@@ -126,19 +130,28 @@ namespace n8wan.Public.Logical
             }
         }
 
-        private bool IsMatch(LightDataModel.tbl_trone_orderItem m)
+
+        /// <summary>
+        /// 校验指令是否匹配
+        /// </summary>
+        /// <param name="cfg">配置通道</param>
+        /// <param name="realMsg">传的真实指令</param>
+        /// <returns></returns>
+        public static bool IsMatch(LightDataModel.tbl_trone_orderItem cfg, string realMsg)
         {
+            if (cfg.is_unknow)
+                return false;
+
             Regex rx;
-            string spMsg = base.PushObject.GetValue(Logical.EPushField.Msg);
-            if (spMsg == null)
-                spMsg = string.Empty;
-            if (m.is_dynamic)
+            if (realMsg == null)
+                realMsg = string.Empty;
+            if (cfg.is_dynamic)
             {//CP可模糊的指令
-                rx = Library.GetRegex(m.order_num);
-                return rx.IsMatch(spMsg);
+                rx = Library.GetRegex(cfg.order_num);
+                return rx.IsMatch(realMsg);
             }
             //CP精确指令
-            return spMsg.Equals(m.order_num, StringComparison.OrdinalIgnoreCase);
+            return realMsg.Equals(cfg.order_num, StringComparison.OrdinalIgnoreCase);
         }
 
     }

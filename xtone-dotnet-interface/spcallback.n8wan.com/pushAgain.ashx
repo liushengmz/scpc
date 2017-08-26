@@ -65,6 +65,7 @@ public class pushAgain : Shotgun.PagePlus.SimpleHttpHandler<Shotgun.Database.MyS
         ap.MrIds = allId;
         ap.MRDate = mrDate;
         ap.DoAgain();
+        
 
         //ap.DoAgain();
         Response.Redirect(string.Format("pushagain.html?{0}", allId.Length));

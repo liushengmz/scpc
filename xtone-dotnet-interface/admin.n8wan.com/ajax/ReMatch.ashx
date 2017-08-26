@@ -16,7 +16,7 @@ public class ReMatch : Shotgun.PagePlus.SimpleHttpHandler<Shotgun.Database.MySql
         LightDataModel.tbl_troneItem trone = null;
 
         bool hasUpdate = false;
-        if (!m.IsMatch)
+        if (m.trone_id <= 0)
         {
             trone = n8wan.Public.Logical.BaseSPCallback.FillToneId(dBase, m);
             if (trone == null)

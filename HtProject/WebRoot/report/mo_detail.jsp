@@ -184,6 +184,7 @@
 					<td>指令</td>
 					<td>配置指令</td>
 					<td>配置通道</td>
+					<td>状态</td>
 				</tr>
 			</thead>
 			<tbody>		
@@ -210,6 +211,7 @@
 					<td><%= model.getOrder() %></td>
 					<td><%= model.getConfigOrder() %></td>
 					<td><%= model.getConfigTrone() %></td>
+					<td><%= model.getStatus() %></td>
 				</tr>
 						<%
 					}

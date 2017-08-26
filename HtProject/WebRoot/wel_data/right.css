@@ -12,6 +12,7 @@ body{background-color: #F7F7F7; overflow:hidden;}
 	left: 0;
 	top: 0;
 	width: 100%;
+	height:auto;
 	min-height:1000PX;
 	border-left: 1px solid #c3c3c3;
 	background-color: #F7F7F7;

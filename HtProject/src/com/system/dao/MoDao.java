@@ -22,7 +22,7 @@ public class MoDao
 		
 		String sql = " SELECT a.linkid,a.id,a.imei,a.imsi,a.mobile,h.short_name cp_name,f.name province_name,e.name city_name,d.short_name sp_name,c.name sp_trone_name,b.trone_name,b.price,";
 		
-		sql += "  b.orders config_order,b.trone_num config_trone,a.ori_order,a.ori_trone,a.create_date";
+		sql += "  b.orders config_order,b.trone_num config_trone,a.ori_order,a.ori_trone,a.create_date,a.status";
 		sql += "  FROM " + Constant.DB_DAILY_LOG + ".tbl_mo_" + table + " a";
 		sql += "  LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_trone b ON a.trone_id = b.id";
 		sql += "  LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_sp_trone c ON b.sp_trone_id = c.id";
@@ -80,6 +80,7 @@ public class MoDao
 					vo.setConfigTrone(StringUtil.getString(rs.getString("config_trone"), ""));
 					vo.setLinkId(StringUtil.getString(rs.getString("linkid"), ""));
 					vo.setCpName(StringUtil.getString(rs.getString("cp_name"), ""));
+					vo.setStatus(StringUtil.getString(rs.getString("status"), ""));
 					list.add(vo);
 				}
 				

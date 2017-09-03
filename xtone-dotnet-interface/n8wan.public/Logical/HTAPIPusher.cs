@@ -37,7 +37,6 @@ namespace n8wan.Public.Logical
 
         public override bool DoPush()
         {
-
             if (_apiMatchAPI == null)
                 return false;
             bool isNew;

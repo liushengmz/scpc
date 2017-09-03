@@ -36,7 +36,7 @@ namespace n8wan.Public.Logical
 
         public override bool DoPush()
         {
-            //bool isRecord = false;
+
             tbl_trone_orderItem defCfg = null;
             if (PushObject.cp_id > 0 && PushObject.cp_id != 34)
             {
@@ -82,8 +82,8 @@ namespace n8wan.Public.Logical
             if (tOrder != null)
             {//匹配到一个渠道
                 base.SetConfig(tOrder);
-                base.DoPush();
-                return true;
+                return base.DoPush();
+
             }
 
             if (PushObject.cp_id == 34)
@@ -94,9 +94,8 @@ namespace n8wan.Public.Logical
             if (defCfg == null)
                 defCfg = CreateDefaultTrone();
             base.SetConfig(defCfg);
-            base.DoPush();
             WriteTrackLog("未匹配CP");
-            return true;
+            return base.DoPush();
 
         }
 

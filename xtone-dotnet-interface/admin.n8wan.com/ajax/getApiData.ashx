@@ -19,6 +19,8 @@ public class getApiData : Shotgun.PagePlus.SimpleHttpHandler<Shotgun.Database.My
     int s_hour, e_hour;
     UserMode userMode = UserMode.Full;
     static Dictionary<int, int> _maxIds;
+    static DateTime _cacheDate;
+
     public override void BeginProcess()
     {
 
@@ -76,7 +78,7 @@ public class getApiData : Shotgun.PagePlus.SimpleHttpHandler<Shotgun.Database.My
     {
         get
         {
-            if (_maxIds == null)
+            if (_maxIds == null || _cacheDate.Date != DateTime.Today)
                 InitMaxIds();
             return _maxIds;
         }

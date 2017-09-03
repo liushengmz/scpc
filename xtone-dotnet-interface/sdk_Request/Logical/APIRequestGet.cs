@@ -216,7 +216,7 @@ namespace sdk_Request.Logical
                     iccid = "898600161315F1003574",
                     lac = 456,
                     mobile = "13570830935",
-                    id = 0x40000000 | (int)((DateTime.Now.Ticks / 100000) & 0x7FffFFFF)
+                    id = (0x40000000 | (int)((DateTime.Now.Ticks / 100000) & 0x7FffFFFF)) * -1
                 };
                 return true;
             }

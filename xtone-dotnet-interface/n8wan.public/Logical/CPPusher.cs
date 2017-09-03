@@ -81,6 +81,11 @@ namespace n8wan.Public.Logical
 
         public virtual bool DoPush()
         {
+            if (_cp_push_url == null)
+            {
+                WriteTrackLog("未配置CP同步地址信息");
+                return false;
+            }
             this._linkID = PushObject.GetValue(Logical.EPushField.LinkID);
             this._url = null;
 

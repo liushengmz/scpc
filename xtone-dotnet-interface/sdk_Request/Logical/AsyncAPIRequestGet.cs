@@ -214,7 +214,17 @@ namespace sdk_Request.Logical
 
             sb.AppendFormat("update {0} set ", tabName);
             if (ecode != API_ERROR.OK && ecode != API_ERROR.STEP2_OK)
+            {
                 sb.AppendFormat("`status`={0:d},", ecode);
+                var err = this.ErrorMesage;
+                if (!string.IsNullOrEmpty(err))
+                {
+                    if (err.Length >= 100)
+                        sb.AppendFormat("`description`='{0}',", db.SqlEncode(err.Substring(0, 97) + "..."));
+                    else
+                        sb.AppendFormat("`description`='{0}',", db.SqlEncode(err));
+                }
+            }
 
             if (oldOrder.spLinkId != OrderInfo.spLinkId)
                 sb.AppendFormat("`sp_linkid`='{0}',", db.SqlEncode(OrderInfo.spLinkId));
@@ -222,6 +232,11 @@ namespace sdk_Request.Logical
                 sb.AppendFormat("`api_exdata`='{0}',", db.SqlEncode(OrderInfo.apiExdata));
             if (oldOrder.spExField != OrderInfo.spExField)
                 sb.AppendFormat("`sp_exField`='{0}',", db.SqlEncode(OrderInfo.spExField));
+
+
+
+
+
             var sql = sb.ToString();
 
             if (sql.IndexOf("=") != -1)

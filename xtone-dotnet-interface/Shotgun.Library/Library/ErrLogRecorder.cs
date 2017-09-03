@@ -22,7 +22,7 @@ namespace Shotgun.Library
         public static void SqlError(System.Data.Common.DbException ex, string TSql)
         {
             bool isLocal = false;
-            using (EventLog log = new EventLog("WebException"))
+            //using (EventLog log = new EventLog("WebException"))
             {
 
                 string url, method;
@@ -53,7 +53,7 @@ namespace Shotgun.Library
                     method = "n/a";
                     extData = string.Empty;
                 }
-                log.Source = "Sql";
+                //log.Source = "Sql";
 
                 StringBuilder msg = new StringBuilder();
                 msg.AppendFormat("url:{0} {1}", method, url);
@@ -118,18 +118,23 @@ namespace Shotgun.Library
 
                 try
                 {
-
                     if (bin != null)
-                        log.WriteEntry(msg.ToString(), EventLogEntryType.Error, 0, 0, bin);
-                    else
-                        log.WriteEntry(msg.ToString(), EventLogEntryType.Error);
+                    {
+                        msg.AppendLine();
+                        msg.AppendLine(System.Text.ASCIIEncoding.ASCII.GetString(bin));
+                    }
+                    SimpleLogRecord.WriteLog("sqlError", msg.ToString());
+
+                    //if (bin != null)
+                    //    log.WriteEntry(msg.ToString(), EventLogEntryType.Error, 0, 0, bin);
+                    //else
+                    //    log.WriteEntry(msg.ToString(), EventLogEntryType.Error);
                 }
                 catch
                 {
                     if (isLocal)
                         throw;
                 }
-                log.Close();
             }
         }
         public static void SqlError(System.Data.Common.DbException ex, string TSql, IDataParameterCollection Parameters)

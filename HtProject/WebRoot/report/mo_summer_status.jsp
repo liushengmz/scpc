@@ -37,12 +37,12 @@
 					<dd class="dd01_me">开始日期</dd>
 					<dd class="dd03_me">
 						<input name="startdate" type="text" value="<%= startDate %>"
-							onclick="WdatePicker({isShowClear:false,readOnly:true})">
+							onclick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 					</dd>
 					<dd class="dd01_me">结束日期</dd>
 					<dd class="dd03_me">
 						<input name="enddate" type="text" value="<%= endDate %>"
-							onclick="WdatePicker({isShowClear:false,readOnly:true})">
+							onclick="WdatePicker({isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 					</dd>
 					<dd class="dd01_me">关键字</dd>
 					<dd class="dd03_me">

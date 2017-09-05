@@ -573,7 +573,7 @@ public class CpDao
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		sql += " order by convert(a.short_name using gbk) asc ";
+		sql += " order by id desc ";
 
 		JdbcControl control = new JdbcControl();
 		map.put("rows", control.query(

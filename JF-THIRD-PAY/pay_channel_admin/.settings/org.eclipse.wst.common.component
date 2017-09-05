@@ -11,6 +11,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/pay_channel_admin/target/classes"/>
-        <property name="context-root" value="/"/>
+        <property name="context-root" value="pay_channel_admin"/>
     </wb-module>
 </project-modules>

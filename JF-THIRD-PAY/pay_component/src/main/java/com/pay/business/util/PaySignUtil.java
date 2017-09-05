@@ -231,6 +231,7 @@ public class PaySignUtil {
 		map.put("notifyUrl",
 				"http://qiuguojie.wicp.net/payDetail/tfbCallBack.do");
 		map.put("appKey", "8490d1263f4e30c3502eb138705bc272");
+		//map.put("appKey", "05119cc60651f391449fd26ce0f25114");
 		map.put("orderName", "BIEKEYIBU");
 		map.put("ip", "192.168.1.172");
 		map.put("channel", 2);
@@ -240,7 +241,7 @@ public class PaySignUtil {
 		try
 		{
 			s = getSign(map, "IxRsjdpKLEn9oml1ikixuKJItRygrsar0A1C6tV1");
-
+			//s = getSign(map,"BntS7WsINaWWmlAKe0huVa8J4DRDZDCmIiHvH9n6");
 		}
 		catch (Exception ex)
 		{
@@ -251,8 +252,8 @@ public class PaySignUtil {
 
 		String encodeParamStr = URLEncoder.encode(paramStr);
 
-		//String url = "https://pay.iquxun.cn/aiJinFuPay/aliScanPay.do";
-		String url = "http://127.0.0.1:8080/pay_website/aiJinFuPay/aliScanPay.do";
+		String url = "https://pay.iquxun.cn/aiJinFuPay/aliScanPay.do";
+		//String url = "http://127.0.0.1:8080/pay_website/aiJinFuPay/aliScanPay.do";
 
 		System.out.println(url + "?paramStr=" + encodeParamStr);
 

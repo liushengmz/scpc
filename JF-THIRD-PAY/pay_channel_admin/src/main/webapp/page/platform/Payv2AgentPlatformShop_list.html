@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>线下商铺列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>  <span class="c-gray en">&gt;</span> 线下商铺列表
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+		        <form action="${basePath}/Payv2AgentPlatform/getPayv2AgentPlatformShopList.do">
+		        	<input type="text" name="shopName" id="shopName" placeholder="请输入店铺名称" style="width: 250px" class="input-text" value="${map.shopName!}">
+			       	  所属商户：<select class="select" id="companyId" name="companyId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if companyList?? && companyList?size gt 0>
+			           		<#list companyList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == map.companyId> selected="selected" </#if>>${dl.companyName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+	      			支付通道：<select class="select" id="payWayId" name="payWayId" datatype="*" nullmsg="请选择！" style="width: 150px">
+		           			<option value="">全部</option>
+			           		<#if platformWayList?? && platformWayList?size gt 0>
+			           		<#list platformWayList as dl>
+			           			<option value="${dl.payWayId!}" <#if dl.payWayId == map.payWayId> selected="selected" </#if>>${dl.wayName!}</option>
+			           		</#list>
+			           		</#if>
+      			</select>
+      			<input type="hidden" id="id" value="${map.id!}" name="id"/>
+				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont"></i> 搜索 </button>
+			</form>	
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>  
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="20">编号</th>
+						<th width="100">所属商户</th>
+						<th width="100">店铺名称</th>
+						<th width="100">店铺地址</th>
+						<th width="100">支付通道</th>
+						<th width="100">店铺状态</th>
+						<th width="100">创建时间</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if shopVoList?? && shopVoList?size gt 0>
+					<#list shopVoList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.companyName!}</td>
+							<td>${dl.shopName!}</td>
+							<td>${dl.shopAddress!}</td>
+							<td>${dl.wayName!}</td>
+							<td>
+								<#if dl.shopStatus=1>
+									未审核
+								</#if>
+								<#if dl.shopStatus=2>
+									通过
+								</#if>
+								<#if dl.shopStatus=3>
+									未通过
+								</#if>
+								<#if dl.shopStatus=4>
+									终止合作
+								</#if>
+							</td>
+							<td>
+								<#if dl.createTime??>
+									${dl.createTime?string("yyyy-MM-dd")}
+								</#if>
+							</td>
+							<td class="td-manage">
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+		</div>
+	</div>
+	<script type="text/javascript">
+		/*下载*/
+		function app_download(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+	</script>
+</body>
+</html>

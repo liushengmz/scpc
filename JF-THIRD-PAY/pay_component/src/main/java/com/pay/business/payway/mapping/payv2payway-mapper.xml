@@ -1,0 +1,1117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payway.mapper.Payv2PayWayMapper">
+
+	<resultMap id="payv2payway_result_map" type="com.pay.business.payway.entity.Payv2PayWay" >
+		<id column="id" property="id" />
+		<result column="way_type" property="wayType"/>
+		<result column="dic_id" property="dicId"/>
+		<result column="way_name" property="wayName"/>
+		<result column="way_company_name" property="wayCompanyName"/>
+		<result column="merchant_code" property="merchantCode"/>
+		<result column="discout_region" property="discoutRegion"/>
+		<result column="is_trust_bank" property="isTrustBank"/>
+		<result column="way_icon" property="wayIcon"/>
+		<result column="way_slogan" property="waySlogan"/>
+		<result column="income_type" property="incomeType"/>
+		<result column="way_id" property="wayId"/>
+		<result column="income_num" property="incomeNum"/>
+		<result column="income_line" property="incomeLine"/>
+		<result column="way_contacts" property="wayContacts"/>
+		<result column="way_phone" property="wayPhone"/>
+		<result column="way_apk_url" property="wayApkUrl"/>
+		<result column="way_apk_md5" property="wayApkMd5"/>
+		<result column="way_apk_package" property="wayApkPackage"/>
+		<result column="way_apk_size" property="wayApkSize"/>
+		<result column="way_ios_url" property="wayIosUrl"/>
+		<result column="way_rate" property="wayRate"/>
+		<result column="way_arrival_type" property="wayArrivalType"/>
+		<result column="way_arrival_value" property="wayArrivalValue"/>
+		<result column="way_transition_type" property="wayTransitionType"/>
+		<result column="way_transition_effect" property="wayTransitionEffect"/>
+		<result column="way_transition_time" property="wayTransitionTime"/>
+		<result column="way_loding_type" property="wayLodingType"/>
+		<result column="progress_groove_color" property="progressGrooveColor"/>
+		<result column="progress_color" property="progressColor"/>
+		<result column="loading_pic_type" property="loadingPicType"/>
+		<result column="show_words" property="showWords"/>
+		<result column="show_words_color" property="showWordsColor"/>
+		<result column="show_words_shadow_color" property="showWordsShadowColor"/>
+		<result column="ending_show" property="endingShow"/>
+		<result column="status" property="status"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		
+		<result column="one_max_money" property="oneMaxMoney"/>
+		<result column="max_money" property="maxMoney"/>
+		<result column="rate_id" property="rateId"/>
+		<result column="rateOneMaxMoney" property="rateOneMaxMoney"/>
+		<result column="rateMaxMoney" property="rateMaxMoney"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_way  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="wayType!=null and wayType!=''">
+				and way_type = #{wayType}
+			</if>
+			<if test="dicId!=null and dicId!=''">
+				and dic_id = #{dicId}
+			</if>
+			<if test="wayName!=null and wayName!=''">
+				and way_name like '%'||#{wayName}||'%'
+			</if>
+			<if test="wayCompanyName!=null and wayCompanyName!=''">
+				and way_company_name like '%'||#{wayCompanyName}||'%'
+			</if>
+			<if test="merchantCode!=null and merchantCode!=''">
+				and merchant_code like '%'||#{merchantCode}||'%'
+			</if>
+			<if test="discoutRegion!=null and discoutRegion!=''">
+				and discout_region like '%'||#{discoutRegion}||'%'
+			</if>
+			<if test="isTrustBank!=null and isTrustBank!=''">
+				and is_trust_bank = #{isTrustBank}
+			</if>
+			<if test="wayIcon!=null and wayIcon!=''">
+				and way_icon like '%'||#{wayIcon}||'%'
+			</if>
+			<if test="waySlogan!=null and waySlogan!=''">
+				and way_slogan like '%'||#{waySlogan}||'%'
+			</if>
+			<if test="incomeType!=null and incomeType!=''">
+				and income_type = #{incomeType}
+			</if>
+			<if test="wayId!=null and wayId!=''">
+				and way_id = #{wayId}
+			</if>
+			<if test="incomeNum!=null and incomeNum!=''">
+				and income_num like '%'||#{incomeNum}||'%'
+			</if>
+			<if test="incomeLine!=null and incomeLine!=''">
+				and income_line like '%'||#{incomeLine}||'%'
+			</if>
+			<if test="wayContacts!=null and wayContacts!=''">
+				and way_contacts like '%'||#{wayContacts}||'%'
+			</if>
+			<if test="wayPhone!=null and wayPhone!=''">
+				and way_phone like '%'||#{wayPhone}||'%'
+			</if>
+			<if test="wayApkUrl!=null and wayApkUrl!=''">
+				and way_apk_url like '%'||#{wayApkUrl}||'%'
+			</if>
+			<if test="wayApkMd5!=null and wayApkMd5!=''">
+				and way_apk_md5 like '%'||#{wayApkMd5}||'%'
+			</if>
+			<if test="wayApkPackage!=null and wayApkPackage!=''">
+				and way_apk_package like '%'||#{wayApkPackage}||'%'
+			</if>
+			<if test="wayApkSize!=null and wayApkSize!=''">
+				and way_apk_size = #{wayApkSize}
+			</if>
+			<if test="wayIosUrl!=null and wayIosUrl!=''">
+				and way_ios_url like '%'||#{wayIosUrl}||'%'
+			</if>
+			<if test="wayRate!=null and wayRate!=''">
+				and way_rate like '%'||#{wayRate}||'%'
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="wayTransitionType!=null and wayTransitionType!=''">
+				and way_transition_type = #{wayTransitionType}
+			</if>
+			<if test="wayTransitionEffect!=null and wayTransitionEffect!=''">
+				and way_transition_effect like '%'||#{wayTransitionEffect}||'%'
+			</if>
+			<if test="wayTransitionTime!=null and wayTransitionTime!=''">
+				and way_transition_time = #{wayTransitionTime}
+			</if>
+			<if test="wayLodingType!=null and wayLodingType!=''">
+				and way_loding_type = #{wayLodingType}
+			</if>
+			<if test="progressGrooveColor!=null and progressGrooveColor!=''">
+				and progress_groove_color = #{progressGrooveColor}
+			</if>
+			<if test="progressColor!=null and progressColor!=''">
+				and progress_color = #{progressColor}
+			</if>
+			<if test="loadingPicType!=null and loadingPicType!=''">
+				and loading_pic_type like '%'||#{loadingPicType}||'%'
+			</if>
+			<if test="showWords!=null and showWords!=''">
+				and show_words like '%'||#{showWords}||'%'
+			</if>
+			<if test="showWordsColor!=null and showWordsColor!=''">
+				and show_words_color = #{showWordsColor}
+			</if>
+			<if test="showWordsShadowColor!=null and showWordsShadowColor!=''">
+				and show_words_shadow_color = #{showWordsShadowColor}
+			</if>
+			<if test="endingShow!=null and endingShow!=''">
+				and ending_show = #{endingShow}
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payway.entity.Payv2PayWay" useGeneratedKeys="true" keyProperty="id" >
+		insert into payv2_pay_way
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="wayType!=null ">
+				way_type,
+			</if>
+      		<if test="dicId!=null ">
+				dic_id,
+			</if>
+      		<if test="wayName!=null ">
+				way_name,
+			</if>
+      		<if test="wayCompanyName!=null ">
+				way_company_name,
+			</if>
+      		<if test="merchantCode!=null ">
+				merchant_code,
+			</if>
+      		<if test="discoutRegion!=null ">
+				discout_region,
+			</if>
+      		<if test="isTrustBank!=null ">
+				is_trust_bank,
+			</if>
+      		<if test="wayIcon!=null ">
+				way_icon,
+			</if>
+      		<if test="waySlogan!=null ">
+				way_slogan,
+			</if>
+      		<if test="incomeType!=null ">
+				income_type,
+			</if>
+      		<if test="wayId!=null ">
+				way_id,
+			</if>
+      		<if test="incomeNum!=null ">
+				income_num,
+			</if>
+      		<if test="incomeLine!=null ">
+				income_line,
+			</if>
+      		<if test="wayContacts!=null ">
+				way_contacts,
+			</if>
+      		<if test="wayPhone!=null ">
+				way_phone,
+			</if>
+      		<if test="wayApkUrl!=null ">
+				way_apk_url,
+			</if>
+      		<if test="wayApkMd5!=null ">
+				way_apk_md5,
+			</if>
+      		<if test="wayApkPackage!=null ">
+				way_apk_package,
+			</if>
+      		<if test="wayApkSize!=null ">
+				way_apk_size,
+			</if>
+      		<if test="wayIosUrl!=null ">
+				way_ios_url,
+			</if>
+      		<if test="wayRate!=null ">
+				way_rate,
+			</if>
+      		<if test="wayArrivalType!=null ">
+				way_arrival_type,
+			</if>
+      		<if test="wayArrivalValue!=null ">
+				way_arrival_value,
+			</if>
+      		<if test="wayTransitionType!=null ">
+				way_transition_type,
+			</if>
+      		<if test="wayTransitionEffect!=null ">
+				way_transition_effect,
+			</if>
+      		<if test="wayTransitionTime!=null ">
+				way_transition_time,
+			</if>
+      		<if test="wayLodingType!=null ">
+				way_loding_type,
+			</if>
+      		<if test="progressGrooveColor!=null ">
+				progress_groove_color,
+			</if>
+      		<if test="progressColor!=null ">
+				progress_color,
+			</if>
+      		<if test="loadingPicType!=null ">
+				loading_pic_type,
+			</if>
+      		<if test="showWords!=null ">
+				show_words,
+			</if>
+      		<if test="showWordsColor!=null ">
+				show_words_color,
+			</if>
+      		<if test="showWordsShadowColor!=null ">
+				show_words_shadow_color,
+			</if>
+      		<if test="endingShow!=null ">
+				ending_show,
+			</if>
+      		<if test="status!=null ">
+				status,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="wayType!=null ">
+      			#{wayType},
+			</if>
+      		<if test="dicId!=null ">
+      			#{dicId},
+			</if>
+      		<if test="wayName!=null ">
+      			#{wayName},
+			</if>
+      		<if test="wayCompanyName!=null ">
+      			#{wayCompanyName},
+			</if>
+      		<if test="merchantCode!=null ">
+      			#{merchantCode},
+			</if>
+      		<if test="discoutRegion!=null ">
+      			#{discoutRegion},
+			</if>
+      		<if test="isTrustBank!=null ">
+      			#{isTrustBank},
+			</if>
+      		<if test="wayIcon!=null ">
+      			#{wayIcon},
+			</if>
+      		<if test="waySlogan!=null ">
+      			#{waySlogan},
+			</if>
+      		<if test="incomeType!=null ">
+      			#{incomeType},
+			</if>
+      		<if test="wayId!=null ">
+      			#{wayId},
+			</if>
+      		<if test="incomeNum!=null ">
+      			#{incomeNum},
+			</if>
+      		<if test="incomeLine!=null ">
+      			#{incomeLine},
+			</if>
+      		<if test="wayContacts!=null ">
+      			#{wayContacts},
+			</if>
+      		<if test="wayPhone!=null ">
+      			#{wayPhone},
+			</if>
+      		<if test="wayApkUrl!=null ">
+      			#{wayApkUrl},
+			</if>
+      		<if test="wayApkMd5!=null ">
+      			#{wayApkMd5},
+			</if>
+      		<if test="wayApkPackage!=null ">
+      			#{wayApkPackage},
+			</if>
+      		<if test="wayApkSize!=null ">
+      			#{wayApkSize},
+			</if>
+      		<if test="wayIosUrl!=null ">
+      			#{wayIosUrl},
+			</if>
+      		<if test="wayRate!=null ">
+      			#{wayRate},
+			</if>
+      		<if test="wayArrivalType!=null ">
+      			#{wayArrivalType},
+			</if>
+      		<if test="wayArrivalValue!=null ">
+      			#{wayArrivalValue},
+			</if>
+      		<if test="wayTransitionType!=null ">
+      			#{wayTransitionType},
+			</if>
+      		<if test="wayTransitionEffect!=null ">
+      			#{wayTransitionEffect},
+			</if>
+      		<if test="wayTransitionTime!=null ">
+      			#{wayTransitionTime},
+			</if>
+      		<if test="wayLodingType!=null ">
+      			#{wayLodingType},
+			</if>
+      		<if test="progressGrooveColor!=null ">
+      			#{progressGrooveColor},
+			</if>
+      		<if test="progressColor!=null ">
+      			#{progressColor},
+			</if>
+      		<if test="loadingPicType!=null ">
+      			#{loadingPicType},
+			</if>
+      		<if test="showWords!=null ">
+      			#{showWords},
+			</if>
+      		<if test="showWordsColor!=null ">
+      			#{showWordsColor},
+			</if>
+      		<if test="showWordsShadowColor!=null ">
+      			#{showWordsShadowColor},
+			</if>
+      		<if test="endingShow!=null ">
+      			#{endingShow},
+			</if>
+      		<if test="status!=null ">
+      			#{status},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payway.entity.Payv2PayWay">
+		delete from payv2_pay_way
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="wayType!=null ">
+				and way_type=#{wayType}
+			</if>
+      		<if test="dicId!=null ">
+				and dic_id=#{dicId}
+			</if>
+      		<if test="wayName!=null ">
+				and way_name=#{wayName}
+			</if>
+      		<if test="wayCompanyName!=null ">
+				and way_company_name=#{wayCompanyName}
+			</if>
+      		<if test="merchantCode!=null ">
+				and merchant_code=#{merchantCode}
+			</if>
+      		<if test="discoutRegion!=null ">
+				and discout_region=#{discoutRegion}
+			</if>
+      		<if test="isTrustBank!=null ">
+				and is_trust_bank=#{isTrustBank}
+			</if>
+      		<if test="wayIcon!=null ">
+				and way_icon=#{wayIcon}
+			</if>
+      		<if test="waySlogan!=null ">
+				and way_slogan=#{waySlogan}
+			</if>
+      		<if test="incomeType!=null ">
+				and income_type=#{incomeType}
+			</if>
+      		<if test="wayId!=null ">
+				and way_id=#{wayId}
+			</if>
+      		<if test="incomeNum!=null ">
+				and income_num=#{incomeNum}
+			</if>
+      		<if test="incomeLine!=null ">
+				and income_line=#{incomeLine}
+			</if>
+      		<if test="wayContacts!=null ">
+				and way_contacts=#{wayContacts}
+			</if>
+      		<if test="wayPhone!=null ">
+				and way_phone=#{wayPhone}
+			</if>
+      		<if test="wayApkUrl!=null ">
+				and way_apk_url=#{wayApkUrl}
+			</if>
+      		<if test="wayApkMd5!=null ">
+				and way_apk_md5=#{wayApkMd5}
+			</if>
+      		<if test="wayApkPackage!=null ">
+				and way_apk_package=#{wayApkPackage}
+			</if>
+      		<if test="wayApkSize!=null ">
+				and way_apk_size=#{wayApkSize}
+			</if>
+      		<if test="wayIosUrl!=null ">
+				and way_ios_url=#{wayIosUrl}
+			</if>
+      		<if test="wayRate!=null ">
+				and way_rate=#{wayRate}
+			</if>
+      		<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+      		<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+      		<if test="wayTransitionType!=null ">
+				and way_transition_type=#{wayTransitionType}
+			</if>
+      		<if test="wayTransitionEffect!=null ">
+				and way_transition_effect=#{wayTransitionEffect}
+			</if>
+      		<if test="wayTransitionTime!=null ">
+				and way_transition_time=#{wayTransitionTime}
+			</if>
+      		<if test="wayLodingType!=null ">
+				and way_loding_type=#{wayLodingType}
+			</if>
+      		<if test="progressGrooveColor!=null ">
+				and progress_groove_color=#{progressGrooveColor}
+			</if>
+      		<if test="progressColor!=null ">
+				and progress_color=#{progressColor}
+			</if>
+      		<if test="loadingPicType!=null ">
+				and loading_pic_type=#{loadingPicType}
+			</if>
+      		<if test="showWords!=null ">
+				and show_words=#{showWords}
+			</if>
+      		<if test="showWordsColor!=null ">
+				and show_words_color=#{showWordsColor}
+			</if>
+      		<if test="showWordsShadowColor!=null ">
+				and show_words_shadow_color=#{showWordsShadowColor}
+			</if>
+      		<if test="endingShow!=null ">
+				and ending_show=#{endingShow}
+			</if>
+      		<if test="status!=null ">
+				and status=#{status}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payway.entity.Payv2PayWay">
+		update payv2_pay_way
+		<set>
+			<if test="wayType!=null ">
+				way_type=#{wayType},
+			</if>
+			<if test="dicId!=null ">
+				dic_id=#{dicId},
+			</if>
+			<if test="wayName!=null ">
+				way_name=#{wayName},
+			</if>
+			<if test="wayCompanyName!=null ">
+				way_company_name=#{wayCompanyName},
+			</if>
+			<if test="merchantCode!=null ">
+				merchant_code=#{merchantCode},
+			</if>
+			<if test="discoutRegion!=null ">
+				discout_region=#{discoutRegion},
+			</if>
+			<if test="isTrustBank!=null ">
+				is_trust_bank=#{isTrustBank},
+			</if>
+			<if test="wayIcon!=null ">
+				way_icon=#{wayIcon},
+			</if>
+			<if test="waySlogan!=null ">
+				way_slogan=#{waySlogan},
+			</if>
+			<if test="incomeType!=null ">
+				income_type=#{incomeType},
+			</if>
+			<if test="wayId!=null ">
+				way_id=#{wayId},
+			</if>
+			<if test="incomeNum!=null ">
+				income_num=#{incomeNum},
+			</if>
+			<if test="incomeLine!=null ">
+				income_line=#{incomeLine},
+			</if>
+			<if test="wayContacts!=null ">
+				way_contacts=#{wayContacts},
+			</if>
+			<if test="wayPhone!=null ">
+				way_phone=#{wayPhone},
+			</if>
+			<if test="wayApkUrl!=null ">
+				way_apk_url=#{wayApkUrl},
+			</if>
+			<if test="wayApkMd5!=null ">
+				way_apk_md5=#{wayApkMd5},
+			</if>
+			<if test="wayApkPackage!=null ">
+				way_apk_package=#{wayApkPackage},
+			</if>
+			<if test="wayApkSize!=null ">
+				way_apk_size=#{wayApkSize},
+			</if>
+			<if test="wayIosUrl!=null ">
+				way_ios_url=#{wayIosUrl},
+			</if>
+			<if test="wayRate!=null ">
+				way_rate=#{wayRate},
+			</if>
+			<if test="wayArrivalType!=null ">
+				way_arrival_type=#{wayArrivalType},
+			</if>
+			<if test="wayArrivalValue!=null ">
+				way_arrival_value=#{wayArrivalValue},
+			</if>
+			<if test="wayTransitionType!=null ">
+				way_transition_type=#{wayTransitionType},
+			</if>
+			<if test="wayTransitionEffect!=null ">
+				way_transition_effect=#{wayTransitionEffect},
+			</if>
+			<if test="wayTransitionTime!=null ">
+				way_transition_time=#{wayTransitionTime},
+			</if>
+			<if test="wayLodingType!=null ">
+				way_loding_type=#{wayLodingType},
+			</if>
+			<if test="progressGrooveColor!=null ">
+				progress_groove_color=#{progressGrooveColor},
+			</if>
+			<if test="progressColor!=null ">
+				progress_color=#{progressColor},
+			</if>
+			<if test="loadingPicType!=null ">
+				loading_pic_type=#{loadingPicType},
+			</if>
+			<if test="showWords!=null ">
+				show_words=#{showWords},
+			</if>
+			<if test="showWordsColor!=null ">
+				show_words_color=#{showWordsColor},
+			</if>
+			<if test="showWordsShadowColor!=null ">
+				show_words_shadow_color=#{showWordsShadowColor},
+			</if>
+			<if test="endingShow!=null ">
+				ending_show=#{endingShow},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payway.entity.Payv2PayWay" resultMap="payv2payway_result_map">
+		select id,way_type,dic_id,way_name,way_company_name,merchant_code,discout_region,is_trust_bank,way_icon,way_slogan,income_type,way_id,income_num,income_line,way_contacts,way_phone,way_apk_url,way_apk_md5,way_apk_package,way_apk_size,way_ios_url,way_rate,way_arrival_type,way_arrival_value,way_transition_type,way_transition_effect,way_transition_time,way_loding_type,progress_groove_color,progress_color,loading_pic_type,show_words,show_words_color,show_words_shadow_color,ending_show,status,is_delete,create_time,update_time from payv2_pay_way
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="wayType!=null ">
+				and way_type=#{wayType}
+			</if>
+			<if test="dicId!=null ">
+				and dic_id=#{dicId}
+			</if>
+			<if test="wayName!=null ">
+				and way_name=#{wayName}
+			</if>
+			<if test="wayCompanyName!=null ">
+				and way_company_name=#{wayCompanyName}
+			</if>
+			<if test="merchantCode!=null ">
+				and merchant_code=#{merchantCode}
+			</if>
+			<if test="discoutRegion!=null ">
+				and discout_region=#{discoutRegion}
+			</if>
+			<if test="isTrustBank!=null ">
+				and is_trust_bank=#{isTrustBank}
+			</if>
+			<if test="wayIcon!=null ">
+				and way_icon=#{wayIcon}
+			</if>
+			<if test="waySlogan!=null ">
+				and way_slogan=#{waySlogan}
+			</if>
+			<if test="incomeType!=null ">
+				and income_type=#{incomeType}
+			</if>
+			<if test="wayId!=null ">
+				and way_id=#{wayId}
+			</if>
+			<if test="incomeNum!=null ">
+				and income_num=#{incomeNum}
+			</if>
+			<if test="incomeLine!=null ">
+				and income_line=#{incomeLine}
+			</if>
+			<if test="wayContacts!=null ">
+				and way_contacts=#{wayContacts}
+			</if>
+			<if test="wayPhone!=null ">
+				and way_phone=#{wayPhone}
+			</if>
+			<if test="wayApkUrl!=null ">
+				and way_apk_url=#{wayApkUrl}
+			</if>
+			<if test="wayApkMd5!=null ">
+				and way_apk_md5=#{wayApkMd5}
+			</if>
+			<if test="wayApkPackage!=null ">
+				and way_apk_package=#{wayApkPackage}
+			</if>
+			<if test="wayApkSize!=null ">
+				and way_apk_size=#{wayApkSize}
+			</if>
+			<if test="wayIosUrl!=null ">
+				and way_ios_url=#{wayIosUrl}
+			</if>
+			<if test="wayRate!=null ">
+				and way_rate=#{wayRate}
+			</if>
+			<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+			<if test="wayTransitionType!=null ">
+				and way_transition_type=#{wayTransitionType}
+			</if>
+			<if test="wayTransitionEffect!=null ">
+				and way_transition_effect=#{wayTransitionEffect}
+			</if>
+			<if test="wayTransitionTime!=null ">
+				and way_transition_time=#{wayTransitionTime}
+			</if>
+			<if test="wayLodingType!=null ">
+				and way_loding_type=#{wayLodingType}
+			</if>
+			<if test="progressGrooveColor!=null ">
+				and progress_groove_color=#{progressGrooveColor}
+			</if>
+			<if test="progressColor!=null ">
+				and progress_color=#{progressColor}
+			</if>
+			<if test="loadingPicType!=null ">
+				and loading_pic_type=#{loadingPicType}
+			</if>
+			<if test="showWords!=null ">
+				and show_words=#{showWords}
+			</if>
+			<if test="showWordsColor!=null ">
+				and show_words_color=#{showWordsColor}
+			</if>
+			<if test="showWordsShadowColor!=null ">
+				and show_words_shadow_color=#{showWordsShadowColor}
+			</if>
+			<if test="endingShow!=null ">
+				and ending_show=#{endingShow}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2payway_result_map" >
+		select id,way_type,dic_id,way_name,way_company_name,merchant_code,discout_region,is_trust_bank,way_icon,way_slogan,income_type,way_id,income_num,income_line,way_contacts,way_phone,way_apk_url,way_apk_md5,way_apk_package,way_apk_size,way_ios_url,way_rate,way_arrival_type,way_arrival_value,way_transition_type,way_transition_effect,way_transition_time,way_loding_type,progress_groove_color,progress_color,loading_pic_type,show_words,show_words_color,show_words_shadow_color,ending_show,status,is_delete,create_time,update_time from payv2_pay_way
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="wayType!=null ">
+				and way_type=#{wayType}
+			</if>
+			<if test="dicId!=null ">
+				and dic_id=#{dicId}
+			</if>
+			<if test="wayName!=null ">
+				and way_name=#{wayName}
+			</if>
+			<if test="wayCompanyName!=null ">
+				and way_company_name=#{wayCompanyName}
+			</if>
+			<if test="merchantCode!=null ">
+				and merchant_code=#{merchantCode}
+			</if>
+			<if test="discoutRegion!=null ">
+				and discout_region=#{discoutRegion}
+			</if>
+			<if test="isTrustBank!=null ">
+				and is_trust_bank=#{isTrustBank}
+			</if>
+			<if test="wayIcon!=null ">
+				and way_icon=#{wayIcon}
+			</if>
+			<if test="waySlogan!=null ">
+				and way_slogan=#{waySlogan}
+			</if>
+			<if test="incomeType!=null ">
+				and income_type=#{incomeType}
+			</if>
+			<if test="wayId!=null ">
+				and way_id=#{wayId}
+			</if>
+			<if test="incomeNum!=null ">
+				and income_num=#{incomeNum}
+			</if>
+			<if test="incomeLine!=null ">
+				and income_line=#{incomeLine}
+			</if>
+			<if test="wayContacts!=null ">
+				and way_contacts=#{wayContacts}
+			</if>
+			<if test="wayPhone!=null ">
+				and way_phone=#{wayPhone}
+			</if>
+			<if test="wayApkUrl!=null ">
+				and way_apk_url=#{wayApkUrl}
+			</if>
+			<if test="wayApkMd5!=null ">
+				and way_apk_md5=#{wayApkMd5}
+			</if>
+			<if test="wayApkPackage!=null ">
+				and way_apk_package=#{wayApkPackage}
+			</if>
+			<if test="wayApkSize!=null ">
+				and way_apk_size=#{wayApkSize}
+			</if>
+			<if test="wayIosUrl!=null ">
+				and way_ios_url=#{wayIosUrl}
+			</if>
+			<if test="wayRate!=null ">
+				and way_rate=#{wayRate}
+			</if>
+			<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+			<if test="wayTransitionType!=null ">
+				and way_transition_type=#{wayTransitionType}
+			</if>
+			<if test="wayTransitionEffect!=null ">
+				and way_transition_effect=#{wayTransitionEffect}
+			</if>
+			<if test="wayTransitionTime!=null ">
+				and way_transition_time=#{wayTransitionTime}
+			</if>
+			<if test="wayLodingType!=null ">
+				and way_loding_type=#{wayLodingType}
+			</if>
+			<if test="progressGrooveColor!=null ">
+				and progress_groove_color=#{progressGrooveColor}
+			</if>
+			<if test="progressColor!=null ">
+				and progress_color=#{progressColor}
+			</if>
+			<if test="loadingPicType!=null ">
+				and loading_pic_type=#{loadingPicType}
+			</if>
+			<if test="showWords!=null ">
+				and show_words=#{showWords}
+			</if>
+			<if test="showWordsColor!=null ">
+				and show_words_color=#{showWordsColor}
+			</if>
+			<if test="showWordsShadowColor!=null ">
+				and show_words_shadow_color=#{showWordsShadowColor}
+			</if>
+			<if test="endingShow!=null ">
+				and ending_show=#{endingShow}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2payway_result_map" >
+		
+		SELECT id,way_type,dic_id,way_name,way_company_name,merchant_code,discout_region,is_trust_bank,way_icon,way_slogan,income_type,way_id,income_num,income_line,way_contacts,way_phone,way_apk_url,way_apk_md5,way_apk_package,way_apk_size,way_ios_url,way_rate,way_arrival_type,way_arrival_value,way_transition_type,way_transition_effect,way_transition_time,way_loding_type,progress_groove_color,progress_color,loading_pic_type,show_words,show_words_color,show_words_shadow_color,ending_show,status,is_delete,create_time,update_time FROM payv2_pay_way 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="wayType!=null and wayType!=''">
+				and way_type = #{wayType}
+			</if>
+			<if test="dicId!=null and dicId!=''">
+				and dic_id = #{dicId}
+			</if>
+			<if test="wayName!=null and wayName!=''">
+				and way_name like '%'||#{wayName}||'%'
+			</if>
+			<if test="wayCompanyName!=null and wayCompanyName!=''">
+				and way_company_name like '%'||#{wayCompanyName}||'%'
+			</if>
+			<if test="merchantCode!=null and merchantCode!=''">
+				and merchant_code like '%'||#{merchantCode}||'%'
+			</if>
+			<if test="discoutRegion!=null and discoutRegion!=''">
+				and discout_region like '%'||#{discoutRegion}||'%'
+			</if>
+			<if test="isTrustBank!=null and isTrustBank!=''">
+				and is_trust_bank = #{isTrustBank}
+			</if>
+			<if test="wayIcon!=null and wayIcon!=''">
+				and way_icon like '%'||#{wayIcon}||'%'
+			</if>
+			<if test="waySlogan!=null and waySlogan!=''">
+				and way_slogan like '%'||#{waySlogan}||'%'
+			</if>
+			<if test="incomeType!=null and incomeType!=''">
+				and income_type = #{incomeType}
+			</if>
+			<if test="wayId!=null and wayId!=''">
+				and way_id = #{wayId}
+			</if>
+			<if test="incomeNum!=null and incomeNum!=''">
+				and income_num like '%'||#{incomeNum}||'%'
+			</if>
+			<if test="incomeLine!=null and incomeLine!=''">
+				and income_line like '%'||#{incomeLine}||'%'
+			</if>
+			<if test="wayContacts!=null and wayContacts!=''">
+				and way_contacts like '%'||#{wayContacts}||'%'
+			</if>
+			<if test="wayPhone!=null and wayPhone!=''">
+				and way_phone like '%'||#{wayPhone}||'%'
+			</if>
+			<if test="wayApkUrl!=null and wayApkUrl!=''">
+				and way_apk_url like '%'||#{wayApkUrl}||'%'
+			</if>
+			<if test="wayApkMd5!=null and wayApkMd5!=''">
+				and way_apk_md5 like '%'||#{wayApkMd5}||'%'
+			</if>
+			<if test="wayApkPackage!=null and wayApkPackage!=''">
+				and way_apk_package like '%'||#{wayApkPackage}||'%'
+			</if>
+			<if test="wayApkSize!=null and wayApkSize!=''">
+				and way_apk_size = #{wayApkSize}
+			</if>
+			<if test="wayIosUrl!=null and wayIosUrl!=''">
+				and way_ios_url like '%'||#{wayIosUrl}||'%'
+			</if>
+			<if test="wayRate!=null and wayRate!=''">
+				and way_rate like '%'||#{wayRate}||'%'
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="wayTransitionType!=null and wayTransitionType!=''">
+				and way_transition_type = #{wayTransitionType}
+			</if>
+			<if test="wayTransitionEffect!=null and wayTransitionEffect!=''">
+				and way_transition_effect like '%'||#{wayTransitionEffect}||'%'
+			</if>
+			<if test="wayTransitionTime!=null and wayTransitionTime!=''">
+				and way_transition_time = #{wayTransitionTime}
+			</if>
+			<if test="wayLodingType!=null and wayLodingType!=''">
+				and way_loding_type = #{wayLodingType}
+			</if>
+			<if test="progressGrooveColor!=null and progressGrooveColor!=''">
+				and progress_groove_color = #{progressGrooveColor}
+			</if>
+			<if test="progressColor!=null and progressColor!=''">
+				and progress_color = #{progressColor}
+			</if>
+			<if test="loadingPicType!=null and loadingPicType!=''">
+				and loading_pic_type like '%'||#{loadingPicType}||'%'
+			</if>
+			<if test="showWords!=null and showWords!=''">
+				and show_words like '%'||#{showWords}||'%'
+			</if>
+			<if test="showWordsColor!=null and showWordsColor!=''">
+				and show_words_color = #{showWordsColor}
+			</if>
+			<if test="showWordsShadowColor!=null and showWordsShadowColor!=''">
+				and show_words_shadow_color = #{showWordsShadowColor}
+			</if>
+			<if test="endingShow!=null and endingShow!=''">
+				and ending_show = #{endingShow}
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+			<if test="sortName==null or sortName==''">
+				ORDER BY create_time desc
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+		
+	<!-- 获取所有属于钱包类型的支付方式 -->
+	<select id="selectByPayWay" resultMap="payv2payway_result_map" >
+		SELECT p.*
+		FROM payv2_buss_support_pay_way pw
+		left join payv2_pay_way p on pw.pay_way_id=p.id
+		<where>
+			and p.way_type=1
+		</where>
+	</select>
+
+		
+	<!-- 查询商户支持的支付方式-->
+	<select id="queryCompanyWay" resultMap="payv2payway_result_map" >
+		select 
+		ppw.id,
+		ppw.way_name,
+		ppw.way_icon,
+		ppw.way_slogan,
+		pbspw.rate_id,
+		pbspw.one_max_money,
+		pbspw.max_money,
+		ppwr.one_max_money as rateOneMaxMoney,
+		ppwr.max_money as rateMaxMoney
+		from payv2_buss_support_pay_way as pbspw
+		join payv2_pay_way_rate as ppwr on pbspw.rate_id = ppwr.id
+		join payv2_pay_way as ppw on pbspw.pay_way_id = ppw.id
+		<where>
+			pbspw.parent_id = #{companyId} and pbspw.pay_type = #{wayType} and pbspw.pay_way_status = #{payWayStatus}
+			and pbspw.is_delete = #{isDelete} and ppwr.is_delete = #{isDelete} and ppwr.status = #{status}
+			and ppw.status = #{status}
+			<if test="payType!=null ">
+				<if test="payType!=3 and payType!=5">
+					and (ppwr.pay_type=#{payType} or ppwr.pay_type=4)
+				</if>
+				<if test="payType==3 or payType==5">
+					and ppwr.pay_type=#{payType}
+				</if>
+			</if>
+		</where>
+		order by pbspw.sort_num
+	</select>
+	
+	<!-- 获取所有属于钱包类型的支付方式 -->
+	<select id="queryByChannelId" resultMap="payv2payway_result_map" >
+		select ppw.* from payv2_pay_way as ppw 
+		join payv2_channel_way as pcw on pcw.pay_way_id = ppw.id
+		where ppw.is_delete = 2 and ppw.status = 1 and pcw.channel_id =#{channelId}
+	</select>
+</mapper>

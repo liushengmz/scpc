@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>查看原因</title>
+	<#include "lib/lib.html" />
+	<link rel="stylesheet" type="text/css" href="${basePath}/public/css/alert.css">
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-app-view">
+	<div id="checkreason">
+				<div class="chson">下载包</div>
+				<div class="chcon">
+					<div class="chtable">
+						<table class="tableBasic" cellpadding="0" cellspacing="0" border="1">
+							<tr>
+								<th style="text-align:center;">平台</th>
+								<th style="text-align:center;">APP名称</th>
+								<th style="text-align:center;">下载地址</th>
+								<th style="text-align:center;">操作</th>
+
+							</tr>
+							<#if payv2BussCompanyApp.isIos==1>
+							<tr>
+								<td>ios</td>
+								<td>${payv2BussCompanyApp.appName}</td>
+								<td>${payv2BussCompanyApp.iosIpaUrl}</td>
+								<td>
+									<input type="hidden" value="${payv2BussCompanyApp.iosIpaUrl}" id="iosIpaUrl">
+									<a href="javascript:;" class="tablea" onclick="copyText(document.all.iosIpaUrl)">复制链接</a>
+								</td>
+							</tr>
+							</#if>
+							<#if payv2BussCompanyApp.isWeb==1>
+							<tr>
+								<td>网页</td>
+								<td>${payv2BussCompanyApp.appName}</td>
+								<td>${payv2BussCompanyApp.webUrl}</td>
+								<td>
+									<input type="hidden" value="${payv2BussCompanyApp.webUrl}" id="webUrl">
+									<a href="javascript:;" class="tablea" onclick="copyText(document.all.webUrl)">复制链接</a>
+								</td>
+							</tr>
+							</#if>
+							<#if payv2BussCompanyApp.isAndroid==1>
+							<tr>
+								<td>安卓</td>
+								<td>${payv2BussCompanyApp.appName}</td>
+								<td></td>
+								<td>
+									<a href="${payv2BussCompanyApp.androidApkUrl}" class="tablea">下载</a>
+								</td>
+							</tr>
+							</#if>
+						</table>
+
+					</div>
+				</div>
+			</div>
+</form>
+</body>
+<script type="text/javascript">
+
+	function copyText(obj){
+		    try{
+		        var rng = document.body.createTextRange();
+		        rng.moveToElementText(obj);
+		        rng.scrollIntoView();
+		        rng.select();
+		        rng.execCommand("Copy");
+		        rng.collapse(false);
+		        alert("已经复制到粘贴板!你可以使用Ctrl+V 贴到需要的地方去了哦!");
+		    }catch(e){
+		        alert("您的浏览器不支持此复制功能，请选中相应内容并使用Ctrl+C进行复制!");
+		    }
+	}
+
+</script>
+</html>

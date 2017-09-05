@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>差错详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<div class="pd-20 text-c">
+		<input type="hidden" value="${date}" id="date">
+		<input type="hidden" value="${rateid}" id="rateid">
+		<div class="mt-20">
+			<div id="page" class="holder"></div>  
+				<input type="button" onclick="update();" value="平帐" class="btn btn-success">
+				<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<thead>
+						<tr class="text-c">
+							<th width="40"><input type="checkbox" id="checkAll"></th>
+							<th width="100">支付集订单号</th>
+							<th width="100">支付集订单金额</th>
+							<th width="100">支付集订单状态</th>
+							<th width="100">支付集交易时间</th>
+							<th width="100">上游订单金额</th>
+							<th width="100">上游订单状态</th>
+							<th width="100">上游交易时间</th>
+						</tr>
+					</thead>
+					<tbody id="differBox"></tbody>
+				</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function(){  
+		var param = {
+			'rateid' : $("#rateid").val(),
+			'date' : $("#date").val(),
+			'pageData' : 10,
+			'curPage' : 1
+		};
+		$.get("/channelClean/getDifferOrder.do", param, function(result){
+			console.log(result);
+			if(result.code==200){
+				var data = result.data;
+				page(data.totalPage,1);
+				buildTable(data.dataList);
+			}
+		});
+	});
+	
+	function page(pageCount,currPage) {
+		laypage({
+			cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			pages: pageCount, //总页数
+			groups: 10, //连续显示分页数
+			first: '首页', //若不显示，设置false即可
+			last: '尾页', //若不显示，设置false即可
+			curr : currPage,
+			hash: true, //开启hash
+			skin: '#00AA91',
+			jump: function(obj,first){ //触发分页后的回调
+				if(!first){
+					var param = {
+						'rateid' : $("#rateid").val(),
+						'date' : $("#date").val(),
+						'pageData' : 10,
+						'curPage' : obj.curr
+					};
+					$.get("/channelClean/getDifferOrder.do", param, function(result){
+						console.log(result);
+						if(result.code==200){
+							buildTable(result.data.dataList);
+						}
+					});
+			 	}}
+			});
+	}
+
+	function buildTable(data) {
+		$("#differBox").empty();
+		for (var i = 0; i < data.length; i++) {
+			var downtime = getMyDate(data[i].downtime);
+			var uptime = getMyDate(data[i].uptime);
+			$("#differBox").append("<tr class='text-c'><td><input type='checkbox' name='subBox' value='"+data[i].id+"'></td><td>" + data[i].orderNum + "</td><td>" + data[i].downmoney + "</td><td>"
+				+ data[i].downstatus + "</td><td>" + downtime + "</td><td>" + data[i].upmoney + "</td><td>" + data[i].upstatus + "</td><td>"
+				+ uptime + "</td></tr>");
+		}
+	}
+	
+	$("#checkAll").click(function(){
+		$('input[name="subBox"]').attr("checked",this.checked); 
+	});
+	
+	function update(){
+		var x = [];
+		$("input[name='subBox']:checkbox:checked").each(function(){ 
+			console.log($(this).val());
+			x.push($(this).val());
+		}) 
+		$.get("/channelClean/updateClear.do?ids="+x, function(result){
+			if(result.code==200){
+				window.location.reload();
+			}else {
+				alert(result.msg);
+			}
+		})
+	}
+	
+	//获得年月日      得到日期oTime  
+	function getMyDate(str) {
+		if(str==null||str==''){
+			return '空';
+		}
+		var oDate = new Date(str),
+			oHour = oDate.getHours(),
+			oMin = oDate.getMinutes(),
+			oSen = oDate.getSeconds(),
+			oTime = getzf(oHour) + ':' + getzf(oMin) + ':' + getzf(oSen); //最后拼接时间  
+		return oTime;
+	};
+	//补0操作  
+	function getzf(num) {
+		if (parseInt(num) < 10) {
+			num = '0' + num;
+		}
+		return num;
+	}
+	
+
+</script>
+</html>

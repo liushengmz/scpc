@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>添加应用</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="${basePath}/admin/addapp.do" method="post" class="form form-horizontal" id="form-app-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>应用名称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="appsName" name="appsName" datatype="*2-60" nullmsg="应用名称不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">应用类型：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;">
+				<select class="select" name="appsType" size="1">
+					<option value="1">客户端</option>
+					<option value="2">P C端</option>
+					<option value="3">其他</option>
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>应用编码：</label>
+			<div class="formControls col-5">
+				<input type="text" placeholder="确认新密码" autocomplete="off" class="input-text" errormsg="请输入应用编码！" datatype="*2-60"   id="appsCode" name="appsCode">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>应用logo：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="apps_logo" name="apps_logo" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-3">应用描述：</label>
+			<div class="formControls col-5">
+				<textarea name="appsDesc" cols="" rows="" class="textarea"  placeholder="说点什么...128个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#form-app-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			$.Hidemsg()
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/admin/goapplist.do");
+				layer_close();
+			}else{
+				$("#form-app-add").resetForm();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		}
+	
+// 		tiptype:2,
+// 		callback:function(form){
+// 			//后台请求保存数据
+// 			$.axse("${basePath}/admin/addapp.do",  $("#form-app-add").serialize(), function(d){
+// 				alert(d)
+// 				if(d.resultCode == 200){
+// 					Huimodal_alert("保存成功!",1500);
+// 					var index = parent.layer.getFrameIndex(window.name);
+// // 					parent.$('.btn-refresh').click();
+// // 					parent.layer.close(index);
+// 					parent.location.replace("${basePath}/admin/goapplist.do.do?tmp="+new Date());
+// 				}else{
+// 					$("#form-app-add")[0].reset();
+// 					Huimodal_alert("保存失败，请你检查数据!",1500);
+// 				}
+// 			},
+// 			function(d){
+// 				$("#form-app-add")[0].reset();   
+// 				Huimodal_alert("保存失败,请重试!",1500);
+// 			});
+// 		}
+	});
+	
+});
+</script>
+</body>
+</html>

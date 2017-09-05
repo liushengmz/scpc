@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>编辑商户</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<form action="" method="post" class="form form-horizontal" id="form-company-add">
+	<input type="hidden" name="id" value="${obj.id}"/>
+	<div class="pop_main" style="padding-left:30px;width: 95%;">
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">登录账户</div>
+	    	<div class="panel-body mt-20">
+    		    <table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>商户管理员账号：</strong></td>
+	    		    		<td>
+		    		    		<input disabled="disabled" style="width:300px;" type="text" dataType="*" nullmsg="请输入邮箱或手机号作为商户账号" name="userName" class="dd_input input-text size-M" value="${obj.userName}" onchange="checkUserName($(this),value)">
+		    		    		<input type="hidden" id="sourceUserName" value="${obj.userName}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>初始登录密码：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" type="password" dataType="*" nullmsg="请输入登录密码"  class="dd_input input-text size-M" id="passWord" value="3fc26dc90ab296e41bc5fc8f9a2a7d40">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>重复登录密码：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" type="password" dataType="*" nullmsg="请再次输入登录密码，密码一致"  class="dd_input input-text size-M" id="passWordTwo"  onchange="ifPassword($(this),value)" value="3fc26dc90ab296e41bc5fc8f9a2a7d40">
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">公司信息</div>
+	    	<div class="panel-body">
+    		    <table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>合作商户公司名称：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" type="text" dataType="*" nullmsg="请填写商户公司名称" name="companyName" class="dd_input input-text size-M" value="${obj.companyName}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>公司行业：</strong></td>
+	    		    		<td>
+	    		    			<select disabled="disabled" style="width:300px;" dataType="*" nullmsg="请选择公司行业" name="companyTrade" class="select size-M">
+									<#if tradeList?? && tradeList?size gt 0>
+									<#list tradeList as dl >
+										<option value="${dl.id}" <#if dl.id==obj.companyTrade>selected="selected"</#if>>${dl.tradeName}</option>
+									</#list>
+									</#if>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>公司规模：</strong></td>
+	    		    		<td>
+	    		    			<select disabled="disabled" style="width:300px;" dataType="*" nullmsg="请选择公司规模" name="companyScale" class="select size-M">
+									<option value="1" <#if obj.companyScale==1>selected="selected"</#if>>大型</option>
+									<option value="2" <#if obj.companyScale==2>selected="selected"</#if>>中型</option>
+									<option value="3" <#if obj.companyScale==3>selected="selected"</#if>>小型</option>
+									<option value="4" <#if obj.companyScale==4>selected="selected"</#if>>微型</option>
+									<option value="5" <#if obj.companyScale==5>selected="selected"</#if>>个体户</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>营业执照号码：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseNum" class="dd_input input-text size-M" value="${obj.licenseNum}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>注册地址：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseAddr" class="dd_input input-text size-M" value="${obj.licenseAddr}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>上传营业执照：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" readonly="readonly" type="text" class="width200 input-text size-M"  dataType="*" nullmsg="请上传营业执照" name="licensePic" id="licensePic" value="${obj.licensePic}"/>
+	    		    			<a href="${obj.licensePic}" target="_blank" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i>查看</a>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>组织机构代码：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" type="text" dataType="*" nullmsg="请填写组织机构代码" name="organizationCode" class="dd_input input-text size-M" value="${obj.organizationCode!}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>上传组织机构代码照：</strong></td>
+	    		    		<td>
+								<input disabled="disabled" style="width:300px;" readonly="readonly" type="text" class="width200 input-text size-M"  dataType="*" nullmsg="上传组织机构代码照" name="organizationCodeUrl" id="organizationCodeUrl" value="${obj.organizationCodeUrl!}"/>
+								<a href="${obj.organizationCodeUrl!}" target="_blank" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i>查看</a>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>营业类型：</strong></td>
+	    		    		<td>
+	    		    			<select disabled="disabled" style="width:300px;" class="select size-M" dataType="*" nullmsg="请选择营业类型" name="licenseType">
+									<option value="1" <#if obj.licenseType==1>selected="selected"</#if>>线上（互联网）</option>
+									<option value="2" <#if obj.licenseType==2>selected="selected"</#if>>线下（实体店铺）</option>
+									<option value="3" <#if obj.licenseType==3>selected="selected"</#if>>线上+线下</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">联系人信息</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>公司法人名称：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" dataType="*" nullmsg="公司法人名称" type="text" name="legalName"  value="${obj.legalName!}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>法人身份证号码：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" dataType="*" nullmsg="法人身份证号码" type="text" name="legalIdCard" id="legalIdCard" value="${obj.legalIdCard!}" onchange="ValidatelegalIdCard($(this),value)">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>联系人姓名：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" dataType="*" nullmsg="输入联系人姓名" type="text" name="contactsName" value="${obj.contactsName}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>联系人电话：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" dataType="*" nullmsg="输入联系人电话" type="text" name="contactsPhone" value="${obj.contactsPhone!}" onchange="ValidateFloat($(this),value)">
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">收款信息</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户机构：</strong></td>
+	    		    		<td>
+	    		    			<select disabled="disabled" style="width:300px;" class="select size-M" dataType="*" nullmsg="开户机构" name="accountBank">
+									<#if bankList?? && bankList?size gt 0>
+									<#list bankList as dl >
+										<option value="${dl.bankName}" <#if obj.accountBank==dl.bankName>selected="selected"</#if>>${dl.bankName}</option>
+									</#list>
+									</#if>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>账户类型：</strong></td>
+	    		    		<td>
+								<select disabled="disabled" style="width:300px;" class="select size-M" dataType="*" nullmsg="请选择账户类型" name="accountType">
+									<option value="1" <#if obj.accountType==1>selected="selected"</#if>>对公账户</option>
+									<option value="2" <#if obj.accountType==2>selected="selected"</#if>>对私账户</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>收款商户名：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" dataType="*" nullmsg="收款商户名" type="text" name="accountName" value="${obj.accountName!}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>收款账号：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" dataType="*" nullmsg="收款账号" type="text" name="accountCard" value="${obj.accountCard!}">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>到帐类型：</strong></td>
+	    		    		<td>
+	    		    			<select disabled="disabled" style="width:300px;" class="select size-M" id="wayArrivalType" name="wayArrivalType" size="1" onchange="show_Type()">
+									<option value="1" <#if obj.wayArrivalType==1>selected="selected"</#if>>T+日期(工作日)</option>
+									<option value="2" <#if obj.wayArrivalType==2>selected="selected"</#if>>实时到账</option>
+									<option value="3" <#if obj.wayArrivalType==3>selected="selected"</#if>>T+日期</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	
+	    		    	<tr id="sssssss" <#if obj.wayArrivalType==2>style="display: none"</#if>>
+	    		    		<td style="width:120px;"><strong>到账日期：</strong></td>
+	    		    		<td>
+	    		    			<input disabled="disabled" style="width:300px;" class="dd_input input-text size-M" type="text" placeholder="到账日期" id="wayArrivalValue" name="wayArrivalValue" value="${obj.wayArrivalValue}" datatype="*"  nullmsg="请输入到账日期" onchange="ValidateFloat($(this),value)"> 天
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">支付通道</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>是否随机路由：</strong></td>
+	    		    		<td>
+	    		    			<select disabled="disabled" style="width:100px;" class="select size-M" id="isRandom" name="isRandom" size="1">
+									<option value="1" <#if obj.isRandom==1>selected="selected"</#if>>是</option>
+									<option value="2" <#if obj.isRandom==2>selected="selected"</#if>>否</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>支付通道配置：</strong></td>
+	    		    		<td>
+	    		    			<div id="chooseCity" style="font-size:0px;">
+	    		    			<#if wayList?? && wayList?size gt 0>
+								<#list wayList as dl >
+									<#if dl_index ==0>
+										<span>
+										<select disabled="disabled" style="width:100px;" class="select" name="discoutShopRangeProvince" id="search_shopRangeProvince" onchange="payType('search_shopRangeProvince','span','')">
+											<option value="0">请选择</option>
+											<#if payList?? && payList?size gt 0>
+												<#list payList as dl1 >
+													<option value="${dl1.id}" <#if dl1.id == dl.payWayId>selected="selected"</#if>>${dl1.wayName}</option>
+												</#list>
+											</#if>
+										</select><span id ="span">
+											<#if dl.rateId!>
+												<select disabled="disabled" style="width:180px;" class="select" name="discoutShopRangeCity" id="search_shopRangeCity" style="width:150px;">
+													<#if dl.rateList?? && dl.rateList?size gt 0>
+														<#list dl.rateList as dl1>
+															<option value="${dl1.id}" <#if dl1.id == dl.rateId>selected="selected"</#if>>${dl1.rateName}</option>
+														</#list>
+													</#if>
+												</select>
+											</#if>
+										</span>
+										<b>费率设置:</b><input disabled="disabled" style="width:45px;" class="dd_input input-text size-M" type="text" name="payWayRate" id="payWayRate" value ="${dl.payWayRate}">
+										<b>‰，通道排序:</b><input disabled="disabled" style="width:45px;" class="dd_input input-text size-M" type="text" name="sortNum" id="sortNum" value ="${dl.sortNum}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										<b>，每日限额:</b><input disabled="disabled" style="width:65px;" class="dd_input input-text size-M" type="text" name="maxMoney" id="maxMoney" value ="${dl.maxMoney}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+										<b>元，单笔限额:</b><input disabled="disabled" style="width:50px;" class="dd_input input-text size-M" type="text" name="oneMinMoney" id="oneMinMoney" value ="${dl.oneMinMoney}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"><b>元&nbsp;&nbsp;</b>
+										<b>＜金额≤</b><input disabled="disabled" style="width:50px;" class="dd_input input-text size-M" type="text" name="oneMaxMoney" id="oneMaxMoney" value ="${dl.oneMaxMoney}" onchange="ValidateFloat($(this),value)"><b>元&nbsp;&nbsp;</b>
+										<!-- <button type="button" onclick="add()" class="btn btn-success radius">添加</button> -->
+										</span>
+									<#else>
+									<span>
+										<br/>
+										<select disabled="disabled" style="width:100px;" class="select" name="discoutShopRangeProvince" id="search_shopRangeProvince${dl_index}" onchange="payType('search_shopRangeProvince${dl_index}','span','${dl_index}')">
+											<option value="0">请选择</option>
+											<#if payList?? && payList?size gt 0>
+												<#list payList as dl1 >
+													<option value="${dl1.id}" <#if dl1.id == dl.payWayId>selected="selected"</#if>>${dl1.wayName}</option>
+												</#list>
+											</#if>
+										</select><span id ="span${dl_index}">
+											<#if dl.rateId!>
+												<select disabled="disabled" style="width:180px;" class="select" name="discoutShopRangeCity" id="search_shopRangeCity${dl_index}">
+													<#if dl.rateList?? && dl.rateList?size gt 0>
+														<#list dl.rateList as dl1>
+															<option value="${dl1.id}" <#if dl1.id == dl.rateId>selected="selected"</#if>>${dl1.rateName}</option>
+														</#list>
+													</#if>
+												</select>
+											</#if>
+										</span>
+										<b>费率设置:</b><input disabled="disabled" style="width:45px;" class="dd_input input-text size-M" type="text" name="payWayRate" id="payWayRate${dl_index}" value ="${dl.payWayRate}">
+										<b>‰，通道排序:</b><input disabled="disabled" style="width:45px;" class="dd_input input-text size-M" type="text" name="sortNum" id="sortNum${dl_index}" value ="${dl.sortNum}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+										<b>，每日限额:</b><input disabled="disabled" style="width:65px;" class="dd_input input-text size-M" type="text" name="maxMoney" id="maxMoney${dl_index}" value ="${dl.maxMoney}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+										<b>元，单笔限额:</b><input disabled="disabled" style="width:50px;" class="dd_input input-text size-M" type="text" name="oneMinMoney" id="oneMinMoney${dl_index}" value ="${dl.oneMinMoney}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"><b>元&nbsp;&nbsp;</b>
+										<b>＜金额≤</b><input disabled="disabled" style="width:50px;" class="dd_input input-text size-M" type="text" name="oneMaxMoney" id="oneMaxMoney" value ="${dl.oneMaxMoney}" onchange="ValidateFloat($(this),value)"><b>元&nbsp;&nbsp;</b>
+										<!-- <button type="button"  onclick="deleteLabel(this)" class="btn btn-danger radius">删除</button> -->
+									</span>
+									</#if>
+								</#list>
+								<!-- 如果没有数据的时候 显示添加-->
+								<#else>
+								<span>
+									<select disabled="disabled" style="width:100px;" class="select" name="discoutShopRangeProvince" id="search_shopRangeProvince" onchange="payType('search_shopRangeProvince','span','')">
+										<option value="0">请选择</option>
+										<#if payList?? && payList?size gt 0>
+											<#list payList as dl >
+												<option value="${dl.id}">${dl.wayName}</option>
+											</#list>
+										</#if>
+									</select>
+									<span id ="span">
+									</span>
+									<b>费率设置:</b><input disabled="disabled" style="width:45px;" class="dd_input input-text size-M" type="text" name="payWayRate" id="payWayRate">
+									<b>‰，通道排序:</b><input disabled="disabled" style="width:45px;" class="dd_input input-text size-M" type="text" name="sortNum" id="sortNum" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+									<b>，每日限额:</b><input disabled="disabled" style="width:65px;" class="dd_input input-text size-M" type="text" name="maxMoney" id="maxMoney" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+									<b>元，单笔限额:</b><input disabled="disabled" style="width:50px;" class="dd_input input-text size-M" type="text" name="oneMinMoney" id="oneMinMoney" value ="${dl.oneMinMoney}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"><b>元&nbsp;&nbsp;</b>
+									<b>＜金额≤</b><input disabled="disabled" style="width:50px;" class="dd_input input-text size-M" type="text" name="oneMaxMoney" id="oneMaxMoney" value ="${dl.oneMaxMoney}" onchange="ValidateFloat($(this),value)"><b>元&nbsp;&nbsp;</b>
+									<!-- <button type="button" onclick="add()" class="btn btn-success radius">添加</button> -->
+								</span>
+								</#if>
+								</div>
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<input type="hidden" name="payWayList" value="${payWayList}" id="shopRangeCity">
+		<#if map.type!=1>
+			<div class="submit_btn">
+				<button style="width:100px;height:40px;" type="button" name="" value="提    交" onclick="btnSubmit();" class="btn btn-warning radius"><i class="Hui-iconfont">&#xe676;</i> 提    交</button>
+			</div>
+		</#if>
+	</div>
+	</form>
+</body>
+</html>

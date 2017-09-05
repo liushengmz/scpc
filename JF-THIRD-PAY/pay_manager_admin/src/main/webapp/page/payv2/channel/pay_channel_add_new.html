@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>新增渠道商</title>
+	<#include "lib/lib.html" />
+	<style>
+		@media only screen (max-width: 1367px) {
+				.pop_main>dl>dt{
+					width:20%
+				}
+				.pop_main>dl>dd{
+					width:79%
+				}
+			}
+	</style>
+</head>
+<body>
+	<form action="" method="post" class="form form-horizontal" id="form-channel-add">
+	<div class="pop_main" style="padding-left:30px;width: 95%;">
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">账户信息</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>渠道商账号：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" name="channelLoginName" id="channelLoginName" placeHolder="渠道商后台账号,持数字，字母组合，16位以内" datatype="username" nullmsg="渠道商后台账号不能为空" onchange="changeChannelLoginName($(this))">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>登录密码：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" name="admPasswords" class="dd_input input-text size-M" type="password" id="channelLoginPwd1" placeHolder="必须是数字加字母6~16位字符" datatype="password" nullmsg="登录密码不能为空">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>重复登录密码：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="password" id="channelLoginPwd2" placeHolder="必须是数字加字母6~16位字符" datatype="password" recheck="admPasswords" errormsg="您两次输入的新密码不一致！" nullmsg="重复密码不能为空">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>渠道商名称：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" name="channelName" id="channelName"  placeHolder="请输入渠道商名称" datatype="*" nullmsg="渠道商名称不能为空">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>联系人姓名：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" id="channelContactName" name="channelContactName" dataType="*" nullmsg="请输入服务商联系人" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>联系方式：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" id="channelContactPhone" name="channelContactPhone"  onblur="ValidateFloat($(this),value)" dataType="*" nullmsg="请输入联系人的联系方式" >
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">收款信息</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户行：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" id="bankName" name="bankName" dataType="*" nullmsg="开户行不能为空" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>账号类型：</strong></td>
+	    		    		<td>
+	    		    			<select style="width:300px;" class="select size-M" name="bankType" id="bankType" datatype="*"  nullmsg="请选择账号类型" >
+					           		<option value="1">企业帐号</option>
+					           		<option value="2">个人帐号</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户帐号：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" id="bankCard" name="bankCard" dataType="*" nullmsg="开户帐号不能为空" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户人：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" id="bankUser" name="bankUser"  dataType="*" nullmsg="开户人不能为空" >
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">支付通道</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<input type="hidden" name="isAddCompany" id="isAddCompany" value="1">
+	    		    		<td style="width:120px;"><strong>分成比例：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:100px;" class="dd_input input-text size-M" type="text" name="channelRebate" datatype="*" nullmsg="请输入佣金比例" onblur="ValidateFloat2($(this),value)"/> %
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>支付通道配置：</strong></td>
+	    		    		<td>
+	    		    			<div id="chooseCity" style="font-size:0px;">
+									<span id="payWaySpan">
+										<select style="width:100px;!important" class="select size-M" name="discoutShopRangeProvince" id="search_shopRangeProvince" style="width:100px;" onchange="changePayType(this)">
+											<option value="0">请选择</option>
+											<#if payList?? && payList?size gt 0>
+												<#list payList as dl >
+													<option value="${dl.id}">${dl.wayName}</option>
+												</#list>
+											</#if>
+										</select>
+										<span id ="span">
+											<select style="width:180px;" class="select" name="discoutShopRangeCity" id="search_shopRangeCity"><option value="0">请选择</option></select>
+										</span>
+										<b>费率设置:</b><input style="width:80px;" class="dd_input input-text size-M" type="text" name="payWayRate" id="payWayRate"><b> ‰</b>
+										<input type="button" onclick="addRow()" class="btn btn-success radius" value="添加">
+									</span>
+								</div>
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<input type="hidden" name="payWayList" id="shopRangeCity">
+		<div class="submit_btn">
+			<button style="width:100px;height:40px;" type="button" name="" value="提    交" onclick="submitPayWayButt()" class="btn btn-warning radius"><i class="Hui-iconfont">&#xe676;</i> 提    交</button>
+		</div>
+	</div>
+	</form>
+	<script type="text/javascript">
+		var isChange=0;
+		$(document).ready(function(){
+			$('select').searchableSelect();
+			isChange++;
+		});
+		function addRow(){
+			var html = "<span id=\"payWaySpan\"><br/>"+
+				"<select style=\"width:100px;\" class=\"select size-M\" name=\"discoutShopRangeProvince\" id=\"search_shopRangeProvince\" style=\"width:100px;\" onchange=\"changePayType(this)\">"
+				+$("#search_shopRangeProvince").html().replace('selected="selected"','')
+				+"</select>"
+				+"<span id=\"span\"><select style=\"width:180px;\" class=\"select\" name=\"discoutShopRangeCity\" id=\"search_shopRangeCity\"><option value=\"0\">请选择</option></select>"+
+				"</span>"
+				+"<b>费率设置:</b><input style=\"width:80px;\" class=\"dd_input input-text size-M\" type=\"text\" name=\"payWayRate\" id=\"payWayRate\" style=\"width:90px;\"><b> ‰</b>"
+				+"<input type=\"button\"  onclick=\"deleteLabel(this)\" class=\"btn btn-danger radius\" value=\"删除\"></span>";
+			$("#chooseCity").append(html);
+			for(var i = 0, len = $("#chooseCity").children().length;i<len;i++){
+				if(i == len-1) {
+					$("#chooseCity").children().eq(i).find("#search_shopRangeProvince").searchableSelect();
+					//$("#chooseCity").children().eq(i).find("#search_shopRangeCity").searchableSelect();
+				}
+			}
+		}
+		
+		function changePayType(obj){
+			if(isChange == 0)
+				return;
+			var pro = $(obj).val();
+			if(pro!="0"){
+				var existIdArray = new Array();
+				for(var i = 0, len = $("#chooseCity").children().length;i<len;i++){
+	  	            var payWayId = $("#chooseCity").children().eq(i).find("#search_shopRangeCity").val();
+	  	            if(payWayId != 0) {
+	  	            	existIdArray.push(payWayId);
+	  	            }
+				}
+				var existIds = existIdArray.join(",");
+				ajaxFunction("/payv2Channel/getPayWayRate.do",{payWayId:pro,existIds:existIds},"JSON",true,function(result){
+					if( !!result && result.resultCode == 200 ){
+						var list = result.Data, str="";
+						for(var i=0;i<list.length;i++){
+							str+='<option value="'+list[i].id+'">'+list[i].rateName+'</option>';
+						}
+						if(str!=""){
+							$(obj).parent().find("#search_shopRangeCity").children("option").remove();
+							$(obj).parent().find("#search_shopRangeCity").append(str);
+							$(obj).parent().find("#span .searchable-select").remove();
+					        $(obj).parent().find("#search_shopRangeCity").searchableSelect();
+						}else{
+							layer.msg('该支付方式暂无通道', {icon: 2});
+						}
+					}else{
+						layer.msg(result.message, {icon: 2});
+					}
+				});
+			} else {
+				$(obj).parent().find("#search_shopRangeCity").children("option").remove();
+				$(obj).parent().find("#search_shopRangeCity").append("<option value=\"0\">请选择</option>");
+				$(obj).parent().find("#span .searchable-select").remove();
+				$(obj).parent().find("#search_shopRangeCity").searchableSelect();
+			}
+		}
+		
+		function submitPayWayButt(){
+			var result = "";
+			var wayList = new Array();
+			for(var i = 0, len = $("#chooseCity").children().length;i<len;i++){
+				var payTypeId = $("#chooseCity").children().eq(i).find("#search_shopRangeProvince").val();
+  	            var payWayId = $("#chooseCity").children().eq(i).find("#search_shopRangeCity").val();
+  	            var payWayRate = $("#chooseCity").children().eq(i).find("#payWayRate").val();
+  	            if(payTypeId == "0" || payWayId == "0" || payWayRate == "" || payWayRate == "0") {
+  	            	layer.msg('通道格式错误！', function(){});
+  	            	return;
+  	            }
+  	            wayList.push(payTypeId+"-"+payWayId+"-"+payWayRate);
+			}
+	        result = wayList.join(",");
+			if(result != ''){
+				$("#shopRangeCity").val(result);
+			}else{
+				layer.msg('通道格式错误！', function(){});
+				return;
+			}
+			var shopRangeCity = $("#shopRangeCity").val();
+			if(!!shopRangeCity&&shopRangeCity!=""){
+				var tmp = hex_md5($("#channelLoginPwd1").val());
+	    		/*提交*/
+				$("#form-channel-add").attr(
+							"action",
+							"${basePath}/payv2Channel/addPayv2Channel.do?channelLoginPwd="+tmp).submit(); 
+			}else{
+				layer.msg('通道格式错误！', function(){});
+			}
+		}
+	</script>
+	
+	
+	
+	
+
+	<script type="text/javascript">
+	
+		$(function(){
+			
+			$("#form-channel-add").Validform({
+				tiptype:3,
+				showAllError:true,   //表单提交时显示所有提示信息
+				ignoreHidden: true,  //隐藏的表单元素不校验
+				ajaxPost:true,
+				callback:function(data){
+					//后台请求保存数据
+					$.Hidemsg()
+					if(data.resultCode==200){
+						layer.msg('保存成功!', {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2Channel/payv2ChannelList.do");
+						parent.layer.close();
+					}else{
+						layer.msg(data.message, {
+							icon : 1,
+							time : 1000
+						});
+					}
+					
+				}
+			});
+			
+		});
+		
+		function submitButt(){
+			var provinces =  document.getElementsByName("discoutShopRangeProvince");
+			var result = "";
+			for ( var i = 0; i < provinces.length; i++) {
+				var str="";
+				if(i!=0){
+					str+=i;
+				}
+				var province = $("#search_shopRangeProvince"+str).val();
+				var city = $("#search_shopRangeCity"+str).val();
+				var rate = $("#payWayRate"+str).val();
+				if(province!=""&rate!=""){
+					if(!!city){
+						result += province+"-"+city+"-"+rate+",";
+					}else{
+						result += province+"-0-"+rate+",";
+					}
+				}else{
+					layer.msg('通道格式错误！', function(){});
+					return;
+				}
+			}
+			if(result != ''){
+				result = result.substring(0,result.length - 1);
+				$("#shopRangeCity").val(result);
+			}else{
+				layer.msg('通道格式错误！', function(){});
+				return;
+			}
+			
+			var shopRangeCity = $("#shopRangeCity").val();
+			if(!!shopRangeCity&&shopRangeCity!=""){
+				/*登录密码加密md5*/
+				var tmp = hex_md5($("#channelLoginPwd1").val());  
+	    		/*提交*/
+				$("#form-channel-add").attr(
+							"action",
+							"${basePath}/payv2Channel/addPayv2Channel.do?channelLoginPwd="+tmp).submit(); 
+			}else{
+				layer.msg('通道格式错误！', function(){});
+			}
+		}
+		
+		//验证佣金
+		function ValidateFloat2(e, pnumber){ 
+			if (!/^(\d{1,2}(\.\d+)?|100)$/.test(pnumber)){ 
+				$(e).val(""); 
+			}
+			return false; 
+		}
+		
+		//验证联系方式
+		function ValidateFloat(e, pnumber){ 
+			if (!(/^1[34578]\d{9}$/.test(pnumber)||/^0\d{2,3}-?\d{7,8}$/.test(pnumber))){ 
+				$(e).val("")
+			}
+			return false; 
+		}
+		
+		//验证密码
+		function ValidatePwd(e, pnumber){ 
+				if (!/^\d{6,16}$/.test(pnumber)){ 
+					$(e).val(""); 
+				}
+				return false; 
+		}
+		
+		//验证输入的两次密码是否相同
+		function Validate(e, pnumber){ 
+				if ($(e).val() != $("#channelLoginPwd1").val()){ 
+					$(e).val(""); 
+				}
+				return false; 
+		}
+		
+		
+		//验证账号
+		function ValidateAccount(e, pnumber){ 
+				if (!/^[A-z\d]{6,16}$/.test(pnumber)){ 
+					$(e).val(""); 
+				}
+				return false; 
+		}
+		
+		function checkIsAddCompany(obj){
+			if($("input[type='radio'][name='radio1']:checked").val() == 1){
+				$("#isAddCompany").val("1");
+			}else{
+				$("#isAddCompany").val("2");
+			}
+			
+		}
+		
+		function checkIsAddPlatform(obj){
+			if($("input[type='radio'][name='radio2']:checked").val() == 1){
+				$(".platform").show();
+				$("#isAddPlatform").val("1");
+			}else{
+				$(".platform").hide();
+				$("#isAddPlatform").val("2");
+			}
+			
+		}
+		
+		function addPayWay(){
+			
+			var html = "<dd ><select class=\"select\" name=\"platformWayId1\" style=\"width:auto;\" datatype=\"*\"  nullmsg=\"请选择支付通道\" >"+
+				       		"<option value=\"\">全部</option>"+
+				       		"<#if payv2PayWayList?? && payv2PayWayList?size gt 0>"+
+				       		"<#list payv2PayWayList as dl>"+
+				       			"<option value=\"${dl.id!}\">${dl.wayName!}</option>"+
+				       		"</#list>"+
+				       		"</#if>"+
+						"</select> </dd>";
+			$("#supportPayWay").append(html);
+			
+		}
+		
+
+		/**
+		 * 异步获取合作商户，判断合作商户是否已经存在
+		 */
+		function changeChannelLoginName(e){
+			wayType = $(e).val();
+ 			if(wayType !== null || wayType !== undefined || wayType !== ''){
+
+				$.ajax({
+					url:'${basePath}/payv2Channel/validateChannelLoginName.do?channelLoginName='+wayType,
+					dataType:'json',
+					success:function(data){
+							if(data.resultCode == 200){
+								alert('此合作商账号已存在，请重新输入！');
+								$(e).val('');
+							}
+					}  
+				});
+			
+		 	} 
+		}
+		
+		function payType(proId,cityId,index){
+			var pro = $("#"+proId).val();
+			$("#"+cityId+index).empty();
+			if(pro==""){
+				$("#"+cityId).append('<option value=""></option>');
+			}else{
+				$.ajax({
+					type:"get",
+					url:"${basePath}/payv2Channel/getPayWayRate.do?payWayId="+pro,
+					async:true,
+					success:function(data){
+						if(!!data&&data.resultCode==200){
+							var list = data.Data,
+								str="";
+							for(var i=0;i<list.length;i++){
+								str+='<option value="'+list[i].id+'">'+list[i].payWayName+'</option>'
+							}
+							if(str!=""){
+								str = '<select style="width:180px;" class="select" name="discoutShopRangeCity" id="search_shopRangeCity'+index+'" style="width:150px;">'+str+'</select>';
+								$("#"+cityId+index).append(str);
+							}else{
+								$("#"+cityId+index).children('select').remove();
+							}
+						}else{
+							alert(data.message);
+						}
+					}
+				});
+			}
+		}
+		var index = 0;
+		function add(){
+			index++;
+			var html = "<span><br/>"+						
+				"<select style=\"width:100px;\" class=\"select size-M\" name=\"discoutShopRangeProvince\" id=\"search_shopRangeProvince"
+				+index+"\" style=\"width:100px;\" onchange=\"payType('search_shopRangeProvince"+index+"','span','"+index+"')\">"
+				+$("#search_shopRangeProvince").html()
+				+"</select>"
+				+"<span id=\"span"+index+"\">"+
+				"</span>"
+				+"<b>费率设置:</b><input style=\"width:80px;\" class=\"dd_input input-text size-M\" type=\"text\" name=\"payWayRate\" id=\"payWayRate"+index+"\" style=\"width:90px;\"><b> ‰</b>"
+				+"<input type=\"button\"  onclick=\"deleteLabel(this)\" class=\"btn btn-danger radius\" value=\"删除\"></span>";
+			$("#chooseCity").append(html);
+		}
+		
+		//组装支付通道数据
+		function submitAdd(){
+			var provinces =  document.getElementsByName("discoutShopRangeProvince");
+			var result = "";
+			for ( var i = 0; i < provinces.length; i++) {
+				var str="";
+				if(i!=0){
+					str+=i;
+				}
+				var province = $("#search_shopRangeProvince"+str).val();
+				var city = $("#search_shopRangeCity"+str).val();
+				var rate = $("#payWayRate"+str).val();
+				if(province!=""&rate!=""){
+					if(!!city){
+						result += province+"-"+city+"-"+rate+",";
+					}else{
+						result += province+"-0-"+rate+",";
+					}
+				}else{
+					alert("通道格式错误！");
+					return false;
+				}
+			}
+			if(result != ''){
+				//province = province.substring(0,province.length - 1);
+				//$("#shopRangeProvince").val(province);
+				result = result.substring(0,result.length - 1);
+				$("#shopRangeCity").val(result);
+			}else{
+				alert("通道格式错误！");
+				return false;
+			}
+		}
+		
+		function deleteLabel(obj){
+			$(obj).parent().remove();
+			index--;
+		}
+	</script>
+</body>
+</html>

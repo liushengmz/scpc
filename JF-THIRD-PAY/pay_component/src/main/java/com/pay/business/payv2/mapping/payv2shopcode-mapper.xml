@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2ShopCodeMapper">
+
+	<resultMap id="payv2shopcode_result_map" type="com.pay.business.payv2.entity.Payv2ShopCode" >
+		<id column="id" property="id" />
+		<result column="shop_id" property="shopId"/>
+		<result column="code_name" property="codeName"/>
+		<result column="terminal_code" property="terminalCode"/>
+		<result column="tags_msg" property="tagsMsg"/>
+		<result column="shop_two_code_url" property="shopTwoCodeUrl"/>
+		<result column="create_time" property="createTime"/>
+		
+		<result column="shop_name" property="shopName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_shop_code  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopId!=null and shopId!=''">
+				and shop_id = #{shopId}
+			</if>
+			<if test="codeName!=null and codeName!=''">
+				and code_name like CONCAT('%',#{codeName},'%')
+			</if>
+			<if test="terminalCode!=null and terminalCode!=''">
+				and terminal_code like CONCAT('%',#{terminalCode},'%')
+			</if>
+			<if test="tagsMsg!=null and tagsMsg!=''">
+				and tags_msg like CONCAT('%',#{tagsMsg},'%')
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop_two_code_url like CONCAT('%',#{shopTwoCodeUrl},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2ShopCode" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_shop_code
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="shopId!=null ">
+				shop_id,
+			</if>
+      		<if test="codeName!=null ">
+				code_name,
+			</if>
+      		<if test="terminalCode!=null ">
+				terminal_code,
+			</if>
+      		<if test="tagsMsg!=null ">
+				tags_msg,
+			</if>
+      		<if test="shopTwoCodeUrl!=null ">
+				shop_two_code_url,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="shopId!=null ">
+      			#{shopId},
+			</if>
+      		<if test="codeName!=null ">
+      			#{codeName},
+			</if>
+      		<if test="terminalCode!=null ">
+      			#{terminalCode},
+			</if>
+      		<if test="tagsMsg!=null ">
+      			#{tagsMsg},
+			</if>
+      		<if test="shopTwoCodeUrl!=null ">
+      			#{shopTwoCodeUrl},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2ShopCode">
+		delete from payv2_shop_code
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="shopId!=null ">
+				and shop_id=#{shopId}
+			</if>
+      		<if test="codeName!=null ">
+				and code_name=#{codeName}
+			</if>
+      		<if test="terminalCode!=null ">
+				and terminal_code=#{terminalCode}
+			</if>
+      		<if test="tagsMsg!=null ">
+				and tags_msg=#{tagsMsg}
+			</if>
+      		<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2ShopCode">
+		update payv2_shop_code
+		<set>
+			<if test="shopId!=null ">
+				shop_id=#{shopId},
+			</if>
+			<if test="codeName!=null ">
+				code_name=#{codeName},
+			</if>
+			<if test="terminalCode!=null ">
+				terminal_code=#{terminalCode},
+			</if>
+			<if test="tagsMsg!=null ">
+				tags_msg=#{tagsMsg},
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				shop_two_code_url=#{shopTwoCodeUrl},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2ShopCode" resultMap="payv2shopcode_result_map">
+		select id,shop_id,code_name,terminal_code,tags_msg,shop_two_code_url,create_time from payv2_shop_code
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopId!=null ">
+				and shop_id=#{shopId}
+			</if>
+			<if test="codeName!=null ">
+				and code_name=#{codeName}
+			</if>
+			<if test="terminalCode!=null ">
+				and terminal_code=#{terminalCode}
+			</if>
+			<if test="tagsMsg!=null ">
+				and tags_msg=#{tagsMsg}
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2shopcode_result_map" >
+		select id,shop_id,code_name,terminal_code,tags_msg,shop_two_code_url,create_time from payv2_shop_code
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopId!=null ">
+				and shop_id=#{shopId}
+			</if>
+			<if test="codeName!=null ">
+				and code_name=#{codeName}
+			</if>
+			<if test="terminalCode!=null ">
+				and terminal_code=#{terminalCode}
+			</if>
+			<if test="tagsMsg!=null ">
+				and tags_msg=#{tagsMsg}
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2shopcode_result_map" >
+		
+		SELECT id,shop_id,code_name,terminal_code,tags_msg,shop_two_code_url,create_time FROM payv2_shop_code 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopId!=null and shopId!=''">
+				and shop_id = #{shopId}
+			</if>
+			<if test="codeName!=null and codeName!=''">
+				and code_name like  CONCAT('%',#{codeName},'%')
+			</if>
+			<if test="terminalCode!=null and terminalCode!=''">
+				and terminal_code like  CONCAT('%',#{terminalCode},'%')
+			</if>
+			<if test="tagsMsg!=null and tagsMsg!=''">
+				and tags_msg like  CONCAT('%',#{tagsMsg},'%')
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop_two_code_url like  CONCAT('%',#{shopTwoCodeUrl},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	
+	<select id="queryByShopIdList" parameterType="Map" resultMap="payv2shopcode_result_map">
+		SELECT cs.shop_name,sc.id,sc.shop_id,sc.code_name,sc.terminal_code,sc.tags_msg,sc.shop_two_code_url,sc.create_time FROM payv2_shop_code as sc 
+		inner join payv2_buss_company_shop as cs on cs.id=sc.shop_id
+		WHERE 1=1 
+		<if test="shopIdList != null">
+			AND sc.shop_id IN
+			<foreach collection="shopIdList" item="i" open="(" separator="," close=")">
+				#{i}
+			</foreach>
+		</if>
+		<if test="id!=null and id!=''">
+			and sc.id = #{id}
+		</if>
+		<if test="codeName!=null and codeName!=''">
+			and sc.code_name like  CONCAT('%',#{codeName},'%')
+		</if>
+		<if test="terminalCode!=null and terminalCode!=''">
+			and sc.terminal_code like  CONCAT('%',#{terminalCode},'%')
+		</if>
+		<if test="tagsMsg!=null and tagsMsg!=''">
+			and sc.tags_msg like  CONCAT('%',#{tagsMsg},'%')
+		</if>
+		<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+			and sc.shop_two_code_url like  CONCAT('%',#{shopTwoCodeUrl},'%')
+		</if>
+		<if test="createTimeBegin!=null and createTimeBegin!=''">
+			and sc.create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+		</if>
+		<if test="createTimeEnd!=null and createTimeEnd!=''">
+			and sc.create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+		</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="queryByLeftJoin" parameterType="Map" resultMap="payv2shopcode_result_map">
+		SELECT bcs.shop_name,sc.id,sc.shop_id,sc.code_name,sc.terminal_code,sc.tags_msg,sc.shop_two_code_url,sc.create_time 
+		FROM payv2_shop_code as sc left join payv2_buss_company_shop as bcs on bcs.id = sc.shop_id
+		where 1=1
+		<if test="id!=null and id!=''">
+			and sc.id = #{id}
+		</if>
+		<if test="codeName!=null and codeName!=''">
+			and sc.code_name like  CONCAT('%',#{codeName},'%')
+		</if>
+		<if test="terminalCode!=null and terminalCode!=''">
+			and sc.terminal_code like  CONCAT('%',#{terminalCode},'%')
+		</if>
+		<if test="tagsMsg!=null and tagsMsg!=''">
+			and sc.tags_msg like  CONCAT('%',#{tagsMsg},'%')
+		</if>
+		<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+			and sc.shop_two_code_url like  CONCAT('%',#{shopTwoCodeUrl},'%')
+		</if>
+		<if test="createTimeBegin!=null and createTimeBegin!=''">
+			and sc.create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+		</if>
+		<if test="createTimeEnd!=null and createTimeEnd!=''">
+			and sc.create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+		</if>
+		<if test="sortName!=null and sortName!=''">
+			ORDER BY ${sortName} ${sortOrder}
+		</if>
+		<if test="curPage != null and pageData != null">
+			LIMIT #{curPage},#{pageData}
+		</if>
+	</select>
+</mapper>

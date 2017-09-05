@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台新增应用</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+		<link rel="stylesheet" href="../public/css/nav.css" />
+		<link rel="shortcut icon" href="../favico.ico" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<!-- <div class="tips fr">
+				<div class="red"></div>
+			</div> -->
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<!-- <div class="users fr line">
+				<span>线上应用</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change2">线下门店</div>
+				</div>
+			</div> -->
+		</header>
+		<nav>
+			<ul>
+				<li class="stair datali" style="cursor: pointer;"><img src="../public/img/sjtj2.png"><span class="c_33">数据统计</span></li>
+				<li class="stair"><img src="../public/img/dd.png"><span class="c_80">订单</span></li>
+				<li class="secondLevel">
+					<a href="orderManager.html" class="c_33">订单管理</a>
+					<a href="refund.html" class="c_33">退款订单</a>
+					<a href="accountManager.html" class="c_33">账单管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/yy.png"><span class="c_80">应用</span></li>
+				<li class="secondLevel">
+					<a href="appManager.html" class="c_33 active">应用管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/zh.png"><span class="c_80">账户</span></li>
+				<li class="secondLevel">
+					<a href="account.html" class="c_33">账户信息</a>
+				</li>
+			</ul>
+			<div class="dld"><img src="../public/img/dld.png"/><span>下载SDK</span></div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：应用管理>新增应用</div>
+			<div class="ac-tips">
+				<div class="base fl"><i></i><span>基础信息</span></div>
+			</div>
+			<form class="formtest">
+				<div class="detail-app">
+					<dl class="appName">
+						<dt><span style="color:red;">*</span>应用名称：</dt>
+						<dd>
+							<input type="text" dataType="*1-8" nullMsg="不能为空" placeholder='1-8位字符' style='text-indent:10px;margin-left:20px;'/>
+						</dd>
+					</dl>
+					<dl class="webUrl">
+						<dt><span style="color:red;">*</span>应用官网：</dt>
+						<dd>
+							<input style='text-indent:10px;margin-left:20px' type="text"  dataType="*" nullMsg="不能为空" placeholder='网址请加上http://或者https://前缀'/>
+						</dd>
+					</dl>
+					<dl class="appKey appkeyinput">
+						<dt><span style="color:red;">*</span>应用行业：</dt>
+						<dd>
+							<select>
+								
+							</select>
+						</dd>
+					</dl>
+					<dl class="appSecret">
+						<dt><span style="color:red;">*</span>应用类别：</dt>
+						<dd class="tradeState tradeTime">
+							<ul class="timeLi">
+								<li class="activess and" state="1">
+									<i></i>
+									<span>安卓</span>
+								</li>
+								<li state="2" class="isios">
+									<i></i>
+									<span>IOS</span>
+								</li>
+								<li state="2" class="web">
+									<i></i>
+									<span>WEB</span>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+					<dl class="appIcon">
+						<dt><span style="color:red;">*</span>应用图标：</dt>
+						<dd class="imgs4">
+							<div class="oldimg fl oldimgsesp">
+								<img src="" class="app-icon" />
+							</div>
+							<div class="addimgs fl">
+								<img src="../public/img/add.png"/>
+								<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img4"/>
+							</div><br>
+							<div style="padding-left:20px;color:rgb(102, 102, 102);">2m以内png格式，建议使用直角图标，尺寸28*28像素(宽*高)</div>
+						</dd>
+					</dl>
+					<dl class="appDesc">
+						<dt><span style="color:red;">*</span>应用说明：</dt>
+						<dd class="add-shop">
+							<textarea style="margin-left:20px" placeholder="20-120字简要说明" dataType="*20-120" nullMsg="不能为空"></textarea>
+						</dd>
+					</dl>
+					<dl class="imgs appImg">
+						<dt class="imgs"><div>应用截图：</div><div style='margin-right:15px'>(选填)</div></dt>
+						<dd class="imgsCon imgs imgheight imgs1">
+							<div class="fl addImgs">
+								<img src="../public/img/add.png"/>
+								<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img1"/>
+							</div>
+							<span class="introwords">最多可上传5张，大小2M以内，JPG、PNG格式的图片</span>
+						</dd>
+					</dl>
+					<dl class="imgs appDescFile">
+						<dt class="imgs"><div>应用说明文档：</div><div style='margin-right:15px'>(选填)</div></dt>
+						<dd class="imgsCon imgs imgheight imgs2">
+							<div class="fl addImgs">
+								<img src="../public/img/add.png"/>
+								<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img2"/>
+							</div>
+							<span class="introwords">最多可上传5张，大小2M以内，JPG、PNG格式的图片</span>
+						</dd>
+					</dl>
+					<dl class="appName androidApkPackage" style="height:45px">
+						<dt><div>已有安装包：</div><div style='margin-right:15px;height:14px;line-height:14px;font-size:14px;'>(选填)</div></dt>
+						<dd><span class="fl" urls=""></span>
+							<div class="fl uploadfile">上传<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass uploadfileInput" onchange="upFiles(this)"/></div>
+						</dd>
+					</dl>
+					<dl class="imgs last appCopyright">
+						<dt class="imgs"><div>著作权验证：</div><div style='margin-right:15px'>(选填)</div></dt>
+						<dd class="imgsCon imgs imgheight imgs3">
+							<div class="fl addImgs">
+								<img src="../public/img/add.png"/>
+								<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img3"/>
+							</div>
+							<span class="introwords">最多可上传5张，大小2M以内，JPG、PNG格式的图片</span>
+						</dd>
+					</dl>
+				</div>
+				<div class="platform">
+					<div class="account-infor-title">
+						<i></i><span>平台信息</span>
+					</div>
+					<div class="little-title">应用平台
+						<span>至少选择一个平台。若应用还未提交到应用市场，请先勾选需要的平台，将下载地址等暂时置空，待审核通过、开发完毕，提交到各平台应用市场后，再修改应用的下载地址为正确的地址</span>
+					</div>
+					<div class="ios ioss">
+						<i></i>IOS应用<span>请至少选择一个设备类型</span>
+					</div>
+					<div class="iphone iph iphonei" iphoneState="1">
+						<i></i>iPhone
+					</div>
+					<div class="iphone-dl iph-dl">
+						<dl class="clearfix iosIphoneUrl">
+							<dt><div>AppStore下载地址:</div><div style='margin-right:15px'>(选填)</div></dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text"  />
+								</div>
+								<div class="dd-down">apple AppStore中的下载地址</div>
+							</dd>
+						</dl>
+						<dl class="clearfix iosIphoneId">
+							<dt><span style="color:red;">*</span>Bundle ID:</dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" dataType="*" nullMsg="不能为空" />
+								</div>
+								<div class="dd-down">IOS应用唯一标识</div>
+							</dd>
+						</dl>
+						<dl class="clearfix iosIphoneTestId">
+							<dt><span style="color:red;">*</span>测试版本Bundle ID:</dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" dataType="*" nullMsg="不能为空" />
+								</div>
+								<div class="dd-down">IOS应用测试版本的Bundle ID</div>
+							</dd>
+						</dl>
+					</div>
+					<div class="iphone ipd ipadi" ipadState='1'>
+						<i></i>iPad
+					</div>
+					<div class="iphone-dl ipd-dl">
+						<dl class="clearfix iosIpaUrl">
+							<dt><div>AppStore下载地址:</div><div style='margin-right:15px'>(选填)</div></dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text"/>
+								</div>
+								<div class="dd-down">apple AppStore中的下载地址</div>
+							</dd>
+						</dl>
+						<dl class="clearfix iosIpaMd5">
+							<dt><span style="color:red;">*</span>Bundle ID:</dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" dataType="*" nullMsg="不能为空" />
+								</div>
+								<div class="dd-down">IOS应用唯一标识</div>
+							</dd>
+						</dl>
+						<dl class="clearfix iosIpaTestId">
+							<dt><span style="color:red;">*</span>测试版本Bundle ID:</dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" dataType="*" nullMsg="不能为空" />
+								</div>
+								<div class="dd-down">IOS应用测试版本的Bundle ID</div>
+							</dd>
+						</dl>
+					</div>
+					<div class="ios android">
+						<i></i>Android应用
+					</div>
+					<div class="iphone-dl ad-dl">
+						<dl class="clearfix androidAppUrl">
+							<dt><div>应用下载地址:</div><div style='margin-right:15px'>(选填)</div></dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" />
+								</div>
+								<div class="dd-down">安卓应用商店中的下载地址</div>
+							</dd>
+						</dl>
+						<dl class="clearfix androidAppMd5">
+							<dt><span style="color:red;">*</span>应用签名:</dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" dataType="*" nullMsg="不能为空" />
+								</div>
+								<div class="dd-down">用于对当前应用进行二次身份校验，开发者可以使用签名生成工具直接从安装当前应用的中获取。应用签名由开发者签名该应用的keystore文件决定</div>
+							</dd>
+						</dl>
+						<dl class="clearfix androidAppPackage">
+							<dt><span style="color:red;">*</span>应用包名:</dt>
+							<dd>
+								<div class="dd-up">
+									<input type="text" dataType="*" nullMsg="不能为空" />
+								</div>
+								<div class="dd-down">应用在一台设备上的唯一标识，在manifest文件里面声明，该包名应该和正式发布应用包名一致</div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</form>
+			<div class="account-footer" style="display:block">
+				<div class="cancel fl smt">提交</div>
+			</div>
+		</div>
+		<div class="bg">
+			<div class="window3">
+				<div class="top2">
+					修改密码
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+				</div>
+				<div class="bottom3">
+					<div class="oldpwd">
+						<label>原密码:</label>
+						<input type="password" placeholder="请输入原密码" />
+						<span style="color:red;font-size:14px;display:none">请输入原密码</span>
+					</div>
+					<div class="newpwd">
+						<label>新密码:</label>
+						<input type="password" placeholder="6-16位密码(数字、字母组成)" />
+						<span style="color:red;font-size:14px;display:none">请输入新密码</span>
+					</div>
+					<div class="newpwda">
+						<label>确认密码:</label>
+						<input type="password" placeholder="请再次输入新密码" />
+						<span style="color:red;font-size:14px;display:none">请再次输入新密码</span>
+					</div>
+					<div class="surebtn">确定</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.myhtml5upload.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="../public/js/ajaxfileupload.js"></script>
+		<script type="text/javascript" src=../public/js/Validform.min.js></script>
+		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript" src="../public/js/exit.js"></script>
+		<script type="text/plain" id="imgMode">
+			<div class="fl bigimg"><img src=''/><i></i></div>
+		</script>
+		<script type="text/javascript" src="../public/js/addapp.js"></script>
+		<script type="text/javascript">
+		var isSwitch = localStorage.isSwitch,
+			companyName = localStorage.companyname;
+		$(".user span").text(companyName);
+		if(isSwitch == 1) {
+			$(".changeline").remove();
+		}
+		$(".datali").on("click",function(){
+			window.location="data.html"
+		})
+		$(".dld").on("click",function(){
+			window.open("http://pay.aijinfu.cn/sdk-download.html")
+		})
+		$(".uploadfile,.smt,.dld").on("mousedown",function(){
+			$(this).css("background-color","#2ea1f9")
+		})
+		$(".uploadfile,.smt,.dld").on("mouseup",function(){
+			$(this).css("background-color","#2581f4")
+		})
+		$("body").on("click",".changeline .change2",function(){
+			$.ajax({
+				type:"get",
+				url:"/sys/tabSwitch.do",
+				async:false,
+				success:function(data){
+					console.log(data);
+					if(!!data&&data.resultCode==200){
+						if(data.Data.isTabSwitch==2){
+							location.href="dataOffline.html";
+						}
+					}else{
+						if(!!data.message){
+								alert(data.message);
+							}else{
+								
+								$("body").html(data);
+							}
+					}
+				}
+			})
+		})
+		</script>
+	</body>
+
+</html>

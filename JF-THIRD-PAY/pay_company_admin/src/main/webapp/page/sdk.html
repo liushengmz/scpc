@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>sdk.html</title>
+	<meta charset="utf-8" />
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="../public/css/sdk.css">
+  </head>
+  
+  <body>
+  	<div class="big">
+  		<div class="container">
+  			<div class="title">支付集SDK下载</div>
+  			<ul>
+  				<li class="ios">
+  					<div class='title2'>IOS SDK</div>
+  					<div class='img'>
+  						<img src="../../public/img/apple_big.png"/>
+  					</div>
+  					<div class='title3'>最新版本:<span></span></div>
+  					<div class='time'>更新时间:<span></span></div>
+  				</li>
+  				<li class="and">
+  					<div class='title2'>Android SDK</div>
+  					<div class='img'>
+  						<img src="../../public/img/android_big.png" />
+  					</div>
+  					<div class='title3'>最新版本:<span></span></div>
+  					<div class='time'>更新时间:<span></span></div>
+  				</li>
+  			</ul>
+  		</div>
+  	</div>
+  	<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+  	<script type="text/javascript">
+  		$(".big").css("margin-top",(document.body.clientHeight-461)/2);
+  		$.ajax({
+	  			type:'get',
+	  			url:'/online/payv2SdkVersion/getpayv2SdkVersion.do',
+	  			data:{"sdkType":1},
+	  			async:false,
+	  			success:function(data){
+	  				console.log(data)
+	  				if(!!data&&data.resultCode==200){
+	  					$(".and .title3 span").html(data.Data.sdkVersion);
+	  					if(data.Data.createTime){
+	  						$(".and .time span").html(new Date(data.Data.createTime).toLocaleDateString());
+	  					}else{
+	  						$(".and .time span").html("");
+	  					}
+	  					
+	  					$(".and").on("click",function(){
+	  						window.location=data.Data.sdkFileUrl;
+	  					});
+	  				}else{
+	  					if(!!data.message){
+							//alert(data.message);
+						}else{
+							$("body").html(data);
+						}
+	  				}
+	  			}
+	  		});
+  		$.ajax({
+	  			type:'get',
+	  			url:'/online/payv2SdkVersion/getpayv2SdkVersion.do',
+	  			data:{"sdkType":2},
+	  			async:false,
+	  			success:function(data){
+	  				console.log(data)
+	  				if(!!data&&data.resultCode==200){
+	  					$(".ios .title3 span").html(data.Data.sdkVersion);
+	  					if(data.Data.createTime){
+	  						$(".ios .time span").html(new Date(data.Data.createTime).toLocaleDateString());
+	  					}else{
+	  						$(".ios .time span").html("");
+	  					}
+	  					$(".ios").on("click",function(){
+	  						window.location=data.Data.sdkFileUrl;
+	  					});
+	  				}else{
+	  					if(!!data.message){
+							//alert(data.message);
+						}else{
+							$("body").html(data);
+						}
+	  				}
+	  			}
+	  		});
+  		
+  	</script>
+  </body>
+</html>

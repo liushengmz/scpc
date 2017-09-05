@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.admin.mapper.SysUcenterFilesMapper">
+
+	<resultMap id="sysucenterfiles_result_map" type="com.pay.business.admin.entity.SysUcenterFiles" >
+		<id column="id" property="id" />
+		<result column="file_md5" property="fileMd5"/>
+		<result column="file_url" property="fileUrl"/>
+		<result column="file_type" property="fileType"/>
+		<result column="file_size" property="fileSize"/>
+		<result column="create_time" property="createTime"/>
+		<result column="crc32" property="crc32"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_ucenter_files  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="fileMd5!=null and fileMd5!=''">
+				and file_md5 like '%'||#{fileMd5}||'%'
+			</if>
+			<if test="fileUrl!=null and fileUrl!=''">
+				and file_url like '%'||#{fileUrl}||'%'
+			</if>
+			<if test="fileType!=null and fileType!=''">
+				and file_type like '%'||#{fileType}||'%'
+			</if>
+			<if test="fileSize!=null and fileSize!=''">
+				and file_size = #{fileSize}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.admin.entity.SysUcenterFiles" >
+		insert into sys_ucenter_files
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="fileMd5!=null ">
+				file_md5,
+			</if>
+      		<if test="fileUrl!=null ">
+				file_url,
+			</if>
+      		<if test="fileType!=null ">
+				file_type,
+			</if>
+      		<if test="fileSize!=null ">
+				file_size,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="crc32!=null ">
+				crc32,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="fileMd5!=null ">
+      			#{fileMd5},
+			</if>
+      		<if test="fileUrl!=null ">
+      			#{fileUrl},
+			</if>
+      		<if test="fileType!=null ">
+      			#{fileType},
+			</if>
+      		<if test="fileSize!=null ">
+      			#{fileSize},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="crc32!=null ">
+      			#{crc32},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.admin.entity.SysUcenterFiles">
+		delete from sys_ucenter_files
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="fileMd5!=null ">
+				and file_md5=#{fileMd5}
+			</if>
+      		<if test="fileUrl!=null ">
+				and file_url=#{fileUrl}
+			</if>
+      		<if test="fileType!=null ">
+				and file_type=#{fileType}
+			</if>
+      		<if test="fileSize!=null ">
+				and file_size=#{fileSize}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="crc32!=null ">
+				and crc32=#{crc32}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.admin.entity.SysUcenterFiles">
+		update sys_ucenter_files
+		<set>
+			<if test="fileMd5!=null ">
+				file_md5=#{fileMd5},
+			</if>
+			<if test="fileUrl!=null ">
+				file_url=#{fileUrl},
+			</if>
+			<if test="fileType!=null ">
+				file_type=#{fileType},
+			</if>
+			<if test="fileSize!=null ">
+				file_size=#{fileSize},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.admin.entity.SysUcenterFiles" resultMap="sysucenterfiles_result_map">
+		select id,file_md5,file_url,file_type,file_size,create_time,crc32 from sys_ucenter_files
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="fileMd5!=null ">
+				and file_md5=#{fileMd5}
+			</if>
+			<if test="fileUrl!=null ">
+				and file_url=#{fileUrl}
+			</if>
+			<if test="fileType!=null ">
+				and file_type=#{fileType}
+			</if>
+			<if test="fileSize!=null ">
+				and file_size=#{fileSize}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="sysucenterfiles_result_map" >
+		select id,file_md5,file_url,file_type,file_size,create_time,crc32 from sys_ucenter_files
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="fileMd5!=null ">
+				and file_md5=#{fileMd5}
+			</if>
+			<if test="fileUrl!=null ">
+				and file_url=#{fileUrl}
+			</if>
+			<if test="fileType!=null ">
+				and file_type=#{fileType}
+			</if>
+			<if test="fileSize!=null ">
+				and file_size=#{fileSize}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysucenterfiles_result_map" >
+		
+		SELECT id,file_md5,file_url,file_type,file_size,create_time,crc32 FROM sys_ucenter_files 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="fileMd5!=null and fileMd5!=''">
+				and file_md5 like '%'||#{fileMd5}||'%'
+			</if>
+			<if test="fileUrl!=null and fileUrl!=''">
+				and file_url like '%'||#{fileUrl}||'%'
+			</if>
+			<if test="fileType!=null and fileType!=''">
+				and file_type like '%'||#{fileType}||'%'
+			</if>
+			<if test="fileSize!=null and fileSize!=''">
+				and file_size = #{fileSize}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	
+	<!-- 根据对象查询单个 -->
+	<select id="selectMD5" parameterType = "java.lang.String" resultType="com.pay.business.admin.entity.SysUcenterFiles" resultMap="sysucenterfiles_result_map">
+		select id,file_md5,file_url,file_type,file_size,create_time,crc32 from sys_ucenter_files
+		<where>
+			<if test="_parameter!=null ">
+				and file_md5=#{_parameter}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

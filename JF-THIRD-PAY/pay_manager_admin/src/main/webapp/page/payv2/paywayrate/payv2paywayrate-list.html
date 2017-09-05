@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>支付渠道管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		支付渠道管理 <span class="c-gray en">&gt;</span> 支付通道列表
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/payv2PayWayRate/payv2PayWayRateList.do">
+				<input type="hidden" id="payWayId" name="payWayId" value="${map.payWayId}">
+				<div id="hiddenDic">
+					<#if dicList?? && dicList?size gt 0>
+			        	<#list dicList as dl>
+			        		<span id="tempSpan"><input type="hidden" id="hiddenDics" dicId="${dl.id!}" dicName="${dl.dictName!}" dicValue="${dl.dictValue!}" value="${dl.dictValue!}"/></span>
+			        	</#list>
+			        </#if>
+				</div>
+				 <table class="table table-hover table-bg table-sort">
+					<tbody>
+						<tr>
+							<td><strong>通道状态：</strong>
+								<select style="width:150px;" class="select" id="status" name="status" size="1">
+									<option value="">全部</option>
+									<option value="1" <#if map.status == 1>selected="selected"</#if>>开启</option>
+									<option value="2" <#if map.status == 2>selected="selected"</#if>>关闭</option>
+								</select>
+							</td>
+							<td><strong>支付方式：</strong> 
+							<select onchange="changePayType(this)" style="width:150px;" class="select" id="payType" name="payType" size="1">
+									<option value="" >全部</option>
+									<option value="1" <#if map.payType == 1>selected="selected"</#if>>app支付</option>
+									<option value="2" <#if map.payType == 2>selected="selected"</#if>>web</option>
+									<option value="3" <#if map.payType == 3>selected="selected"</#if>>扫码</option>
+									<option value="4" <#if map.payType == 4>selected="selected"</#if>>app+web</option>
+									<option value="5" <#if map.payType == 5>selected="selected"</#if>>微信公众号</option>
+							</select></td>
+							<td><strong>上游通道：</strong> 
+								<select style="width:150px;" class="select" id="dicId" name="dicId" size="1">
+					           		<option value="">全部</option>
+					           			dicList
+					           		<#if dicList?? && dicList?size gt 0> 
+										<#list dicList as dl>
+										<option value="${dl.id!}"<#if dl.id == map.dicId> selected="selected" </#if>>${dl.dictValue!}</option>
+										</#list> 
+									</#if>
+								</select></td>
+							<td><strong>结算类型：</strong> 
+								<select style="width:150px;" class="select" id="wayArrivalType" name="wayArrivalType" size="1">
+									<option value="">全部</option>
+									<option value="1" <#if map.wayArrivalType == 1>selected="selected"</#if>>T+日期(工作日)</option>
+									<option value="2" <#if map.wayArrivalType == 2>selected="selected"</#if>>实时到账</option>
+									<option value="3" <#if map.wayArrivalType == 3>selected="selected"</#if>>T+日期</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<strong>关键字：</strong><input type="text" name="keyWord"
+								id="keyWord" placeholder="通道名称/主体公司名称/主体公司简称" style="width: 250px"
+								class="input-text" value="${map.keyWord!}">
+							</td>
+							<td>
+								<strong>收款人：</strong><input type="text" name="accountName"
+								id="accountName" placeholder="收款人" style="width: 250px"
+								class="input-text" value="${map.accountName!}">
+							</td>
+							<td>
+								<button name="" id="" class="btn btn-success radius"
+									type="submit">
+									<i class="Hui-iconfont">&#xe665;</i> 搜索
+								</button>
+							</td>
+							<td>
+								<input type="button" class="btn btn-primary radius" onclick="exportExcel()" value="导出Excel"></input>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-danger radius" onclick="" href="javascript:batchOption(1);">
+					<i class="Hui-iconfont" >&#xe631;</i>
+				 批量关闭</a>
+				 <a class="btn btn-danger radius" onclick="" href="javascript:batchOption(2);">
+					<i class="Hui-iconfont" >&#xe60b;</i>
+				 批量删除</a>
+				 <a class="btn btn-success radius" onclick="" href="javascript:batchOption(3);">
+					<i class="Hui-iconfont" >&#xe6e1;</i>
+				 批量开启</a>
+			</span>
+			<span class="r">
+				<a class="btn btn-primary radius" onclick="" href="javascript:cooperationBank_add();">
+				<#if map.payWayId == 1>
+					<i class="Hui-iconfont Hui-iconfont-pay-alipay-2" style="font-size: 25px;!important"></i>
+				<#elseif map.payWayId == 2>
+					<i class="Hui-iconfont Hui-iconfont-pay-weixin" style="font-size: 25px;!important"></i>
+				</#if>
+				 添加合作通道</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="25"><input type="checkbox"></th>
+						<th width="150">名称(官方可见)</th>
+						<th width="150">名称(下游可见)</th>
+						<th width="80">支付类型</th>
+						<th width="150">主体公司</th>
+						<th width="150">开户名称</th>
+						<th width="60">成本费率</th>
+						<th width="100">结算类型</th>
+						<th width="60">当前状态</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td><input type="checkbox" value="${dl.id!}" name="idCheckBox"></td>
+							<td>${dl.rateName!}</td>
+							<td>${dl.payWayName!}</td>
+							<td>
+								<#if dl.payType ==1>app支付
+								<#elseif dl.payType ==2>web
+								<#elseif dl.payType ==3>扫码
+								<#elseif dl.payType ==4>app+web
+								<#elseif dl.payType ==5>微信公众号支付
+								<#else>其他</#if>
+							</td>
+							<td>${dl.companyName!}</td>
+							<td>${dl.accountName!}</td>
+							<td>${dl.payWayRate!}‰</td>
+							<td>
+								<#if dl.wayArrivalType ==1>T+日期
+								<#elseif dl.wayArrivalType ==2>实时到账
+								<#elseif dl.wayArrivalType ==3>T+日期
+								<#else>其他</#if>
+							</td>
+							<td>
+								<#if dl.status ==1>
+									<span class="label label-success radius">开启
+								<#elseif dl.status ==2>
+									<span class="label label-danger radius">关闭
+								<#else>
+									<span class="label red radius">其他
+								</#if>
+								</span>
+							</td>
+							<td class="td-manage">
+								<a title="查看/编辑" href="javascript:;" onclick="payv2payway_edit(${dl.id!},${list.curPage!})" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-edit"> 查看/编辑</i></a>
+								<a title="克隆" href="javascript:;" onclick="payv2payway_clone(${dl.id!},${list.curPage!})" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont Hui-iconfont-copy"> 克隆</i></a>
+								<!-- <#if dl.status==1>
+									<a title="关闭" href="javascript:;" onclick="fund_update(this,${dl.id!},'关闭','2')" class="btn btn-secondary size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">关闭</i></a> 
+								<#else>
+									<a title="开启" href="javascript:;" onclick="fund_update(this,${dl.id!},'开启','1')" class="btn btn-secondary size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">开启</i></a> 
+									<a title="删除" href="javascript:;" onclick="payv2payway_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn"></i></a>
+								</#if> -->
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+	 	laypage({
+	 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: ${list.endPage! }, //总页数
+	 	    //skip: true, //是否开启跳页
+// 	    	skin: 'molv',
+	 	    groups: 10, //连续显示分页数
+	 	    first: '首页', //若不显示，设置false即可
+	 	    last: '尾页', //若不显示，设置false即可
+	 	    curr:${list.curPage!},
+	 	   	hash: true, //开启hash
+	 	    skin: '#00AA91',
+	 	    jump: function(obj,first){ //触发分页后的回调
+	 	    	if(!first){
+	 	         	 window.location.href="${basePath}/payv2PayWayRate/payv2PayWayRateList.do?curPage="+obj.curr +"&pageData="+10+"&payWayId="+$("#payWayId").val();
+	 	    	}
+	 	    }
+	 	});
+	 			
+	});
+	
+		function changePayType(obj){
+			var pay_type = $(obj).val();
+			if(pay_type == 1) {
+				var appendOptions = matchPayType("_APP");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 2) {
+				var appendOptions = matchPayType("_WEB");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 3) {
+				var appendOptions = matchPayType("_SCAN");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 4) {
+				var appendOptions = matchPayType("_WAP");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 5) {
+				var appendOptions = matchPayType("_GZH");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else {
+				$("#dicId").html("<option value=\"\">---请选择---</option>");
+			}
+		}
+		
+		function matchPayType(lastStr) {
+			var appendOptions = "";
+			var wayStr = "";
+			var wayId = $("#payWayId").val();
+			if(wayId == 1) {
+				wayStr = "ALI";
+			} else if(wayId == 2) {
+				wayStr = "WEIXIN";
+			} else if(wayId == 3) {
+				wayStr = "QQ";
+			}
+			for(var i = 0, len = $("#hiddenDic").children().length;i<len;i++){
+				var dicId = $("#hiddenDic").children().eq(i).find("#hiddenDics").attr("dicId");
+				var dicName = $("#hiddenDic").children().eq(i).find("#hiddenDics").attr("dicName");
+				var dicValue = $("#hiddenDic").children().eq(i).find("#hiddenDics").attr("dicValue");
+				if(dicName.indexOf(wayStr) != -1 && dicName.endsWith(lastStr)) {
+					appendOptions+='<option value="'+dicId+'">'+dicValue+'</option>';
+				}
+			}
+			if(appendOptions == "") {
+				appendOptions = "<option value=\"\">---请选择---</option>";
+			}
+			return appendOptions;
+		}
+		
+		function batchOption(type){
+			var gids=new Array();
+       		$("input[name='idCheckBox']:checkbox").each(function(){
+       			if ($(this).is(':checked')) {
+    				gids.push($(this).val());
+				}
+         	});
+         	if(gids.length==0){
+            	layer.msg('你一个通道都没勾选...', function(){});
+		        return;
+            }
+            var ids = gids.join(",");
+            layer.confirm('再给你一次机会!确认要这样做吗？', function(index) {
+				var data = {};
+				data.gids = ids;
+				data.type = type;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2PayWayRate/batchUpdatePayv2PayWayRate.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('操作成功!', {
+							icon : 1,
+							time : 1000
+						});
+						location.replace(location.href);
+					}else{
+						layer.msg('操作失败了...联系技术员', {icon: 2});
+					}
+				},
+				function(d){
+					layer.msg('操作失败了...联系技术员', {icon: 2});
+				});
+			});
+		}
+		
+		//添加支付渠道
+		function cooperationBank_add(title, url, w, h){
+			var url = '${basePath}/payv2PayWayRate/addPayv2PayWayRateTc.do?payWayId='+$("#payWayId").val();
+			layer_show('添加合作通道', url, w, h);
+		}
+		//编辑支付渠道
+		function payv2payway_edit(id,curPage){
+			var url = '${basePath}/payv2PayWayRate/editPayv2PayWayRateTc.do?id='+id+'&curPage='+curPage;
+			layer_show('编辑支付渠道', url, 880,650);
+		}
+		//克隆支付渠道
+		function payv2payway_clone(id,curPage){
+			var url = '${basePath}/payv2PayWayRate/clonePayv2PayWayRateTc.do?id='+id+'&curPage='+curPage;
+			layer_show('克隆支付渠道', url, 880,650);
+		}
+		/*设置优惠*/
+		function getPayv2AppDiscountList(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+		/*系统-应用-删除*/
+		function payv2payway_del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				var data = {};
+				data.id = id;
+				data.isDelete =1;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2PayWayRate/updatePayv2PayWayRate.do",  data, function(d){
+					if(d.resultCode == 200){
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						layer.msg('删除失败', {icon: 2});
+					}
+				},
+				function(d){
+					layer.msg('删除失败', {icon: 2});
+				});
+			});
+		}
+		//终止、恢复
+		function fund_update(obj,id,str,status){
+			layer.confirm("确定"+str+"？", function(index) {
+				var data = {};
+				data.id = id;
+				data.status = status;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2PayWayRate/updatePayv2PayWayRate.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已'+str+'!', {
+							icon : 1,
+							time : 1000
+						});
+						window.location.href="${basePath}/payv2PayWayRate/payv2PayWayRateList.do?payWayId="+$("#payWayId").val();
+					}else{
+						Huimodal_alert(str+"失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert(str+"失败,请重试!",1500);
+				});
+			});
+		}
+		
+		function exportExcel() {
+			window.location.href = "${basePath}/payv2PayWayRate/exportExcelRate.do?status="+$("#status").val()
+										+"&payType="+$("#payType").val()
+										+"&dicId="+$("#dicId").val()
+										+"&wayArrivalType="+$("#wayArrivalType").val()
+										+"&keyWord="+$("#keyWord").val()
+										+"&accountName="+$("#accountName").val()
+										+"&payWayId="+$("#payWayId").val();
+		}	
+	</script>
+</body>
+</html>

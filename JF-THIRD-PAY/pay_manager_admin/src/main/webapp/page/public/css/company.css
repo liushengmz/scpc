@@ -1,0 +1,24 @@
+.input-text:hover, .textarea:hover {
+    border: solid 1px #3bb4f2;
+}
+input[type="submit"], input[type="reset"], input[type="button"], input[type="text"], input[type="password"] {
+    -webkit-appearance: none;
+    outline: 0;
+}
+.input-text, .textarea {
+    box-sizing: border-box;
+    border: solid 1px #ddd;
+    -webkit-transition: all .2s linear 0s;
+    -moz-transition: all .2s linear 0s;
+    -o-transition: all .2s linear 0s;
+    transition: all .2s linear 0s;
+}
+.input-text, .btn, .input-text.size-M, .btn.size-M {
+    font-size: 14px;
+    height: 31px;
+    line-height: 1.42857;
+    padding: 4px;
+}
+.input{
+	width: 300px;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<script type="text/javascript">
+</script>
+<title>分配角色</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-role">
+		<input type="hidden" name="id" id="id" value="${id}"/>
+		<div class="row cl">
+			<label class="form-label col-2">用户名：</label>
+			<div class="formControls col-10">
+				<input type="text" class="input-text" value="${userName}" disabled="disabled">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		
+		<!-- 权限列表 -->
+		<div class="row cl">
+			<label class="form-label col-2">权限列表：</label>
+			<div class="formControls col-10">
+				<#if appList?? && appList?size gt 0>
+					<#list appList as al>
+					<dl class="permission-list">
+						<dt>
+						<label> 
+							<input type="checkbox" value="" name="user-Character-0" id="user-Character-0">
+							${al.appName!}
+						</label>
+					</dt>
+					
+					<dd>
+						<dl class="cl permission-list2">
+						<#if roleList?? && roleList?size gt 0 >
+						<#list roleList as fl >
+							<#if fl.app_id == al.id>
+							<dt>
+								<label class="" style="color:#5a98de; font-size:14px;">
+									├ <#if fl.checked??>
+									  <input type="checkbox" value="${fl.id!}" app_id="${fl.app_id!}" checked="checked" name="user-menu-${fl_index!}" id="user-menu-${fl_index!}" />
+									  <#else>
+									  <input type="checkbox" value="${fl.id!}" app_id="${fl.app_id!}" name="user-menu-${fl_index!}" id="user-menu-${fl_index!}"/>
+									  </#if>
+									${fl.rol_name!}  
+								</label>
+							</dt>
+							</#if>
+						</#list>
+						</#if>
+						</dl>
+					</dd>
+					</dl>
+					</#list>
+				</#if>
+			</div>
+		</div>
+		<!-- end -->
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="button" onclick="subForm()" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	
+	function subForm(){
+		//后台请求保存数据
+		var data = {};
+		var roleIdList = "";
+		$('.permission-list2 input:checkbox:checked').each(function() {
+			roleIdList += $(this).val() + ";" + $(this).attr("app_id") + ",";
+		});
+		data.roleIdList = roleIdList;
+		data.adminId = $("#id").val();
+		$.axse("${basePath}/roles/addadminrole.do", data , function(d){
+			if(d.resultCode == 200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.$('.btn-refresh').click();
+				parent.location.replace("${basePath}/admin/goadminlist.do");
+				parent.layer.close(index);
+			}else{
+				$("#form-admin-role")[0].reset();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		},
+		function(d){
+			$("#form-admin-role")[0].reset();   
+			layer.msg('保存失败，请你检查数据!', {
+				icon : 1,
+				time : 1000
+			});
+		});
+	}
+$(function(){
+	
+	
+	
+// 	//验证表单
+// 	$("#form-admin-role").Validform({
+// 		tiptype:2,
+// 		callback:function(form){
+		
+// 		}
+// 	});
+	
+	
+	
+	$(".permission-list dt input:checkbox").click(function(){
+		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+	});
+	$(".permission-list2 dd input:checkbox").click(function(){
+		var l =$(this).parent().parent().find("input:checked").length;
+		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+		if($(this).prop("checked")){
+			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+		}
+		else{
+			if(l==0){
+				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+			}
+			if(l2==0){
+				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+			}
+		}
+		
+	});
+});
+
+</script>
+</body>
+</html>

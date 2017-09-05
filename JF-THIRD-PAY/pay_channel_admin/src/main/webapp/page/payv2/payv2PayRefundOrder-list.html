@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>退款订单列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		订单管理 <span class="c-gray en">&gt;</span> 退款订单列表
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="10">ID</th>
+						<th width="100">退款类型 </th>
+						<th width="120">支付金额 </th>
+						<th width="120">退款金额 </th>
+						<th width="120">剩余金额 </th>
+						<th width="50">订单状态</th>
+						<th width="80">退款申请时间</th>
+						<th width="80">退款处理时间</th>
+						<th width="80">退款回调时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if dataList?? && dataList?size gt 0>
+					<#list dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>
+								<#if dl.refundType ==1>全部退款
+								<#elseif dl.refundType ==2>部分退款
+								<#else>其他</#if>
+							</td>
+							<td>${dl.payDiscountMoney!}</td>
+							<td>${dl.refundMoney!}</td>
+							<td>${dl.surplusMoney!}</td>
+							<td>
+								<#if dl.refundStatus ==1>退款成功
+								<#elseif dl.refundStatus ==2>退款失败
+								<#elseif dl.refundStatus ==3>退款中
+								<#elseif dl.refundStatus ==4>退款成功回调失败
+								<#else>其他</#if>
+							</td>
+							<td>${dl.refundTime?string('yyyy-MM-dd')}</td>
+							<td>
+								<#if dl.liquidationTime??>
+									${dl.liquidationTime?string('yyyy-MM-dd')}
+								</#if>
+							</td>
+							<td>
+								-
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+<div class="pd-20">
+		<form action="" method="post" class="form form-horizontal" id="form-app-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>代理平台名称：</label>
+			<div class="formControls col-3">
+				<input type="text" class="input-text" value="${payv2AgentPlatform.platformName!}" placeholder="" id="platformName" name="platformName" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>平台佣金：</label>
+			<div class="formControls col-2">
+				<input type="text" class="input-text" value="${payv2AgentPlatform.platformComm!}" placeholder="" id="platformComm" name="platformComm" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">支持支付通道：</label>
+			<div class="formControls col-3"> <span class="select-box" style="width:150px;" >
+				<select class="select" id="userType" name="userType" size="1">
+				<#if wayList?? && wayList?size gt 0>
+					<#list wayList as dl >
+						<option value="${dl.payWayId!}">${dl.wayName!}</option>
+					</#list>
+				</#if>		
+				</select>
+				</span> 
+			</div>
+		</div>
+		</form>
+</div>
+</body>
+</html>

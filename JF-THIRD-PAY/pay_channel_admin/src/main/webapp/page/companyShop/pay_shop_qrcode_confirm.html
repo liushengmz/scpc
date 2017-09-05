@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>查看原因</title>
+	<#include "lib/lib.html" />
+	<link rel="stylesheet" type="text/css" href="${basePath}/public/css/alert.css">
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-app-view">
+	<div id="checkqcrode">
+
+						<#if paywayList?? && paywayList?size gt 0>
+							<div class="chson">生成店铺二维码</div>
+							<div class="chcon">
+								<div class="chtable">
+								暂无二维码，是否根据以下信息生成二维码<br>
+								店铺名称：${payv2BussCompanyShop.shopName}<br>
+								店铺地址：${payv2BussCompanyShop.shopAddress}<br>
+								联系人名称：${payv2BussCompanyShop.shopContacts}<br>
+								联系人电话：${payv2BussCompanyShop.shopContactsPhone}<br>
+								支付信息
+								<table class="tableBasic" cellpadding="0" cellspacing="0" border="1" style="text-align:center;">
+									<tr>
+										<th style="text-align:center;">平台</th>
+										<th style="text-align:center;">APP名称</th>
+										<th style="text-align:center;">操作</th>
+									</tr>
+			           			<#list paywayList as dl>
+					           		<tr>
+										<td>${dl.wayName!}</td>
+										<td>${dl.payWayUserName!}</td>
+										<td>${dl.payWayUserNum!}</td>
+									</tr>
+			           			</#list>
+
+			           			</table>
+								</div>
+							</div>
+
+					      <#else>
+			           		${message}
+			           	 </#if>
+	</div>
+
+						<div class="submit_btn">
+						<#if paywayList?? && paywayList?size gt 0>
+							<input type="button" value="生成" onclick="build('${payv2BussCompanyShop.id}','${payv2BussCompanyShop.shopKey}')">
+						</#if>
+						</div>
+
+</form>
+</body>
+<script type="text/javascript">
+
+	function build(id,key){
+		
+		//后台请求保存数据
+		$.axse("${basePath}/payv2BussCompanyShop/buildQRCode.do", {id:id,shopKey:key}, function(d){
+			console.info(d);
+			if(d.resultCode == 200){
+				layer.msg('已生成二维码！', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/payv2BussCompanyShop/payv2BussCompanyShopList.do");
+				parent.layer.close();
+			}else{
+				Huimodal_alert("生成二维码失败,请重试!",1500);
+			}
+		},
+		function(d){
+			Huimodal_alert("生成二维码失败,服务器异常!",1500);
+		});
+	}
+</script>
+</html>

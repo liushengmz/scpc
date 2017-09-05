@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>支付渠道管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		支付管理 <span class="c-gray en">&gt;</span> 支付渠道列表
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+	<!-- 	<div class="text-c">
+			<form action="${basePath}/Payv2BussSupportPayWay/getSupportPayWayList.do">
+				 渠道状态：<select class="select" id="payWayStatus" name="payWayStatus" datatype="*" nullmsg="请选择！" style="width: 100px">
+		          		<option value="0">全部</option>
+		       	 		<option value="1" <#if map.payWayStatus==1> selected="selected" </#if>>使用中</option>
+		       	 		<option value="2" <#if map.payWayStatus==2> selected="selected" </#if>>终止</option>
+      			</select>
+				<input type="hidden" id="parentId" value="${map.parentId!}" name="parentId"/>
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe665;</i> 搜索
+				</button>
+			</form>
+		</div> -->
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:cooperationBank_add();">
+				<i class="Hui-iconfont">&#xe600;</i> 添加支付渠道</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="25">ID</th>
+						<th width="150">支付通道名称</th>
+						<th width="150">icon</th>
+						<th width="150">所属机构</th>
+						<!-- <th width="150">联系人</th>
+						<th width="150">联系电话</th> -->
+						<th width="150">通道费率</th>
+						<th width="100">结算类型</th>
+						<th width="100">当前状态</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.wayName!}</td>
+							<td><a href="${dl.wayIcon!}" rel="lightbox" title=""><img src="${dl.wayIcon!}" width="60" height="50"/></a></td>
+							<td>${dl.wayCompanyName!}</td>
+							<!-- <td>${dl.wayContacts!}</td>
+							<td>${dl.wayPhone!}</td> -->
+							<td>${dl.wayRate!}‰</td>
+							<td>
+								<#if dl.wayArrivalType ==1>T+日期（工作日）
+								<#elseif dl.wayArrivalType ==2>实时到账
+								<#elseif dl.wayArrivalType ==3>T+日期
+								<#else>其他</#if>
+							</td>
+							<td>
+								<#if dl.status ==1>启用
+								<#elseif dl.status ==2>停用
+								<#else>其他</#if>
+							</td>
+							<td class="td-manage">
+								<a title="" href="${basePath}/payv2PayWayRate/payv2PayWayRateList.do?payWayId=${dl.id}" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">合作通道</i></a> 
+								<#if dl.status==1>
+									<a title="停用" href="javascript:;" onclick="fund_update(this,${dl.id!},'终止','2')" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">停用</i></a> 
+									<!-- <a title="配置优惠" href="javascript:;"  onclick="getPayv2AppDiscountList('配置优惠','${basePath}/Payv2AppDiscount/getPayv2AppDiscountList.do?appId='+${dl.id!},1400);"  class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">配置优惠</i></a> -->
+								<#else>
+									<a title="启用" href="javascript:;" onclick="fund_update(this,${dl.id!},'启用','1')" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">启用</i></a> 
+									<a title="编辑" href="javascript:;" onclick="payv2payway_edit(${dl.id!})" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">编辑</i></a>
+									<a title="删除" href="javascript:;" onclick="payv2payway_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn"></i></a>
+								</#if>
+								
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+	 	laypage({
+	 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: ${list.endPage! }, //总页数
+	 	    //skip: true, //是否开启跳页
+// 	    	skin: 'molv',
+	 	    groups: 10, //连续显示分页数
+	 	    first: '首页', //若不显示，设置false即可
+	 	    last: '尾页', //若不显示，设置false即可
+	 	    curr:${list.curPage!},
+	 	   	hash: true, //开启hash
+	 	    skin: '#00AA91',
+	 	    jump: function(obj,first){ //触发分页后的回调
+	 	    	if(!first){
+	 	         	 window.location.href="${basePath}/payv2payway/getPayv2PayWayList.do?curPage="+obj.curr +"&pageData="+10;
+	 	    	}
+	 	    }
+	 	});
+	 	
+	});
+	//添加支付渠道
+	function cooperationBank_add(title, url, w, h){
+		var url = '${basePath}/payv2payway/addPayv2PayWayTc.do';
+		layer_show('添加支付渠道', url, 1000, h);
+	}
+	//编辑支付渠道
+	function payv2payway_edit(id){
+		var url = '${basePath}/payv2payway/editPayv2PayWayTc.do?id='+id;
+		layer_show('编辑支付渠道', url, 880,650);
+	}
+	/*设置优惠*/
+	function getPayv2AppDiscountList(title,url,w,h){
+		layer_show(title, url, w, h);
+	}
+	/*系统-应用-删除*/
+	function payv2payway_del(obj, id) {
+		layer.confirm('确认要删除吗？', function(index) {
+			var data = {};
+			data.id = id;
+			data.isDelete =1;
+			//后台请求保存数据
+			$.axse("${basePath}/payv2payway/updatePayv2PayWay.do",  data, function(d){
+				if(d.resultCode == 200){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!', {
+						icon : 1,
+						time : 1000
+					});
+				}else{
+					Huimodal_alert("删除失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert("删除失败,请重试!",1500);
+			});
+		});
+	}
+	//终止、恢复
+	function fund_update(obj,id,str,status){
+		layer.confirm("确定"+str+"？", function(index) {
+			var data = {};
+			data.id = id;
+			data.status = status;
+			//后台请求保存数据
+			$.axse("${basePath}/payv2payway/updatePayv2PayWay.do",  data, function(d){
+				if(d.resultCode == 200){
+					layer.msg('已'+str+'!', {
+						icon : 1,
+						time : 1000
+					});
+					window.location.href="${basePath}/payv2payway/getPayv2PayWayList.do";
+				}else{
+					Huimodal_alert(str+"失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert(str+"失败,请重试!",1500);
+			});
+		});
+	}			
+	</script>
+</body>
+</html>

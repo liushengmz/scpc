@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"   
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns:task="http://www.springframework.org/schema/task"
+   xmlns:context="http://www.springframework.org/schema/context"    
+   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd         
+     http://www.springframework.org/schema/task 
+     http://www.springframework.org/schema/task/spring-task-3.2.xsd 
+     http://www.springframework.org/schema/context 
+	 http://www.springframework.org/schema/context/spring-context.xsd"
+     default-lazy-init="true"> 
+  
+    <bean id="alipayBillQueryJob" class="com.pay.manger.controller.job.AlipayBillQueryJob"></bean>  
+  	<bean id="payOrderByHourJob" class="com.pay.manger.controller.job.PayOrderByHourJob"></bean> 
+    <!-- 自动扫描的包名 -->    
+    <context:component-scan base-package="com.pay.manger.controller.job" />
+    
+    <task:scheduled-tasks>
+        <!--  
+            这里表示的是每隔N分钟执行一次  
+        -->  
+        <task:scheduled ref="alipayBillQueryJob" method="startUp" cron="0 20 10 * * ?" />
+        <task:scheduled ref="payStatisticsDayJob" method="dataCount" cron="0 0/5 0 * * ?" />
+        <!-- 每小时跑一次 -->
+        <task:scheduled ref="payOrderByHourJob" method="startUp" cron="0 0 */1 * * ?" />
+        <task:scheduled ref="payv2DayCompanyClearService" method="insertCompanyToClear" cron="0 0 04 * * ?" />
+        
+    </task:scheduled-tasks>   
+</beans>

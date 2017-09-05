@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<title>SDK版本管理</title>
+		<link href="../../public/css/css.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/css/company.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/skin/default/skin.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/css/jPages.css" rel="stylesheet" type="text/css" />
+		<link href="../../public/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="../../public/js/utils/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="../../public/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
+		<script type="text/javascript" src="../../public/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
+		<script type="text/javascript" src="../../public/lib/layer/1.9.3/layer.js"></script>
+		<script type="text/javascript" src="../../public/lib/laypage/1.2/laypage.js"></script>
+		<script type="text/javascript" src="../../public/lib/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="../../public/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="../../public/js/H-ui.js"></script>
+		<script type="text/javascript" src="../../public/js/jPages.js"></script>
+		<script type="text/javascript" src="../../public/js/H-ui.admin.js"></script>
+		<script type="text/javascript" src="../../public/lib/Validform/5.3.2/Validform.min.js"></script>
+		<script type="text/javascript" src="../../public/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+		<script type="text/javascript" src="../../public/js/jquery.form.js"></script>
+		<script type="text/javascript" src="../../public/lib/laypage/1.2/laypage.js"></script>
+		<script type="text/javascript" src="../../public/js/ajaxfileupload.js"></script>
+		<script type="text/javascript" src="../../public/js/picbox.js"></script>
+		<script type="text/javascript" src="../../public/js/lightbox.js"></script>
+
+		<script type="text/javascript" src="../../public/js/utils/util.js"></script>
+		<script type="text/javascript" src="../../public/js/utils/jquery.cookie.js"></script>
+	</head>
+
+	<body>
+
+		<div class="content-contianer">
+			<nav class="breadcrumb">
+				<i class="Hui-iconfont">&#xe67f;</i> SDK版本管理
+				<a class="btn btn-success radius r mr-20" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+					<i class="Hui-iconfont">&#xe68f;</i></a>
+			</nav>
+			<!-- 条件搜索 start -->
+			<div class="condition-wrap clearfix">
+				<ul class="condition-list fl">
+					<li class="condition-item fl">
+						<div class="names fl">版本号：</div>
+						<input id="" class="id-name-search condition-input inner-shadow" name="" type="text" placeholder="根据版本号搜索" />
+						<div class="public-oper fl">
+							<input class="public-oper-btn popup-oper-search" type="button" value="搜索" />
+						</div>
+					</li>
+					<li class="condition-item fl">
+						<label class="condition-lb">平台：</label>
+						<select class="condition-date condition-input sel">
+							<option>全部</option>
+							<option>Android</option>
+							<option>IOS</option>
+						</select>
+					</li>
+					<li class="condition-item fl">
+
+					</li>
+				</ul>
+			</div>
+			<!-- 条件搜索 end -->
+
+			<!-- 内容 -->
+			<div class="right_main">
+				<div class="promo">
+					<div class="promoheader">
+						<div class="out_data fl" onclick="checkBorrowingMobileList('','upSDK.html','1200','400')">上传SDK</div>
+					</div>
+					<div class="promobody">
+						<table cellpadding="0" cellspacing="0" width="100%">
+							<tr>
+								<th>编号</th>
+								<th>SDK文件名称</th>
+								<th>移动平台</th>
+								<th>版本号</th>
+								<th width="15%">集成文档名称</th>
+								<th width="20%">更新内容</th>
+								<th>状态</th>
+								<th>创建时间</th>
+								<th class="lasttd">操作</th>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>YSDK_Android_V1.1.0</td>
+								<td>android</td>
+								<td>4.0.5</td>
+								<td>2016-9-28安卓SDK4.0.5集成文档</td>
+								<td class="newcon">集2016-9-28安卓SDK4.0.5集成文档2016-9-28安卓SDK4.0.5集成文档2016-9-28安卓SDK4.0.5集成文档</td>
+								<td><span class="nolined">未上线</span></td>
+								<td>2016年10月13日</td>
+								<td class="lasttd">
+									<a title="上线" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">上线</i></a>
+									<a title="编辑" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none" onclick="checkBorrowingMobileList('','upSDK.html','1200','400')"><i class="Hui-iconfont">编辑</i></a>
+									<a title="删除" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">删除</i></a>
+								</td>
+							</tr>
+							<tr class="lasttr">
+								<td>1</td>
+								<td>YSDK_Android_V1.1.0</td>
+								<td>android</td>
+								<td>4.0.5</td>
+								<td>2016-9-28安卓SDK4.0.5集成文档</td>
+								<td class="newcon">xxxx2016-9-28安卓SDK4.0.5集成文档20</td>
+								<td><span class="lined">已上线</span></td>
+								<td>2016年10月13日</td>
+								<td class="lasttd">
+									<a title="下架" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">下架</i></a>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="promofooter"></div>
+				</div>
+			</div>	
+		</div>
+
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="js/WdatePicker.js"></script>
+		<script type="text/javascript">
+		function recommandPro(title, url, w, h) {
+					layer_show(title, url, w, h);
+				}
+				/*查看移动端列表排序*/
+				function checkBorrowingMobileList(title, url, w, h) {
+					layer_show(title, url, w, h);
+				}
+				/***查看理财产品详情**/
+				function checkBorrowingDetails(title, url, w, h) {
+					layer_show(title, url, w, h);
+				}
+			$(function() {
+				//左侧菜单栏
+				function menu(a) {
+					var index = 1;
+					a.click(function() {
+						index++;
+						if(index % 2 !== 0) {
+							$(this).siblings().css({
+								"display": "block"
+							})
+
+						} else {
+							$(this).siblings().css({
+								"display": "none"
+							})
+
+						}
+					})
+				}
+				menu($(".my"));
+				menu($(".xy"));
+				//日期插件
+				$("body").on("click", ".data-checked-all", function() {
+					var _this = $(this);
+					var checkOne = $(".mode-platform-list").find(".data-checked");
+					if(!_this.hasClass("active")) {
+						_this.addClass("active");
+						checkOne.addClass("active");
+					} else {
+						_this.removeClass("active");
+						checkOne.removeClass("active");
+					}
+				});
+
+				$("body").on("click", ".data-checked", function() {
+					var _this = $(this);
+					var checkAll = $(".mode-platform-list").find(".data-checked-all");
+					_this.toggleClass("active");
+					checkAll.removeClass("active");
+				});
+				//选项卡切换
+				$(".datas").click(function() {
+					$(this).addClass("actives").siblings().removeClass("actives");
+					$(".first").css({
+						"display": "block"
+					});
+					$(".second").css({
+						"display": "none"
+					});
+				})
+				$(".infor").click(function() {
+						$(this).addClass("actives").siblings().removeClass("actives");
+						$(".first").css({
+							"display": "none"
+						});
+						$(".second").css({
+							"display": "block"
+						});
+					})
+					/**推荐产品**/
+				function recommandPro(title, url, w, h) {
+					layer_show(title, url, w, h);
+				}
+				/*查看移动端列表排序*/
+				function checkBorrowingMobileList(title, url, w, h) {
+					layer_show(title, url, w, h);
+				}
+				/***查看理财产品详情**/
+				function checkBorrowingDetails(title, url, w, h) {
+					layer_show(title, url, w, h);
+				}
+			});
+		</script>
+	</body>
+
+</html>

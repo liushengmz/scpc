@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>账单详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<div style="width: 90% ; height: 90%; margin: 0 auto;">
+		<div class="data">
+			<label>账单信息</label>
+			<table class="table">			  	
+			  	<tr>
+			  		<td>起始日期：${map.createTimeBegin!}</td>
+			  		<td>终止时间：${map.createTimeEnd!}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>账单结算金额：${map.accountsMonry!}</td>			  		
+			  	</tr>
+			</table>
+		</div>
+
+		<div class="data" style="border-bottom: 1px solid black; border-top: 1px solid black; padding-top: 40px;padding-bottom: 40px;">
+			<label>账单明细</label>
+			<table class="table table-border table-bordered table-hover">
+				<thead>
+					<tr class="text-c">					
+						<td>支付通道名称</td>					
+						<td>交易支付净额</td>
+						<td>成本费率</td>
+						<td>成本手续费</td>
+						<td>商户签约费率</td>
+						<td>商户手续费</td>
+						<td>结算金额</td>
+					</tr>
+				</thead>
+				<tbody id="dayClearDate">
+					<#if mapData ?? && mapData ? size gt 0>
+				        <#list mapData ? values as value>			            
+				            <tr class="text-c">
+								<td>${value.payWayName!}</td>
+								<td>${value.bussMoney!}</td>
+								<td>${value.costRate!}‰</td>
+								<td>${value.costRateMoney!}</td>
+								<td>${value.bussWayRate!}‰</td>
+								<td>${value.bussWayRateMoney!}</td>
+								<td>${value.accountsMonry!}</td>
+							</tr>
+				        </#list>
+					</#if>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</body>
+<style type="text/css">
+	.data {margin-top: 30px;}
+	table {margin-top: 10px;}
+</style>
+</html>

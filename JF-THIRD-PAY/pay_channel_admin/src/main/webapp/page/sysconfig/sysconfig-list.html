@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>系统管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 系统参数配置
+		 <a  class="btn btn-success radius r mr-20" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	
+	<input  type="hidden" id="appId"/>
+	<div class="pd-20 text-c">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:adver_add();">
+				<i class="Hui-iconfont">&#xe600;</i> 添加配置</a></span> <span class="r"> 
+			</span>
+			
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="25"><input type="checkbox" name="" value=""></th>
+						<th width="150">赞助商产品名</th>
+						<th width="200">广告地址</th>
+						<th width="100">广告状态</th>
+						<th width="100">广告类型</th>
+						<th width="200">广告投放开始时间</th>
+						<th width="200">广告投放结束时间</th>
+						<th width="200">备注</th>
+						<th width="150">创建时间</th>						
+						<th width="150">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list?? && list?size gt 0>
+					<#list list as dl >
+						<tr class="text-c" >
+							<td><input type="checkbox" value="${dl.id}" name=""></td>
+							<td>${dl.sponsorName!}</td>
+							<td><img src="${dl.adverInfo.advertResourceUrl!}" width="188" height="40"></img></td>
+							
+							<td>
+								<#if dl.adverInfo.advertState==0>
+									<span class="label label-success radius">正常</span>
+								<#else>
+									<span class="label red radius">下架</span>
+								</#if>
+							</td>
+							
+							<td>
+								<#if dl.adverInfo.advertType==0>
+									<span class="label label-success radius">图片</span>
+								</#if>	
+								<#if dl.adverInfo.advertType==1>	
+									<span class="label radius">FLASH</span>
+								</#if>
+								<#if dl.adverInfo.advertType==2>	
+									<span class="label radius">文字</span>
+								</#if>
+							</td>
+							
+							<td>${dl.adverInfo.advertStateTime?string('yyyy-MM-dd')}</td>
+							<td>${dl.adverInfo.advertEndTime?string('yyyy-MM-dd')}</td>
+							<td>${dl.adverInfo.advertRemark}</td>					
+							<td>${dl.adverInfo.createTime?string('yyyy-MM-dd')}</td>
+								
+							<td class="td-manage">
+								<a title="编辑" href="javascript:;" onclick="adver_edit('广告编辑','${basePath}/advertis/goaddadver.do?id=${dl.id!}','1','800','600')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+								<a title="删除" href="javascript:;" onclick="adver_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn">&#xe6e2;</i></a></td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		/*系统-菜单-添加*/
+		function adver_add(title, url, w, h) {
+			var appId = $("#appId").val();
+			var url = '${basePath}/advertis/goaddadver.do?appId=' + 77;
+			layer_show('添加广告', url, w, h);
+		}
+		
+		/*系统-菜单-编辑*/
+		function adver_edit(title, url, id, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*系统-菜单-删除*/
+		function adver_del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/advertis/deladver.do",  data, function(d){
+					if(d.resultCode == 200){
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						Huimodal_alert("删除失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("删除失败,请重试!",1500);
+				});
+			});
+		}
+	</script>
+</body>
+</html>

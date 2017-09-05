@@ -1,0 +1,236 @@
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	background: #fff;
+	font-family: "微软雅黑";
+}
+
+img {
+	border: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clearfix {
+	height: 0;
+	clear: both;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+
+/*页面style*/
+
+.title {
+	width: 100%;
+	height: 15.36px;
+	height: 0.96rem;
+	border-bottom: 1px solid #dedede;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: #fafafa;
+}
+
+.tlCon {
+	width: 107.36px;
+	width: 6.71rem;
+	height: 15.36px;
+	height: 0.96rem;
+	margin: 0 auto 0 auto;
+	position: relative;
+}
+
+.return {
+	position: absolute;
+	left: 0;
+	top: 4.64px;
+	top: 0.29rem;
+	width: 3.36px;
+	width: 0.21rem;
+	height: 6.24px;
+	height: 0.39rem;
+	background: url(../img/re.png);
+	background-size: 100% 100%;
+}
+
+.headline {
+	height: 15.36px;
+	height: 0.96rem;
+	line-height: 15.36px;
+	line-height: 0.96rem;
+	text-align: center;
+	font-size: 5.76px;
+	font-size: 0.36rem;
+}
+
+.position {
+	width: 100%;
+	height: 0.96rem;
+}
+
+.time {
+	font-size: 0.36rem;
+	height: 1.7rem;
+	line-height: 1.7rem;
+	text-indent: 0.6rem;
+	color: #999;
+}
+
+.try {
+	text-align: center;
+	font-size: 0.36rem;
+	color: #333;
+	height: 0.36rem;
+	line-height: 0.36rem;
+}
+
+.po {
+	width: 100%;
+	height: 0.6rem;
+	background: #fff;
+	display: none;
+}
+
+.otherInfor {
+	margin-top: 0.68rem;
+	width: 100%;
+}
+
+.otherContainer {
+	width: 5.96rem;
+	margin: 0 auto;
+	font-size: 0.32rem;
+}
+
+.otherContainer p {
+	line-height: 0.56rem;
+}
+
+.repay,
+.paySuccess {
+	margin-top: 0.87rem;
+	width: 2.84rem;
+	height: 1.24rem;
+	text-align: center;
+	line-height: 1.24rem;
+	border-radius: 5px;
+}
+
+.repay {
+	border: 1px solid #999;
+	color: #666;
+}
+
+.paySuccess {
+	margin-left: 0.2rem;
+	border: 1px solid #eb942d;
+	color: #ff8b00;
+}
+
+
+/*旋转*/
+
+.wrap,
+.circle,
+.percent {
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+}
+
+.wrap {
+	top: 50px;
+	left: 50px;
+	background-color: #ccc;
+}
+
+.circle {
+	box-sizing: border-box;
+	border: 20px solid #ccc;
+	clip: rect(0, 200px, 200px, 100px);
+}
+
+.clip-auto {
+	clip: rect(auto, auto, auto, auto);
+}
+
+.percent {
+	box-sizing: border-box;
+	top: -20px;
+	left: -20px;
+}
+
+.left {
+	transition: transform ease;
+	border: 20px solid blue;
+	clip: rect(0, 100px, 200px, 0);
+}
+
+.right {
+	border: 20px solid blue;
+	clip: rect(0, 200px, 200px, 100px);
+}
+
+.wth0 {
+	width: 0;
+}
+
+.num {
+	position: absolute;
+	box-sizing: border-box;
+	width: 160px;
+	height: 160px;
+	line-height: 160px;
+	text-align: center;
+	font-size: 40px;
+	left: 20px;
+	top: 20px;
+	border-radius: 50%;
+	background-color: #fff;
+	z-index: 1;
+}

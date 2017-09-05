@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>角色管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 角色管理
+		 <a  class="btn btn-success radius r mr-20" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/roles/torolelist.do">
+				<input type="text" name="rolName" id="rolName" placeholder="角色名称" style="width: 250px" class="input-text">
+				<button class="btn btn-success" type="submit"> <i class="Hui-iconfont">&#xe665;</i> 搜索 </button>
+			</form>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:role_add('添加角色','${basePath}/roles/goaddrole.do');">
+				<i class="Hui-iconfont">&#xe600;</i> 添加角色</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="25"><!-- <input type="checkbox" name="" value=""> --></th>
+						<th width="150">角色名称</th>
+						<th width="150">角色编码:</th>
+						<th width="200">角色所属项目</th>
+						<th width="150">创建时间</th>
+						<th width="150">状态</th>
+						<th width="150">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.rol_name!}</td>
+							<td>${dl.rol_code!}</td>
+							<td>${dl.apps_name!}</td>
+							<td>${dl.create_time?string('yyyy-MM-dd')}</td>
+							<td>
+								<#if dl.rol_status==0>
+									<span class="label label-success radius">已启用</span>
+								<#else>
+									<span class="label radius">已停用</span>
+								</#if>
+							</td>
+							
+							<td class="td-manage">
+								<#if dl.rol_status==0>
+								<a style="text-decoration:none" onClick="role_stop(this,'${dl.id!}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe60e;</i></a> 
+								<a title="编辑" href="javascript:;" onclick="role_edit('角色编辑','${basePath}/roles/goaddrole.do?id=${dl.id!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+								<a title="分配权限" href="javascript:;" onclick="role_permiss('分配权限','${basePath}/roles/topermissrole.do?id=${dl.id!}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe61f;</i></a> 
+								<#else>
+								<a style="text-decoration:none" onClick="role_start(this,'${dl.id!}')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe605;</i></a>
+								</#if>
+								<a title="删除" href="javascript:;" onclick="role_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn">&#xe6e2;</i></a></td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${list.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${list.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+	// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/roles/torolelist.do?curPage="+obj.curr +"&pageData="+10;
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+	
+		/*系统-角色-添加*/
+		function role_add(title, url, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*系统-角色-编辑*/
+		function role_edit(title, url, id, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*系统-角色-分配权限*/
+		function role_permiss(title, url, id, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*系统-角色-删除*/
+		function role_del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/roles/delrole.do",  data, function(d){
+					if(d.resultCode == 200){
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						layer.msg('删除失败,请重试!', {
+							icon : 1,
+							time : 1000
+						});
+					}
+				},
+				function(d){
+					layer.msg('删除失败,请重试!', {
+						icon : 1,
+						time : 1000
+					});
+				});
+			});
+		}
+		
+		/*系统-角色-停用*/
+		function role_stop(obj, id) {
+			layer.confirm('确认要停用吗？', function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/roles/stoprole.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已停用!', {
+							icon : 1,
+							time : 1000
+						});
+						location.replace(location.href);
+					}else{
+						layer.msg('停用失败,请重试!', {
+							icon : 1,
+							time : 1000
+						});
+					}
+				},
+				function(d){
+					layer.msg('停用失败,请重试!', {
+						icon : 1,
+						time : 1000
+					});
+				});
+			});
+		}
+		
+		/*系统-角色-启用*/
+		function role_start(obj, id) {
+			layer.confirm('确认要启用吗？', function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/roles/startrole.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已启用!', {
+							icon : 1,
+							time : 1000
+						});
+						location.replace(location.href);
+					}else{
+						layer.msg('启用失败,请重试!', {
+							icon : 1,
+							time : 1000
+						});
+					}
+				},
+				function(d){
+					layer.msg('启用失败,请重试!', {
+						icon : 1,
+						time : 1000
+					});
+				});
+			});
+		}
+		
+	</script>
+</body>
+</html>

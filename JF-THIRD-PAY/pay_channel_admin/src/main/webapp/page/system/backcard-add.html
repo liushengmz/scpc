@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>添加银行卡信息</title>
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-bankcard-add">
+	<div class="pop_main">
+		<h3 class="header">添加银行卡</h3>
+		<dl>
+			<dt>
+				<label>选择银行卡所属公司：</label>
+			</dt>
+			<dd>
+			<select class="changeSelect" name="companyId">
+					<#list companyList as company >
+						<option value="${company.id}">${company.companyName}</option>
+					</#list>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>银行卡名称：</label>
+			</dt>
+			<dd>
+			<input type="text" class="dd_input" value="" placeholder="" id="bankCardName" name="bankCardName" datatype="*" nullmsg="银行卡名称不能为空">
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>上传银行icon图片：</label></dt>
+			<dd>
+				<input type="text" class="width200"  dataType="*" nullmsg="请上传银行icon图片" name="bankCardIcon" id="bankCardIcon"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="bankCardIconFile" onchange="uploadFile('${basePath}/upload/addFiles.do','bankCardIcon','File')"/>
+				<span class="remind_span">尺寸：44*44像素(宽*高)，icon图片会显示在银行卡列表中</span>
+			</dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" name="" value="确定" onclick="submitBtn()">
+		</div>
+	</div>
+</form>
+	
+<script type="text/javascript">
+
+	$(function(){
+		$("#form-bankcard-add").Validform({
+			tiptype:3,
+			showAllError:true,   //表单提交时显示所有提示信息
+			ignoreHidden: true,  //隐藏的表单元素不校验
+			ajaxPost:true,
+			callback:function(data){
+				$.Hidemsg()
+				if(data.resultCode==200){
+					layer.msg('保存成功!', {
+						icon : 1,
+						time : 1000
+					});
+					parent.location.replace("${basePath}/backCard/backCardList.do");
+					layer_close();
+				}else{
+					layer.msg('保存失败，请你检查数据!', {
+						icon : 1,
+						time : 1000
+					});
+				}
+			}
+		});
+	});
+
+	function submitBtn(){
+		$("#form-bankcard-add").attr("action", "${basePath}/backCard/addBackCard.do").submit();  
+	}
+	
+	function uploadFile(url,idstr,filestr) {
+		if($("input[id='"+idstr+filestr+"']").val()==""){
+			alert("请选择上传文件");
+			return;
+		}
+		commonUp(url, $("input[id='"+idstr+filestr+"']"), function(data) {
+				$("#"+idstr).val(data.Data.url);
+		});
+	
+	}
+	
+	//无刷新上传文件
+	function commonUp(url, e, callback) {
+		$.ajaxFileUpload({
+			url : url,
+			secureuri : false,
+			fileElement : e,
+			dataType : "JSON",//返回数据的类型
+			success : function(data,status) {
+				if (data.resultCode == 200) {
+					if (callback) {
+						callback(data);
+					}
+				} else {
+					//alert("上传失败！");
+					alert(data.Data);
+				}
+				
+			}
+		});
+	}
+
+</script>
+</body>
+</html>

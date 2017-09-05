@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+ <link rel="stylesheet" type="text/css" href="${basePath}/page/payv2/js/css/timepicki.css"/>
+<#include "lib/lib.html" />
+<title>添加优惠方案</title>
+<style>
+    body{ font-family: 'arial'}
+    a{ text-decoration: none; color: #66666B;}
+    a span{ font-size: 12px;}
+</style>
+</head>
+<body>
+<div class="pd-20">
+	<form action="${basePath}/Payv2AppDiscount/addPayv2AppDiscountSubmit.do" method="post" class="form form-horizontal" id="form-app-add">
+		<input type="hidden" id="appId" value="${map.appId!}" name="appId"/>
+		<input type="hidden" id="merchantType" value="${map.merchantType!}" name="merchantType"/>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>方案名称：</label>
+			<div class="formControls col-3">
+				<input type="text" class="input-text" value="" placeholder="" id="schemeName" name="schemeName" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">用户类型：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;" >
+				<select class="select" id="userType" name="userType" size="1">
+					<option value="3">所有用户</option>
+					<option value="1">新用户</option>
+					<option value="2">老用户</option>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+	      <label class="form-label col-3"><span class="c-red">*</span>启动周期：</label>
+	      <div class="formControls col-5">
+		      <div class="text-c">
+						<input  name="startupStartTime" type="text" value="${(bussSponsorProduct.startupStartTime?string('yyyy-MM-dd'))!}" onfocus="WdatePicker({startDate:'%y',dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'logmax\')}'})" id="logmin" class="input-text Wdate col-2" style="width:120px;">
+							<span class="col-2">--</span>
+						<input type="text" name="startupEndTime" value="${(bussSponsorProduct.startupEndTime?string('yyyy-MM-dd'))!}" onfocus="WdatePicker({startDate:'%y',dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'logmin\')}'})" id="logmax" class="input-text Wdate col-2" style="width:120px;"> 
+			  </div>
+	      </div>
+	      <div class="col-4"> </div>
+	    </div>
+		<div class="row cl">
+			<label class="form-label col-3">优惠时间：</label>
+			<div class="text-c">
+				<input type="text" name="time" id="time1" value="" class="input-text" style="width:100px;margin: 0px 30px; float: left"/>
+       			<input type="text" name="time2" id="time2" value="" class="input-text" style="width:100px; margin: 0px 30px; float: left"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">方案类型：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;" >
+				<select class="select" id="schemeType" name="schemeType" size="1">
+					<!-- <option value="1">线上补贴</option> -->
+					<option value="2">线下补贴</option>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">优惠类型：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;" >
+				<select class="select" id="discountOrderNum" name="discountOrderNum" size="1">
+					<option value="1">金额</option>
+					<option value="2">订单数</option>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>限制总金额：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="discountMoney" name="discountMoney" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>单笔订单金额限制：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="singleOrderMoney" name="singleOrderMoney" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>单笔订单最高优惠限额：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="singleOrderMaxMoney" name="singleOrderMaxMoney" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>用户订单数：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="userOrderNum" name="userOrderNum" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">优惠区域：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;" >
+				<select class="select" id="discountArea" name="discountArea" size="1">
+					<option value="0">全国</option>
+					<#if cityList?? && cityList?size gt 0>
+						<#list cityList as dl>
+							<option value="${dl.id!}">${dl.name!}</option>
+						</#list>
+					</#if>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">优惠类型：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;" >
+				<select class="select" id="discountType" name="discountType" size="1">
+					<option value="1">直减</option>
+					<option value="2">折扣</option>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>优惠额度：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="discountValue" name="discountValue" >元
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="${basePath}/page/payv2/js/js/timepicki.js"></script>
+<script>
+	 $("#time1").timepicki();
+	 $("#time2").timepicki();
+ </script>
+<script type="text/javascript">
+$(function(){
+	$("#form-app-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			$.Hidemsg();
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/Payv2AppDiscount/getPayv2AppDiscountList.do?appId="+$("#appId").val()+"&merchantType="+$("#merchantType").val());
+				layer_close();
+			}else{
+				$("#form-app-add").resetForm();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		}
+	});
+});
+
+/**
+ * 异步获取支付通道列表
+ */
+function changeSponsoIdValue_zlb(wayType){
+	var wayType =wayType;
+	if(wayType == ""){
+		alert("请先选择支付方式");
+		return;
+	}else{
+		$.ajax({
+			url:'${basePath}/Payv2BussSupportPayWay/getPayv2PayWayList.do?wayType='+wayType,
+			dataType:'json',
+			success:function(data){
+				var lists = data.payv2PayWayList;
+				$("#payWayId").find("option").remove();
+				 $.each(lists,function(n,value) {
+			           	var trs = "<option value=\"" + value.id + "\" >" + value.wayName + "</option> ";  
+						$("#payWayId").append(trs);			               
+			        });  
+			 	 }  
+		});
+	}
+ }
+</script>
+</body>
+</html>

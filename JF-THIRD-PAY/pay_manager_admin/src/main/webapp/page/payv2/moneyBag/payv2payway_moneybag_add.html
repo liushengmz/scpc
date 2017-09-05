@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+	<#include "lib/lib.html" />
+		<title>新增钱包</title>
+		<style>
+			input[type=radio] {
+			    margin-left: 10px;
+			}
+			select{
+				border-radius: 5px;
+			}
+			.gd,.gdimg{
+				display: none;
+			}
+			.upLoadShots1,.upLoadShots2{
+				display: none;
+			}
+			.imageOper2{
+			    cursor: pointer;
+			    top: -8px;
+			    position: relative;
+			    display: inline-block;
+			    width: 20px;
+			    height: 18px;
+			    background: url(../../../public/images/acrossTab-close.png) no-repeat 4px -10px;
+			}
+			
+			@media only screen (max-width: 1367px) {
+				.pop_main>dl>dt{
+					width:20%
+				}
+				.pop_main>dl>dd{
+					width:79%
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<form action="" method="post" class="form form-horizontal" id="form-addPayv2PaywayMoneyBag-add">
+			<div class="pop_main">
+				<h3>基本信息</h3>
+				<dl>
+					<dt><label>支付通道名称：</label></dt>
+					<dd><input type="text" name="wayName" placeholder="输入第三方支付通道名称" class="dd_input" datatype="*" nullmsg="支付通道名称不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl>
+					<dt><label>所属合作银行：</label></dt>
+					<dd><input type="text" name="wayCompanyName" placeholder="输入钱包来源银行" class="dd_input" datatype="*" nullmsg="钱包来源银行名称不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl>
+					<dt><label>合作身份ID/商户号：</label></dt>
+					<dd><input type="text" name="merchantCode" placeholder="该编号由第三方提供" class="dd_input" datatype="*" nullmsg="合作身份ID/商户号不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl>
+					<dt><label>联系人：</label></dt>
+					<dd><input type="text" name="wayContacts" placeholder="请输入联系人姓名" class="dd_input" datatype="*" nullmsg="联系人不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl>
+					<dt><label>联系方式：</label>
+					<input type="hidden" name="shopRangeProvince" id="shopRangeProvince">
+					<input type="hidden" name="shopRangeCity" id="shopRangeCity">
+					</dt>
+					<dd><input type="text" name="wayPhone" placeholder="请输入联系人电话" onblur="ValidateFloat($(this),value)" class="dd_input" datatype="*" nullmsg="联系人电话为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+						
+				<dl  class="adddl">
+					<dt><label>优先支付地区：</label>
+					</dt>
+					<dd id="chooseCity">						
+						<select name="discoutShopRangeProvince" id="search_shopRangeProvince" style="width:100px;" onchange="cityChange('search_shopRangeProvince','search_shopRangeCity')">
+							<option value="">全国</option>
+							<#if provincesList?? && provincesList?size gt 0>
+							<#list provincesList as dl >
+								<option value="${dl.id}">${dl.name}</option>
+							</#list>
+							</#if>
+						</select>
+						<select name="discoutShopRangeCity" id="search_shopRangeCity" style="width:100px;">
+							<option value="">市</option>
+						</select>
+						<input type="button" style="width:50px;height:30px;"  onclick="add()" value="创建">
+					</dd>
+				</dl>
+				<dl>
+					<dt><label>支付通道ICON：</label></dt>
+					<dd>
+						<input datatype="*" nullmsg="请上传ICON" name="wayIcon" type="text" id="wayIcon1" placeholder="上传" readonly="readonly" class="dd_input width200" value="">
+						<input type="file" name="file" id="wayIconFile" class="width150 fileInputClass" onchange="upImgFiles(this)">
+						<div class="upLoadShots1">
+							<p class="shotList"><img src="" id="serviceIconImgwayIcon1"><i class="imageOper2 close22"></i></p>
+						</div>
+						<span class="Validform_checktip"></span>
+					</dd>
+				</dl>
+				<dl>
+					<dt><label>推广语：</label></dt>
+					<dd><input type="text" name="waySlogan" placeholder="请输入支付通道的推广语" class="dd_input" datatype="*" nullmsg="推广语为空"></dd>
+				</dl>
+				<h3>资金收单设置</h3>
+				<dl class="clearfix">
+					<dt><label >收单机构：</label></dt>
+					<dd style="height: 32px;padding-top: 8px;" class="goTypes">
+						<input type="hidden" name="incomeType" id="incomeType" value="1">
+						<label><input type="radio" id="iself" name="hhhh" checked="checked" value="1" onclick="checkSelf()"/>本行</label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" id="iit" name="hhhh" value="2" onclick="checkIt()"/>他行</label></dd>
+					</dd>
+				</dl>
+				<dl class="incomeType_show">
+					<dt><label>收单账号：</label>
+					
+						<input type="hidden" name="prepareIds" id="prepareIdStr" value="${dl.id}">
+						<input type="hidden" name="prepareNames" id="prepareNameStr">
+						<input type="hidden" name="prepareNums" id="prepareNumStr">
+					</dt>
+					<dd><input type="text" name="incomeNum" placeholder="请输入收单账号" class="dd_input" datatype="*" nullmsg="单账号不能为空"></dd>
+				</dl>
+ 				<#if payv2PayWayList?? && payv2PayWayList?size gt 0>
+					<#list payv2PayWayList as dl >
+					<dl class="incomeType_show">
+						<dt>
+						<input type="hidden" name="prepareIdStr" value="${dl.id}">
+
+						<label>${dl.wayName}预留账号名：</label></dt>
+						<dd><input type="text" name="prepareName" value="" class="dd_input" ></dd>
+					</dl>
+					<dl class="incomeType_show">
+						<dt><label>${dl.wayName}预留账号：</label></dt>
+						<dd><input type="text" name="prepareNum" value="" class="dd_input" ></dd>
+					</dl>
+					</#list>
+				</#if>
+				<dl class="incomeType_show2" style="display:none">
+					<dt><label>收单通道：</label>
+					</dt>
+					<dd >						
+						<select name="wayId" id="wayId" style="width:100px;" datatype="*" nullmsg="请先配置收单通道">
+							<option value="">全国</option>
+							<#if payv2PayWayList?? && payv2PayWayList?size gt 0>
+							<#list payv2PayWayList as dl >
+								<#if dl.incomeLine ?length gt 4>
+									<option value="${dl.id}">${dl.wayName}</option>
+								</#if>
+							</#list>
+							</#if>
+						</select>
+					</dd>
+				</dl>
+				
+				<h3>配置信息</h3>
+				<dl class="clearfix">
+					<dt><label >安卓APK：</label></dt>
+					<dd>
+						<input type="text" name="wayApkUrl" class="dd_input ppCompressApkUrl width200" id="wayApkUrl" readonly="readonly" >
+						<input type="file" name="file" class="packageUploadPackge width150 fileInputClass" class="upload-btn" id="wayApkUrlFile">
+					</dd>
+				</dl>
+				<dl class="clearfix">
+					<dt><label >iosSDK：</label></dt>
+					<dd>
+						<input type="text" name="wayIosUrl" class="dd_input ppCompressIOSUrl width200" id="wayIosUrl" readonly="readonly" >
+						<input type="file" name="file" class="packageUploadIOSPackge width150 fileInputClass" class="upload-btn" id="wayIosUrlFile">
+					</dd>
+				</dl>
+				<dl>
+					<dt><label>支付渠道通道费率：</label></dt>
+					<dd><input type="text" name="wayRate" placeholder="该通道所收取的费率" onblur="ValidateFloat2($(this),value)" class="dd_input" datatype="*" nullmsg="支付渠通费率不能为空"> ‰<span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl>
+					<dt><label>账期类型：</label></dt>
+					<dd>
+						<select style="border-radius: 5px;" name="wayArrivalType" id="wayArrivalType" onchange="show_Type()">
+							<option value="1">T+日期(工作日)</option>
+							<option value="2">实时到账</option>
+							<option value="3">T+日期</option>
+						</select>
+					</dd>
+				</dl>
+				<dl id="sssssss">
+					<dt><label>到账时间：</label></dt>
+					<dd><input type="text" name="wayArrivalValue" placeholder="请输入到账时间" class="dd_input" datatype="*" nullmsg="到账时间不能为空"> 天<span class="Validform_checktip"></span></dd>
+				</dl>
+<!-- 				<dl>
+					<dt><label>选择支付类型：</label></dt>
+					<dd>
+						<select class="select" id="dicId" name="dicId" size="1" datatype="*"  nullmsg="请选择支付类型" >
+			           		<option value="">全部</option>
+			           		<#if dicList?? && dicList?size gt 0>
+			           		<#list dicList as dl>
+			           			<option value="${dl.id!}">${dl.dictName!}</option>
+			           		</#list>
+			           		</#if>
+						</select>
+					</dd>
+				</dl> -->
+				<h3>钱包启动页设置</h3>
+				<dl class="clearfix">
+					<dt><label >过渡页类型：</label></dt>
+					<dd style="height: 32px;padding-top: 8px;" class="goTypes">
+						<input type="hidden" name="wayTransitionType" id="wayTransitionType">
+						<label><input type="radio" class="moren" checked="checked" name="wayTransitionType1" value="1"/>默认模板</label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" class="zidingyi" name="wayTransitionType1" value="2"/>自定义</label></dd>
+					</dd>
+				</dl>
+				<dl class="gd">
+					<dt><label>过渡效果：</label></dt>
+					<dd>
+						<input datatype="*" nullmsg="请上传ICON" name="wayTransitionEffect" type="text" id="wayTransitionEffect" placeholder="上传" readonly="readonly" class="dd_input width200" value="">
+						<input type="file" name="file" id="wayTransitionEffectFile" class="width150 fileInputClass" onchange="upImgFiles2(this)">
+						<div class="upLoadShots2">
+							<p class="shotList"><img src="" id="serviceIconImgwayTransitionEffect"><i class="imageOper2 close33"></i></p>
+						</div>
+						<span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="clearfix gd">
+					<dt><label >设置加载演示：</label></dt>
+					<dd style="height: 32px;padding-top: 8px;" class="loadTypes">
+						<input type="hidden" name="wayLodingType" id="wayLodingType">
+						<label><input type="radio" class="line" checked="checked" name="wayLodingType1" value="1"/>进度条</label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" class="img" name="wayLodingType1" value="2"/>加载图案</label></dd>
+					</dd>
+				</dl>
+				<dl class="gd gdline">
+					<dt><label>进度条凹槽色值：</label></dt>
+					<dd>
+					<input type="text"  name="progressGrooveColor" id="progressGrooveColor1" class="dd_input" datatype="*" nullmsg="进度条凹槽色值不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdline">
+					<dt><label>进度色值：</label></dt>
+					<dd>
+					<input type="text" id="progressColor" name="progressColor" class="dd_input" datatype="*" nullmsg="进度色值不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdline">
+					<dt><label>进度条显示文字：</label></dt>
+					<dd>
+					<input type="hidden" name="showWords" id="showWords" >
+					<input type="text" id="showWords1" class="dd_input" datatype="*" nullmsg="进度条显示文字不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdline">
+					<dt><label>文字色值：</label></dt>
+					<dd>
+					<input type="hidden" name="showWordsColor" id="showWordsColor">
+					<input type="text" id="showWordsColor1" class="dd_input" datatype="*" nullmsg="文字色值不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdline">
+					<dt><label>文字阴影色值：</label></dt>
+					<dd>
+					<input type="hidden" name="showWordsShadowColor" id="showWordsShadowColor" >
+					<input type="text" id="showWordsShadowColor1" class="dd_input" datatype="*" nullmsg="文字阴影色值不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdimg">
+					<dt><label>选择加载图案：</label></dt>
+					<dd>
+						<label>
+						<input type="hidden" name="loadingPicType" id="loadingPicType"/>
+						<input type="radio" checked="checked" name="loadingPicType1" class="loadingPicType" value="1">1</label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="loadingPicType1" class="loadingPicType" value="2">2</label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="loadingPicType1" class="loadingPicType" value="3">3</label>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="loadingPicType1" class="loadingPicType" value="4">4</label>
+						<div class="imgs hide"><img src=""></div>
+						<div class="imgs2 ">
+							<div class="fl spebg"><img src="${basePath}/public/images/loading1.png" /></div>
+							<div class="fl"><img src="${basePath}/public/images/loading2.png" /></div>
+							<div class="fl"><img src="${basePath}/public/images/loading3.png" /></div>
+							<div class="fl"><img src="${basePath}/public/images/loading4.png" /></div>
+						</div>
+					</dd>
+				</dl>
+				<dl class="gd gdimg">
+					<dt><label>加载文字：</label></dt>
+					<dd><input type="text" id="showWords2" class="dd_input" datatype="*" nullmsg="加载文字不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdimg">
+					<dt><label>文字色值：</label></dt>
+					<dd><input type="text"  id="showWordsColor2" class="dd_input" datatype="*" nullmsg="文字色值不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl class="gd gdimg">
+					<dt><label>文字阴影色值：</label></dt>
+					<dd><input type="text" id="showWordsShadowColor2" class="dd_input" datatype="*" nullmsg="文字阴影色值不能为空"><span class="Validform_checktip"></span></dd>
+				</dl>
+				<dl>
+					<dt><label>消失动画：</label></dt>
+					<dd>
+						<select class="endingShow" name="endingShow">
+								<option value="1">淡出</option>
+								<option value="2">从顶部滑动</option>
+								<option value="3">从左部滑动</option>
+								<option value="4">从右部滑动</option>
+								<option value="5">从底部滑动</option>
+								<option value="6">呈碎片散开</option>
+						</select>
+					</dd>
+				</dl>
+	
+				<div class="submit_btn">
+					<input type="button" onclick="submitBtn()" value="创建">
+				</div>
+			</div>
+			<script type="text/javascript">
+				$(function() {
+					$("#form-addPayv2PaywayMoneyBag-add").Validform({
+						tiptype: 3,
+						showAllError: true, //表单提交时显示所有提示信息
+						ignoreHidden: true, //隐藏的表单元素不校验
+						ajaxPost: true,
+						callback: function(data) {
+							//后台请求保存数据
+							$.Hidemsg()
+							if(data.resultCode == 200) {
+								layer.msg('保存成功!', {
+									icon: 1,
+									time: 1000
+								});
+								parent.location.replace("${basePath}/payv2PaywayMoneyBag/getPayv2PayWayMoneyBagList.do");
+								parent.layer.close();
+							} else {
+								layer.msg(data.message, {
+									icon: 1,
+									time: 1000
+								});
+							}
+
+						}
+					});
+
+				});
+
+				function submitBtn() {
+					
+					//预留账号id
+					var prepareIds =  document.getElementsByName("prepareIdStr");
+					//预留账号名称
+					var prepareNames =  document.getElementsByName("prepareName");
+					//预留账号
+					var prepareNums = document.getElementsByName("prepareNum");
+					var prepareName='';
+					var prepareNum='';
+					var prepareId='';
+					
+					for ( var i = 0; i < prepareNums.length; i++) {
+						if ((prepareNums[i].value=='' && prepareNames[i].value=='') || (prepareNums[i].value!='' && prepareNames[i].value!='')) {
+							if(prepareNums[i].value!='' && prepareNames[i].value!=''){
+								prepareName += prepareNames[i].value + ",";
+								prepareNum += prepareNums[i].value + ",";
+								prepareId += prepareIds[i].value + ",";
+							}
+						}else{
+						
+							if(prepareNums[i].value==''){
+								prepareNums[i].focus();
+								alert(请输入预留账号名称);
+								return;
+							}
+							if(prepareNames[i].value==''){
+								prepareNames[i].focus();
+								alert(请输入预留账号);
+								return;
+							}
+						}
+					}
+					
+					if(prepareName != ''){
+						prepareName = prepareName.substring(0,prepareName.length - 1);
+						$("#prepareNameStr").val(prepareName);
+					}
+					if(prepareNum != ''){
+						prepareNum = prepareNum.substring(0,prepareNum.length - 1);
+						$("#prepareNumStr").val(prepareNum);
+					}
+					if(prepareId != ''){
+						prepareId = prepareId.substring(0,prepareId.length - 1);
+						$("#prepareIdStr").val(prepareId);
+					}
+					
+					var provinces =  document.getElementsByName("discoutShopRangeProvince");
+					var citys =  document.getElementsByName("discoutShopRangeCity");
+					var province = '';
+					var city = '';
+					if(provinces.length == citys.length){
+						for ( var i = 0; i < provinces.length; i++) {
+							
+							if(province.indexOf(provinces[i].value) == -1){
+								province += provinces[i].value + ",";
+							}
+							if(city.indexOf(citys[i].value) == -1){
+								city += citys[i].value + ",";
+							}
+
+						}
+					}else{
+						document.getElementsByName("discoutShopRangeProvince")[0].focus();
+						return;
+					}
+
+					if(province != ''){
+						province = province.substring(0,province.length - 1);
+						$("#shopRangeProvince").val(province);
+					}
+					
+					if(city != ''){
+						city = city.substring(0,city.length - 1);
+						$("#shopRangeCity").val(city);
+					}
+
+					//过渡页类型
+					var wayTransitionTypes = document.getElementsByName("wayTransitionType1");
+					for ( var i = 0; i < wayTransitionTypes.length; i++) {
+						if (wayTransitionTypes[i].checked) {
+							$("#wayTransitionType").val(wayTransitionTypes[i].value);
+						}
+					}
+					
+					//收单机构
+					var incomeTypes = document.getElementsByName("incomeType1");
+					for ( var i = 0; i < incomeTypes.length; i++) {
+						if (incomeTypes[i].checked) {
+							$("#incomeType").val(incomeTypes[i].value);
+						}
+					}
+					
+					//设置加载演示
+					var wayLodingTypes = document.getElementsByName("wayLodingType1");
+					for ( var i = 0; i < wayLodingTypes.length; i++) {
+						if (wayLodingTypes[i].checked) {
+							$("#wayLodingType").val(wayLodingTypes[i].value);
+							//进度条
+							if(wayLodingTypes[i].value == 1){
+								$("#showWords").val($("#showWords1").val());
+								$("#showWordsColor").val($("#showWordsColor1").val());
+								$("#showWordsShadowColor").val($("#showWordsShadowColor1").val());
+							}else if(wayLodingTypes[i].value == 2){//加载图案
+								$("#showWords").val($("#showWords2").val()); 
+								$("#showWordsColor").val($("#showWordsColol2").val());
+								$("#showWordsShadowColor").val($("#showWordsShadowColor2").val());
+							}
+						}
+					}
+					
+					//选择加载图案
+					var loadingPicTypes = document.getElementsByName("loadingPicType1");
+					for ( var i = 0; i < loadingPicTypes.length; i++) {
+						if (loadingPicTypes[i].checked) {
+							$("#loadingPicType").val(loadingPicTypes[i].value);
+						}
+					}
+
+					$("#form-addPayv2PaywayMoneyBag-add").attr(
+						"action",
+						"${basePath}/payv2PaywayMoneyBag/addPayv2PayWayMoneyBag.do").submit();
+				}
+
+				//验证输入的数字合法性
+				function ValidateFloat(e, pnumber) {
+					if(!(/^1[34578]\d{9}$/.test(pnumber) || /^0\d{2,3}-?\d{7,8}$/.test(pnumber))) {
+						$(e).val("");
+					}
+					return false;
+				}
+
+				function ValidateFloat2(e, pnumber) {
+					if(!/^(\d{1,3}(\.\d+)?|1000)$/.test(pnumber)) {
+						$(e).val("");
+					}
+					return false;
+				}
+
+				function uploadFile22222(url, idstr, filestr, obj) {
+					var _this = $(obj);
+					if($("input[id='" + idstr + filestr + "']").val() == "") {
+						alert("请选择上传文件");
+						return;
+					}
+					var len = _this.parent("dd").find(".upLoadShots").find(".shotList").length;
+					if(len == 0) {
+						_this.parent("dd")
+							.find(".upLoadShots")
+							.append(
+								"<p class='shotList'><img src='' id='insuIconImg'/><i class='imageOper'></i></p>");
+					}
+					commonUp(url, $("input[id='" + idstr + filestr + "']"), function(
+						data) {
+						$("#" + idstr).val(data.Data.url);
+						$("#serviceIconImg" + idstr).attr("src", data.Data.url);
+					});
+
+				}
+
+				//无刷新上传文件
+				function commonUp22222(url, e, callback) {
+					$.ajaxFileUpload({
+						url: url,
+						secureuri: false,
+						fileElement: e,
+						dataType: "JSON", //返回数据的类型
+						success: function(data, status) {
+							if(data.resultCode == 200) {
+								if(callback) {
+									callback(data);
+								}
+							} else {
+								alert(data.Data);
+							}
+
+						}
+					});
+				}
+				
+				
+				$("body").on("change",".goTypes input,.loadTypes input",function(){
+					if($(".zidingyi").is(":checked")){
+						$(".gd").show();
+						if($(".line").is(":checked")){
+							$(".gdimg").hide();
+							$(".gdline").show();
+						}else{
+							$(".gdimg").show();
+							$(".gdline").hide();
+						}
+					}else{
+						$(".gd").hide();
+					}
+				})
+				
+					//SDK上传
+				$("input.packageUploadPackge").h5upload({
+					//上传的格式
+					'fileTypeExts': '',
+					'fileObjName': 'file',
+					//上传处理程序
+					'url': '${basePath}/upload/uploadApkIpa.do',
+					//上传文件的大小限制
+					'fileSizeLimit': 50000 * 1024 * 1024,
+					
+					//上传到服务器，服务器返回相应信息到data里
+					'onUploadSuccess': function(file, data) {
+						var result = JSON.parse(data);
+						if(!!result && result.resultCode == 200) {
+							var data = result.Data;
+							$(".ppCompressApkUrl").val(data.url);
+						} else {
+							alert(result.message);
+						}
+					},
+					//上传失败
+					'onUploadError': function(file) {
+						alert("上传失败!");
+					}
+				});
+				
+				$("input.packageUploadIOSPackge").h5upload({
+					//上传的格式
+					'fileTypeExts': '',
+					'fileObjName': 'file',
+					//上传处理程序
+					'url': '${basePath}/upload/uploadApkIpa.do',
+					//上传文件的大小限制
+					'fileSizeLimit': 50000 * 1024 * 1024,
+					
+					//上传到服务器，服务器返回相应信息到data里
+					'onUploadSuccess': function(file, data) {
+						var result = JSON.parse(data);
+						if(!!result && result.resultCode == 200) {
+							var data = result.Data;
+							$(".ppCompressIOSUrl").val(data.url);
+						} else {
+							alert(result.message);
+						}
+					},
+					//上传失败
+					'onUploadError': function(file) {
+						alert("上传失败!");
+					}
+				});
+				//隐藏
+				function show_Type(){
+					var a=$("#wayArrivalType").val();
+					 if(a==2){
+						document.getElementById("sssssss").style.display="none";//隐藏
+					}else{
+						document.getElementById("sssssss").style.display="";//隐藏
+					} 
+				}
+				
+				var index = 0;
+				function add(){
+					index++;
+					var html = "<dd >"+						
+						"<select name=\"discoutShopRangeProvince\" id=\"search_shopRangeProvince"+index+"\" style=\"width:100px;\" onchange=\"cityChange('search_shopRangeProvince"+index+"','search_shopRangeCity"+index+"')\">"+
+						"<option value=\"\">全国</option>"+
+						"<#if provincesList?? && provincesList?size gt 0>"+
+						"<#list provincesList as dl >"+
+							"<option value=\"${dl.id}\">${dl.name}</option>"+
+						"</#list>"+
+						"</#if>"+
+						"</select>"+
+						"<select name=\"discoutShopRangeCity\" id=\"search_shopRangeCity"+index+"\" style=\"width:100px;\">"+
+						"<option value=\"\">市</option>"+
+						"</select>"+
+					"</dd>";
+					$("#chooseCity").append(html);
+				}
+				
+				function cityChange(proId,cityId){
+					var pro = $("#"+proId).val();
+					$("#"+cityId).empty();
+					if(pro==""){
+						$("#"+cityId).append('<option value="">市</option>');
+					}else{
+						$.ajax({
+							type:"get",
+							url:"${basePath}/payv2BussCompany/proCity.do?parentId="+pro,
+							async:true,
+							success:function(data){
+								if(!!data&&data.resultCode==200){
+									var list = data.Data,
+										str="";
+									for(var i=0;i<list.length;i++){
+										str+='<option value="'+list[i].id+'">'+list[i].name+'</option>'
+									}
+									$("#"+cityId).append(str);
+								}else{
+									alert(data.message);
+								}
+							}
+						});
+					}
+				}
+				
+				function checkSelf(){
+				 	var androidChk = document.getElementById("iself");
+					if(androidChk.checked){
+						$(".incomeType_show").show();
+						$(".incomeType_show2").hide();
+						$("#incomeType").val("1");
+					}
+				}
+				
+				function checkIt(){
+				 	var androidChk = document.getElementById("iit");
+					if(androidChk.checked){
+						$(".incomeType_show2").show();
+						$(".incomeType_show").hide();
+						$("#incomeType").val("2");
+					}
+				}
+				function upImgFiles(e) {
+					
+					//console.log($(e).parent().children().children().find("#serviceIconImgwayIcon"))
+					if(e.files[0].size/1024/1024<2&&(e.files[0].type.indexOf("png")!=-1||e.files[0].type.indexOf("jpeg")!=-1)){
+						var _this=$(e)
+						$.ajaxFileUpload({
+							url : '${basePath}/upload/addFiles.do',
+							secureuri : false,
+							fileElement : e,
+							dataType : "JSON",//返回数据的类型
+							success : function(data, status) {
+								//console.log(data);
+								if (data.resultCode == 200) {
+									console.log(_this.parent().find("#wayIcon"))
+									$("#wayIcon1").val(data.Data.url);
+									$(".upLoadShots1").show();
+									$("#serviceIconImgwayIcon1").attr("src",data.Data.url);
+								} else {
+									alert("上传失败！");
+									//alert(data.Data);
+								}
+							}
+						});
+					}
+				}
+				function upImgFiles2(e) {
+					//console.log($(e).parent().children().children().find("#serviceIconImgwayIcon"))
+					if(e.files[0].size/1024/1024<2&&(e.files[0].type.indexOf("png")!=-1||e.files[0].type.indexOf("jpeg")!=-1)){
+						$.ajaxFileUpload({
+							url : '${basePath}/upload/addFiles.do',
+							secureuri : false,
+							fileElement : e,
+							dataType : "JSON",//返回数据的类型
+							success : function(data, status) {
+								//console.log(data);
+								if (data.resultCode == 200) {
+									//console.log(data.url)
+									$("#wayTransitionEffect").val(data.Data.url);
+									$(".upLoadShots2").show();
+									$("#serviceIconImgwayTransitionEffect").attr("src",data.Data.url);
+								} else {
+									alert("上传失败！");
+									//alert(data.Data);
+								}
+							}
+						});
+					}
+				}
+				$("body").on("click",".imageOper2",function(){
+					if($(this).hasClass("close22")){
+						$(this).parent().parent().parent().find(".upLoadShots1").hide();
+						$(this).parent().parent().parent().find("#wayIcon1").val("");
+					}else{
+						$(this).parent().parent().parent().find(".upLoadShots2").hide();
+						$(this).parent().parent().parent().find("#wayTransitionEffect").val("");
+					}
+					
+				})
+			</script>
+
+		</form>
+
+	</body>
+
+</html>

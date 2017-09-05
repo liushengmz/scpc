@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>SDK管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		SDK管理 <span class="c-gray en">&gt;</span> SDK版本列表 <a
+			class="btn btn-success radius r mr-20"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"> <i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/Payv2SdkVersion/payv2SdkVersionList.do">
+				<input type="text" name="sdkVersion" id="sdkVersion" value="${map.sdkVersion}" placeholder="版本号" style="width: 250px" class="input-text">
+				平台：<select class="select" datatype="*" name="sdkType" id="sdkType" nullmsg="请选择！" style="width: 150px">
+		        	 		<option value="">全部</option>
+		        	 		<option value="1" <#if map.sdkType==1>selected="selected"</#if>>android</option>
+			       	 		<option value="2" <#if map.sdkType==2>selected="selected"</#if>>ios</option>
+	        			</select>
+	        	<input id="resetButton" class="btn" type="button" value="清空"></input>
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe665;</i> 搜索
+				</button>
+			</form>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:addSdkVersion();">
+				<i class="Hui-iconfont">&#xe600;</i> 上传SDK</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>
+			<table
+				class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="35">编号</th>
+						<th width="150">SDK文件名称</th>
+						<th width="80">移动平台</th>
+						<th width="80">版本号</th>
+						<th width="80">子版本号</th>
+						<th width="330">集成文档名称</th>
+						<th width="300">更新内容</th>
+						<th width="80">状态</th>
+						<th width="130">创建时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					 <#list list.dataList as dl>
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>
+							<#if dl.sdkType== 1>
+								${dl.sdkFileName!}
+							<#else>
+								${dl.sdkDocumentName!}	
+							</#if>	
+							</td>
+							<td>
+								<#if dl.sdkType== 1>
+									Android
+								<#elseif dl.sdkType== 2>
+									IOS
+								<#elseif dl.sdkType== 3>
+									Server
+								<#elseif dl.sdkType== 4>
+									H5
+								</#if>
+								
+							</td>
+							<td>${dl.sdkVersion!}</td>
+							<td>${dl.sdkVersionCode!}</td>
+							<td>${dl.sdkDocumentName!}</td>
+							<td>
+								${dl.sdkDescribe!}
+							</td>
+							<td>
+								<#if dl.isOnline==1>
+									<span class="using">已上线</span>
+								<#else>
+									<span class="stoped">未上线</span>
+								</#if>
+							</td>
+							<td>${(dl.createTime?string('yyyy-MM-dd'))!}</td>
+							<td class="td-manage">
+								<#if dl.isOnline==2>
+									<a title="上线" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="sdk_update(this,${dl.id!},'上线','1')" style="text-decoration:none"><i class="Hui-iconfont">上线</i></a>
+									<a title="编辑" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="editSdkVersion(${dl.id!})" style="text-decoration:none"><i class="Hui-iconfont">编辑</i></a>
+									<a title="删除" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="del(this,${dl.id!})" style="text-decoration:none"><i class="Hui-iconfont">删除</i></a>
+								<#else>
+									<a title="下线" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="sdk_update(this,${dl.id!},'下线','2')" style="text-decoration:none"><i class="Hui-iconfont">下线</i></a>
+								</#if>
+							</td>
+						</tr>
+					</#list>
+				  </#if>
+				</tbody>
+			</table>
+			<#if list.dataList?? && list.dataList?size gt 0>
+				<div class="page_list"></div>
+			</#if>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+	$(function(){
+	 	$("#resetButton").bind("click", function(){
+	 		$("#sdkVersion").val("");
+	 		$("#sdkType").val("");
+	 	});
+	});
+	
+	$(function(){
+	 	laypage({
+	 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: ${list.endPage! }, //总页数
+	 	    groups: 10, //连续显示分页数
+	 	    first: '首页', //若不显示，设置false即可
+	 	    last: '尾页', //若不显示，设置false即可
+	 	    curr:${list.curPage!},
+	 	   	hash: true, //开启hash
+	 	    skin: '#00AA91',
+	 	    jump: function(obj,first){ //触发分页后的回调
+// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+	 	    	if(!first){
+	 	         	 window.location.href="${basePath}/Payv2SdkVersion/payv2SdkVersionList.do?curPage="+obj.curr +"&pageData="+10
+	 	         	 					+ "&sdkVersion="+$("#sdkVersion").val()
+	 	         	 					+ "&sdkType="+$("#sdkType").val();
+	 	    	}
+	 	    }
+	 	});
+	 			
+	});
+	
+	//上传SDK
+	function addSdkVersion(title, url, w, h){
+		var url = '${basePath}/Payv2SdkVersion/addPayv2SdkVersionTc.do';
+		layer_show('上传SDK', url, w, h);
+	}
+	
+	//编辑
+	function editSdkVersion(id,title, url, w, h){
+		var url = '${basePath}/Payv2SdkVersion/editPayv2SdkVersionTc.do?id='+id;
+		layer_show('编辑', url, w, h);
+	}
+	
+	/*删除*/
+	function del(obj, id) {
+		layer.confirm('确认要删除吗？', function(index) {
+			var data = {};
+			data.id = id;
+			//后台请求保存数据
+			$.axse("${basePath}/Payv2SdkVersion/delPayv2SdkVersion.do",  data, function(d){
+				if(d.resultCode == 200){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!', {
+						icon : 1,
+						time : 1000
+					});
+				}else{
+					Huimodal_alert("删除失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert("删除失败,请重试!",1500);
+			});
+		});
+	}
+	
+	//上架下架
+	function sdk_update(obj,id,str,isOnline){
+		layer.confirm("确定"+str+"？", function(index) {
+			var data = {};
+			data.id = id;
+			data.isOnline = isOnline;
+			//后台请求保存数据
+			$.axse("${basePath}/Payv2SdkVersion/updatePayv2SdkVersion.do",  data, function(d){
+				if(d.resultCode == 200){
+					layer.msg('已'+str+'!', {
+						icon : 1,
+						time : 1000
+					});
+					window.location.href="${basePath}/Payv2SdkVersion/payv2SdkVersionList.do";
+				}else{
+					Huimodal_alert(str+"失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert(str+"失败,请重试!",1500);
+			});
+		});
+	}
+	</script>
+</body>
+</html>

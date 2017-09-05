@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "lib/lib.html" />
+<title>商户财务管理</title>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+</head>
+
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		财务清算管理<span class="c-gray en">&gt;</span> 商户日账单管理 <a
+			class="btn btn-success radius r mr-20"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"> <i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div style="margin-top: 40px;margin-left: 40px;">
+		<form action="" id="myForm">
+			<!-- 日历筛选条件 -->
+			<div id="tab_demo" class="HuiTab">
+				<div class="row">				  
+				  <div class="col-md-12">
+				  	<div >
+				  		<label>账单时间</label>
+					  	<input  name="createTimeBegin"  type="text"  onfocus="WdatePicker({startDate:'%y-%M-{%d-1}',dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-{%d-1}',onpicked:pickedFunc})" id="logmin" class="input-text Wdate" style="width:200px;" placeholder="选择账单起始时间">
+						<span>--</span>
+						<input type="text" name="createTimeEnd"   onfocus="picker2rule(this)" id="logmax" class="input-text Wdate" style="width:200px;" placeholder="选择账单截止时间">
+						<span style="font-size: 14px;color: red; display: none;" id="waring">>>>要选择账单时间哦！</span>
+					</div>
+				  </div>				 
+				</div>
+			</div>
+			<!-- 渠道商与商户筛选条件 -->
+			
+			<div class="row" style="padding-top: 50px;">
+			  	<div class="col-md-3">
+			  		<label>来源渠道</label>
+					<select class="select"  name="channelId" id="channelId" onchange="showCompany('channelId','companyId')">
+						<option value="">全部</option>
+						<#if payv2ChannelList?? && payv2ChannelList?size gt 0>
+						<#list payv2ChannelList as dl >
+							<option value="${dl.id}" <#if dl.id==map.channelId>selected="selected"</#if>>${dl.channelName}</option>
+						</#list>
+						</#if>
+					</select>
+			  	</div>
+			  	<div class="col-md-3">
+			  		<label>来源商户</label>
+					<select class="select"  name="companyId" id="companyId">
+						<option value="">全部</option>							
+					</select>
+			  	</div>
+			  	<div class="col-md-3 " style="display: block;">
+			  		<label>结算状态</label>
+					<select class="select" name="status" id="status">
+						<option value="">全部</option>
+						<option value="1">已结算</option>
+						<option value="2">未结算</option>
+						<option value="3">无账单</option>			
+					</select>
+			  	</div>
+			  	<div class="col-md-3">
+				  	<button name="" id="" class="btn btn-success" type="button" onclick="ac()">
+						<i class="Hui-iconfont">&#xe665;</i> 搜索
+					</button>
+			  		<!-- <input class="	btn btn-primary radius size-M" type="button" value="查询" onclick="ac()" > -->
+			  	</div>				
+			</div>
+		</form>
+		<!-- 账单汇总信息 -->
+		<div>
+			<div class="row">
+				<div class="col-md-12">
+					<label>数据报表:</label>
+					<table class="table table-border table-bordered" style="width: 90%; font-weight: bolder;font-size: 16px;">
+					  <tr class="text-c" style="border-bottom: none; ">
+					      <td>累计手续费（元）<p name="allClear">0.00</p></td>
+					      <td>累计手续费利润（元）<p name="allClear">0.00</p></td>
+					      <td>累计已支付金额（元）<p name="allClear">0.00</p></td>
+					      <td>累计已退款金额（元）<p name="allClear">0.00</p></td>
+					      <td>累计支付净额（元）<p name="allClear">0.00</p></td>
+					      <td>累计结算金额（元）<p name="allClear">0.00</p></td>
+					   </tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- 账单信息 -->
+		<div style="padding-top: 140px; ">
+			<div class="row" style="display: block;">
+				<div class="col-md-1 ">
+					<button name="" id="" class="btn btn-success" type="button" style="width: 80px;" onclick="allClear()">
+						结算
+					</button>
+					<!-- <input class="	btn btn-primary radius size-M" type="button" value="结算" onclick="allClear()" > -->
+				</div>
+				<div class="col-md-1 ">
+					<button name="" id="" class="btn btn-success" type="button" style="width: 125px;" data-toggle="tooltip" data-placement="right" title="自动生成所有可生成账单"onclick="makeBills()">
+						一键生成账单
+					</button>
+					<!-- <input class="	btn btn-primary radius size-M" type="button" value="结算" onclick="allClear()" > -->
+				</div>
+				<div class="col-md-1 ">
+				</div>
+				<div class="col-md-6">
+					<p id="prompt" style="display: none;">提示：共选<span style="color: blue;">XX</span> 条，结算金额：<span style="color: blue;">0.00</span> 元，手续费：<span style="color: blue;">0.00</span> 元</p>
+				</div>	
+				<div class="col-md-3">
+					<button name="" id="exportExcel" class="btn btn-success" type="button" onclick="exportExcel()"> <i class="Hui-iconfont">&#xe640;</i>导出Excel</button>
+
+					<!-- <input class="	btn btn-primary radius size-M" type="button" value="导出" onclick="exportExcel()" > -->
+				</div>
+			</div>
+			<!-- 日账单表 -->
+			<div style="margin-top: 50px; display: block;" id="dayClear" class="">
+				<table class="table table-border table-bordered table-hover" style="width: 90%;">
+					<thead>
+						<tr class="text-c">
+							<td>								
+								<input type="checkbox" id="checkAll">
+								<label>全选</label>
+	    					</td>
+	    					<td>时间</td>
+	    					<td>来源渠道</td>
+	    					<td>来源商户</td>
+	    					<td>手续费</td>
+	    					<td>手续费利润</td>
+	    					<td>已支付订单金额</td>
+	    					<td>已退款订单金额</td>
+	    					<td>订单支付净额</td>
+	    					<td>结算金额</td>
+	    					<td>结算状态</td>
+	    					<td>操作</td>
+						</tr>
+					</thead>
+					<tbody id="dayClearDate">
+					</tbody>
+				</table>
+				<div class="page_list" ></div>
+			</div>
+			
+		</div>
+
+
+		
+	</div>
+	
+	<style type="text/css" >
+		.tabBar {border-bottom: 0px solid grey}
+		.tabBar span {background-color: #e8e8e8;cursor: pointer;display: inline-block;float: left;font-weight: bold;height: 30px;line-height: 30px;padding: 0 15px}
+		.tabBar span.current{background-color: #222;color: #fff}
+		.tabCon {display: none}
+		.select {width: 60%;}
+		#prompt {line-height: 38px;}
+		#prompt span {color: blue; font-weight: bolder;}
+		.page_list {margin: 20px auto;text-align: center;}
+
+	</style>
+	
+
+
+</body>
+	<script type="text/javascript" >
+
+		var md=new Date(); //第二个输入框最大值的全局变量  
+	        //第一个输入框选择好日期的时候操作  
+	        function pickedFunc(){
+	        var Y=$dp.cal.getP('y'); //用内置方法获取到选中的年月日  
+	        var M=$dp.cal.getP('M');  
+	        var D=$dp.cal.getP('d');  
+	        M=parseInt(M,10)-1;
+	        D=parseInt(D,10)+30;　//字符串的数字转换成int再运算。并且如果超过30天，也能自动处理。  
+	        var d = new Date()  
+	        d.setFullYear(Y,M,D) //设置时间  
+	        var nowDate=new Date();　  
+	        if(nowDate<=d){ //现在的时间比较，如果算出来的值大于现在时间，修改全局变量md为现在时间。
+	        	        	
+	            md=GetDateStr(-1);
+	        }else{ //全局变量设置为算出来的值得   
+	            var month=d.getMonth()+1; //月份的范围是（0到11）;  
+	            md=d.getFullYear()+"-"+month+"-"+d.getDate(); //直接把d给过去会有问题，所以拼成字符串发过去  
+	        }
+	    }
+
+	    //给第二个输入框定义规则
+	    function picker2rule(ele){
+	        // WdatePicker({el:ele,minDate:'#F{$dp.$D(\'datepicker1\')}',maxDate:md})
+	        WdatePicker({startDate:'%y',dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'logmin\')}',maxDate:md})
+	    }  
+
+		//页面加载日期控件默认值
+		$(document).ready(function() {
+		   $("#logmin").val(GetDateStr(-1));
+		   $("#logmax").val(GetDateStr(-1));
+		   md=GetDateStr(-1);
+		}); 
+
+		//自定义日期
+		function GetDateStr(AddDayCount) { 
+			var dd = new Date(); 
+			dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+			var y = dd.getFullYear(); 
+			var m = dd.getMonth()+1;
+			if(m<10){
+				m = "0"+m;
+			}			
+			//获取当前月份的日期			
+			var d = dd.getDate();
+			if(d<10){
+				d = "0"+d;
+			}					
+			return y+"-"+m+"-"+d; 
+		}
+
+		$("p[name='allClear']").css("color","blue");
+	 
+	 	$("#checkAll").click(function () {
+		 	if (this.checked) { // 全选
+		        $("input[name='subBox']").each(function () {
+		          this.checked = true;
+		        });
+		    }
+		      else { // 取消全选 			 
+		        $("input[name='subBox']").each(function () {
+		           this.checked = false;
+		        });
+		    }
+		    promptCheck();
+		    allMoney();
+		});
+		// 循环遍历所有的checkbox，将选中选中状态的box的值传给一个String 数组，
+		function allClear(){
+			var checkbox = $(".text-c input[name='subBox']");
+			
+			var str = "";
+			var companyCheckId = {};
+			for(var i=0;i<checkbox.length;i++){
+				if(checkbox.eq(i).is(":checked")){
+					// companyCheckId.push(checkbox.eq(i).val());
+					//companyCheckId[i] = checkbox.eq(i).val();
+					str += checkbox.eq(i).val()+",";
+					// companyCheckId=checkbox.eq(i).val();
+				}
+			}
+			if(str==""){
+				return false;
+			}
+			companyCheckId.companyCheckId=str;
+			layer.confirm("确认结算账单？", function(index) {
+				//后台请求保存数据
+				$.axse("${basePath}/Payv2CompanyMoneyClear/moneyClear.do",companyCheckId, function(d){
+					if(d.resultCode == 200){
+						layer.msg('结算成功!',{
+							icon : 1,
+							time : 1000
+						});
+						// location.replace(location.href);
+						ac();
+					}else{
+						Huimodal_alert("审核失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("审核失败,服务器异常!",1500);
+				});
+			});
+		}
+
+		function check(obj){
+			if($(".text-c input[name='subBox']").length == $(".text-c input[name='subBox']:checked").length){			
+				$("#checkAll").prop("checked",true);
+			}else{
+    			$("#checkAll").prop("checked",false);
+    		};
+    		promptCheck();
+    		allMoney();    		
+		};
+
+		function allMoney(){
+			var rateMoney = 0.00;
+			var accountsMonry = 0.00;
+    		var checkbox = $(".text-c input[name='subBox']");			
+			for(var i=0;i<checkbox.length;i++){
+				if(checkbox.eq(i).is(":checked")){
+					rateMoney += parseFloat(checkbox.eq(i).parent().parent().children().eq(4).text());
+					accountsMonry += parseFloat(checkbox.eq(i).parent().parent().children().eq(9).text());				
+				}
+			}
+			rateMoney = rateMoney.toFixed(2)
+			accountsMonry = accountsMonry.toFixed(2)
+			$("#prompt span").eq(1).text(accountsMonry);
+			$("#prompt span").eq(2).text(rateMoney);
+
+		}
+
+		function promptCheck(){
+			if($(".text-c input[name='subBox']:checked").length > 0){
+				$("#prompt").css("display","block")
+			}else if($(".text-c input[name='subBox']:checked").length == 0){
+				$("#prompt").css("display","none")
+			};
+			$("#prompt span").eq(0).text($(".text-c input[name='subBox']:checked").length);
+		}
+
+		
+		 //表单数据
+		var totalPage = 0;
+
+		function dataRuquest(curr,pageData){
+			$("#dayClearDate").empty();
+			var ajax_data = $("#myForm").serialize();
+			$.ajax({
+				type:"get",
+				data:ajax_data,
+				url:"${basePath}/Payv2CompanyMoneyClear/selectByDay.do?curPage="+curr +"&pageData="+pageData,				
+				async:true,
+				success:function(data){
+					if(!!data&&data.resultCode==200){
+						totalPage = data.Data.clearList.totalPage;
+						var list=data.Data.clearList.dataList,
+						str="";
+						for(var i=0;i<list.length;i++){
+							str=""
+							if (list[i].status == 1) {
+								str += "<tr class='text-c'><td></td><td>"+FormatDate(list[i].clearTime)+"</td><td>"+list[i].channelName+"</td><td>"+list[i].companyName+"</td><td>"+list[i].rateMoney+"</td><td>"+list[i].rateProfit+"</td><td>"+list[i].successMoney+"</td><td>"+list[i].refundMoney+"</td><td>"+list[i].cleanpayMoney+"</td><td>"+list[i].accountsMonry+"</td><td>已结算</td><td><input class='	btn btn-primary radius size-MINI' type='button' value='详情' onclick=detail('账单详情(已结算)','${basePath}/Payv2BussWayDetail/showDetailDay.do?companyId="+list[i].companyId+"&companyCheckId="+list[i].companyCheckId+"&status="+list[i].status+"&settleTime="+list[i].settleTime+"&clearTime="+FormatDate(list[i].clearTime)+"&accountsMonry="+list[i].accountsMonry+"&cleanpayMoney="+list[i].cleanpayMoney+"&rateMoney="+list[i].rateMoney+"')></td></tr>"
+							}
+							if (list[i].status == 2) {
+								str += "<tr class='text-c'><td><input type='checkbox' name = 'subBox' id = 'subBox"+i+" ' onclick = 'check(this)' value = "+list[i].companyCheckId +"><label>勾选</label></td><td>"+FormatDate(list[i].clearTime)+"</td><td>"+list[i].channelName+"</td><td>"+list[i].companyName+"</td><td>"+list[i].rateMoney+"</td><td>"+list[i].rateProfit+"</td><td>"+list[i].successMoney+"</td><td>"+list[i].refundMoney+"</td><td>"+list[i].cleanpayMoney+"</td><td>"+list[i].accountsMonry+"</td><td>未结算</td><td><input class='	btn btn-primary radius size-MINI' type='button' value='详情' onclick=detail('账单详情(未结算)','${basePath}/Payv2BussWayDetail/showDetailDay.do?companyId="+list[i].companyId+"&companyCheckId="+list[i].companyCheckId+"&status="+list[i].status+"&createTime="+list[i].createTime+"&clearTime="+FormatDate(list[i].clearTime)+"&accountsMonry="+list[i].accountsMonry+"&cleanpayMoney="+list[i].cleanpayMoney+"&rateMoney="+list[i].rateMoney+"')></td></tr>"
+							}
+							if (list[i].status == 3){
+								str += "<tr class='text-c'><td></td><td>"+FormatDate(list[i].clearTime)+"</td><td>"+list[i].channelName+"</td><td>"+list[i].companyName+"</td><td>"+list[i].rateMoney+"</td><td>"+list[i].rateProfit+"</td><td>"+list[i].successMoney+"</td><td>"+list[i].refundMoney+"</td><td>"+list[i].cleanpayMoney+"</td><td>"+list[i].accountsMonry+"</td><td>无账单</td><td><input class='btn btn-primary radius size-MINI' type='button' value='生成账单' onclick=makeBill("+list[i].clearTime+","+list[i].companyId+","+list[i].companyCheckId+")></td></tr>"
+							}
+							if (list[i].status == 4){
+								str += "<tr class='text-c'><td>"+list[i].channelName+"</td><td>"+list[i].companyName+"</td><td>"+list[i].rateMoney+"</td><td>"+list[i].rateProfit+"</td><td>"+list[i].successMoney+"</td><td>"+list[i].refundMoney+"</td><td>"+list[i].cleanpayMoney+"</td><td>"+list[i].accountsMonry+"</td><td>无账单</td></tr>"
+							}
+							$("#dayClearDate").append(str);							
+						}
+						print(curr);
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+		}
+		function FormatDate (strTime) {
+		    var date = new Date(strTime);
+		    return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+		}
+		function ac(){
+			if($("input[name='createTimeBegin']").val() == "" || $("input[name='createTimeEnd']").val() == ""){
+				$("#waring").css("display","inline-block");
+				return;
+			}else{
+				$("#waring").css("display","none");
+			};
+
+			dataRuquest(1,10);
+			
+			var ajax_data = $("#myForm").serialize();
+
+			$.ajax({
+				type:"get",
+				data:ajax_data,
+				url:"${basePath}/Payv2CompanyMoneyClear/selectByDayAllMoney.do",				
+				async:true,
+				success:function(data){
+					if(!!data&&data.resultCode==200){
+						var allClear = data.Data.allClear;
+						$("p[name='allClear']").eq(0).text(allClear.rateMoney);
+						$("p[name='allClear']").eq(1).text(allClear.rateProfit);
+						$("p[name='allClear']").eq(2).text(allClear.successMoney);
+						$("p[name='allClear']").eq(3).text(allClear.refundMoney);
+						$("p[name='allClear']").eq(4).text(allClear.cleanpayMoney);
+						$("p[name='allClear']").eq(5).text(allClear.accountsMonry);
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+			
+		};
+		function print(curr){
+			laypage({
+				    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+				    pages: totalPage, //总页数
+				    first: '首页',
+				    last: '尾页',
+				    curr:curr,
+		 	   		hash: true, //开启hash
+		 	    	skin: '#00AA91',
+				    jump: function(obj,first){ //触发分页后的回调
+				 	    	if(!first){
+				 	         	 
+				 	         	dataRuquest(obj.curr,10);
+				 	    	}
+				 	    }
+				});
+		}
+		
+		function showCompany(channelId,companyId){
+			var channelId = $("#"+channelId).val();
+			$("#"+companyId).empty();
+			
+			$("#"+companyId).append('<option value="">全部</option>');
+			$.ajax({
+				type:"get",
+				url:"${basePath}/Payv2CompanyMoneyClear/showCompany.do?channelId="+channelId,
+				async:true,
+				success:function(data){						
+					if(!!data&&data.resultCode==200){
+						var list = data.Data,
+							str="";
+						for(var i=0;i<list.length;i++){
+							str+='<option value="'+list[i].id+'">'+list[i].companyName+'</option>';
+						}
+						$("#"+companyId).append(str);
+					}else{
+						alert(data.message);
+					}
+				}
+			});	
+		};
+		function detail(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+		//导出Excel
+		function exportExcel(){
+			if($("#dayClearDate").find("tr").length > 0){
+				window.location.href="${basePath}/Payv2CompanyMoneyClear/exportExcelOrder.do?createTimeBegin="+$('#logmin').val()+"&createTimeEnd="+$('#logmax').val()+"&channelId="+$('#channelId').val()+"&companyId="+$('#companyId').val()+"&status="+$('#status').val()				
+			}else{
+				alert("没有数据可导出");
+				// return false;
+			}
+		}
+
+		function makeBill(clearTime,companyId,companyCheckId){
+			var data = {};
+			data.clearTime = FormatDate(clearTime);
+			data.companyId = companyId;
+			data.companyCheckId = companyCheckId;
+			$.ajax({
+				type:"get",
+				data:data,
+				url:"${basePath}/Payv2CompanyMoneyClear/makeBill.do",				
+				async:true,
+				success:function(data){
+					if(!!data&&data.resultCode==200){
+						if(data.Data.status == 1){
+							layer.msg('账单已成功，快去结算吧', {icon: 1});
+							ac();
+						}else if(data.Data.status == 2){
+							layer.msg('存在未出帐数据，先去出账吧', {icon: 7});
+						}else if(data.Data.status == 3){
+							layer.msg('该商户没有订单，这是空账单哦', {icon: 6});
+							ac();
+						}						
+					}else if(data.Data.status<0){
+						layer.msg("账单出错，稍后再来", {icon:5});
+					}else{
+						layer.msg("服务器出错啦~~晚点再来哦~", {icon:2});
+					}
+				}
+			});
+		}		
+		function makeBills(){
+			var index = layer.load(2, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+			});
+			var ajax_data = $("#myForm").serialize();
+			$.ajax({
+				type:"get",
+				data:ajax_data,
+				url:"${basePath}/Payv2CompanyMoneyClear/makeBills.do",
+				async:false,
+				success:function(data){
+					layer.close(index);
+					if(!!data&&data.resultCode==200){
+						if(data.Data.noBill < 0){
+							layer.msg('没有可以生成的账单', {icon: 7});
+						}else{
+							if(data.Data.noBill == 0){
+								layer.msg('当前页商户均生成账单！', {icon: 1});
+							}else{
+								layer.msg(data.Data.noBill+'条商户账单生成失败！', {icon: 2});
+							}
+							ac();
+						}						
+					}else{
+						layer.msg("服务器出错啦~~晚点再来哦~", {icon:2});
+					}
+				}
+			});
+		}
+	</script>
+</html>

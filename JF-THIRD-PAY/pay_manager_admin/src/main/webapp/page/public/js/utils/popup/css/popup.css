@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+/*菊花加载框的css*/
+.ly_shadow{width:100%;height:100%;position:fixed;top:0;left:0;background:url(../images/rebg02.png) repeat;}
+.fg_loadbox .mb15{padding-left:68px;}
+.fg_loadbox{width:220px;height:120px;position: fixed;top:50%;margin-top:-75px;left:50%;background-color:#313131;padding:20px 0 10px;text-align:center;color:#ccc;margin-left:-110px;font-family:"Microsoft YaHei";font-size:16px;}

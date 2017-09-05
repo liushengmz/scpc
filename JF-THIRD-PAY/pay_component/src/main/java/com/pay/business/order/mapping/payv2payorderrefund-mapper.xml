@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.order.mapper.Payv2PayOrderRefundMapper">
+
+	<resultMap id="payv2payorderrefund_result_map" type="com.pay.business.order.entity.Payv2PayOrderRefund" >
+		<id column="id" property="id" />
+		<result column="order_id" property="orderId"/>
+		<result column="app_id" property="appId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="order_type" property="orderType"/>
+		<result column="refund_num" property="refundNum"/>
+		<result column="channel_id" property="channelId"/>
+		<result column="refund_type" property="refundType"/>
+		<result column="order_num" property="orderNum"/>
+		<result column="merchant_order_num" property="merchantOrderNum"/>
+		<result column="refund_money" property="refundMoney"/>
+		<result column="refund_reason" property="refundReason"/>
+		<result column="refund_status" property="refundStatus"/>
+		<result column="refund_time" property="refundTime"/>
+		<result column="liquidation_time" property="liquidationTime"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<!-- 新增 -->
+		<result column="rate_id" property="rateId"/>
+		<result column="refund_count" property="refundCount"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_order_refund  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="orderId!=null and orderId!=''">
+				and order_id = #{orderId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="orderType!=null and orderType!=''">
+				and order_type = #{orderType}
+			</if>
+			<if test="refundNum!=null and refundNum!=''">
+				and refund_num like CONCAT('%',#{refundNum},'%')
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="refundType!=null and refundType!=''">
+				and refund_type = #{refundType}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+				and order_num like CONCAT('%',#{orderNum},'%')
+			</if>
+			<if test="merchantOrderNum!=null and merchantOrderNum!=''">
+				and merchant_order_num like CONCAT('%',#{merchantOrderNum},'%')
+			</if>
+			<if test="refundMoney!=null and refundMoney!=''">
+				and refund_money like CONCAT('%',#{refundMoney},'%')
+			</if>
+			<if test="refundReason!=null and refundReason!=''">
+				and refund_reason like CONCAT('%',#{refundReason},'%')
+			</if>
+			<if test="refundStatus!=null and refundStatus!=''">
+				and refund_status = #{refundStatus}
+			</if>
+			<if test="refundTimeBegin!=null and refundTimeBegin!=''">
+				and refund_time <![CDATA[ >= ]]> str_to_date(#{refundTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="refundTimeEnd!=null and refundTimeEnd!=''">
+				and refund_time <![CDATA[ <= ]]> str_to_date(#{refundTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="liquidationTimeBegin!=null and liquidationTimeBegin!=''">
+				and liquidation_time <![CDATA[ >= ]]> str_to_date(#{liquidationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="liquidationTimeEnd!=null and liquidationTimeEnd!=''">
+				and liquidation_time <![CDATA[ <= ]]> str_to_date(#{liquidationTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderRefund" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_pay_order_refund
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="orderId!=null ">
+				order_id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="orderType!=null ">
+				order_type,
+			</if>
+      		<if test="refundNum!=null ">
+				refund_num,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="refundType!=null ">
+				refund_type,
+			</if>
+      		<if test="orderNum!=null ">
+				order_num,
+			</if>
+      		<if test="merchantOrderNum!=null ">
+				merchant_order_num,
+			</if>
+      		<if test="refundMoney!=null ">
+				refund_money,
+			</if>
+      		<if test="refundReason!=null ">
+				refund_reason,
+			</if>
+      		<if test="refundStatus!=null ">
+				refund_status,
+			</if>
+      		<if test="refundTime!=null ">
+				refund_time,
+			</if>
+      		<if test="liquidationTime!=null ">
+				liquidation_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="orderId!=null ">
+      			#{orderId},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="orderType!=null ">
+      			#{orderType},
+			</if>
+      		<if test="refundNum!=null ">
+      			#{refundNum},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="refundType!=null ">
+      			#{refundType},
+			</if>
+      		<if test="orderNum!=null ">
+      			#{orderNum},
+			</if>
+      		<if test="merchantOrderNum!=null ">
+      			#{merchantOrderNum},
+			</if>
+      		<if test="refundMoney!=null ">
+      			#{refundMoney},
+			</if>
+      		<if test="refundReason!=null ">
+      			#{refundReason},
+			</if>
+      		<if test="refundStatus!=null ">
+      			#{refundStatus},
+			</if>
+      		<if test="refundTime!=null ">
+      			#{refundTime},
+			</if>
+      		<if test="liquidationTime!=null ">
+      			#{liquidationTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderRefund">
+		delete from payv2_pay_order_refund
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="orderId!=null ">
+				and order_id=#{orderId}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="orderType!=null ">
+				and order_type=#{orderType}
+			</if>
+      		<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="refundType!=null ">
+				and refund_type=#{refundType}
+			</if>
+      		<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+      		<if test="merchantOrderNum!=null ">
+				and merchant_order_num=#{merchantOrderNum}
+			</if>
+      		<if test="refundMoney!=null ">
+				and refund_money=#{refundMoney}
+			</if>
+      		<if test="refundReason!=null ">
+				and refund_reason=#{refundReason}
+			</if>
+      		<if test="refundStatus!=null ">
+				and refund_status=#{refundStatus}
+			</if>
+      		<if test="refundTime!=null ">
+				and refund_time=#{refundTime}
+			</if>
+      		<if test="liquidationTime!=null ">
+				and liquidation_time=#{liquidationTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderRefund">
+		update payv2_pay_order_refund
+		<set>
+			<if test="orderId!=null ">
+				order_id=#{orderId},
+			</if>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="orderType!=null ">
+				order_type=#{orderType},
+			</if>
+			<if test="refundNum!=null ">
+				refund_num=#{refundNum},
+			</if>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="refundType!=null ">
+				refund_type=#{refundType},
+			</if>
+			<if test="orderNum!=null ">
+				order_num=#{orderNum},
+			</if>
+			<if test="merchantOrderNum!=null ">
+				merchant_order_num=#{merchantOrderNum},
+			</if>
+			<if test="refundMoney!=null ">
+				refund_money=#{refundMoney},
+			</if>
+			<if test="refundReason!=null ">
+				refund_reason=#{refundReason},
+			</if>
+			<if test="refundStatus!=null ">
+				refund_status=#{refundStatus},
+			</if>
+			<if test="refundTime!=null ">
+				refund_time=#{refundTime},
+			</if>
+			<if test="liquidationTime!=null ">
+				liquidation_time=#{liquidationTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="refundNum!=null and id==null">
+				and refund_num=#{refundNum},
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.order.entity.Payv2PayOrderRefund" resultMap="payv2payorderrefund_result_map">
+		select id,order_id,app_id,company_id,pay_way_id,order_type,refund_num,channel_id,refund_type,order_num,merchant_order_num,refund_money,refund_reason,refund_status,refund_time,liquidation_time,create_time,update_time from payv2_pay_order_refund
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="orderId!=null ">
+				and order_id=#{orderId}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="orderType!=null ">
+				and order_type=#{orderType}
+			</if>
+			<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="refundType!=null ">
+				and refund_type=#{refundType}
+			</if>
+			<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+			<if test="merchantOrderNum!=null ">
+				and merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="refundMoney!=null ">
+				and refund_money=#{refundMoney}
+			</if>
+			<if test="refundReason!=null ">
+				and refund_reason=#{refundReason}
+			</if>
+			<if test="refundStatus!=null ">
+				and refund_status=#{refundStatus}
+			</if>
+			<if test="refundTime!=null ">
+				and refund_time=#{refundTime}
+			</if>
+			<if test="liquidationTime!=null ">
+				and liquidation_time=#{liquidationTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2payorderrefund_result_map" >
+		select id,order_id,app_id,company_id,pay_way_id,order_type,refund_num,channel_id,refund_type,order_num,merchant_order_num,refund_money,refund_reason,refund_status,refund_time,liquidation_time,create_time,update_time from payv2_pay_order_refund
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="orderId!=null ">
+				and order_id=#{orderId}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="orderType!=null ">
+				and order_type=#{orderType}
+			</if>
+			<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="refundType!=null ">
+				and refund_type=#{refundType}
+			</if>
+			<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+			<if test="merchantOrderNum!=null ">
+				and merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="refundMoney!=null ">
+				and refund_money=#{refundMoney}
+			</if>
+			<if test="refundReason!=null ">
+				and refund_reason=#{refundReason}
+			</if>
+			<if test="refundStatus!=null ">
+				and refund_status=#{refundStatus}
+			</if>
+			<if test="refundTime!=null ">
+				and refund_time=#{refundTime}
+			</if>
+			<if test="liquidationTime!=null ">
+				and liquidation_time=#{liquidationTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2payorderrefund_result_map" >
+		
+		SELECT id,order_id,app_id,company_id,pay_way_id,order_type,refund_num,channel_id,refund_type,order_num,merchant_order_num,refund_money,refund_reason,refund_status,refund_time,liquidation_time,create_time,update_time FROM payv2_pay_order_refund 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="orderId!=null and orderId!=''">
+				and order_id = #{orderId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="orderType!=null and orderType!=''">
+				and order_type = #{orderType}
+			</if>
+			<if test="refundNum!=null and refundNum!=''">
+				and refund_num like  CONCAT('%',#{refundNum},'%')
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="refundType!=null and refundType!=''">
+				and refund_type = #{refundType}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+				and order_num like  CONCAT('%',#{orderNum},'%')
+			</if>
+			<if test="merchantOrderNum!=null and merchantOrderNum!=''">
+				and merchant_order_num like  CONCAT('%',#{merchantOrderNum},'%')
+			</if>
+			<if test="refundMoney!=null and refundMoney!=''">
+				and refund_money like  CONCAT('%',#{refundMoney},'%')
+			</if>
+			<if test="refundReason!=null and refundReason!=''">
+				and refund_reason like  CONCAT('%',#{refundReason},'%')
+			</if>
+			<if test="refundStatus!=null and refundStatus!=''">
+				and refund_status = #{refundStatus}
+			</if>
+			<if test="refundTimeBegin!=null and refundTimeBegin!=''">
+				and refund_time <![CDATA[ >= ]]> str_to_date(#{refundTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="refundTimeEnd!=null and refundTimeEnd!=''">
+				and refund_time <![CDATA[ <= ]]> str_to_date(#{refundTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="liquidationTimeBegin!=null and liquidationTimeBegin!=''">
+				and liquidation_time <![CDATA[ >= ]]> str_to_date(#{liquidationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="liquidationTimeEnd!=null and liquidationTimeEnd!=''">
+				and liquidation_time <![CDATA[ <= ]]> str_to_date(#{liquidationTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 查询某个订单退款总金额 -->
+	<select id="refundSum" resultType="java.lang.Double">
+		select IFNULL(sum(refund_money),0) from payv2_pay_order_refund 
+		where order_num = #{orderNum} and refund_status!=2
+	</select>
+	
+		
+	<!--根据时间获取对象列表-->
+	<select id="selectByRefundTime" resultMap="payv2payorderrefund_result_map" >
+		SELECT
+			*
+		FROM
+			payv2_pay_order_refund r
+		LEFT JOIN payv2_pay_order o ON o.id = r.order_id
+		<where>
+			1=1
+			<if test="id!=null ">
+				and r.id=#{id}
+			</if>
+			<if test="orderId!=null ">
+				and r.order_id=#{orderId}
+			</if>
+			<if test="appId!=null ">
+				and r.app_id=#{appId}
+			</if>
+			<if test="refundNum!=null ">
+				and r.refund_num=#{refundNum}
+			</if>
+			<if test="channelId!=null ">
+				and r.channel_id=#{channelId}
+			</if>
+			<if test="refundType!=null ">
+				and r.refund_type=#{refundType}
+			</if>
+			<if test="orderNum!=null ">
+				and r.order_num=#{orderNum}
+			</if>
+			<if test="merchantOrderNum!=null ">
+				and r.merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="refundMoney!=null ">
+				and r.refund_money=#{refundMoney}
+			</if>
+			<if test="refundReason!=null ">
+				and r.refund_reason=#{refundReason}
+			</if>
+			<if test="refundStatus!=null ">
+				and r.refund_status=#{refundStatus}
+			</if>
+			<if test="refundTime!=null ">
+				and r.refund_time=#{refundTime}
+			</if>
+			<if test="refundTimeBegin!=null and refundTimeBegin!=''">
+				<!-- TO_DAYS(NOW())- TO_DAYS(refund_time) = 1 -->
+				and DATE_FORMAT(r.create_time,'%Y-%m-%d') <![CDATA[ = ]]> str_to_date(#{refundTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="liquidationTime!=null ">
+				and r.liquidation_time=#{liquidationTime}
+			</if>
+			<if test="createTime!=null ">
+				and r.create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and r.update_time=#{updateTime}
+			</if>
+			<if test="rateId!=null ">
+				and o.rate_id=#{rateId}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 根据每小时查询退款订单 -->
+	<select id="selectRefundByHour" resultMap="payv2payorderrefund_result_map" >
+		SELECT
+			r.app_id,
+			r.channel_id,
+			r.company_id,
+			o.rate_id AS rate_id,
+			r.pay_way_id,
+			IFNULL(sum(r.refund_money), 0) AS refund_money,
+			IFNULL(COUNT(r.id), 0) AS refund_count
+		FROM
+			payv2_pay_order_refund r
+		LEFT JOIN 
+			payv2_pay_order o ON o.id = r.order_id
+		<where>
+			1=1
+			<if test="id!=null ">
+				and r.id=#{id}
+			</if>
+			<if test="orderId!=null ">
+				and r.order_id=#{orderId}
+			</if>
+			<if test="appId!=null ">
+				and r.app_id=#{appId}
+			</if>
+			<if test="refundNum!=null ">
+				and r.refund_num=#{refundNum}
+			</if>
+			<if test="channelId!=null ">
+				and r.channel_id=#{channelId}
+			</if>
+			<if test="refundType!=null ">
+				and r.refund_type=#{refundType}
+			</if>
+			<if test="orderNum!=null ">
+				and r.order_num=#{orderNum}
+			</if>
+			<if test="merchantOrderNum!=null ">
+				and r.merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="refundMoney!=null ">
+				and r.refund_money=#{refundMoney}
+			</if>
+			<if test="refundReason!=null ">
+				and r.refund_reason=#{refundReason}
+			</if>
+			<if test="timeBegin!=null and timeBegin!=''">
+				and DATE_FORMAT(r.refund_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ >= ]]> str_to_date(#{timeBegin},  '%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="timeEnd!=null and timeEnd!=''">
+				and DATE_FORMAT(r.refund_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ <= ]]> str_to_date(#{timeEnd},  '%Y-%m-%d %H:%i:%s') 
+			</if>
+			and (r.refund_status=1 or r.refund_status=4)
+			GROUP BY r.app_id, rate_id
+		</where>
+	</select>
+	<!-- 退款订单扩展类映射 -->
+	<resultMap id="payv2payorderrefundvo_result_map" type="com.pay.business.order.entity.Payv2PayOrderRefundVO" >
+		<id column="id" property="id" />
+		<result column="order_id" property="orderId"/>
+		<result column="channel_id" property="channelId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="app_id" property="appId"/>
+		<result column="rate_id" property="rateId"/>		
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="rate_type" property="rateType"/>
+		<result column="channel_name" property="channelName"/>
+		<result column="company_name" property="companyName"/>
+		<result column="app_name" property="appName"/>
+		<result column="way_name" property="wayName"/>
+		<result column="pay_way_name" property="payWayName"/>
+		<result column="rate_name" property="rateName"/>		
+		<result column="refund_num" property="refundNum"/>
+		<result column="order_num" property="orderNum"/>
+		<result column="merchant_order_num" property="merchantOrderNum"/>
+		<result column="bank_transaction" property="bankTransaction"/>
+		<result column="refund_time" property="refundTime"/>
+		<result column="pay_time" property="payTime"/>
+		<result column="pay_money" property="payMoney"/>
+		<result column="refund_money" property="refundMoney"/>
+		<result column="pay_discount_money" property="payDiscountMoney"/>		
+		<result column="pay_way_money" property="payWayMoney"/>
+		<result column="goods_name" property="goodsName"/>
+		
+		<result column="refund_type" property="refundType"/>
+		<result column="discount_money" property="discountMoney"/>
+		<result column="buss_way_rate" property="bussWayRate"/>
+	</resultMap>
+	<!-- 根据支付集订单号，退款订单号，退款时间，渠道商，商户，应用，支付渠道，支付类型，支付方式查询退款订单列表 -->
+	<!-- 计算总数 -->
+	<select id="getRefundsCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM payv2_pay_order_refund r
+		JOIN 
+			payv2_pay_order o ON o.id = r.order_id
+		<where>
+			<if test="orderNum!=null and orderNum!=''">
+				and r.order_num=#{orderNum}
+			</if>
+			<if test="refundNum!=null and refundNum!=''">
+				and r.refund_num=#{refundNum}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and DATE_FORMAT(r.refund_time,'%Y-%m-%d %H') <![CDATA[ >= ]]> str_to_date(#{startTime},  '%Y-%m-%d %H') 
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and DATE_FORMAT(r.refund_time,'%Y-%m-%d %H') <![CDATA[ <= ]]> str_to_date(#{endTime},  '%Y-%m-%d %H') 
+			</if>			
+			<if test="channelId!=null and channelId!=''">
+				and r.channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and r.company_id=#{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and r.app_id=#{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and r.pay_way_id=#{payWayId}
+			</if>
+			<if test="rateType!=null and rateType!=''">
+				and o.rate_type=#{rateType}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and o.rate_id=#{rateId}
+			</if>
+		</where>
+	</select>
+	<select id="queryRefunds" resultMap="payv2payorderrefundvo_result_map" >
+		SELECT		
+			r.id,r.order_id,r.channel_id,r.company_id,r.app_id,r.pay_way_id,r.refund_num,
+			r.order_num,r.merchant_order_num,r.refund_time,r.refund_money,r.refund_type,
+			o.rate_id,o.bank_transaction,o.pay_time,o.pay_money,o.pay_discount_money,o.pay_way_money,
+			o.rate_type,o.discount_money,o.buss_way_rate,
+			channel.channel_name,
+			company.company_name,
+			app.app_name,
+			way.way_name,
+			payway.pay_way_name,payway.rate_name,
+			goods.goods_name
+		FROM
+			payv2_pay_order_refund r
+		LEFT JOIN 
+			payv2_pay_order o ON o.id = r.order_id
+		LEFT JOIN 
+			payv2_channel channel ON channel.id = r.channel_id
+		LEFT JOIN 
+			payv2_buss_company company ON company.id = r.company_id
+		LEFT JOIN 
+			payv2_buss_company_app app ON app.id = r.app_id
+		LEFT JOIN 
+			payv2_pay_way way ON way.id = r.pay_way_id
+		LEFT JOIN 
+			payv2_pay_way_rate payway ON payway.id = o.rate_id
+		LEFT JOIN 
+			payv2_pay_goods goods ON goods.id = o.goods_id
+		<where>
+			<if test="orderNum!=null and orderNum!=''">
+				and r.order_num=#{orderNum}
+			</if>
+			<if test="merchantOrderNum!=null and merchantOrderNum!=''">
+				and r.merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="refundNum!=null and refundNum!=''">
+				and r.refund_num=#{refundNum}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and DATE_FORMAT(r.refund_time,'%Y-%m-%d %H') <![CDATA[ >= ]]> str_to_date(#{startTime},  '%Y-%m-%d %H') 
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and DATE_FORMAT(r.refund_time,'%Y-%m-%d %H') <![CDATA[ <= ]]> str_to_date(#{endTime},  '%Y-%m-%d %H') 
+			</if>			
+			<if test="channelId!=null and channelId!=''">
+				and r.channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and r.company_id=#{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and r.app_id=#{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and r.pay_way_id=#{payWayId}
+			</if>
+			<if test="rateType!=null and rateType!=''">
+				and o.rate_type=#{rateType}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and o.rate_id=#{rateId}
+			</if>
+		</where>
+		order by r.refund_time desc
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="refundDetail" resultMap="payv2payorderrefundvo_result_map" >
+		SELECT		
+			r.id,r.order_id,r.channel_id,r.company_id,r.app_id,r.pay_way_id,r.refund_num,
+			r.order_num,r.merchant_order_num,r.refund_time,r.refund_money,r.refund_type,
+			o.rate_id,o.bank_transaction,o.pay_time,o.pay_money,o.pay_discount_money,o.pay_way_money,
+			o.rate_type,o.discount_money,o.buss_way_rate,
+			channel.channel_name,
+			company.company_name,
+			app.app_name,
+			way.way_name,
+			payway.pay_way_name,payway.rate_name,
+			goods.goods_name
+		FROM
+			payv2_pay_order_refund r
+		LEFT JOIN 
+			payv2_pay_order o ON o.id = r.order_id
+		LEFT JOIN 
+			payv2_channel channel ON channel.id = r.channel_id
+		LEFT JOIN 
+			payv2_buss_company company ON company.id = r.company_id
+		LEFT JOIN 
+			payv2_buss_company_app app ON app.id = r.app_id
+		LEFT JOIN 
+			payv2_pay_way way ON way.id = r.pay_way_id
+		LEFT JOIN 
+			payv2_pay_way_rate payway ON payway.id = o.rate_id
+		LEFT JOIN 
+			payv2_pay_goods goods ON goods.id = o.goods_id
+		<where>
+			<if test="id!=null and id!=''">
+				and r.id=#{id}
+			</if>
+		</where>
+	</select>
+</mapper>

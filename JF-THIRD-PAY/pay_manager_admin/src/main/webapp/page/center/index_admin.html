@@ -1,0 +1,64 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!-- <LINK rel="Bookmark" href="/favicon.ico" > -->
+<!-- <LINK rel="Shortcut Icon" href="/favicon.ico" /> -->
+
+<#include "lib/lib.html" />
+<title>支付集(官方)后台管理系统</title>
+</head>
+<body>
+
+<#include "center/top.html" />
+<aside class="Hui-aside">
+	<input runat="server" id="divScrollValue" type="hidden" value="" />
+	<div class="menu_dropdown bk_2">
+		<dl id="menu-system">
+			<dt class="selected"><i class="Hui-iconfont">&#xe62e;</i>金融机构<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd style="display: block;">
+				<ul>
+					<li><a _href="/page/financialOrg/financial-institution.html" href="javascript:void(0)">查看机构</a></li>
+					<li><a _href="/page/financialList/financial-list.html" href="javascript:void(0)">理财产品列表</a></li>
+					<li><a _href="/page/fundList/fund-list.html" href="javascript:void(0)">基金产品列表</a></li>
+					<li><a _href="/page//insuranceList/insurance-list.html" href="javascript:void(0)">保险列表</a></li>
+					<li><a _href="/page/securityList/security-list.html" href="javascript:void(0)">证券列表</a></li>
+					<li><a _href="/page/borrowingList/borrowing-list.html" href="javascript:void(0)">借贷列表</a></li>
+				</ul>
+			</dd>
+			<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a _href="${basePath}/admin/goadminlist.do" href="javascript:void(0)">管理员管理</a></li>
+					<li><a _href="${basePath}/admin/goapplist.do" href="javascript:void(0)">应用管理</a></li>
+					<li><a _href="${basePath}/roles/torolelist.do" href="javascript:void(0)">角色管理</a></li>
+					<li><a _href="${basePath}/function/gomenulist.do" href="javascript:void(0)">菜单管理</a></li>
+					<li><a _href="${basePath}/sysDic/dicList.do" href="javascript:void(0)">字典管理</a></li>
+				</ul>
+			</dd>
+		</dl>
+	</div>
+</aside>
+<div class="dislpayArrow"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<section class="Hui-article-box">
+	<div id="Hui-tabNav" class="Hui-tabNav">
+		<div class="Hui-tabNav-wp">
+			<ul id="min_title_list" class="acrossTab cl">
+				<li class="active"><span title="我的桌面" data-href="${basePath}/static/welcome.html">我的桌面</span><em></em></li>
+			</ul>
+		</div>
+		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
+	</div>
+	<div id="iframe_box" class="Hui-article">
+		<div class="show_iframe">
+			<div style="display:none" class="loading"></div>
+			<iframe scrolling="yes" frameborder="0" src="${basePath}/static/welcome.html"></iframe>
+		</div>
+	</div>
+</section>
+</body>
+</html>

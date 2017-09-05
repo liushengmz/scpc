@@ -1,0 +1,63 @@
+jsonp1(
+	{
+	"data":{
+		"1":{
+			"securitiesCompany": "东莞证券",
+			"productIcon": "",
+			"introduce": "7*24小时，修市不休息，天天利滚利",
+			"subsidies ": "免，免交易手续费",
+			"company": "东莞证券有限责任公司成立于1988年6月，注册资本15亿元。是东莞市国有控股的全国性综合类证券公司、规范类证券公司，是全国首批承销保荐机构之一。",
+			"starLevel": "☆☆☆☆☆",
+			"registration": "手机号+身份证+实名认证+开户资金",
+			"goldSubsidies": "免交易手续费",
+			"investAmount": "20000交易额",
+			"agency": "东莞证券",
+			"accountNum": "2000",
+			"periodVali": "2016/9/30",
+			"webLink": "https://service.dgzq.com.cn/cgi-bin/user/PublicLogin?retUrl=http%3A%2F%2Fwww.dgzq.com.cn%2F"
+		},"2": {
+			"securitiesCompany": "太平洋证券",
+			"productIcon": "",
+			"introduce": "专业红珊瑚，财富聚宝盆",
+			"subsidies ": "送，交易送一手涨停板",
+			"company": "太平洋证券股份有限公司是一家全国性综合类证券公司，其前身为太平洋证券有限责任公司。公司于2004年1月6日在云南省昆明市注册成立，注册资本6.65亿元；2007年4月，公司整体变更为股份有限公司，再次增资扩股至15.03亿元，并获得规范类券商资格。2007年12月28日，太平洋证券A股在上海证券交易所成功上市，成为国内证券行业第7家上市的证券公司。",
+			"starLevel": "☆☆☆☆☆",
+			"registration": "手机号+身份证+实名认证+开户资金",
+			"goldSubsidies": "交易送1手涨停板补贴",
+			"investAmount": "20000交易额",
+			"agency": "太平洋证券",
+			"accountNum": "2000",
+			"periodVali": "2016/9/30",
+			"webLink": "http://www.tpyzq.com/main/home/index.shtml"
+		},"3": {
+			"securitiesCompany": "长城证券",
+			"productIcon": "",
+			"introduce": "金长城，把握短线之道",
+			"subsidies ": "补，闲置资金3.8%年化收益",
+			"company": "长城证券有限责任公司于1995年11月在深圳成立。公司现注册资本20.67亿元。股东分别是中国华能集团公司、 长城证券深能源、招商局、中国核工业集团公司等国内知名大型国有企业集团。",
+			"starLevel": "☆☆☆☆☆",
+			"registration": "手机号+身份证+实名认证+开户资金",
+			"goldSubsidies": "闲置资金3.8%的年化收益",
+			"investAmount": "闲置资金5000上限",
+			"agency": "长城证券",
+			"accountNum": "2000",
+			"periodVali": "2016/9/30",
+			"webLink": "http://www.cgws.com/index.jsp"
+		},"4": {
+			"securitiesCompany": "广发证券",
+			"productIcon": "",
+			"introduce": "连续20年稳居全国十大卷商行列，营业部网店遍布全国各省120市",
+			"subsidies ": "推，必涨黑马牛股推荐",
+			"company": "广发证券股份有限公司、成立于1991年9月，是中国首批综合类券商之一，是一家与中国资本市场一同成长起来的新型投资银行，公司目前注册资本金59亿元人民币（截止到2012年9月17日数据），员工近万人，在全国各地拥有营业部及证券服务部近249家（截止到2014年数据），公司总部设在广州市天河北路大都会广场。",
+			"starLevel": "☆☆☆☆☆",
+			"registration": "手机号+身份证+实名认证+开户资金",
+			"goldSubsidies": "定时推荐必涨黑马牛股",
+			"investAmount": "不限",
+			"agency": "广发证券",
+			"accountNum": "2000",
+			"periodVali": "2016/9/30",
+			"webLink": "https://store.gf.com.cn/portal/ldy/ldythree/ld2?channel=baidu00050"
+		}
+	}
+}
+)

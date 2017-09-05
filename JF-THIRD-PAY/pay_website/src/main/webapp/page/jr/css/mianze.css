@@ -1,0 +1,52 @@
+
+.header{
+	width: 100%;
+	height: 0.95rem;
+	background: #fafafa;
+	border-bottom: 1px solid #dedede;
+}
+.header_container{
+	width: 6.7rem;
+	height: 0.95rem;
+	margin: 0 auto;
+}
+.iconl{
+	width: 0.35rem;
+	height: 0.95rem;
+	background: url(../img/left.png) no-repeat left center;
+}
+.wordss{
+	width: 6.06rem;
+	height: 0.95rem;
+	line-height: 0.95rem;
+	text-align: center;
+	font-size: 0.36rem;
+	color: #333;
+}
+.hide{
+	display: none;
+}
+.abm,.nrm{
+	width: 100%;
+	background: #fff;
+	overflow: hidden;
+	border-bottom: 1px solid #dedede;
+}
+.about{
+	width: 96.527777777777777777%;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	background: #fff;
+	
+	color: #333;
+	font-size: 0.32rem;
+	margin: 0 auto;
+}
+.nr{
+	width: 92.0833333333333333333333%;
+	line-height: 0.48rem;
+	background: #fff;
+	color: #666;
+	font-size: 0.28rem;
+	margin:0.2rem auto ;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/public/css/popStyle.css">
+	<script type="text/javascript" src="/public/js/utils/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+	<div class="pop_main">
+		<h3 class="header">编辑</h3>
+		<dl class="dlCompany">
+			<dt><label>列表标签名称：</label></dt>
+			<dd><input type="text" placeHolder="" name="" class="dd_input"></dd>
+		</dl>
+		<dl class="dlCompany cpaDl">
+			<dt><label>上传标签ICON：</label></dt>
+			<dd>
+				<input type="file" name="" />
+				<span class="remind_span">尺寸：20*40像素(宽*高)，可上传多张</span>
+				<div class="upLoadShots">
+					<p class="shotList"><img src="a.jpg" /><i class="imageOper"></i></p>
+				</div>
+			</dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" name="" value="确定">
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			//删除上传的截图
+			$("body").on("click",".upLoadShots .imageOper",function(){
+				$(this).parent(".shotList").remove();
+			});			
+		});
+	</script>
+</body>

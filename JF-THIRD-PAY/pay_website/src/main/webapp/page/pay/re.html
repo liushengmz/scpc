@@ -1,0 +1,119 @@
+<html lang="en" style="font-size: 55.1389px;">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+		<meta name="theme-color" content="#000000">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="manifest" href="manifest.json">
+		<title>支付集</title>
+		<link href="../../public/css/return.css" rel="stylesheet">
+		<meta id="re_url_meta" http-equiv="refresh" content="5;url=https://www.baidu.com/">
+	</head>
+
+	<body>
+		<div class="title">
+			<div class="tlCon">
+				<div class="headline">支付结果</div>
+			</div>
+		</div>
+		<div class="main">
+			<div id="icon" class="icon" style="height:1.4rem;width:1.4rem;margin-top:1rem;"></div>
+			<div class="payStatus">支付成功</div>
+			
+		</div>
+		
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script>
+			/*汇付宝回调页面*/
+			var a=document.documentElement.clientWidth/7.2;
+			document.documentElement.style.fontSize=a+'px';
+			window.onresize=function(){
+				var a=document.documentElement.clientWidth/7.2;
+				document.documentElement.style.fontSize=a+'px';
+			}
+			var obj = transmit();
+			
+			function transmit(){
+				var str = window.location.search;
+				str=str.slice(1,str.length);
+				str=str.split("&");
+				var obj={};
+				for(var i=0;i<str.length;i++){
+					strs=str[i];
+					strs=strs.split("=");
+					obj[strs[0]]=strs[1];			
+				}
+				return obj;
+			}
+			
+			var orderNum  = obj.num;
+			
+			if(orderNum != null || "" != orderNum)
+			{
+				orderNum = obj.out_no;
+			}
+			
+			$.ajax(
+			{
+				type:"get",
+				url:"/payDetail/queryOrderNum.do",
+				data:{"orderNum":orderNum},
+				async:false,
+				success:function(data)
+				{
+					data = JSON.parse(data);
+					
+					if(!!data&&data.resultCode==200)
+					{
+						if(data.Data.payOrder.returnUrl)
+						{
+							location.href = data.Data.payOrder.returnUrl;
+						}						
+						
+						if(data.Data.payOrder.payStatus==1)
+						{
+							$("#icon").addClass("icon").removeClass("icon2");
+							$(".payStatus").html("操作完成");	
+						}
+						else if(data.Data.payOrder.payStatus==2)
+						{
+							$("#icon").addClass("icon2").removeClass("icon");
+							$(".payStatus").html("支付失败");
+						}
+						else if(data.Data.payOrder.payStatus==3)
+						{
+							$("#icon").addClass("icon2").removeClass("icon");
+							$(".payStatus").html("未支付");
+						}
+						else if(data.Data.payOrder.payStatus==4)
+						{
+							$("#icon").addClass("icon2").removeClass("icon");
+							$(".payStatus").html("超时");
+						}
+						else if(data.Data.payOrder.payStatus==5)
+						{
+							$("#icon").addClass("icon2").removeClass("icon");
+							$(".payStatus").html("扣款成功回调失败");
+							if(data.Data.payOrder.returnUrl)
+							{
+								location.href=data.Data.payOrder.returnUrl;
+							}
+						}
+						
+						$("#icon").addClass("icon").removeClass("icon2");
+						$(".payStatus").html("操作完成");	
+					}
+					else
+					{
+						alert(data.message)
+					}
+				}
+			})
+		</script>
+	</body>
+	
+
+</html>

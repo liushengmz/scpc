@@ -1,0 +1,149 @@
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name="theme-color" content="#000000">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="manifest" href="manifest.json">
+<title>支付集</title>
+<link href="../../public/css/return.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="title">
+		<div class="tlCon">
+			<div class="headline">支付结果</div>
+		</div>
+	</div>
+	<div class="main">
+		<div id="icon" class="icon3"
+			style="height: 1.4rem; width: 1.4rem; margin-top: 1rem;"></div>
+		<div class="payStatus"></div>
+
+	</div>
+
+	<script type="text/javascript" src="../public/js/zepto.min.js"></script>
+	<script>
+			/*汇付宝回调页面*/
+			var a=document.documentElement.clientWidth/7.2;
+			document.documentElement.style.fontSize=a+'px';
+			window.onresize=function(){
+				var a=document.documentElement.clientWidth/7.2;
+				document.documentElement.style.fontSize=a+'px';
+			}
+			var obj = transmit();
+			
+			function transmit(){
+				var str = window.location.search;
+				str=str.slice(1,str.length);
+				str=str.split("&");
+				var obj={};
+				for(var i=0;i<str.length;i++){
+					strs=str[i];
+					strs=strs.split("=");
+					obj[strs[0]]=strs[1];			
+				}
+				return obj;
+			}
+			
+			$.ajax({
+				type:"get",
+				url:"/payDetail/queryOrderNum.do",
+				data:{"orderNum":obj.num},
+				async:false,
+				success:function(data){
+					data = JSON.parse(data)
+					if(!!data&&data.resultCode==200){
+						if(data.Data.payOrder.payStatus==1){
+							$("#icon").addClass("icon").removeClass("icon2");
+							$(".payStatus").html("支付成功");
+							if(data.Data.payOrder.returnUrl){
+								location.href=data.Data.payOrder.returnUrl;
+							}
+						}else if(data.Data.payOrder.payStatus==2){
+							$("#icon").addClass("icon2").
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #ededed
+}
+
+.title {
+	width: 100%;
+	border-bottom: 1px solid #dedede;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: #fff
+}
+
+.title,
+.tlCon {
+	height: .96rem
+}
+
+.tlCon {
+	width: 6.71rem;
+	margin: 0 auto;
+	position: relative
+}
+
+.headline {
+	height: .96rem;
+	line-height: .96rem;
+	text-align: center;
+	font-size: .36rem
+}
+.main{
+	height: 4.29rem;
+	width: 100%;
+	background-color: #fff;
+	overflow: hidden;
+	margin-top: .96rem;
+	border-bottom: 1px solid #dedede;
+}
+.icon{
+	width: 1.11rem;
+	height: 1.11rem;
+	background-image: url(../img/success.png);
+	background-size: 100% 100%;
+	margin: .8rem auto .3rem auto;
+}
+.icon2{
+	width: 1.11rem;
+	height: 1.11rem;
+	background-image: url(../img/error.png);
+	background-size: 100% 100%;
+	margin: .8rem auto .3rem auto;
+}
+.payStatus{
+	height: .3rem;
+	font-size: .32rem;
+	color: #333;
+	text-align: center;
+}
+.payPrice{
+	height: .5rem;
+	margin: .5rem 0 .8rem 0;
+	text-align: center;
+	font-size: .6rem;
+	color: #333;
+}
+.return{
+	display: block;
+	width: 6.64rem;
+	height: .88rem;
+	text-align: center;
+	line-height: .88rem;
+	color: #fff;
+	border-radius: 5px;
+	background-color: #2581f4;
+	margin: .4rem auto 0 auto;
+	font-size: .32rem;
+	text-decoration: none;
+}

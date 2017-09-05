@@ -1,0 +1,130 @@
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+	margin: 0;
+	padding: 0;
+}
+img{
+	border: 0;
+}
+a{
+	text-decoration: none;
+	color: #333;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+html,body{
+	background:#eeeeee;
+	font-family: "微软雅黑","microsoft yahei";
+	overflow-x:hidden ;
+}
+.egi img,.egit img{
+	width: 0.16rem;
+	height: 0.28rem;
+	margin-bottom: 0.4rem !important;
+	}
+.exampleMian {
+	width: 7.2rem;
+	background: #fff;
+	z-index: 100000;
+}
+.examplecontainer {
+	width: 6.82rem;
+	margin: 0 auto;
+	z-index: 100000;
+}
+.imgcontainer {
+	height: 2.14rem;
+	width: 2.14rem;
+	border: 1px solid #dedede;
+	overflow: hidden;
+	margin-right: 0.11rem;
+	margin-bottom: 0.2rem;
+	background: #FFFFFF;
+	z-index: 100000;
+}
+.special {
+	margin-right: 0;
+	z-index: 100000;
+}
+.imgcontainer img {
+	width: 2.18rem;
+	z-index: 100000;
+}
+.cover {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.4);
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	z-index: 100001;
+}
+.coverimg {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 100001;
+}
+.closed{
+	position: absolute;
+	top: 0.1rem;
+	right: 0.1rem;
+	width: 0.6rem;
+	text-align: center;
+	height: 0.6rem;
+	line-height: 0.53rem;
+	border-radius: 0.3rem;
+	background: rgba(0,0,0,0.6);
+	color: #fff;
+	font-size: 0.4rem;
+	z-index: 100001;
+}
+.example{
+	position:fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 1000000;
+	width: 100%;
+	height: 100%;
+	background: #dedede;
+}
+.cover img{
+	max-width: 100%;
+	max-height: 100%;
+}
+.info span,.n,.name span,.es span{
+	font-weight: bolder;
+}

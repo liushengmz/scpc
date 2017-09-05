@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台数据统计</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/sjtj.css" />
+		<link rel="stylesheet" href="../public/css/nav.css" />
+		<link rel="shortcut icon" href="../favico.ico" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<!-- <div class="tips fr">
+				<div class="red"></div>
+			</div> -->
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<!-- <div class="users fr line">
+				<span>线上应用</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change2">线下门店</div>
+				</div>
+			</div> -->
+		</header>
+		<nav>
+			<ul>
+				<li class="stair datali" style="cursor: pointer;border-left:3px solid #2581f4;color:#2581f4 "><img src="../public/img/sjtj.png"><span class="">数据统计</span></li>
+				<li class="stair"><img src="../public/img/dd.png"><span class="c_80">订单</span></li>
+				<li class="secondLevel">
+					<a href="orderManager.html" class="c_33">订单管理</a>
+					<a href="refund.html" class="c_33">退款订单</a>
+					<a href="accountManager.html" class="c_33">账单管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/yy.png"><span class="c_80">应用</span></li>
+				<li class="secondLevel">
+					<a href="appManager.html" class="c_33">应用管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/zh.png"><span class="c_80">账户</span></li>
+				<li class="secondLevel">
+					<a href="account.html" class="c_33">账户信息</a>
+				</li>
+			</ul>
+			<div class="dld"><img src="../public/img/dld.png"/><span>下载SDK</span></div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：数据统计</div>
+			<div class="tabChange">
+				<ul>
+					<li class="actives today" day="1">今日统计</li>
+					<li class="yestoday" day="2">昨日统计</li>
+					<li class="last7" day="3">前七天统计</li>
+					<li class='last30' day="4">前30天统计</li>
+				</ul>
+				<div class="surebtn2 fr">确定</div>
+				<div class="choose fr">
+					<label>应用:</label>
+					<select>
+					</select>
+				</div>
+				<div class="data fr">
+					<label>选择日期：</label>
+					<input id="" class="condition-date data1" type="text" name="">
+					<span class="date-line">&nbsp;--&nbsp;</span>
+					<input id="" class="condition-date data2" type="text" name="">
+				</div>
+			</div>
+			<!--关键指标-->
+			<div class="index">
+				<div class="index-title">
+					<i></i>
+					<span>关键数据指标</span>
+				</div>
+				<div class="index-content">
+					<div class="index-1">
+						<div class="index-1-title">成功金额(元)</div>
+						<div class="index-1-data"></div>
+					</div>
+					<div class="index-2">
+						<div class="index-1-title">成功笔数(笔)</div>
+						<div class="index-1-data"></div>
+					</div>
+					<div class="index-3">
+						<div class="index-1-title">失败金额(元)</div>
+						<div class="index-1-data"></div>
+					</div>
+					<div class="index-4">
+						<div class="index-1-title">失败笔数(笔)</div>
+						<div class="index-1-data"></div>
+					</div>
+					<div class="index-5">
+						<div class="index-1-title">处理中金额(元)</div>
+						<div class="index-1-data"></div>
+					</div>
+					<div class="index-6">
+						<div class="index-1-title">处理中笔数(笔)</div>
+						<div class="index-1-data"></div>
+					</div>
+				</div>
+			</div>
+			<!--关键指标详解-->
+			<div class="index-detail">
+				<div class="index-title">
+					<i></i>
+					<span>交易时刻趋势图</span>
+				</div>
+				<div class="chooseWay">
+					<label>选择支付平台</label>
+					<select>
+					</select>
+				</div>
+				<div id="main" style="width: 100%;height:400px;"></div>
+			</div>
+			<!--支付渠道数据-->
+			<div class="index-detail">
+				<div class="index-title">
+					<i></i>
+					<span>交易分布图</span>
+				</div>
+				<div class="loop-container">
+					<div class="loop-1">
+						<div id="main1" style="width: 100%;height:260px;margin: 10px 0 0 10px;"></div>
+						<div class="main1-title">交易金额通道分布</div>
+					</div>
+					<div class="loop-2">
+						<div id="main2" style="width: 100%;height:260px;margin: 10px 0 0 10px;"></div>
+						<div class="main2-title">交易笔数通道分布</div>
+					</div>
+					<div class="loop-3">
+						<div id="main3" style="width: 100%;height:260px;margin: 10px 0 0 10px;"></div>
+						<div class="main3-title">交易金额TOP5收入占比</div>
+					</div>
+					<div class="loop-4">
+						<div id="main4" style="width: 100%;height:260px;margin: 10px 0 0 10px;"></div>
+						<div class="main4-title">交易笔数TOP5收入占比</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bg">
+			<div class="window3">
+				<div class="top2">
+					修改密码
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+				</div>
+				<div class="bottom3">
+					<div class="oldpwd">
+						<label>原密码:</label>
+						<input type="password" placeholder="请输入原密码" />
+						<span style="color:red;font-size:14px;display:none">请输入原密码</span>
+					</div>
+					<div class="newpwd">
+						<label>新密码:</label>
+						<input type="password" placeholder="6-16位密码(数字、字母组成)" />
+						<span style="color:red;font-size:14px;display:none">请输入新密码</span>
+					</div>
+					<div class="newpwda">
+						<label>确认密码:</label>
+						<input type="password" placeholder="请再次输入新密码" />
+						<span style="color:red;font-size:14px;display:none">请再次输入新密码</span>
+					</div>
+					<div class="surebtn">确定</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript" src="../public/js/exit.js"></script>
+		<script type="text/javascript" src="../public/js/data.js"></script>
+		<script type="text/javascript">
+		var isSwitch = localStorage.isSwitch,
+			companyName = localStorage.companyname;
+		$(".user span").text(companyName);
+		if(isSwitch == 1) {
+			$(".changeline").remove();
+		}
+		$(".datali").on("click",function(){
+			window.location="data.html"
+		})
+		$(".dld").on("click",function(){
+			window.open("http://pay.aijinfu.cn/sdk-download.html")
+		})
+		$("body").on("click",".changeline .change2",function(){
+			$.ajax({
+				type:"get",
+				url:"/sys/tabSwitch.do",
+				async:false,
+				success:function(data){
+					console.log(data);
+					if(!!data&&data.resultCode==200){
+						if(data.Data.isTabSwitch==2){
+							location.href="dataOffline.html";
+						}
+					}else{
+						if(!!data.message){
+							alert(data.message);
+						}else{
+							
+							$("body").html(data);
+						}
+					}
+				}
+			})
+		})
+		getAppList();
+		function getAppList(){
+			$.ajax({
+				type:"get",
+				url:"/online/payv2BussCompanyApp/getAppList.do",
+				async:false,
+				success:function(data){
+					//console.log(data);
+					var appstr="<option appid=''>全部应用</option>";
+					if(!!data&&data.resultCode==200){
+						var data = data.Data.appList;
+						for(var i=0;i<data.length;i++){
+							appstr+="<option appid="+data[i].id+">"+data[i].appName+"</option>";						
+						}
+						$(".choose select").append(appstr);
+					}else{
+						if(!!data.message){
+							alert(data.message);
+						}else{
+							
+							$("body").html(data);
+						}
+					}											
+				}
+			})
+		}
+		</script>
+	</body>
+
+</html>

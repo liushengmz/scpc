@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>添加支付渠道</title>
+<style>
+	.upLoadShots1{
+		display: none;
+	}
+	.imageOper2{
+	    cursor: pointer;
+	    top: -8px;
+	    position: relative;
+	    display: inline-block;
+	    width: 20px;
+	    height: 18px;
+	    background: url(../../../public/images/acrossTab-close.png) no-repeat 4px -10px;
+	}
+	.adddl #spic{
+		height:40px;
+	}
+</style>
+</head>
+<body>
+	<form action="${basePath}/payv2payway/addPayv2PayWay.do" method="post" class="form form-horizontal" id="form-payway-add">
+		<div class="pop_main">
+		<dl  class="adddl">
+			<dt></span>支付通道名称：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="支付通道名称" id="wayName" name="wayName"  datatype="*"  nullmsg="请输入支付通道名称" >
+			</dd>
+		</dl>
+
+		<dl  class="adddl">
+			<dt></span>所属合作机构：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="所属合作机构" id="wayCompanyName" name="wayCompanyName" datatype="*"  nullmsg="请输入合作机构" >
+			</dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt></span>合作身份ID/商户号：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="合作身份ID/商户号" id="merchantCode" name="merchantCode" datatype="*"  nullmsg="请输入合作身份ID/商户号" >
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt class="spic" id="spic"><label> icon：</label></dt>
+			<dd>
+				<input type="text" class="dd_input width200"  dataType="*" nullmsg="请上传icon图片" name="wayIcon" id="wayIcon1"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="wayIconFile" onchange="upImgFiles(this)"/>
+				</br><span class="remind_span">尺寸：44*44像素(宽*高)</span>
+				<div class="upLoadShots1">
+					<p class="shotList"><img src="" id="serviceIconImgwayIcon1"/><i class="imageOper2"></i></p>
+				</div>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>推广语：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="推广语" id="waySlogan" name="waySlogan"  nullmsg="请输入推广语" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>联系人：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="联系人" id="wayContacts" name="wayContacts"  datatype="*"  nullmsg="请输入联系人" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>联系方式：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="联系方式" id="wayPhone" name="wayPhone" onblur="ValidateNumber($(this),value)" datatype="*"  nullmsg="请输入联系方式" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>支付通道费：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="支付通道费" id="wayRate" name="wayRate"  onblur="ValidateFloat($(this),value)" datatype="*"  nullmsg="请输入支付通道费" >‰
+			</dd>
+		</dl>
+		<dl class="incomeType_show">
+					<dt><label>收单账号：</label>
+					</dt>
+					<dd><input type="text" name="incomeNum" placeholder="请输入收单账号" class="dd_input" datatype="*" nullmsg="单账号不能为空"></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>到期类型：</label>
+			</dt>
+			<dd>
+				<select class="select" id="wayArrivalType" name="wayArrivalType" size="1" onchange="show_Type()">
+					<option value="1">T+日期(工作日)</option>
+					<option value="2">实时到账</option>
+					<option value="3">T+日期</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl  class="adddl" id="sssssss">
+			<dt></span>到账日期：</label>
+			</dt>
+			<dd>
+			<input type="text" class="dd_input" value="" placeholder="到账日期" id="wayArrivalValue" name="wayArrivalValue" datatype="*"  nullmsg="请输入到账日期" onblur="ValidateFloat($(this),value)"> 天
+			</dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" value="确定" onclick="submitButt()">
+		</div>
+		</div>
+	</form>
+<script type="text/javascript">
+		$(function(){
+			$("#form-payway-add").Validform({
+				tiptype:3,
+				showAllError:true,   //表单提交时显示所有提示信息
+				ignoreHidden: true,  //隐藏的表单元素不校验
+				ajaxPost:true,
+				callback:function(data){
+					$.Hidemsg()
+					if(data.resultCode==200){
+						layer.msg('保存成功!', {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2payway/getPayv2PayWayList.do");
+						layer_close();
+					}else if(data.resultCode==201){
+						alert("你已经添加过了！也许您已关闭，可以再次开启，请查看商户支付通道");
+						return false;
+					}else{
+						$("#form-app-add").resetForm();
+						layer.msg('保存失败，请你检查数据!', {
+							icon : 1,
+							time : 1000
+						});
+					}
+				}
+			});
+		});
+
+		function submitButt(){
+			$("#form-payway-add").attr(
+					"action",
+					"${basePath}/payv2payway/addPayv2PayWay.do").submit(); 
+		}
+/**
+ * 异步获取支付通道列表
+ */
+function changeSponsoIdValue_zlb(wayType){
+	var wayType =wayType;
+	if(wayType == ""){
+		alert("请先选择支付方式");
+		return;
+	}else{
+		$.ajax({
+			url:'${basePath}/Payv2BussSupportPayWay/getPayv2PayWayList.do?wayType='+wayType,
+			dataType:'json',
+			success:function(data){
+				var lists = data.payv2PayWayList;
+				$("#payWayId").find("option").remove();
+				 $.each(lists,function(n,value) {
+			           	var trs = "<option value=\"" + value.id + "\" >" + value.wayName + "</option> ";  
+						$("#payWayId").append(trs);			               
+			        });  
+			 	 }  
+		});
+	}
+ }
+ 
+function uploadFile(url,idstr,filestr,obj) {
+	var _this = $(obj);
+	if($("input[id='"+idstr+filestr+"']").val()==""){
+		alert("请选择上传文件");
+		return;
+	}
+	var len = _this.parent("dd").find(".upLoadShots").find(".shotList").length;
+	if (len == 0) {
+		_this.parent("dd")
+			.find(".upLoadShots")
+			.append(
+					"<p class='shotList'><img src='' id='insuIconImg'/><i class='imageOper'></i></p>");
+	}
+	commonUp(url, $("input[id='"+idstr+filestr+"']"), function(data) {
+			$("#"+idstr).val(data.Data.url);
+			$("#serviceIconImg" + idstr).attr("src", data.Data.url);
+	});
+
+}
+//无刷新上传文件
+function commonUp(url, e, callback) {
+	$.ajaxFileUpload({
+		url : url,
+		secureuri : false,
+		fileElement : e,
+		dataType : "JSON",//返回数据的类型
+		success : function(data,status) {
+			if (data.resultCode == 200) {
+				if (callback) {
+					callback(data);
+				}
+			} else {
+				//alert("上传失败！");
+				alert(data.Data);
+			}
+			
+		}
+	});
+}
+
+function ValidateNumber(e, pnumber){ 
+	if (!(/^1[34578]\d{9}$/.test(pnumber)||/^0\d{2,3}-?\d{7,8}$/.test(pnumber))){ 
+		$(e).val("")
+	}
+	return false; 
+}
+
+//验证输入的数字合法性
+function ValidateFloat(e, pnumber){ 
+	if (!/^\d+[.]?\d*$/.test(pnumber)){ 
+		$(e).val(/^\d+[.]?\d*/.exec($(e).val())); 
+	}
+	return false; 
+}
+//隐藏
+function show_Type(){
+	var a=$("#wayArrivalType").val();
+	 if(a==2){
+		document.getElementById("sssssss").style.display="none";//隐藏
+	}else{
+		document.getElementById("sssssss").style.display="";//隐藏
+	} 
+}
+	function upImgFiles(e) {					
+		if(e.files[0].size/1024/1024<2&&(e.files[0].type.indexOf("png")!=-1||e.files[0].type.indexOf("jpeg")!=-1)){
+		var _this=$(e)
+		$.ajaxFileUpload({
+			url : '${basePath}/upload/addFiles.do',
+			secureuri : false,
+			fileElement : e,
+			dataType : "JSON",//返回数据的类型
+			success : function(data, status) {
+				//console.log(data);
+				if (data.resultCode == 200) {
+					console.log(_this.parent().find("#wayIcon"))
+					$("#wayIcon1").val(data.Data.url);
+					$(".upLoadShots1").show();
+					$("#serviceIconImgwayIcon1").attr("src",data.Data.url);
+				} else {
+					alert("上传失败！");
+					//alert(data.Data);
+				}
+			}
+			});
+		}
+	}
+
+$("body").on("click",".imageOper2",function(){
+	$(this).parent().parent().parent().find(".upLoadShots1").hide();
+	$(this).parent().parent().parent().find("#wayIcon1").val("");
+})
+</script>
+</body>
+</html>

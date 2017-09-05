@@ -1,0 +1,319 @@
+
+.hide{
+	display: none;
+}
+.bordertop{
+	border-top: 1px solid #dedede;
+}
+/*------车险------*/
+.car{
+	width: 100%;
+	height: 2.85rem;
+	border-bottom: 1px solid #dedede;
+	border-top: 1px solid #dedede;
+	background: #fff;
+	margin-bottom: 0.15rem;	
+}
+
+.car_container{
+	width: 6.7rem;
+	margin: 0 auto;
+}
+.left_img{
+	width: 2rem;
+	height: 1.77rem;
+	border-radius: 5px;
+	margin-top: 0.5rem;
+	border:1px solid #ededed;
+}
+.left_img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+}
+.right_word{
+	margin-left: 0.1rem;
+	width: 4.5rem;
+}
+.title_name{
+	margin-top: 0.53rem;
+	height: 0.38rem;
+	font-size: 0.32rem;
+	color: #333;
+	width: 4.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.describe{
+	font-size: 0.28rem;
+	line-height: 0.6rem;
+	margin-top: 0.2rem;
+	color: #666;
+	width: 4.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.pricenew{
+	font-size: 0.28rem;
+	color: #ff5152;
+}
+.pricenew span{
+	font-size: 0.44rem;
+	font-weight: bolder;
+}
+.priceold{
+	margin: 0.17rem 0 0 0.23rem;
+	font-size: 0.28rem;
+	text-decoration: line-through;
+	color: #666;
+}
+.about{
+	width: 100%;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+	color: #333;
+	font-size: 0.32rem;
+	
+}
+.ai{
+	width: 0.49rem;
+	height: 0.57rem;
+	margin: 0.18rem 0 0 0.15rem;
+}
+.ai img{
+	width: 0.49rem;
+	height: 0.57rem;
+}
+.at{
+	height: 0.88rem;
+	line-height: 0.88rem;
+	margin-left: 0.05rem;
+}
+.nrcontain{
+	width: 100%;
+	background: #fff;
+	overflow: hidden;
+	border-bottom: 1px solid #dedede;
+}
+.nr{	
+	line-height: 0.48rem;
+	background: #fff;
+	color: #666;
+	font-size: 0.28rem;
+	margin: 0.2rem 0.32rem 0.2rem 0.25rem;
+	
+}
+.info {
+	width: 100%;
+	min-height: 0.51rem;
+	background: #f1f7fd;
+	overflow: hidden;
+	color: #666;
+	border-bottom: 1px solid #dedede;
+}
+
+.cu{
+	width: 6.84rem;
+	height: 0.52rem;
+	margin-left: 0.15rem;
+	font-size: 0.24rem;
+	margin-top: 0.12rem;
+}
+.cu_cu{
+	width: 0.4rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	color: #fff;
+	background: url(../img/cu.png);
+	border-radius: 5px;
+	margin-left: 0.12rem;
+}
+.cu_word{
+	width: 6.25rem;
+	line-height: 0.44rem;
+	color: #666;
+	margin-left: 0.06rem;
+}
+.atten{
+	width: 6.84rem;
+	margin-left: 0.15rem;
+	font-size: 0.24rem;
+	margin-top: 0.12rem;
+	height: 0.64rem;
+}
+.atten_cu{
+	width: 0.4rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	color: #fff;
+	background: #007aff;
+	border-radius:5px;
+	margin-left: 0.12rem;
+}
+.atten_word{
+	width: 6.25rem;
+	line-height: 0.44rem;
+	color: #333;
+	margin-left: 0.06rem;
+}
+.introduce{
+	width: 100%;
+	height: 0.88rem;
+
+	color: #333;
+	font-size: 0.32rem;
+	border-bottom: 1px solid #dedede;
+	
+	background: #fff;
+}
+.w{
+	padding-left:0.24rem ;
+	height: 0.88rem;
+	line-height: 0.88rem;
+}
+.infor{
+	background: #fff;
+	width: 100%;
+	font-size: 0.28rem;
+	border-bottom: 1px solid #dedede;
+}
+.infor_container{
+	width: 93.0555555555555555%;
+	margin:0 auto;
+}
+.name,.min,.bt,.max,.minqx,.pc,.jg,.amount,.qixian{
+	height: 0.8rem;
+	line-height: 0.8rem;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+}
+.left3{
+	height: 0.72rem;
+	line-height: 0.88rem;
+	font-size: 0.28rem;
+	color: #808080;
+}
+.tbrtj p{
+	padding-left: 0.26rem;
+	line-height: 0.54rem;
+	font-size: 0.28rem;
+	color: #333;
+}
+.np2{
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 0.13rem;
+}
+.first span{
+	color: #ff6d6e;
+}
+.left2{
+	color: #808080;
+}
+.right2{
+	color: #333;
+	width: 5rem;
+	text-align: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.bt .right2{
+	color: #ff6d6e;
+}
+.shuoming{
+	width: 100%;
+	height: 1.2rem;
+	background: #fff;
+	margin-top: 0.2rem;
+	color: #a5a5a5;
+	border-bottom: 1px solid #ededed;
+}
+.container{
+	height: 1.2rem;
+	line-height: 1.2rem;
+	font-size: 0.32rem;
+	padding-left: 0.24rem;
+	color: #333;
+	
+}
+.neirong{
+	width: 100%;
+	min-height: 2.5rem;
+	background: #fff;
+	padding-top: 0.2rem;
+}
+.neirongcontainer{
+	font-size: 0.28rem;
+	height: 0.48rem;
+	line-height: 0.48rem;
+	padding-left: 0.24rem;
+	color: #666;
+}
+.footer{
+	width: 100%;
+	height: 0.45rem;
+	background: #ededed;
+}
+.eg{
+	width:100%;
+	height: 0.9rem;
+	background: #fff;
+	margin-top: 0.2rem;
+	border-bottom: 1px solid #dedede;
+}
+.egw{
+	font-size: 0.32rem;
+	color: #333;
+	height:0.9rem;
+	line-height: 0.9rem;
+	margin-left: 0.24rem;
+}
+.egi{
+	height: 0.9rem;
+	margin-right: 0.24rem;
+}
+.egi img{
+	margin-bottom: 0.2rem;
+}
+.egt{
+	width:100%;
+	height: 0.9rem;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+}
+.egwt{
+	font-size: 0.32rem;
+	color: #333;
+	height:0.9rem;
+	line-height: 0.9rem;
+	margin-left: 0.24rem;
+}
+.egit{
+	height: 0.9rem;
+	margin-right: 0.24rem;
+}
+.egit img{
+		margin-bottom: 0.2rem;
+}
+.qixian{
+	border-bottom: 0;
+}
+.way .right2{
+	white-space: normal;
+	line-height: 0.5rem;
+	margin-top: 0.2rem;
+	text-align: left;
+}
+.pricenew.th{
+	display: none;
+	color: #333;
+}
+.pricenew.th span{
+	font-weight: bolder;
+}

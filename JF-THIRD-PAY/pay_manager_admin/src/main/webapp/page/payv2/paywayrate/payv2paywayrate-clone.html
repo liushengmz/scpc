@@ -1,0 +1,473 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>修改支付渠道</title>
+</head>
+<body>
+	<form action="" method="post" class="form form-horizontal" id="form-payway-edit">
+	<input type="hidden" id="payWayId" name="payWayId" value="${payv2PayWayRate.payWayId}"/>
+	<input type="hidden" id="curPage" name="curPage" value="${curPage}"/>
+	<input type="hidden" id="status" name="status" value="${payv2PayWayRate.status}"/>
+	<input type="hidden" id="payViewType" name="payViewType" value="${payv2PayWayRate.payViewType}"/>
+	<!-- <input type="hidden" id="rateName" name="rateName" > -->
+	<div id="hiddenDic">
+		<#if dicList?? && dicList?size gt 0>
+        	<#list dicList as dl>
+        		<span id="tempSpan"><input type="hidden" id="hiddenDics" dicId="${dl.id!}" dicName="${dl.dictName!}" dicValue="${dl.dictValue!}" value="${dl.dictValue!}"/></span>
+        	</#list>
+        </#if>
+	</div>
+	<div class="pop_main" style="padding-left:30px;width: 95%;">
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">通道基础信息</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>支付通道名称：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;background-color: #F0F0F0" readonly="readonly" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateName!}" id="rateName" name="rateName">
+	    		    		</td>
+	    		    	</tr>
+	    		    	
+	    		    	<!-- <tr>
+	    		    		<td style="width:120px;"><strong>支付方式：</strong></td>
+	    		    		<td>
+	    		    			<select style="width:300px;" class="select size-M" id="payViewType" name="payViewType" size="1">
+									<option value="1" <#if payv2PayWayRate.payViewType==1>selected="selected"</#if>>支付宝</option>
+									<option value="2" <#if payv2PayWayRate.payViewType==2>selected="selected"</#if>>微信</option>
+								</select>
+	    		    		</td>
+	    		    	</tr> -->
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>支付方式：</strong></td>
+	    		    		<td>
+	    		    			<select onchange="changePayType(this)" style="width:300px;" class="select size-M" id="payType" name="payType" size="1">
+	    		    				<option value="">---请选择---</option>
+									<option value="1" <#if payv2PayWayRate.payType==1>selected="selected"</#if>>app支付</option>
+									<option value="2" <#if payv2PayWayRate.payType==2>selected="selected"</#if>>web</option>
+									<option value="3" <#if payv2PayWayRate.payType==3>selected="selected"</#if>>扫码</option>
+									<option value="4" <#if payv2PayWayRate.payType==4>selected="selected"</#if>>app+web</option>
+									<option value="5" <#if payv2PayWayRate.payType==5>selected="selected"</#if>>微信公众号</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>上游通道：</strong></td>
+	    		    		<td>
+	    		    			<select onchange="changeAlias()" style="width:300px;" class="select size-M" id="dicId" name="dicId" size="1" datatype="*"  nullmsg="请选择支付类型" >
+					           		<#if dicList?? && dicList?size gt 0>
+					           		<#list dicList as dl>
+					           			<#if dl.id == payv2PayWayRate.dicId>
+					           				<option value="${dl.id!}" selected="selected">${dl.dictValue!}</option>
+					           			</#if>
+					           		</#list>
+					           		</#if>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>主体公司：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.companyName!}" placeholder="请输入主体公司全称" id="companyName" name="companyName" datatype="*"  nullmsg="请输入合作机构" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>主体公司简称：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.companyAlias!}" placeholder="请输入主体公司简称" id="companyAlias" name="companyAlias" datatype="*"  nullmsg="请输入合作机构" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<!-- <tr>
+	    		    		<td style="width:120px;"><strong>联系人：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.contactsName!}" placeholder="联系人" id="contactsName" name="contactsName"  datatype="*"  nullmsg="请输入联系人" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>联系方式：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.contactsPhone!}" placeholder="联系方式" id="contactsPhone" name="contactsPhone" onblur="ValidateNumber($(this),value)" datatype="*"  nullmsg="请输入联系方式" >
+	    		    		</td>
+	    		    	</tr> -->
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+    	
+    	<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">通道收款账户</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户银行：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text"  placeholder="请输入开户银行" value="${payv2PayWayRate.accountBank!}" id="accountBank" name="accountBank" style=" width:60%" datatype="*"  nullmsg="请输入开户银行" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>账户类型：</strong></td>
+	    		    		<td>
+	    		    			<select style="width:300px;" class="select size-M" id="accountType" name="accountType" size="1" >
+					           		<option value="1" <#if payv2PayWayRate.accountType==1>selected="selected"</#if>>对公户</option>
+					           		<option value="2" <#if payv2PayWayRate.accountType==2>selected="selected"</#if>>对私户</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户名称：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" placeholder="请输入开户名称" value="${payv2PayWayRate.accountName!}" id="accountName" name="accountName"  datatype="*"  nullmsg="请输入开户名称" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>开户账号：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" placeholder="请输入开户账号" value="${payv2PayWayRate.accountCard!}" id="accountCard" name="accountCard"  datatype="*"  nullmsg="请输入开户账号" >
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+    	
+		<div class="panel panel-primary mt-20">
+	    	<div class="panel-header">费率限额及其他配置</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>通道费率成本：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:100px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.payWayRate!}"  placeholder="支付通道费" id="payWayRate" name="payWayRate" style=" width:60%" onblur="ValidateFloat($(this),value)" datatype="*"  nullmsg="请输入支付通道费" >‰
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>单笔限额：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.oneMaxMoney!}" placeholder="单笔限额,单位元" id="oneMaxMoney" name="oneMaxMoney"  datatype="*"  nullmsg="请输入单笔限额" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>每日限额：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:300px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.maxMoney!}" placeholder="每日限额,单位元" id="maxMoney" name="maxMoney"  datatype="*"  nullmsg="请输入每日限额" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>到期类型：</strong></td>
+	    		    		<td>
+	    		    			<select style="width:300px;" class="select size-M" id="wayArrivalType" name="wayArrivalType" size="1" onchange="show_Type()">
+									<option value="1" <#if payv2PayWayRate.wayArrivalType==1>selected="selected"</#if>>T+日期(工作日)</option>
+									<option value="2" <#if payv2PayWayRate.wayArrivalType==2>selected="selected"</#if>>实时到账</option>
+									<option value="3" <#if payv2PayWayRate.wayArrivalType==3>selected="selected"</#if>>T+日期</option>
+								</select>
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr id="sssssss" <#if payv2PayWayRate.wayArrivalType==2>style="display: none"</#if>>
+	    		    		<td style="width:120px;"><strong>到账日期：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:100px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.wayArrivalValue!}" placeholder="到账日期" id="wayArrivalValue" name="wayArrivalValue" datatype="*"  nullmsg="请输入到账日期" onblur="ValidateFloat($(this),value)"> 天
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="panel panel-danger mt-20">
+	    	<div class="panel-header">通道重要字段(非技术人员请谨慎填写)</div>
+	    	<div class="panel-body">
+	    		<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+						<tr>
+		  		    		<td style="width:120px;"><strong>此通道是否自动对账：</strong></td>
+		   		    		<td>
+		   		    			<select style="width:50px;" class="select size-M" id="autoRecord" name="autoRecord" size="1">
+									<option <#if payv2PayWayRate.autoRecord==1>selected="selected"</#if> value="1">是</option>
+									<option <#if payv2PayWayRate.autoRecord==2>selected="selected"</#if> value="2">否</option>
+								</select>
+		   		    		</td>
+		   		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>第三方通道字段1：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateKey1!}" placeholder="第三方通道字段1" id="rateKey1" name="rateKey1"  datatype="*"  nullmsg="请输入第三方通道字段1" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>第三方通道字段2：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateKey2!}" placeholder="第三方通道字段2" id="rateKey2" name="rateKey2"  datatype="*"  nullmsg="请输入第三方通道字段2" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>第三方通道字段3：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateKey3!}" placeholder="第三方通道字段3" id="rateKey3" name="rateKey3" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>第三方通道字段4：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateKey4!}" placeholder="第三方通道字段4" id="rateKey4" name="rateKey4">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>第三方通道字段5：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateKey5!}" placeholder="第三方通道字段5" id="rateKey5" name="rateKey5" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>第三方通道字段6：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.rateKey6!}" placeholder="第三方通道字段6" id="rateKey6" name="rateKey6">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>公众号app_id：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.gzhAppId!}" placeholder="公众app_id" id="gzhAppId" name="gzhAppId" >
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>公众号key：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.gzhKey!}" placeholder="公众号key" id="gzhKey" name="gzhKey">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>公众号预留字段：</strong></td>
+	    		    		<td>
+	    		    			<input style="width:400px;" class="dd_input input-text size-M" type="text" value="${payv2PayWayRate.gzhStr!}" placeholder="公众号预留字段" id="gzhStr" name="gzhStr">
+	    		    		</td>
+	    		    	</tr>
+	    		    	<tr>
+	    		    		<td style="width:120px;"><strong>各字段备注说明：</strong></td>
+	    		    		<td>
+	    		    			<textarea style="width:500px;height:200px;" class="input-text size-M" placeholder="通道参数备注" id="keyRemark" name="keyRemark">${payv2PayWayRate.keyRemark!}</textarea>
+	    		    		</td>
+	    		    	</tr>
+    		    	</tbody>
+			    </table>
+	    	</div>
+    	</div>
+		<div class="submit_btn">
+			<button style="width:100px;height:40px;" type="button" name="" value="提    交" onclick="submitButt()" class="btn btn-warning radius"><i class="Hui-iconfont">&#xe676;</i> 提    交</button>
+		</div>
+	</div>
+	</form>
+	
+<script type="text/javascript">
+		$(function(){
+			$("#form-payway-edit").Validform({
+				tiptype:3,
+				showAllError:true,   //表单提交时显示所有提示信息
+				ignoreHidden: true,  //隐藏的表单元素不校验
+				ajaxPost:true,
+				callback:function(data){
+					$.Hidemsg()
+					if(data.resultCode==200){
+						layer.msg('保存成功!', {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2PayWayRate/payv2PayWayRateList.do?payWayId="+$("#payWayId").val()+"&curPage="+$("#curPage").val());
+						layer_close();
+					}else if(data.resultCode==201){
+						layer.msg('公司主体已存在!', {icon: 2});
+						return false;
+					}else{
+						$("#form-app-add").resetForm();
+						layer.msg('保存失败，请你检查数据!', {
+							icon : 1,
+							time : 1000
+						});
+					}
+				}
+			});
+		});
+
+		function submitButt(){
+			$("#form-payway-edit").attr(
+					"action",
+					"${basePath}/payv2PayWayRate/addPayv2PayWayRate.do").submit(); 
+		}
+		
+		$("#companyAlias").change(function(){
+		  changeAlias();
+		});
+		function changeAlias(){
+			var dicId = $("#dicId").val();
+			if(dicId != "") {
+				var dicValue = $("#dicId").find("option:selected").text();
+				var alias = $("#companyAlias").val();
+				if(alias != "") {
+					dicValue += "("+alias+")";
+				}
+				$("#rateName").val(dicValue);
+			}
+		}
+		
+		function changePayType(obj){
+			var pay_type = $(obj).val();
+			if(pay_type == 1) {
+				var appendOptions = matchPayType("_APP");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 2) {
+				var appendOptions = matchPayType("_WEB");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 3) {
+				var appendOptions = matchPayType("_SCAN");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 4) {
+				var appendOptions = matchPayType("_WAP");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else if(pay_type == 5) {
+				var appendOptions = matchPayType("_GZH");
+				if(appendOptions != "") {
+					$("#dicId").html(appendOptions);
+				}
+			}
+			else {
+				$("#dicId").html("<option value=\"\">---请选择---</option>");
+			}
+			changeAlias();
+		}
+		
+		function matchPayType(lastStr) {
+			var appendOptions = "";
+			var wayStr = "";
+			var wayId = $("#payWayId").val();
+			if(wayId == 1) {
+				wayStr = "ALI";
+			} else if(wayId == 2) {
+				wayStr = "WEIXIN";
+			} else if(wayId == 3) {
+				wayStr = "QQ";
+			}
+			for(var i = 0, len = $("#hiddenDic").children().length;i<len;i++){
+				var dicId = $("#hiddenDic").children().eq(i).find("#hiddenDics").attr("dicId");
+				var dicName = $("#hiddenDic").children().eq(i).find("#hiddenDics").attr("dicName");
+				var dicValue = $("#hiddenDic").children().eq(i).find("#hiddenDics").attr("dicValue");
+				if(dicName.indexOf(wayStr) != -1 && dicName.endsWith(lastStr)) {
+					appendOptions+='<option value="'+dicId+'">'+dicValue+'</option>';
+				}
+			}
+			if(appendOptions == "") {
+				appendOptions = "<option value=\"\">---请选择---</option>";
+			}
+			return appendOptions;
+		}
+/**
+ * 异步获取支付通道列表
+ */
+function changeSponsoIdValue_zlb(wayType){
+	var wayType =wayType;
+	if(wayType == ""){
+		alert("请先选择支付方式");
+		return;
+	}else{
+		$.ajax({
+			url:'${basePath}/Payv2BussSupportPayWay/getPayv2PayWayList.do?wayType='+wayType,
+			dataType:'json',
+			success:function(data){
+				var lists = data.payv2PayWayList;
+				$("#payWayId").find("option").remove();
+				 $.each(lists,function(n,value) {
+			           	var trs = "<option value=\"" + value.id + "\" >" + value.wayName + "</option> ";  
+						$("#payWayId").append(trs);			               
+			        });  
+			 	 }  
+		});
+	}
+ }
+ 
+function uploadFile(url,idstr,filestr,obj) {
+	var _this = $(obj);
+	if($("input[id='"+idstr+filestr+"']").val()==""){
+		alert("请选择上传文件");
+		return;
+	}
+	var len = _this.parent("dd").find(".upLoadShots").find(".shotList").length;
+	if (len == 0) {
+		_this.parent("dd")
+			.find(".upLoadShots")
+			.append(
+					"<p class='shotList'><img src='' id='insuIconImg'/><i class='imageOper'></i></p>");
+	}
+	commonUp(url, $("input[id='"+idstr+filestr+"']"), function(data) {
+			$("#"+idstr).val(data.Data.url);
+			$("#serviceIconImg" + idstr).attr("src", data.Data.url);
+	});
+
+}
+//无刷新上传文件
+function commonUp(url, e, callback) {
+	$.ajaxFileUpload({
+		url : url,
+		secureuri : false,
+		fileElement : e,
+		dataType : "JSON",//返回数据的类型
+		success : function(data,status) {
+			if (data.resultCode == 200) {
+				if (callback) {
+					callback(data);
+				}
+			} else {
+				//alert("上传失败！");
+				alert(data.Data);
+			}
+			
+		}
+	});
+}
+
+function ValidateNumber(e, pnumber){ 
+	if (!(/^1[34578]\d{9}$/.test(pnumber)||/^0\d{2,3}-?\d{7,8}$/.test(pnumber))){ 
+		$(e).val("")
+	}
+	return false; 
+}
+
+//验证输入的数字合法性
+function ValidateFloat(e, pnumber){ 
+	if (!/^\d+[.]?\d*$/.test(pnumber)){ 
+		$(e).val(/^\d+[.]?\d*/.exec($(e).val())); 
+	}
+	return false; 
+}
+//隐藏
+function show_Type(){
+	var a=$("#wayArrivalType").val();
+	 if(a==2){
+		document.getElementById("sssssss").style.display="none";//隐藏
+	}else{
+		document.getElementById("sssssss").style.display="";//隐藏
+	} 
+}
+</script>
+</body>
+</html>

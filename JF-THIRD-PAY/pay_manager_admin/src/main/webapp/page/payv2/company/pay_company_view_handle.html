@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>查看商户</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<form action="${basePath}/payv2BussCompany/updateBussCompany.do" method="post" class="form form-horizontal" id="form-company-add">
+	<input type="hidden" name="id" value="${obj.id}"/>
+	<div class="pop_main">
+		<!-- <h3>登录账户</h3>
+		<dl>
+			<dt><label>商户管理员账号：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请输入邮箱或手机号作为商户账号" name="userName" class="dd_input" value="${obj.userName}"></dd>
+		</dl>
+		<dl>
+			<dt><label>初始登录密码：</label></dt>
+			<dd><input type="password" dataType="*" nullmsg="请输入登录密码" name="passWord" class="dd_input" id="passWord" value="${obj.passWord}"></dd>
+		</dl>
+		<dl>
+			<dt><label>重复登录密码：</label></dt>
+			<dd><input type="password" dataType="*" nullmsg="请再次输入登录密码，密码一致" name="passWordTwo" class="dd_input" id="passWordTwo"  onblur="ifPassword($(this),value)" value="${obj.passWord}"></dd>
+		</dl> -->
+		<h3>公司信息</h3>
+		<dl>
+			<dt><label>合作商户公司名称：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填写商户公司名称" name="companyName" class="dd_input" value="${obj.companyName}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>公司行业：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司行业" name="companyTrade" style="width:100px;" disabled="disabled">
+					<#if tradeList?? && tradeList?size gt 0>
+					<#list tradeList as dl >
+						<option value="${dl.id}" <#if dl.id==obj.companyTrade>selected="selected"</#if>>${dl.tradeName}</option>
+					</#list>
+					</#if>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>公司规模：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司规模" name="companyScale" style="width:100px;" disabled="disabled">
+					<option value="1" <#if obj.companyScale==1>selected="selected"</#if>>大型</option>
+					<option value="2" <#if obj.companyScale==2>selected="selected"</#if>>中型</option>
+					<option value="3" <#if obj.companyScale==3>selected="selected"</#if>>小型</option>
+					<option value="4" <#if obj.companyScale==4>selected="selected"</#if>>微型</option>
+					<option value="5" <#if obj.companyScale==5>selected="selected"</#if>>个体户</option>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>营业执照号码：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseNum" class="dd_input" value="${obj.licenseNum}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>注册地址：</label>
+			</dt>
+			<dd><input type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseAddr" class="dd_input" value="${obj.licenseAddr}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt><label>上传营业执照：</label></dt>
+			<dd>
+				<input type="text" class="width200"  dataType="*" nullmsg="请上传营业执照" name="licensePic" id="licensePic" value="${obj.licensePic}" disabled="disabled"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>组织机构代码：</label>
+			</dt>
+			<dd><input type="text" dataType="*" nullmsg="请填注册地址" name="organizationCode" class="dd_input" value="${obj.organizationCode!}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt><label>上传组织机构代码照：</label></dt>
+			<dd>
+				<input type="text" class="width200"  dataType="*" nullmsg="上传组织机构代码照" name="organizationCodeUrl" id="organizationCodeUrl" value="${obj.organizationCodeUrl!}" disabled="disabled"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>营业类型：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择营业类型" name="licenseType" style="width:150px;" disabled="disabled">
+					<option value="1" <#if obj.licenseType==1>selected="selected"</#if>>线上（互联网）</option>
+					<option value="2" <#if obj.licenseType==2>selected="selected"</#if>>线下（实体店铺）</option>
+					<option value="3" <#if obj.licenseType==3>selected="selected"</#if>>线上+线下</option>
+				</select>
+			</dd>
+		</dl>
+		<h3>联系人信息</h3>
+		<dl>
+			<dt><label>公司法人名称：</label></dt>
+			<dd><input dataType="*" nullmsg="公司法人名称" type="text" name="legalName" disabled="true" value="${obj.legalName!}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt><label>法人身份证号码：</label></dt>
+			<dd><input dataType="*" nullmsg="法人身份证号码" type="text" name="legalIdCard" disabled="true" value="${obj.legalIdCard!}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人姓名：</label></dt>
+			<dd><input dataType="*" nullmsg="输入联系人姓名" type="text" name="contactsName" value="${obj.contactsName}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人电话：</label></dt>
+			<dd><input dataType="*" nullmsg="输入联系人电话" type="text" name="contactsPhone" value="${obj.contactsPhone!}" onblur="ValidateFloat($(this),value)" disabled="disabled"></dd>
+		</dl>
+		<h3> 收款信息</h3>
+		<dl>
+			<dt><label>开户机构：</label></dt>
+			<!-- <dd><input dataType="*" nullmsg="开户银行" type="text" name="accountBank"></dd> -->
+			<dd>
+				<select dataType="*" nullmsg="开户机构" name="accountBank" style="width:100px;" disabled="disabled">
+					<#if bankList?? && bankList?size gt 0>
+					<#list bankList as dl >
+						<option value="${dl.bankName}" <#if obj.accountBank==dl.bankName>selected="selected"</#if>>${dl.bankName}</option>
+					</#list>
+					</#if>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>账户类型：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择账户类型" name="accountType" style="width:150px;" disabled="disabled">
+					<option value="1" <#if obj.accountType==1>selected="selected"</#if>>对公账户</option>
+					<option value="2" <#if obj.accountType==2>selected="selected"</#if>>对私账户</option>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>收款商户名：</label></dt>
+			<dd><input dataType="*" nullmsg="收款商户名" type="text" name="accountName" value="${obj.accountName!}" disabled="disabled"></dd>
+		</dl>
+		<dl>
+			<dt><label>收款账号：</label></dt>
+			<dd><input dataType="*" nullmsg="收款账号" type="text" name="accountCard" value="${obj.accountCard!}" disabled="disabled"></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>到期类型：</label>
+			</dt>
+			<dd>
+				<select style="width:100px;" id="wayArrivalType" name="wayArrivalType" size="1" onchange="show_Type()" disabled="disabled">
+					<option value="1" <#if obj.wayArrivalType==1>selected="selected"</#if>>T+日期(工作日)</option>
+					<option value="2" <#if obj.wayArrivalType==2>selected="selected"</#if>>实时到账</option>
+					<option value="3" <#if obj.wayArrivalType==3>selected="selected"</#if>>T+日期</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl  class="adddl" id="sssssss" <#if obj.wayArrivalType==2>style="display: none"</#if>>
+			<dt></span>到账日期：</label>
+			</dt>
+			<dd>
+			<input type="text" class="dd_input"  placeholder="到账日期" id="wayArrivalValue" name="wayArrivalValue" value="${obj.wayArrivalValue}" datatype="*"  nullmsg="请输入到账日期" onblur="ValidateFloat($(this),value)" disabled="disabled"> 天
+			</dd>
+		</dl>
+		<h3> 支付通道</h3>
+		<dl>
+			<dt><label>是否随机路由：</label></dt>
+			<dd>
+				<select style="width:100px;" id="isRandom" name="isRandom" size="1" disabled="disabled">
+					<option value="1" <#if obj.isRandom==1>selected="selected"</#if>>是</option>
+					<option value="2" <#if obj.isRandom==2>selected="selected"</#if>>否</option>
+				</select>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>支付通道：</label></dt>
+				<dd id="chooseCity">
+					<#if wayList?? && wayList?size gt 0>
+					<#list wayList as dl >
+						<#if dl_index ==0>
+							<select name="discoutShopRangeProvince" id="search_shopRangeProvince" style="width:100px;" onchange="payType('search_shopRangeProvince','span','')" disabled="disabled">
+								<option value="0">请选择</option>
+								<#if payList?? && payList?size gt 0>
+									<#list payList as dl1 >
+										<option value="${dl1.id}" <#if dl1.id == dl.payWayId>selected="selected"</#if>>${dl1.wayName}</option>
+									</#list>
+								</#if>
+							</select>
+							<span id ="span">
+								<#if dl.rateId!>
+									<select name="discoutShopRangeCity" id="search_shopRangeCity" style="width:150px;" disabled="disabled">
+										<#if dl.rateList?? && dl.rateList?size gt 0>
+											<#list dl.rateList as dl1>
+												<option value="${dl1.id}" <#if dl1.id == dl.rateId>selected="selected"</#if>>${dl1.payWayName}</option>
+											</#list>
+										</#if>
+									</select>
+								</#if>
+							</span>
+							<input type="text" name="payWayRate" id="payWayRate" style="width:90px;" placeholder="通道费率,单位‰" value ="${dl.payWayRate}" disabled="disabled">
+							排序<input type="text" name="sortNum" id="sortNum" style="width:50px;"  value ="${dl.sortNum}" disabled="disabled">
+							限额<input type="text" name="maxMoney" id="maxMoney" style="width:50px;"  value ="${dl.maxMoney}" disabled="disabled">
+							每笔限额<input type="text" name="oneMaxMoney" id="oneMaxMoney" style="width:50px;"  value ="${dl.oneMaxMoney}" disabled="disabled">
+						<#else>
+							<br/>
+							<select name="discoutShopRangeProvince" id="search_shopRangeProvince${dl_index}" style="width:100px;" onchange="payType('search_shopRangeProvince${dl_index}','span','${dl_index}')" disabled="disabled">
+								<option value="0">请选择</option>
+								<#if payList?? && payList?size gt 0>
+									<#list payList as dl1 >
+										<option value="${dl1.id}" <#if dl1.id == dl.payWayId>selected="selected"</#if>>${dl1.wayName}</option>
+									</#list>
+								</#if>
+							</select>
+							<span id ="span${dl_index}">
+								<#if dl.rateId!>
+									<select name="discoutShopRangeCity" id="search_shopRangeCity${dl_index}" style="width:150px;" disabled="disabled">
+										<#if dl.rateList?? && dl.rateList?size gt 0>
+											<#list dl.rateList as dl1>
+												<option value="${dl1.id}" <#if dl1.id == dl.rateId>selected="selected"</#if>>${dl1.payWayName}</option>
+											</#list>
+										</#if>
+									</select>
+								</#if>
+							</span>
+							<input type="text" name="payWayRate" id="payWayRate${dl_index}" style="width:90px;" placeholder="通道费率,单位‰" value ="${dl.payWayRate}" disabled="disabled">
+							排序<input type="text" name="sortNum" id="sortNum${dl_index}" style="width:50px;"  value ="${dl.sortNum}" disabled="disabled">
+							限额<input type="text" name="maxMoney" id="maxMoney${dl_index}" style="width:50px;"  value ="${dl.maxMoney}" disabled="disabled">
+							每笔限额<input type="text" name="oneMaxMoney" id="oneMaxMoney${dl_index}" style="width:50px;"  value ="${dl.oneMaxMoney}" disabled="disabled">
+						</#if>
+					</#list>
+					</#if>						
+				</dd>
+		</dl>
+		<#if obj.companyStatus==1>
+			<div style="text-align:center;height:50px;line-height:50px;">
+			<button style="vertical-align:middle;" onclick='approveAgreePayv2BussCompany(${obj.id},1)'>通过</button>
+			<button style="vertical-align:middle;" onclick='approveAgreePayv2BussCompany(${obj.id},2)'>拒绝</button>
+		</div>
+		</#if>
+	</div>
+	</form>
+	
+	<script type="text/javascript">
+		function approveAgreePayv2BussCompany(id,type){
+			$.ajax({
+				type:"get",
+				url:"${basePath}/payv2BussCompany/companyHandle.do?companyId="+id+"&type="+type,
+				async:false,
+				success:function(data){
+					console.log(data)
+					if(data.resultCode == 200){
+						layer.msg(data.message, {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2BussCompany/companyList.do");
+						parent.layer.close();
+					}else{
+						Huimodal_alert(data.message,1500);
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

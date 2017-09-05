@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+	<meta charset="UTF-8" />
+  </head>
+  
+  <body>
+    <script type="text/javascript" src="../public/js/zepto.min.js"></script>
+    <script>
+    	var param={};
+    	param.bussOrderNum = (""+Math.random()*10).split(".")[1];
+    	param.appKey = 	"6413f866b558d3e2b6ccf4f0d865f9df";//测试
+    	param.payMoney = 0.01;
+    	param.orderName = "测试支付";
+    	param.notifyUrl="http://www.aijinfu.com";
+    	$.ajax({
+    		type:"get",
+    		url:"https://testpayapi.aijinfu.cn/demo/demoPay.do",
+    		data:param,
+    		async:false,
+    		success:function(data){
+    			data = JSON.parse(data)
+    			console.log(data)
+    			if(!!data&&data.resultCode==200){
+    				//location.href="https://testpayapi.aijinfu.cn/page/pay/pay.html?paramStr="+data.Data.paramStr;
+    			}else{
+    				alert(data.message);
+    			}
+    		}
+    	})
+    </script>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../public/css/css2.css" />
+	</head>
+	<body>
+		<div class="title">
+			<div class="tlCon">
+				<div class="return"></div>
+				<div class="headline">优惠买单</div>
+			</div>
+		</div>
+		<div class="address">
+			<i></i><span>郑州天旺广场餐厅</span>
+		</div>		
+		<div class="purse">
+			<div class="psPays">
+				<div class="purseIcon fl">
+					<img src="../public/img/btp.png">
+				</div>
+				<div class="purseIntro fl">
+					<div class="purseName">包投钱包</div>
+					<div class="purseOnsale">钱包支付享更多优惠</div>
+				</div>
+				<div class="purseChoose fr">
+					<img src="../public/img/c.png">
+				</div>
+				<div class="reduceMoney fr"></div>	
+			</div>
+			<div class="download">
+				还没有<span class="name2purse">包投钱包</span>，<span class="downloadPurse">点击此处</span>即可享受支付优惠
+			</div>
+		</div>
+		<div class="othersPay">
+			<div class="cardPay" choose="">
+				<div class="cpCon">
+					<div class="logoIcon fl">
+						<img src="../public/img/alipay.png" />
+					</div>
+					<div class="words fl">
+						<div class="wsUp">支付宝支付</div>
+						<div class="wsDown">推荐有支付宝账户的用户使用</div>
+					</div>
+					<div class="choose fr c1"></div>
+				</div>
+			</div>
+		</div>
+		<div class="btn">确认支付</div>
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script type="text/javascript" src="../public/js/rem.js" ></script>
+		<script>
+			//var shopKey=window.location.search.slice(9,window.location.search.length);
+			$(".purseChoose img").on("click",function(){
+				$(this).attr("src","../public/img/c.png");
+				$(".btn").html("钱包支付");
+				
+				$(".choose").addClass("c1").removeClass("cs");
+			})
+			$(".choose").on("click",function(){
+				$(this).addClass("cs").removeClass("c1");
+				$(".btn").html("支付宝支付");
+				
+				$(".purseChoose img").attr("src","../public/img/c1.png");
+			})
+			
+			//获取url传参
+			function transmit(){
+				var str = window.location.search;
+				str=str.slice(1,str.length);
+				str=str.split("&");
+				var obj={},obj2={};
+				for(var i=0;i<str.length;i++){
+					strs=str[i];
+					strs=strs.split("=");
+					obj[strs[0]]=strs[1];			
+				}
+				
+				for(var key in obj){
+					obj2[key]=decodeURIComponent(obj[key]);
+				}
+				return obj2;
+			}
+			var obj = transmit();
+			$.ajax({
+				type:"get",
+				url:"/payv2BussCompanyShop/getShopName.do",
+				async:true,
+				data:{"shop_key":obj.shopKey},
+				success:function(data){
+					data=JSON.parse(data);
+					if(data.resultCode==200){
+						$(".headline").html(data.Data.shopName);
+						$(".address span").html(data.Data.shopAddress);
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+			$(".btn").on("click",function(){
+				if($(this).html()!="支付宝支付"){
+					alert("暂不支持钱包支付");
+				}else{
+					$.ajax({
+						type:"get",
+						url:"/payv2BussCompanyShop/qrcodeRelation.do",
+						async:true,
+						data:{"shopKey":obj.shopKey},
+						success:function(data){
+							data=JSON.parse(data);
+							if(data.resultCode==200){
+								window.location.href=data.Data.alipayQrcode;
+							}else{
+								alert(data.message);
+							}
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+</html>

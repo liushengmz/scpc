@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>新增合作公司</title>
+	<link rel="stylesheet" type="text/css" href="../../public/css/popStyle.css">
+	<link href="../../public/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+	<link href="../../public/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+	<link href="../../public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+	
+	
+	<script type="text/javascript" src="../../public/js/utils/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="../../public/js/utils/popTable.js"></script>
+	<script type="text/javascript" src="../../public/js/utils/jquery.cityselect.js"></script>
+	<script type="text/javascript" src="../../public/js/utils/WdatePicker.js"></script>
+</head>
+<body>
+	<div class="pop_main">
+		<h3 class="header">上传SDK</h3>
+		<dl class="clearfix">
+			<dt><label>选择平台：</label></dt>
+			<dd style="height: 29px;"><label><input type="radio" name="pt"/>android</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" name="pt"/>ios</label></dd>
+		</dl>
+		<dl>
+			<dt><label>SDK文件：</label></dt>
+			<dd>
+				<div class="formControls col-7" id="bondOpenAccountPicExampleImg">
+					<input type="hidden" name="bondOpenAccountPicExample" id="bondOpenAccountPicExample" />
+			        <input type="file"  multiple="multiple" name="Imgs" id="Imgs" style="width: 200px;display: inline-block;">
+			        <a href="javascript:;" onclick="uploadImg('${basePath}/upload/uploadImgs.do','input[id=\'Imgs\']','form [name=\'bondOpenAccountPicExample\']')" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 上传</a>
+					<div id="imgscontent" style="width:200px"></div>
+			    </div>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>SDK集成文档：</label></dt>
+			<dd>
+				<div class="formControls col-7" id="bondOpenAccountPicExampleImg">
+					<input type="hidden" name="bondOpenAccountPicExample" id="bondOpenAccountPicExample" />
+			        <input type="file"  multiple="multiple" name="Imgs" id="Imgs" style="width: 200px;display: inline-block;">
+			        <a href="javascript:;" onclick="uploadImg('${basePath}/upload/uploadImgs.do','input[id=\'Imgs\']','form [name=\'bondOpenAccountPicExample\']')" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 上传</a>
+					<div id="imgscontent" style="width:200px"></div>
+			    </div>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>更新说明：</label></dt>
+			<dd><textarea style="height: 50px;width: 300px;"></textarea></dd>
+		</dl>		
+		<div class="submit_btn">
+			<input type="button" name="" value="创建">
+		</div>
+	</div>
+	
+</body>
+</html>

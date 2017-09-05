@@ -1,0 +1,374 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link href="/public/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="/public/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="/public/skin/default/skin.css" rel="stylesheet" type="text/css" />
+<link href="/public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/public/css/jPages.css" rel="stylesheet" type="text/css" />
+<link href="/public/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="/public/js/utils/jquery-1.10.2.min.js"></script> 
+<script type="text/javascript" src="/public/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
+<script type="text/javascript" src="/public/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="/public/lib/layer/1.9.3/layer.js"></script>
+<script type="text/javascript" src="/public/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/public/lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="/public/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="/public/js/H-ui.js"></script> 
+<script type="text/javascript" src="/public/js/jPages.js"></script> 
+<script type="text/javascript" src="/public/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="/public/lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="/public/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script> 
+<script type="text/javascript" src="/public/js/jquery.form.js"></script> 
+<script type="text/javascript" src="/public/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/public/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/public/js/picbox.js"></script>
+<script type="text/javascript" src="/public/js/lightbox.js"></script>
+
+<script type="text/javascript" src="/public/js/utils/util.js"></script>
+<script type="text/javascript" src="/public/js/utils/jquery.cookie.js"></script>
+
+<title>金融机构详情页面</title>
+</head>
+<body>
+		<div id="tab_demo" class="HuiTab pd-20">
+			  <div class="">
+			  	 <h1>金融公司的名字</h1>
+			  </div>
+			  <div class="myTabBar cl">
+			  	<span tab-name="financial" style="padding:0 60px" class="current first">理财产品</span>
+			  	<span tab-name="fund" style="padding:0 60px">基金产品</span>
+			  	<span tab-name="insurance" style="padding:0 60px">保险产品</span>
+			  	<span tab-name="borrowing" style="padding:0 60px">借贷产品</span>
+			  </div>
+			  <div class="cl pd-5 mt-20 mg-b">
+					<span class="l" style="">
+					</span> 
+					<span class="r"> 
+						<button name="" id="exportExcel" class="btn btn-success" type="button" onclick="exportExcel()"> <i class="Hui-iconfont"></i>导出Excel</button>
+					</span>
+			  </div>
+			  <div style="display:none;" class="cl pd-5 bg-1 bk-gray mg-b">
+				<span style="font-size:16px;" class="l">
+					保险列表:
+				</span> 
+				<span class="r"> 
+				</span>
+			  </div>
+			  <div class="financial tab-content">
+					<table class="table table-border table-bordered table-hover table-bg ">
+					<thead>
+						<tr class="text-c">
+							<th width="100">ID</th>
+							<th width="100">产品名称</th>
+						    <th width="80">产品类型</th>
+							<th width="100">合作方式</th>
+							<th width="80">起投金额</th>
+							<th width="30">官方收益率</th>
+							<th width="30">首投补贴（%）</th>
+							<th width="80">复投补贴（%）</th>
+							<th width="40">推广总数</th>
+							<th width="40">已售总数</th>
+							<th width="40">上下架状态</th>
+							<th width="100">产品状态</th>
+							<th width="100">推荐状态</th>
+							<th width="100">产品期限</th>
+							<th width="100">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr class="text-c">
+								<td>1</td>
+								<td>天天盈</td>
+								<td>新手标</td>
+								<td>CPA</td>
+								<td>1</td>
+								<td>2.35</td>
+								<td>1.23</td>
+								<td>--</td>
+								<td>50000元</td>
+								<td>上架</td>
+								<td>10000</td>
+								<td>已售罄</td>
+								<td>推荐</td>
+								<td>Y年Y月Y日~Y年Y月Y日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</td>
+							</tr>
+							<tr class="text-c">
+								<td>2</td>
+								<td>天天盈</td>
+								<td>单一</td>
+								<td>CPA</td>
+								<td>1</td>
+								<td>2.35</td>
+								<td>1.23</td>
+								<td>--</td>
+								<td>50000元</td>
+								<td>下架</td>
+								<td>10000</td>
+								<td>已到期</td>
+								<td>推荐</td>
+								<td>Y年Y月Y日~Y年Y月Y日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<a title="挂起" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">挂起</i></a>
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="fund tab-content" style="display:none;">
+					<table class="table table-border table-bordered table-hover table-bg ">
+					<thead>
+						<tr class="text-c">
+							<th width="100">ID</th>
+							<th width="100">基金名称</th>
+						    <th width="80">基金代码</th>
+							<th width="100">合作方式</th>
+							<th width="80">基金类型</th>
+							<th width="30">基金公司</th>
+							<th width="30">净值日增长率（%）</th>
+							<th width="80">官方年化（%）</th>
+							<th width="40">首投补贴（%）</th>
+							<th width="40">复投补贴（%）</th>
+							<th width="40">推广总数</th>
+							<th width="100">已售总数</th>
+							<th width="100">上下架状态</th>
+							<th width="100">产品状态</th>
+							<th width="100">推荐状态</th>
+							<th width="100">推广有效期</th>
+							<th width="100">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr class="text-c">
+								<td>1</td>
+								<td>景顺长城</td>
+								<td>00112</td>
+								<td>CPA</td>
+								<td>混合型</td>
+								<td>xxxxxx</td>
+								<td>0.77</td>
+								<td>--</td>
+								<td>0.13</td>
+								<td>——————</td>
+								<td>10000元</td>
+								<td>5000元</td>
+								<td>上架</td>
+								<td>已售器</td>
+								<td>推荐</td>
+								<td>Y年Y月Y日~Y年Y月Y日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</td>
+							</tr>
+							<tr class="text-c">
+								<td>2</td>
+								<td>景顺长城</td>
+								<td>00112</td>
+								<td>CPA</td>
+								<td>混合型</td>
+								<td>xxxxxx</td>
+								<td>0.77</td>
+								<td>--</td>
+								<td>0.13</td>
+								<td>——————</td>
+								<td>10000元</td>
+								<td>5000元</td>
+								<td>下架</td>
+								<td>已售器</td>
+								<td>推荐</td>
+								<td>Y年Y月Y日~Y年Y月Y日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<a title="挂起" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">挂起</i></a>
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</td>
+					</tbody>
+				</table>
+			</div>
+			<div class="insurance tab-content" style="display:none;">
+					<table class="table table-border table-bordered table-hover table-bg ">
+					<thead>
+						<tr class="text-c">
+							<th width="100">ID</th>
+							<th width="100">保险名称</th>
+							<th width="100">合作方式</th>
+						    <th width="80">最低保费</th>
+							<th width="80">保费补贴</th>
+							<th width="30">推广总数</th>
+							<th width="30">已售总数</th>
+							<th width="80">上下架状态</th>
+							<th width="40">产品状态</th>
+							<th width="40">推荐状态</th>
+							<th width="100">推广有效期</th>
+							<th width="100">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr class="text-c">
+								<td>1</td>
+								<td>景顺长城</td>
+								<td>00112</td>
+								<td>CPA</td>
+								<td>混合型</td>
+								<td>10000元</td>
+								<td>5000元</td>
+								<td>上架</td>
+								<td>已售器</td>
+								<td>推荐</td>
+								<td>Y年Y月Y日~Y年Y月Y日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</td>
+							</tr>
+							<tr class="text-c">
+								<td>2</td>
+								<td>景顺长城</td>
+								<td>00112</td>
+								<td>CPA</td>
+								<td>混合型</td>
+								<td>5000元</td>
+								<td>5000元</td>
+								<td>下架</td>
+								<td>已售器</td>
+								<td>推荐</td>
+								<td>Y年Y月Y日~Y年Y月Y日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<a title="挂起" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">挂起</i></a>
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</td>
+					</tbody>
+				</table>
+			</div>
+		<div class="borrowing tab-content" style="display:none;">
+				<table class="table table-border table-bordered table-hover table-bg ">
+					<thead>
+						<tr class="text-c">
+							<th width="10">ID</th>
+							<th width="100">借贷产品名称</th>
+							<th width="80">合作方式</th>
+							<th width="80">借款期数及利率</th>
+							<th width="30">借款金额范围(元)</th>
+							<th width="30">推广总金额(元)</th>
+							<th width="40">已借款金额(元)</th>
+							<th width="40">上架状态</th>
+							<th width="100">产品状态</th>
+							<th width="100">推荐状态</th>
+							<th width="80">推广有效期</th>
+							<th width="300">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr class="text-c">
+								<td>1</td>
+								<td>机构1</td>
+								<td>CPA</td>
+								<td>3期 官方0.06% 平台补贴——6期 官方0.06% 平台补贴0.12%</td>
+								<td>300-1000</td>
+								<td>200000元</td>
+								<td>234234元</td>
+								<td>上架</td>
+								<td>已到期</td>
+								<td>3期、12期</td>
+								<td>2016年9月7日-2017年1月1日</td>
+								<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</tr>
+							<tr class="text-c">
+								<td>2</td>
+								<td>xxxxx</td>
+								<td>数据对接</td>
+								<td>3期 官方0.06% 平台补贴——6期 官方0.06% 平台补贴0.12%</td>
+								<td>300-1000</td>
+								<td>200000元</td>
+								<td>234234元</td>
+								<td>下架</td>
+								<td>已到期</td>
+								<td>----</td>
+								<td>2016年9月7日-2017年1月1日</td>
+									<td class="td-manage">
+									<a title="查看详情" href="javascript:;" onclick="checkFinancialDetails('查看详情','financial-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">查看详情</i></a>
+									<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+									<a title="挂起" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">挂起</i></a>
+									<i class="Hui-iconfont">|</i>
+									<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+									<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<script type="text/javascript">
+		$(function(){
+			/***tab切换***/
+			$("body").on("click",".myTabBar span",function(){
+				var tabName = $(this).attr("tab-name");
+				$(".tab-content").hide();
+				$(".myTabBar span").removeClass("current");
+				$("."+tabName).show();
+				$(this).addClass("current");
+			});
+			/**点击修改**/
+			$(".insurance-sort-update").on("click",function(){
+				var trs = $("table tbody tr");
+				$.each(trs,function(index,tr){
+					var input = "<input type='text' class='editInput' value='"+ (index+1) +"' />";
+					$(tr).find("td:eq(0)").text("").append(input);
+				});
+			});
+			/**修改**/
+			$("body").on("change",".editInput",function(){
+				$(".insurance-sort-update").hide();
+				$(".insurance-sort-sure").show();
+			});
+		});
+	</script>
+</body>
+</html>

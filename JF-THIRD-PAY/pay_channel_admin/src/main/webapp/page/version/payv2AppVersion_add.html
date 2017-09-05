@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+		<#include "lib/lib.html" />
+		<title>上传sdk</title>
+	</head>
+	<body>
+		<div class="pd-20">
+			<form action="${basePath}/Payv2AppVersion/addPayv2AppVersion.do" method="post" class="form form-horizontal" id="form-sdk-add">
+				<input type="hidden" id="appId" value="${map.appId!}" name="appId"/>
+				<div class="row cl">
+					<label class="form-label col-3">选择平台：</label>
+					<div class="formControls col-5"> <span class="select-box" style="width:150px;" >
+						<select class="select" id="appType" name="appType" size="1" onchange="show_Type()" >
+							<option value="1">Android</option>
+							<option value="2">IOS</option>
+							<option value="3">WEB</option>
+						</select>
+						</span> 
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-3"><span class="c-red">*</span>应用名称：</label>
+					<div class="formControls col-5">
+						<input type="text" class="input-text" value="${map.appName!}" placeholder="" id="appName" name="appName" disabled="true ">
+					</div>
+					<div class="col-4"> </div>
+				</div>
+				<div class="row cl" id="appFileUrlsYes">
+					<label class="form-label col-3"><span class="c-red">*</span>上传包：</label>
+					<input type="hidden" name="appVersionCode" class="width200" id="appVersionCode" />
+					<input type="hidden" name="fileMd5" class="width200" id="fileMd5" />
+					<input type="hidden" name="fileSize" class="width200" id="fileSize" />
+					<input type="hidden" name="appPackageName" class="width200" id="appPackageName" />
+					<input type="text"  name="appFileUrl" class="dd_input ppCompressApkUrl width200" id="sdkFileUrl" readonly="readonly" nullMsg="上传" />
+					<input type="file" name="file" class="packageUploadPackge width150 fileInputClass" class="upload-btn" id="sdkFileUrlFile" />
+					<!-- <div class="col-9"> </div> -->
+				</div>
+				
+				<div class="row cl" id="appVersionsYes">
+					<label class="form-label col-3"><span class="c-red">*</span>应用版本：</label>
+					<div class="formControls col-5">
+						<input type="text" class="input-text" value="" placeholder="" id="appVersion" name="appVersion" >
+					</div>
+					<div class="col-4"> </div>
+				</div>
+				
+				<div class="row cl" id="appStoreUrlYes" style="display: none;">
+					<label class="form-label col-3"><span class="c-red">*</span>商店地址：</label>
+					<div class="formControls col-5">
+						<input type="text" class="input-text" value="" placeholder="" id="appStoreUrl" name="appStoreUrl" >
+					</div>
+					<div class="col-4"> </div>
+				</div>
+				<div class="row cl" id="appFileUrlYes" style="display: none;">
+					<label class="form-label col-3"><span class="c-red">*</span>网页地址：</label>
+					<div class="formControls col-5">
+						<input type="text" class="input-text" value="" placeholder="" id="appFileUrl" name="appFileUrl1" >
+					</div>
+					<div class="col-4"> </div>
+				</div>
+				<div class="row cl" id="appVersionYes" style="display: none;">
+					<label class="form-label col-3"><span class="c-red">*</span>版本号：</label>
+					<div class="formControls col-5">
+						<input type="text" class="input-text" value="" placeholder="" id="appVersion" name="appVersion1" >
+					</div>
+					<div class="col-4"> </div>
+				</div>
+				<div class="row cl" id="appVersionCodeYes" style="display: none;">
+					<label class="form-label col-3"><span class="c-red">*</span>版本子号：</label>
+					<div class="formControls col-5">
+						<input type="text" class="input-text" value="" placeholder="" id="appVersionCode" name="appVersionCode1" >
+					</div>
+						用来取最新版本
+					<div class="col-4"> </div>
+				</div>
+				<!-- <div class="row cl">
+					<label class="form-label col-3"><span class="c-red">*</span>SDK集成文档：</label>
+					<input type="hidden" name="sdkDocumentName" class="width200" id="sdkDocumentName"/>
+					<input type="text" dataType="*" name="" class="dd_input uploadPackgeMd5 width200" readonly="readonly" nullMsg="SDK集成文档" id="sdkDocumentUrl" />
+					<input type="file" name="file" class="installUploadPackge width150 fileInputClass" class="upload-btn" id="sdkDocumentUrlFile" />
+				</div>
+ -->
+				<div class="row cl">
+					<label class="form-label col-3"><span class="c-red">*</span>更新说明：</label>
+					<div class="formControls col-5">
+						<textarea name="updateExplain" cols="" rows="" class="textarea" dataType="*" nullmsg="更新说明" placeholder="说点什么...128个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)"></textarea>
+						<p class="textarea-numberbar"><em class="textarea-length">0</em>/128</p>
+					</div>
+					<div class="col-4"> </div>
+				</div>
+
+				<div class="row cl">
+					<div class="col-9 col-offset-3">
+						<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+					</div>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript" src="${basePath}/public/js/jquery.myhtml5upload.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#form-sdk-add").Validform({
+					tiptype:2,
+					ajaxPost:true,
+					callback:function(data){
+						$.Hidemsg()
+						if(data.resultCode==200){
+							layer.msg('保存成功!', {
+								icon : 1,
+								time : 1000
+							});
+							parent.location.replace("${basePath}/Payv2AppVersion/Payv2AppVersionList.do?appId="+$("#appId").val());
+							layer_close();
+						}else{
+							$("#form-app-add").resetForm();
+							layer.msg('保存失败，请你检查数据!', {
+								icon : 1,
+								time : 1000
+							});
+						}
+					}
+				});
+			});
+			//SDK上传
+			$("input.packageUploadPackge").h5upload({
+				//上传的格式
+				'fileTypeExts': '',
+				'fileObjName': 'file',
+				//上传处理程序
+				'url': '${basePath}/upload/uploadApkIpa.do',
+				//上传文件的大小限制
+				'fileSizeLimit': 50000 * 1024 * 1024,
+				
+				//上传到服务器，服务器返回相应信息到data里
+				'onUploadSuccess': function(file, data) {
+					var result = JSON.parse(data);
+					if(!!result && result.resultCode == 200) {
+						var data = result.Data;
+						$(".ppCompressApkUrl").val(data.url);
+						$("#appVersion").val(data.version);
+						$("#appVersionCode").val(data.versionCode);
+						$("#appPackageName").val(data.packageName);
+						$("#fileSize").val(data.fileSize);
+						$("#fileMd5").val(data.md5);
+					} else {
+						alert(result.message);
+					}
+				},
+				//上传失败
+				'onUploadError': function(file) {
+					alert("上传失败!");
+				}
+			});
+			//无刷新上传文件
+			function commonUp(url, e, callback) {
+				$.ajaxFileUpload({
+					url: url,
+					secureuri: false,
+					fileElement: e,
+					dataType: "JSON", //返回数据的类型
+					success: function(data, status) {
+						if(data.resultCode == 200) {
+							if(callback) {
+								callback(data);
+							}
+						} else {
+							//alert("上传失败！");
+							alert(data.Data);
+						}
+
+					}
+				});
+			}
+			
+			//隐藏
+			function show_Type(){
+				var a=$("#appType").val();
+				 if(a==2){//IOS
+					document.getElementById("appStoreUrlYes").style.display="";
+					document.getElementById("appFileUrlYes").style.display="none";
+					document.getElementById("appVersionYes").style.display="none";
+					document.getElementById("appVersionCodeYes").style.display="none";
+					document.getElementById("appFileUrlsYes").style.display="";
+					document.getElementById("appVersionsYes").style.display="";
+				}else if(a==3){//网页
+					document.getElementById("appStoreUrlYes").style.display="none";//隐藏
+					document.getElementById("appFileUrlsYes").style.display="none";//隐藏
+					document.getElementById("appVersionsYes").style.display="none";//隐藏
+					document.getElementById("appFileUrlYes").style.display="";
+					document.getElementById("appVersionYes").style.display="";
+					document.getElementById("appVersionCodeYes").style.display="";
+				}else if(a==1){//安卓
+					document.getElementById("appStoreUrlYes").style.display="none";
+					document.getElementById("appFileUrlYes").style.display="none";
+					document.getElementById("appVersionYes").style.display="none";
+					document.getElementById("appVersionCodeYes").style.display="none";
+					document.getElementById("appFileUrlsYes").style.display="";
+					document.getElementById("appVersionsYes").style.display="";
+				} 
+			}
+		</script>
+	</body>
+</html>

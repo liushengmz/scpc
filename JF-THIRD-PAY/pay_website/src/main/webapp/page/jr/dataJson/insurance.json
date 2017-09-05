@@ -1,0 +1,38 @@
+jsonp1({
+	"message": "成功",
+	"Data": {
+		"insuFrequency": "年缴",
+		"insuEndTime": "2016-10-24 00:00:00",
+		"turnType": 1,
+		"insuOpenAccountPicExample": "",
+		"insuProductIntroduce": "",
+		"insuQualification": "适用人群：房主车主、商务精英、快乐白领\r\n承保年龄：0-100周岁\r\n",
+		"insuType": 5,
+		"insuPlatDiscountIntroduce": "在本平台购买有补贴",
+		"insuInviteCode": "",
+		"insuIcon": "http://fs.aijinfu.cn:8080/yizhan/aizichan/510cb349-e376-47b5-a5d0-348994b285e1.jpg",
+		"id": 96,
+		"insuBuySuccPicExample": "",
+		"insuCustomTags": "{\"autoTags\":[],\"customTags\":[],\"publicTags\":[{\"tag_color\":\"#ff6e51\",\"tag_content\":\"开户返现+10元\",\"tag_first\":\"开户返现\",\"tag_last\":\"元\",\"tag_middle\":\"+10\",\"tag_title\":\"返\"}]}",
+		"insuOfficialAmount": 13,
+		"openAnAccount": 3,
+		"insuTotalCount": 0,
+		"insuSubsidyType": 1,
+		"companyName": "太平洋保险",
+		"insuSafeguardContent": "房屋、装潢、室内财产",
+		"insuTips": "",
+		"insuName": "安居综合保险(C)",
+		"insuSubsidyDescribe": "只要通过墨迹金融跳转至所属金融机构完成注册、交易，上传交易成功截图并通过审核，才可获得由本平台提供的高额补贴，本产品最高补贴按 补贴上限购买金额计算，超出部分，将不再获得补贴奖励。",
+		"insuGuaranteeCompany": "",
+		"insuDisclaimer": "本平台所提供的信息，仅供参考之用。本平台不保证信息的准确性、有效性、及时性和完整性。",
+		"insuSubsidyValue": 0,
+		"turnUrl": "http://www.cpic.com.cn/?cmpid=nim_jtbd_000057",
+		"createCompanyId": 154,
+		"turnApkUrl": "",
+		"insuOfficialDiscountIntroduce": "家庭财产保障 第三者责任保障",
+		"insuTerm": "0-100周岁",
+		"insuTotalCountType": 1
+	},
+	"resultCode": 200
+}
+)

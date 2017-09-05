@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2CompanyApplyMapper">
+
+	<resultMap id="payv2companyapply_result_map" type="com.pay.business.payv2.entity.Payv2CompanyApply" >
+		<id column="id" property="id" />
+		<result column="company_name" property="companyName"/>
+		<result column="contacts_name" property="contactsName"/>
+		<result column="contacts_phone" property="contactsPhone"/>
+		<result column="email" property="email"/>
+		<result column="source_type" property="sourceType"/>
+		<result column="remarks" property="remarks"/>
+		<result column="status" property="status"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_company_apply  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and company_name like CONCAT('%',#{companyName},'%')
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="email!=null and email!=''">
+				and email like CONCAT('%',#{email},'%')
+			</if>
+			<if test="sourceType!=null and sourceType!=''">
+				and source_type = #{sourceType}
+			</if>
+			<if test="remarks!=null and remarks!=''">
+				and remarks like CONCAT('%',#{remarks},'%')
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d')
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2CompanyApply" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_company_apply
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="companyName!=null ">
+				company_name,
+			</if>
+      		<if test="contactsName!=null ">
+				contacts_name,
+			</if>
+      		<if test="contactsPhone!=null ">
+				contacts_phone,
+			</if>
+      		<if test="email!=null ">
+				email,
+			</if>
+      		<if test="sourceType!=null ">
+				source_type,
+			</if>
+      		<if test="remarks!=null ">
+				remarks,
+			</if>
+      		<if test="status!=null ">
+				status,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="companyName!=null ">
+      			#{companyName},
+			</if>
+      		<if test="contactsName!=null ">
+      			#{contactsName},
+			</if>
+      		<if test="contactsPhone!=null ">
+      			#{contactsPhone},
+			</if>
+      		<if test="email!=null ">
+      			#{email},
+			</if>
+      		<if test="sourceType!=null ">
+      			#{sourceType},
+			</if>
+      		<if test="remarks!=null ">
+      			#{remarks},
+			</if>
+      		<if test="status!=null ">
+      			#{status},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2CompanyApply">
+		delete from payv2_company_apply
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+      		<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+      		<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+      		<if test="email!=null ">
+				and email=#{email}
+			</if>
+      		<if test="sourceType!=null ">
+				and source_type=#{sourceType}
+			</if>
+      		<if test="remarks!=null ">
+				and remarks=#{remarks}
+			</if>
+      		<if test="status!=null ">
+				and status=#{status}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2CompanyApply">
+		update payv2_company_apply
+		<set>
+			<if test="companyName!=null ">
+				company_name=#{companyName},
+			</if>
+			<if test="contactsName!=null ">
+				contacts_name=#{contactsName},
+			</if>
+			<if test="contactsPhone!=null ">
+				contacts_phone=#{contactsPhone},
+			</if>
+			<if test="email!=null ">
+				email=#{email},
+			</if>
+			<if test="sourceType!=null ">
+				source_type=#{sourceType},
+			</if>
+			<if test="remarks!=null ">
+				remarks=#{remarks},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2CompanyApply" resultMap="payv2companyapply_result_map">
+		select id,company_name,contacts_name,contacts_phone,email,source_type,remarks,status,create_time from payv2_company_apply
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="email!=null ">
+				and email=#{email}
+			</if>
+			<if test="sourceType!=null ">
+				and source_type=#{sourceType}
+			</if>
+			<if test="remarks!=null ">
+				and remarks=#{remarks}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2companyapply_result_map" >
+		select id,company_name,contacts_name,contacts_phone,email,source_type,remarks,status,create_time from payv2_company_apply
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="email!=null ">
+				and email=#{email}
+			</if>
+			<if test="sourceType!=null ">
+				and source_type=#{sourceType}
+			</if>
+			<if test="remarks!=null ">
+				and remarks=#{remarks}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2companyapply_result_map" >
+		
+		SELECT id,company_name,contacts_name,contacts_phone,email,source_type,remarks,status,create_time FROM payv2_company_apply 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and company_name like  CONCAT('%',#{companyName},'%')
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like  CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like  CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="email!=null and email!=''">
+				and email like  CONCAT('%',#{email},'%')
+			</if>
+			<if test="sourceType!=null and sourceType!=''">
+				and source_type = #{sourceType}
+			</if>
+			<if test="remarks!=null and remarks!=''">
+				and remarks like  CONCAT('%',#{remarks},'%')
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				<!-- and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d')  -->
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d')
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				<!-- and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') -->
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

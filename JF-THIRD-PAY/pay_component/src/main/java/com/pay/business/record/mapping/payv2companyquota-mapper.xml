@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.record.mapper.Payv2CompanyQuotaMapper">
+
+	<resultMap id="payv2companyquota_result_map" type="com.pay.business.record.entity.Payv2CompanyQuota" >
+		<id column="id" property="id" />
+		<result column="company_id" property="companyId"/>
+		<result column="rate_id" property="rateId"/>
+		<result column="total_money" property="totalMoney"/>
+		<result column="record_time" property="recordTime"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_company_quota  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="totalMoney!=null and totalMoney!=''">
+				and total_money like CONCAT('%',#{totalMoney},'%')
+			</if>
+			<if test="recordTimeBegin!=null and recordTimeBegin!=''">
+				and record_time <![CDATA[ >= ]]> str_to_date(#{recordTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="recordTimeEnd!=null and recordTimeEnd!=''">
+				and record_time <![CDATA[ <= ]]> str_to_date(#{recordTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.record.entity.Payv2CompanyQuota" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_company_quota
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="rateId!=null ">
+				rate_id,
+			</if>
+      		<if test="totalMoney!=null ">
+				total_money,
+			</if>
+      		<if test="recordTime!=null ">
+				record_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="rateId!=null ">
+      			#{rateId},
+			</if>
+      		<if test="totalMoney!=null ">
+      			#{totalMoney},
+			</if>
+      		<if test="recordTime!=null ">
+      			#{recordTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.record.entity.Payv2CompanyQuota">
+		delete from payv2_company_quota
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+      		<if test="totalMoney!=null ">
+				and total_money=#{totalMoney}
+			</if>
+      		<if test="recordTime!=null ">
+				and record_time=#{recordTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.record.entity.Payv2CompanyQuota">
+		update payv2_company_quota
+		<set>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="rateId!=null ">
+				rate_id=#{rateId},
+			</if>
+			<if test="totalMoney!=null ">
+				total_money=#{totalMoney},
+			</if>
+			<if test="recordTime!=null ">
+				record_time=#{recordTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.record.entity.Payv2CompanyQuota" resultMap="payv2companyquota_result_map">
+		select id,company_id,rate_id,total_money,record_time,create_time from payv2_company_quota
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="totalMoney!=null ">
+				and total_money=#{totalMoney}
+			</if>
+			<if test="recordTime!=null ">
+				and record_time=#{recordTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2companyquota_result_map" >
+		select id,company_id,rate_id,total_money,record_time,create_time from payv2_company_quota
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="totalMoney!=null ">
+				and total_money=#{totalMoney}
+			</if>
+			<if test="recordTime!=null ">
+				and record_time=#{recordTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2companyquota_result_map" >
+		
+		SELECT id,company_id,rate_id,total_money,record_time,create_time FROM payv2_company_quota 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="totalMoney!=null and totalMoney!=''">
+				and total_money like  CONCAT('%',#{totalMoney},'%')
+			</if>
+			<if test="recordTimeBegin!=null and recordTimeBegin!=''">
+				and record_time <![CDATA[ >= ]]> str_to_date(#{recordTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="recordTimeEnd!=null and recordTimeEnd!=''">
+				and record_time <![CDATA[ <= ]]> str_to_date(#{recordTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="selectPayv2CompanyQuotaForCompany" resultMap="payv2companyquota_result_map" >
+		select pcq.* 
+		from payv2_company_quota pcq 
+		join payv2_pay_way_rate ppwr 
+		on pcq.rate_id = ppwr.id 
+		and pcq.company_id=#{companyId}
+		and ppwr.is_delete=2
+		and ppwr.status=1 and pcq.record_time=date_format(#{recordTime}, '%Y%m%d')
+		<if test="payType!=null ">
+			<if test="payType!=3 and payType!=5">
+				and (ppwr.pay_type=#{payType} or ppwr.pay_type=4)
+			</if>
+			<if test="payType==3 or payType==5">
+				and ppwr.pay_type=#{payType}
+			</if>
+		</if>
+		<if test="payType==null ">
+			and ppwr.pay_type !=1
+		</if>
+		<if test="payWayId!=null ">
+			and ppwr.pay_way_id=#{payWayId}
+		</if>
+		<if test="payViewType!=null ">
+			and ppwr.pay_view_type=#{payViewType}
+		</if>
+	</select>
+	
+	<!-- 新增（已存在不新增insert IGNORE）   -->
+	<insert id="insertSelect" parameterType="com.pay.business.record.entity.Payv2CompanyQuota" useGeneratedKeys="true" keyProperty="id">
+		insert IGNORE into payv2_company_quota
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="rateId!=null ">
+				rate_id,
+			</if>
+      		<if test="totalMoney!=null ">
+				total_money,
+			</if>
+      		<if test="recordTime!=null ">
+				record_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="rateId!=null ">
+      			#{rateId},
+			</if>
+      		<if test="totalMoney!=null ">
+      			#{totalMoney},
+			</if>
+      		<if test="recordTime!=null ">
+      			date_format(#{recordTime}, '%Y%m%d'),
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 修改通道总限额记录 -->
+	<update id="updateTotal" parameterType="com.pay.business.record.entity.Payv2CompanyQuota">
+		update payv2_company_quota set total_money = total_money+#{totalMoney}
+		where company_id=#{companyId} and rate_id = #{rateId} 
+		and record_time = date_format(#{recordTime}, '%Y%m%d')
+	</update>
+	
+	<select id="selectTotal" resultMap="payv2companyquota_result_map" >
+		select pcq.rate_id,IFNULL(sum(pcq.total_money), 0) as total_money
+		from payv2_company_quota pcq 
+		join payv2_pay_way_rate ppwr 
+		on pcq.rate_id = ppwr.id 
+		and ppwr.is_delete=2
+		and ppwr.status=1 and pcq.record_time=date_format(#{recordTime}, '%Y%m%d')
+		<if test="payType!=null ">
+			<if test="payType!=3 ">
+				and (ppwr.pay_type=#{payType} or ppwr.pay_type=4)
+			</if>
+			<if test="payType==3 ">
+				and ppwr.pay_type=#{payType}
+			</if>
+		</if>
+		<if test="payWayId!=null ">
+			and ppwr.pay_way_id=#{payWayId}
+		</if>
+		<if test="payViewType!=null ">
+			and ppwr.pay_view_type=#{payViewType}
+		</if>
+		group by pcq.rate_id
+	</select>
+</mapper>

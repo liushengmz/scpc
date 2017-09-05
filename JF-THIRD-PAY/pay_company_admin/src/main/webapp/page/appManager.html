@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台应用管理</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+		<link rel="stylesheet" href="../public/css/nav.css" />
+		<link rel="shortcut icon" href="../favico.ico" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<!-- <div class="tips fr">
+				<div class="red"></div>
+			</div> -->
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<!-- <div class="users fr line">
+				<span>线上应用</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change2">线下门店</div>
+				</div>
+			</div> -->
+		</header>
+		<nav>
+			<ul>
+				<li class="stair datali" style="cursor: pointer;"><img src="../public/img/sjtj2.png"><span class="c_33">数据统计</span></li>
+				<li class="stair"><img src="../public/img/dd.png"><span class="c_80">订单</span></li>
+				<li class="secondLevel">
+					<a href="orderManager.html" class="c_33">订单管理</a>
+					<a href="refund.html" class="c_33">退款订单</a>
+					<a href="accountManager.html" class="c_33">账单管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/yy.png"><span class="c_80">应用</span></li>
+				<li class="secondLevel">
+					<a href="appManager.html" class="c_33 active">应用管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/zh.png"><span class="c_80">账户</span></li>
+				<li class="secondLevel">
+					<a href="account.html" class="c_33">账户信息</a>
+				</li>
+			</ul>
+			<div class="dld"><img src="../public/img/dld.png"/><span>下载SDK</span></div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：应用管理</div>
+			<!--关键指标-->
+			<div class="app-index">
+				<div class="index-title">
+					<i></i>
+					<span>应用管理</span>
+					<div class="fr addApp">
+						<i class="fr"></i>
+						<span class="fr">新增应用</span>						
+					</div>
+				</div>
+				<div class="orderNumber">
+					<div class="numberInput fl">
+						<label>应用名称:</label>
+						<input type="text" style='margin-left:15px;text-indent:10px;' placeholder="请输入应用名称"/>
+					</div>
+					<div class="search fl">查询</div>
+					<div class="reset fl">重置</div>
+				</div>
+				<div class="tradeTime tradeState">
+					<!--<label>应用类别:</label>-->
+					<ul class="timeLi">
+						<!--<li class="activess" state="ANDROID" rem="ANDROID">
+							<i></i>
+							<span>安卓</span>
+						</li>
+						<li state="" rem="IOS">
+							<i></i>
+							<span>IOS</span>
+						</li>
+						<li state="" rem="WEB">
+							<i></i>
+							<span>WEB</span>
+						</li>
+						-->
+						<li style="margin-left:0;">
+							<label>应用状态：</label>
+							<select>
+								<option appstate="">全部</option>
+								<option appstate="1">未审核</option>
+								<option appstate="2">已通过</option>
+								<option appstate="3">未通过</option>
+								<option appstate="4">停止中</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--表格-->
+			<div class="account-table">
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th width="14.285714285714286%" class='first'>编号</th>
+							<th width="14.285714285714286%">图标</th>
+							<th width="14.285714285714286%">应用名称</th>
+							<th width="14.285714285714286%">应用类别</th>
+							<th width="14.285714285714286%">应用状态</th>
+							<th width="14.285714285714286%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+				<div class="set-footer">
+					<div class="set fl">
+						共<span>4</span>条记录，每页显示<input autocomplete="off" type="text" value="10" style="text-align: center;"/>条
+					</div>
+					<div class="jump fr">
+						<div class="firstPage">首页</div>
+						<div class="left">
+							<i></i>
+						</div>
+						<input autocomplete="off" type="text" value="1" />
+						<div class="right">
+							<i></i>
+						</div>
+						<div class="lastPage">尾页</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bg">
+			<div class="window3">
+				<div class="top2">
+					修改密码
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+				</div>
+				<div class="bottom3">
+					<div class="oldpwd">
+						<label>原密码:</label>
+						<input type="password" placeholder="请输入原密码" />
+						<span style="color:red;font-size:14px;display:none">请输入原密码</span>
+					</div>
+					<div class="newpwd">
+						<label>新密码:</label>
+						<input type="password" placeholder="6-16位密码(数字、字母组成)" />
+						<span style="color:red;font-size:14px;display:none">请输入新密码</span>
+					</div>
+					<div class="newpwda">
+						<label>确认密码:</label>
+						<input type="password" placeholder="请再次输入新密码" />
+						<span style="color:red;font-size:14px;display:none">请再次输入新密码</span>
+					</div>
+					<div class="surebtn">确定</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript" src="../public/js/exit.js"></script>
+		<script type="text/plain" id="trmode">
+			<tr>
+				<td class='first'>1</td>
+				<td><img src="../public/img/add.png" /></td>
+				<td>美团11</td>
+				<td>安卓+IOS</td>
+				<td>已通过</td>
+				<td><a href="#">详情</a></td>
+			</tr>
+		</script>
+		<script>
+			var str="",
+				totalpage=1,
+				totaldata=1,
+				param={};
+			param.appName="";
+			param.appStatus="";
+			param.curPage=1;
+			param.pageData=10;
+			param.type="ANDROID";
+			$(".set input").on("change",function(){
+				if($(this).val()>totaldata){
+					$(this).val(totaldata)
+				}
+				if($(this).val()<1){
+					$(this).val("1")
+				}
+				if(!/^[0-9]*$/.test($(this).val())){
+					alert("请输入正确的数字");
+					$(this).val(10);
+					param.pageData=10;
+					param.curPage=1
+					$(".jump input").val("1");
+					getTable()
+					window.getSelection().removeAllRanges();
+			    }else{
+			    	$(this).val(parseInt($(this).val()))
+			    	param.pageData=$(this).val();
+			    	param.curPage=1
+					$(".jump input").val("1");
+			    	getTable();
+			    }
+			});
+			$(".search,.reset,.dld").on("mousedown",function(){
+				$(this).css("background-color","#2ea1f9")
+			})
+			$(".search,.reset,.dld").on("mouseup",function(){
+				$(this).css("background-color","#2581f4")
+			})
+			$("body").on("click",".changeline .change2",function(){
+				$.ajax({
+					type:"get",
+					url:"/sys/tabSwitch.do",
+					async:false,
+					success:function(data){
+						console.log(data);
+						if(!!data&&data.resultCode==200){
+							if(data.Data.isTabSwitch==2){
+								location.href="dataOffline.html";
+							}
+						}else{
+							if(!!data.message){
+								alert(data.message);
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+					}
+				})
+			})
+			/*header 事件start*/
+			$(".user i").on("click", function() {
+				$(".changeuser").show();
+			})
+			$(".user").on("mouseleave", function() {
+				$(".changeuser").hide();
+			})
+			$(".user i").on("mouseenter", function() {
+				$(this).css("background-image","url(../public/img/down2.png)");
+			})
+			$(".user i").on("mouseleave", function() {
+				$(this).css("background-image","url(../public/img/down1.png)");
+			})
+			$(".line").on("click mouseenter", function() {
+				$(".changeline").show();
+			});
+			$(".line").on("click mouseleave", function() {
+					$(".changeline").hide();
+				});
+			/*header 事件start*/
+			/*nav 事件start*/
+			$(".datali").on("click",function(){
+				window.location="data.html"
+			})
+			$(".dld").on("click",function(){
+				window.open("http://pay.aijinfu.cn/sdk-download.html")
+			})
+			/*nav 事件end*/
+			$(".jump .left").on("click",function(){
+				if($(".jump input").val()>1){
+					$(".jump input").val(Number($(".jump input").val())-1);
+					param.curPage=$(".jump input").val()
+					getTable()
+				}else{
+					
+				}
+			})
+			$(".jump .right").on("click",function(){
+				if($(".jump input").val()<totalpage){
+					$(".jump input").val(Number($(".jump input").val())+1);
+					param.curPage=$(".jump input").val()
+					getTable()
+				}else{
+					
+				}
+			})
+			$(".jump .firstPage").on("click",function(){
+				$(".jump input").val("1")
+				param.curPage=1;
+				getTable()
+				
+			})
+			$(".jump .lastPage").on("click",function(){
+				if(totalpage){
+					$(".jump input").val(totalpage)
+					param.curPage=totalpage;
+					getTable()
+				}else{
+					$(".jump input").val(1)
+					param.curPage=1;
+					getTable()
+				}
+				
+			})
+			$(".jump input").on("change",function(){
+				
+				if($(this).val()>totalpage){
+					$(this).val(totalpage)
+				}
+				if($(this).val()<1){
+					$(this).val("1")
+				}
+				if(!/^[0-9]*$/.test($(this).val())){
+					$(this).val("1");
+			    }else{
+			    	$(".jump input").val(parseInt($(".jump input").val()))
+			    }
+				param.curPage=$(".jump input").val()
+				getTable()
+			})
+			var isSwitch = localStorage.isSwitch,
+				companyName = localStorage.companyname;
+			$(".user span").text(companyName);
+			if(isSwitch == 1) {
+				$(".changeline").remove();
+			}
+			
+			$(".timeLi li").on("click",function(){
+				str="";
+				if($(this).hasClass("activess")){
+					$(this).removeClass("activess");
+					$(this).attr({"state":""});
+				}else{
+					$(this).addClass("activess");
+					$(this).attr({"state":$(this).attr("rem")});
+				}
+				for(var i=0;i<$(".timeLi li").length-1;i++){
+					str=str+String($(".timeLi li").eq(i).attr("state"))+",";
+				}
+				str=str.slice(0,str.length-1);
+				param.type=str;
+				param.curPage=1;
+				$(".jump input").val("1");
+				getTable();
+			});
+			$(".timeLi select").on("change",function(){
+				var ss = $(".timeLi select option:selected").attr("appstate");
+				param.appStatus=ss;
+				getTable();
+			});
+			getTable();
+			function getTable(){
+				$.ajax({
+					type:"get",
+					url:"/online/payv2BussCompanyApp/payv2BussCompanyAppList.do",
+					async:false,
+					data:param,
+					success:function(data){
+						//console.log(data);
+						if(!!data&&data.resultCode==200){
+							createTable(data.Data.list.dataList);
+							totalpage = data.Data.list.totalPage;
+							totaldata = data.Data.list.totalData
+							$(".set span").text(data.Data.list.totalData)
+						}else{
+							if(!!data.message){
+								alert(data.message);
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+						
+					}
+				})
+			}
+			function createTable(obj){
+				var trstr="";
+				var ptstr="";
+				//console.log(obj);
+				//console.log(obj.length);
+				var stateArr=["","未审核","通过","未通过","终止合作","已生成SDK"];
+				if(obj.length==0){
+					$(".account-table tbody").html("<div class='nodata' style='text-align:center;height:60px;line-height:60px;'>很抱歉,没有找到应用信息……</div>")
+					$(".nodata").css("width",$(".nodata").parent().eq(0).width()+'px')
+				}else{
+					for(var i=0;i<obj.length;i++){
+						trstr+=$("#trmode").html();
+					}
+					//console.log(trstr);
+					$(".account-table tbody").html(trstr);
+					for(var j=0;j<obj.length;j++){
+						var ptstr="";
+						if(obj[j].isAndroid==1){
+							ptstr+="安卓&nbsp;";
+						}if(obj[j].isWeb==1){
+							ptstr+="WEB&nbsp;";
+						}if(obj[j].isIos==1){
+							ptstr+="IOS&nbsp;";
+						}
+						//console.log(ptstr)
+						$(".account-table tbody tr").eq(j).find("td").eq(0).html(j+1);
+						$(".account-table tbody tr").eq(j).find("img").attr("src",obj[j].appIcon);
+						$(".account-table tbody tr").eq(j).find("td").eq(2).html(obj[j].appName);
+						$(".account-table tbody tr").eq(j).find("td").eq(3).html(ptstr);
+						$(".account-table tbody tr").eq(j).find("td").eq(4).html(stateArr[obj[j].appStatus]);
+						$(".account-table tbody tr").eq(j).find("td").eq(5).attr("appid",obj[j].id);
+						$(".account-table tbody tr").eq(j).find("td").eq(5).find("a").attr("href","appDetail.html?appid="+obj[j].id)
+					}
+				}
+			}
+			$(".search").on("click",function(){
+				param.curPage=1;
+				$(".jump input").val("1");
+				if($(".numberInput input").val()){
+					param.appName=$(".numberInput input").val();
+					getTable();
+				}else{
+					param.appName="";
+					getTable();
+				}
+			});
+			$(".reset").on("click",function(){
+				$(".numberInput input").val("");
+			})
+			$("body").on("click",".addApp",function(){
+				window.location.href="addapp.html";
+				console.log("click")
+			});
+		</script>
+
+	</body>
+
+</html>

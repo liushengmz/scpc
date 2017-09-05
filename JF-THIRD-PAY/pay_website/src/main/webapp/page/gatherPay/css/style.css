@@ -1,0 +1,524 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td {
+	margin: 0;
+	padding: 0;
+}
+
+html,body {
+	background: #ededed;
+	font-family: "微软雅黑";
+}
+
+img {
+	border: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clearfix {
+	height: 0;
+	clear: both;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+/*页面style*/
+.title{
+	width: 100%;
+	height: 15.36px;
+	height: 0.96rem;
+	border-bottom: 1px solid #dedede;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: #fff;
+}
+.tlCon{
+	width: 107.36px;
+	width: 6.71rem;
+	height: 15.36px;
+	height: 0.96rem;
+	margin: 0 auto 0 auto;
+	position: relative;
+}
+.return{
+	position: absolute;
+	left: 0;
+	top: 4.64px;
+	top: 0.29rem;
+	width: 3.36px;
+	width: 0.21rem;
+	height: 6.24px;
+	height: 0.39rem;
+	background: url(../img/re.png);
+	background-size: 100% 100%;
+}
+.headline{
+	height: 15.36px;
+	height: 0.96rem;
+	line-height: 15.36px;
+	line-height: 0.96rem;
+	text-align: center;
+	font-size: 5.76px;
+	font-size: 0.36rem;
+}
+.order{
+	width: 100%;
+	height: 56.8px;
+	height: 2.67rem;
+	background: #fff;
+	margin-top: 15.36px;
+	margin-top: 0.96rem;
+	overflow: hidden;
+}
+.odCon{
+	width: 107.36px;
+	width: 6.71rem;
+	height: 56.8px;
+	height: 2.67rem;
+	margin: 0 auto;
+}
+.odDetail{
+	height: 14.08px;
+	height: 0.88rem;
+	line-height: 14.08px;
+	line-height: 0.88rem;
+	border-bottom: 1px solid #dedede;
+	font-size: 5.12px;
+	font-size: 0.32rem;
+	color: #333;
+}
+.odIn,.odM,.odS{
+	height: 14.08px;
+	height: 0.88rem;
+	line-height: 14.08px;
+	line-height: 0.88rem;
+	border-bottom: 1px solid #dedede;
+	font-size: 5.12px;
+	font-size: 0.32rem;
+}
+.odInfor,.odMo,.odSa{
+	color: #666;
+}
+.odInforWords{
+	color: #333;
+}
+.odMoney{
+	color: #666;
+}
+.odSale{
+	color: #ec5330;
+}
+.pursePay{
+	width: 100%;
+	margin-top: 3.2px;
+	margin-top: 0.2rem;
+	height: 14.08px;
+	height: 0.88rem;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+}
+.ppCon{
+	width: 107.36px;
+	width: 6.71rem;
+	height: 14.08px;
+	height: 0.88rem;
+	line-height: 14.08px;
+	line-height: 0.88rem;
+	margin: 0 auto;
+}
+.psPay{
+	font-size: 5.12px;
+	font-size: 0.32rem;
+	color: #333;
+}
+.maxSale{
+	width: 27.36px;
+	width: 1.81rem;
+	text-align: center;
+	height: 4.8px;
+	height: 0.3rem;
+	line-height: 4.8px;
+	line-height: 0.3rem;
+	border: 1px solid #ff8e2e;
+	font-size: 3.52px;
+	font-size: 0.22rem;
+	color: #ff8e2e;
+	margin: 4.48px 0 0 3.04px;
+	margin: 0.28rem 0 0 0.19rem;
+	border-radius: 2px;
+	
+}
+.reduceMoney{
+	font-size: 4.8px;
+	font-size: 0.3rem;
+	color: #ec5330;
+	margin-top: 10.56px;
+	margin-top: 0.66rem;
+	padding-right: 3.2px;
+	padding-right: 0.2rem;
+}
+.others{
+	font-size: 4.16px;
+	font-size: 0.26rem;
+	color: #666;
+	margin-right: 2.4px;
+	margin-right: 0.15rem;
+}
+.other{
+	width: 2.56px;
+	width: 0.16rem;
+	height: 4.8px;
+	height: 0.3rem;
+	background: url(../img/other.png);
+	background-size: 100% 100%;
+	margin-top: 4.96px;
+	margin-top: 0.31rem;
+}
+.purse{
+	height: 36.64px;
+	height: 2.29rem;
+	width: 100%;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+	overflow: hidden;
+}
+.psPays{
+	width: 107.36px;
+	width: 6.71rem;
+	height: 25.6px;
+	height: 1.6rem;
+	margin: 0 auto;
+	border-bottom: 1px solid #dedede;
+}
+.purseIcon{
+	width: 14.4px;
+	width: 0.9rem;
+	height: 14.4px;
+	height: 0.9rem;
+	margin-top: 5.6px;
+	margin-top: 0.35rem;
+}
+.purseIcon img{
+	width: 14.4px;
+	width: 0.9rem;
+	height: 14.4px;
+	height: 0.9rem;
+	float: left;
+}
+.purseIntro{
+	width: 48px;
+	width: 3rem;
+	margin-left: 4.8px;
+	margin-left: 0.3rem;
+	margin-top: 5.6px;
+	margin-top: 0.35rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+}
+.purseName{
+	height: 6.4px;
+	height: 0.4rem;
+	line-height: 6.4px;
+	line-height: 0.4rem;
+	font-size: 5.12px;
+	font-size: 0.32rem;
+	color: #333;
+}
+.purseOnsale{
+	font-size: 3.84px;
+	font-size: 0.24rem;
+	margin-top: 2.24px;
+	margin-top: 0.14rem;
+	color: #999;
+}
+.purseChoose{
+	width: 7.68px;
+	width: 0.48rem;
+	height: 7.68px;
+	height: 0.48rem;
+	margin-top: 8.96px;
+	margin-top: 0.56rem;
+}
+.purseChoose img{
+	width: 7.68px;
+	width: 0.48rem;
+	height: 7.68px;
+	height: 0.48rem;
+	float: left;
+}
+.otherPay{
+	width: 100%;
+	height: 10.24px;
+	height: 0.64rem;
+}
+.otpCon{
+	width: 107.36px;
+	width: 6.71rem;
+	height: 10.24px;
+	height: 0.64rem;
+	margin: 0 auto;
+	font-size: 4.16px;
+	font-size: 0.26rem;
+	color: #999;
+	line-height: 10.24px;
+	line-height: 0.64rem;
+}
+.othersPay{
+	width: 100%;
+	background: #fff;
+}
+.cardPay{
+	height: 19.84px;
+	height: 1.24rem;
+	width: 100%;
+	border-bottom: 1px solid #dedede;
+}
+.cpCon{
+	width: 107.36px;
+	width: 6.71rem;
+	height: 19.84px;
+	height: 1.24rem;
+	margin: 0 auto;
+}
+.logoIcon{
+	width: 10.88px;
+	width: 0.68rem;
+	height: 10.88px;
+	height: 0.68rem;
+	margin-top: 4.48px;
+	margin-top: 0.28rem;
+}
+.logoIcon img{
+	width: 10.88px;
+	width: 0.68rem;
+	height: 10.88px;
+	height: 0.68rem;
+	float: left;
+}
+.words{
+	margin-left: 4.8px;
+	margin-left: 0.3rem;
+}
+.wsUp{
+	color: #333;
+	font-size: 5.12px;
+	font-size: 0.32rem;
+	height: 5.12px;
+	height: 0.32rem;
+	margin-top: 4.16px;
+	margin-top: 0.26rem;
+}
+.wsDown{
+	height: 3.84px;
+	height: 0.24rem;
+	margin-top: 2.24px;
+	margin-top: 0.14rem;
+	color: #999;
+	font-size: 3.84px;
+	font-size: 0.24rem;
+}
+.choose{
+	width: 7.68px;
+	width: 0.48rem;
+	height: 7.68px;
+	height: 0.48rem;
+	margin-top: 6.08px;
+	margin-top: 0.38rem;
+}
+.c1{
+	background: url(../img/c1.png);
+	background-size: 100% 100%;
+}
+.cs{
+	background: url(../img/c.png);
+	background-size: 100% 100%;
+}
+.btn{
+	width: 100%;
+	height: 15.68px;
+	height: 0.98rem;
+	line-height: 15.68px;
+	line-height: 0.98rem;
+	text-align: center;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	background: #007aff;
+	color: #fff;
+	font-size: 5.12px;
+	font-size: 0.32rem;
+}
+.bottom{
+	width: 100%;
+	height: 25.6px;
+	height: 1.6rem;
+}
+/*蒙版*/
+.bg{
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	display: none;
+}
+.otsPurse{
+	width: 100%;
+	background: #fff;
+	z-index: 3;
+	position: fixed;
+	left: 0;
+	bottom:0;
+	display: none;
+}
+.otsCon{
+	width: 107.36px;
+	width: 6.71rem;
+	line-height: 12.48px;
+	line-height: 0.78rem;
+	color: #666;
+	font-size: 4.48px;
+	font-size: 0.28rem;
+	margin: 0 auto;
+}
+.otsTitle{
+	height: 12.48px;
+	height: 0.78rem;
+	line-height: 12.48px;
+	line-height: 0.78rem;
+	color: #666;
+	font-size: 4.48px;
+	font-size: 0.28rem;
+	border-bottom: 1px solid #dedede;
+}
+.otsWs{
+	margin-left: 42.88px;
+	margin-left: 2.68rem;
+}
+.otsImg{
+	width: 2.56px;
+	width: 0.16rem;
+	height: 4.8px;
+	height: 0.3rem;
+	background: url(../img/other1.png);
+	background-size: 100% 100%;
+	margin-top: 3.52px;
+	margin-top: 0.22rem;
+	margin-left: 3.84px;
+	margin-left: 0.24rem;
+}
+.ots{
+	height: 19.84px;
+	height: 1.24rem;
+	border-bottom: 1px solid #dedede;
+}
+.bankIcon{
+	width: 8px;
+	width: 0.5rem;
+	height: 8px;
+	height: 0.5rem;
+	margin: 6.08px 0 0 4.16px;
+	margin: 0.38rem 0 0 0.26rem;
+}
+.bankIcon img{
+	float: left;
+	width: 8px;
+	width: 0.5rem;
+	height: 8px;
+	height: 0.5rem;
+}
+.bankIntro{
+	margin-left: 4.64px;
+	margin-left: 0.29rem;
+	width: 48px;
+	width: 3rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+}
+.bankUp{
+	height: 5.12px;
+	height: 0.32rem;
+	line-height: 5.12px;
+	line-height: 0.32rem;
+	font-size: 5.12px;
+	font-size: 0.32rem;
+	color: #333;
+	margin-top: 3.68px;
+	margin-top: 0.23rem;
+}
+.bankDown{
+	height: 3.84px;
+	height: 0.24rem;
+	line-height: 3.84px;
+	line-height: 0.24rem;
+	font-size: 3.84px;
+	font-size: 0.24rem;
+	color: #999;
+	margin-top: 2.88px;
+	margin-top: 0.18rem;
+}
+.download{
+    width: 107.36px;
+    width: 6.71rem;
+    height: 11.04px;
+    height: 0.69rem;
+    line-height: 11.04px;
+    line-height: 0.69rem;
+    margin: 0 auto;
+    background: #fff;
+    font-size: 3.84px;
+    font-size: 0.24rem;
+}
+.downloadPurse{
+	display: inline-block;
+	height: 4.8px;
+	height: 0.3rem;
+	line-height: 4.8px;
+	line-height: 0.3rem;
+	font-size: 3.84px;
+	font-size: 0.24rem;
+	width: 16px;
+	width: 1.1rem;
+	text-align:center;
+	border-bottom:1px solid #007aff;
+	color: #007aff;
+}
+.checked{
+	width: 4.96px;
+	width: 0.31rem;
+	height: 3.36px;
+	height: 0.21rem;
+	margin-top: 8.32px;
+	margin-top: 0.52rem;
+	background: url();
+	background-size: 100% 100%;
+}
+.otSale{
+	height: 4.8px;
+	height: 0.3rem;
+	line-height: 4.8px;
+	line-height: 0.3rem;
+	font-size: 4.8px;
+	font-size: 0.3rem;
+	color: #ec5330;
+	margin: 7.2px 3.2px 0 0;
+	margin: 0.45rem 0.2rem 0 0  ;
+}

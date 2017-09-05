@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.record.mapper.Payv2DayCompanyClearMapper">
+
+	<resultMap id="payv2daycompanyclear_result_map" type="com.pay.business.record.entity.Payv2DayCompanyClear" >
+		<id column="id" property="id" />
+		<result column="company_check_id" property="companyCheckId"/>
+		<result column="channel_id" property="channelId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="success_count" property="successCount"/>
+		<result column="success_money" property="successMoney"/>
+		<result column="refund_count" property="refundCount"/>
+		<result column="refund_money" property="refundMoney"/>
+		<result column="rate_money" property="rateMoney"/>
+		<result column="rate_profit" property="rateProfit"/>
+		<result column="status" property="status"/>
+		<result column="settle_time" property="settleTime"/>
+		<result column="clear_time" property="clearTime"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_day_company_clear  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyCheckId!=null and companyCheckId!=''">
+				and company_check_id like CONCAT('%',#{companyCheckId},'%')
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="successCount!=null and successCount!=''">
+				and success_count = #{successCount}
+			</if>
+			<if test="successMoney!=null and successMoney!=''">
+				and success_money like CONCAT('%',#{successMoney},'%')
+			</if>
+			<if test="refundCount!=null and refundCount!=''">
+				and refund_count = #{refundCount}
+			</if>
+			<if test="refundMoney!=null and refundMoney!=''">
+				and refund_money like CONCAT('%',#{refundMoney},'%')
+			</if>
+			<if test="rateMoney!=null and rateMoney!=''">
+				and rate_money like CONCAT('%',#{rateMoney},'%')
+			</if>
+			<if test="rateProfit!=null and rateProfit!=''">
+				and rate_profit like CONCAT('%',#{rateProfit},'%')
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="settleTimeBegin!=null and settleTimeBegin!=''">
+				and settle_time <![CDATA[ >= ]]> str_to_date(#{settleTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="settleTimeEnd!=null and settleTimeEnd!=''">
+				and settle_time <![CDATA[ <= ]]> str_to_date(#{settleTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.record.entity.Payv2DayCompanyClear" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_day_company_clear
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="companyCheckId!=null ">
+				company_check_id,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="successCount!=null ">
+				success_count,
+			</if>
+      		<if test="successMoney!=null ">
+				success_money,
+			</if>
+      		<if test="refundCount!=null ">
+				refund_count,
+			</if>
+      		<if test="refundMoney!=null ">
+				refund_money,
+			</if>
+      		<if test="rateMoney!=null ">
+				rate_money,
+			</if>
+      		<if test="rateProfit!=null ">
+				rate_profit,
+			</if>
+      		<if test="status!=null ">
+				status,
+			</if>
+      		<if test="settleTime!=null ">
+				settle_time,
+			</if>
+      		<if test="clearTime!=null ">
+				clear_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="companyCheckId!=null ">
+      			#{companyCheckId},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="successCount!=null ">
+      			#{successCount},
+			</if>
+      		<if test="successMoney!=null ">
+      			#{successMoney},
+			</if>
+      		<if test="refundCount!=null ">
+      			#{refundCount},
+			</if>
+      		<if test="refundMoney!=null ">
+      			#{refundMoney},
+			</if>
+      		<if test="rateMoney!=null ">
+      			#{rateMoney},
+			</if>
+      		<if test="rateProfit!=null ">
+      			#{rateProfit},
+			</if>
+      		<if test="status!=null ">
+      			#{status},
+			</if>
+      		<if test="settleTime!=null ">
+      			#{settleTime},
+			</if>
+      		<if test="clearTime!=null ">
+      			#{clearTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.record.entity.Payv2DayCompanyClear">
+		delete from payv2_day_company_clear
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="companyCheckId!=null ">
+				and company_check_id=#{companyCheckId}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="successCount!=null ">
+				and success_count=#{successCount}
+			</if>
+      		<if test="successMoney!=null ">
+				and success_money=#{successMoney}
+			</if>
+      		<if test="refundCount!=null ">
+				and refund_count=#{refundCount}
+			</if>
+      		<if test="refundMoney!=null ">
+				and refund_money=#{refundMoney}
+			</if>
+      		<if test="rateMoney!=null ">
+				and rate_money=#{rateMoney}
+			</if>
+      		<if test="rateProfit!=null ">
+				and rate_profit=#{rateProfit}
+			</if>
+      		<if test="status!=null ">
+				and status=#{status}
+			</if>
+      		<if test="settleTime!=null ">
+				and settle_time=#{settleTime}
+			</if>
+      		<if test="clearTime!=null ">
+				and clear_time=#{clearTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.record.entity.Payv2DayCompanyClear">
+		update payv2_day_company_clear
+		<set>
+			<if test="companyCheckId!=null ">
+				company_check_id=#{companyCheckId},
+			</if>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="successCount!=null ">
+				success_count=#{successCount},
+			</if>
+			<if test="successMoney!=null ">
+				success_money=#{successMoney},
+			</if>
+			<if test="refundCount!=null ">
+				refund_count=#{refundCount},
+			</if>
+			<if test="refundMoney!=null ">
+				refund_money=#{refundMoney},
+			</if>
+			<if test="rateMoney!=null ">
+				rate_money=#{rateMoney},
+			</if>
+			<if test="rateProfit!=null ">
+				rate_profit=#{rateProfit},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="settleTime!=null ">
+				settle_time=#{settleTime},
+			</if>
+			<if test="clearTime!=null ">
+				clear_time=#{clearTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.record.entity.Payv2DayCompanyClear" resultMap="payv2daycompanyclear_result_map">
+		select id,company_check_id,channel_id,company_id,success_count,success_money,refund_count,refund_money,rate_money,rate_profit,status,settle_time,clear_time,create_time from payv2_day_company_clear
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyCheckId!=null ">
+				and company_check_id=#{companyCheckId}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="successCount!=null ">
+				and success_count=#{successCount}
+			</if>
+			<if test="successMoney!=null ">
+				and success_money=#{successMoney}
+			</if>
+			<if test="refundCount!=null ">
+				and refund_count=#{refundCount}
+			</if>
+			<if test="refundMoney!=null ">
+				and refund_money=#{refundMoney}
+			</if>
+			<if test="rateMoney!=null ">
+				and rate_money=#{rateMoney}
+			</if>
+			<if test="rateProfit!=null ">
+				and rate_profit=#{rateProfit}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="settleTime!=null ">
+				and settle_time=#{settleTime}
+			</if>
+			<if test="clearTime!=null ">
+				and clear_time=#{clearTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2daycompanyclear_result_map" >
+		select id,company_check_id,channel_id,company_id,success_count,success_money,refund_count,refund_money,rate_money,rate_profit,status,settle_time,clear_time,create_time from payv2_day_company_clear
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyCheckId!=null ">
+				and company_check_id=#{companyCheckId}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="successCount!=null ">
+				and success_count=#{successCount}
+			</if>
+			<if test="successMoney!=null ">
+				and success_money=#{successMoney}
+			</if>
+			<if test="refundCount!=null ">
+				and refund_count=#{refundCount}
+			</if>
+			<if test="refundMoney!=null ">
+				and refund_money=#{refundMoney}
+			</if>
+			<if test="rateMoney!=null ">
+				and rate_money=#{rateMoney}
+			</if>
+			<if test="rateProfit!=null ">
+				and rate_profit=#{rateProfit}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="settleTime!=null ">
+				and settle_time=#{settleTime}
+			</if>
+			<if test="clearTime!=null ">
+				and clear_time=#{clearTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2daycompanyclear_result_map" >
+		
+		SELECT id,company_check_id,channel_id,company_id,success_count,success_money,refund_count,refund_money,rate_money,rate_profit,status,settle_time,clear_time,create_time FROM payv2_day_company_clear 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyCheckId!=null and companyCheckId!=''">
+				and company_check_id like  CONCAT('%',#{companyCheckId},'%')
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="successCount!=null and successCount!=''">
+				and success_count = #{successCount}
+			</if>
+			<if test="successMoney!=null and successMoney!=''">
+				and success_money like  CONCAT('%',#{successMoney},'%')
+			</if>
+			<if test="refundCount!=null and refundCount!=''">
+				and refund_count = #{refundCount}
+			</if>
+			<if test="refundMoney!=null and refundMoney!=''">
+				and refund_money like  CONCAT('%',#{refundMoney},'%')
+			</if>
+			<if test="rateMoney!=null and rateMoney!=''">
+				and rate_money like  CONCAT('%',#{rateMoney},'%')
+			</if>
+			<if test="rateProfit!=null and rateProfit!=''">
+				and rate_profit like  CONCAT('%',#{rateProfit},'%')
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="settleTimeBegin!=null and settleTimeBegin!=''">
+				and settle_time <![CDATA[ >= ]]> str_to_date(#{settleTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="settleTimeEnd!=null and settleTimeEnd!=''">
+				and settle_time <![CDATA[ <= ]]> str_to_date(#{settleTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 计算 商户日账单总数 -->
+	<select id="getDayClearListCount" resultType="java.lang.Integer">
+		select count(*) from payv2_day_company_clear 
+		<where>			
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>			
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>			
+			<!-- <if test="createTimeEnd!=null and createTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if> -->			
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and str_to_date(clear_time,  '%Y-%m-%d') &lt;=  #{createTimeEnd}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">				
+				and str_to_date(clear_time,  '%Y-%m-%d') &gt;=  #{createTimeBegin}
+			</if>
+		</where>		
+	</select>
+	
+	<!--  商户日账单列表 -->
+	<select id="getDayClearList" resultMap="payv2daycompanyclear_result_map" >
+		select 
+			clear.id,clear.company_check_id,clear.channel_id,clear.company_id,clear.success_count,
+			clear.success_money,clear.refund_count,clear.refund_money,clear.rate_money,clear.rate_profit,
+			clear.status,clear.settle_time,clear.clear_time,clear.create_time ,
+			(select channel.channel_name from payv2_channel channel where channel.id=clear.channel_id) as channelName,
+			(select comp.company_name from payv2_buss_company comp where comp.id=clear.company_id) as companyName
+		from payv2_day_company_clear clear
+		<where>			
+			<if test="channelId!=null and channelId!=''">
+				and clear.channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and clear.company_id = #{companyId}
+			</if>			
+			<if test="status!=null and status!=''">
+				and clear.status = #{status}
+			</if>			
+			<!-- <if test="createTimeEnd!=null and createTimeEnd!=''">
+				and clear.clear_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and clear.clear_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if> -->
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and str_to_date(clear_time,  '%Y-%m-%d') &lt;=  #{createTimeEnd}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">				
+				and str_to_date(clear_time,  '%Y-%m-%d') &gt;=  #{createTimeBegin}
+			</if>
+		</where>
+		<if test="createTimeBegin!=null and createTimeBegin!=''">
+				ORDER BY clear.clear_time desc , clear.status desc , clear.success_money desc
+		</if>		
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!--  按月查询账单-->
+	<select id="getMouthsClearList" resultMap="payv2daycompanyclear_result_map" >
+		select id,company_check_id,channel_id,company_id,success_count,success_money,refund_count,refund_money,rate_money,rate_profit,status,settle_time,clear_time,create_time from payv2_day_company_clear
+		<where>			
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			
+			<!-- <if test="createTimeEnd!=null and createTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if> -->
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and str_to_date(clear_time,  '%Y-%m-%d') &lt;=  #{createTimeEnd}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">				
+				and str_to_date(clear_time,  '%Y-%m-%d') &gt;=  #{createTimeBegin}
+			</if>
+		</where>
+		<if test="createTimeBegin!=null and createTimeBegin!=''">
+				ORDER BY create_time and company_id
+		</if>
+	</select>
+	<!-- 结算账单 -->
+	<update id="moneyClear" parameterType="String">
+		update payv2_day_company_clear set status=1	, settle_time = NOW() where company_check_id in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+		 #{item}  
+		</foreach>  
+	</update>
+	
+	<!-- 日账单数据汇总 -->
+	<select id="dayClearAllMoney" resultType="com.pay.business.record.entity.Payv2DayCompanyClear" resultMap="payv2daycompanyclear_result_map">
+		select 
+			SUM(success_money) success_money,
+			SUM(refund_money) refund_money,
+			SUM(rate_money) rate_money,
+			SUM(rate_profit) rate_profit
+		from 
+			payv2_day_company_clear
+		<where>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>			
+			<!-- <if test="createTimeEnd!=null and createTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if> -->
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and str_to_date(clear_time,  '%Y-%m-%d') &lt;=  #{createTimeEnd}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">				
+				and str_to_date(clear_time,  '%Y-%m-%d') &gt;=  #{createTimeBegin}
+			</if>
+		</where>
+	</select>
+	<!-- 根据对象查询单个对象 -->
+	<select id="selectObject" resultType="com.pay.business.record.entity.Payv2DayCompanyClear" resultMap="payv2daycompanyclear_result_map">
+		select id,company_check_id,channel_id,company_id,success_count,success_money,refund_count,refund_money,rate_money,rate_profit,status,settle_time,clear_time,create_time from payv2_day_company_clear
+		<where>
+			<if test="companyCheckId!=null ">
+				and company_check_id=#{companyCheckId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+		</where>
+	</select>
+</mapper>

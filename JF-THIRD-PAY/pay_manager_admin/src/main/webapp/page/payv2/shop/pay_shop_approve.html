@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>审核</title>
+	<#include "lib/lib.html" />
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		html,body{
+			font-family: "微软雅黑" "microsoft yahei";
+		}
+		.fl{
+			float:left;
+		}
+		.fr{
+			float:right;
+		}
+		.title {
+		    background: #dcdcdc;
+		    height: 30px;
+		    line-height: 30px;
+		}
+		.infor {
+		    margin-left: 20px;
+		    font-size: 20px;
+		    color: #333;
+		}
+		.closed {
+		    font-size: 30px;
+		    color: #333;
+		}
+		.sure{
+			height: 100px;
+		}
+		.now{
+			margin-top: 20px;
+		}
+		.now,.future{
+			font-size: 18px;
+			text-align: center;
+			height: 40px;
+			line-height: 40px;
+		}
+		.now span,.future span{
+			font-size: 24px;
+			font-weight: bold;
+		}
+		.suresave{
+			height: 32px;
+			width: 100%;
+		}
+		.dlt_sure, .dlt_reject {
+		    padding: 0 15px;
+		    height: 30px;
+		    line-height: 30px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    margin-top: 10px;
+		}
+		.dlt_sure {
+		    background: #5FBFE7;
+		    margin-left: 35%;
+		}
+		.dlt_reject {
+		    background: #5FBFE7;
+		    margin-left: 40%;
+		}
+	</style>
+</head>
+<body>
+<div class="cl pd-5 bg-1 bk-gray mt-20">
+	<span class="l">
+		<a class="btn btn-primary radius" onclick="" href="javascript:back_to();">
+		<i class="Hui-iconfont"></i> 返回</a></span> <span class="r"> 
+	</span>
+</div>
+<form action="" method="post" class="form form-horizontal" id="form-shop-edit">
+	<div class="pop_main">
+		<h3>店铺信息</h3>
+		<dl  class="adddl">
+			<dt><label>所属公司：</label></dt>
+			<dd>
+					<select class="select" id="companyId" name="companyId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if companyList?? && companyList?size gt 0>
+			           		<#list companyList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == payv2BussCompanyShop.companyId> selected="selected" </#if>>${dl.companyName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>店铺名称：</label>
+			</dt>
+			<dd><input type="text" name="shopName" value="${payv2BussCompanyShop.shopName}" placeHolder="请输入店铺名称" class="dd_input" datatype="*" nullmsg="店铺名称不能为空"></dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt><label>店铺地址：</label>
+			</dt>
+			<dd id="chooseCity">
+				<input type="hidden" id="shop_id" name="id" value="${payv2BussCompanyShop.id}">
+				<input type="hidden" id="shop_key" name="id" value="${payv2BussCompanyShop.shopKey}">
+				<input type="hidden" name="lat" id="lat" value="${payv2BussCompanyShop.lat}"><!-- 纬度 -->
+				<input type="hidden" name="lon" id="lon" value="${payv2BussCompanyShop.lon}"><!-- 经度 -->
+				<select name="shopRangeProvince" id="search_shopRangeProvince" style="width:100px;" onchange="cityChange('search_shopRangeProvince','search_shopRangeCity')">
+					<option value="">全国</option>
+					<#if provincesList?? && provincesList?size gt 0>
+					<#list provincesList as dl >
+						<option value="${dl.id!}" <#if dl.id == payv2BussCompanyShop.shopRangeProvince> selected="selected" </#if>>${dl.name!}</option>
+					</#list>
+					</#if>
+				</select>
+				<select name="shopRangeCity" id="search_shopRangeCity" style="width:100px;">
+					<option value="">市</option>
+					<#if cityList?? && cityList?size gt 0>
+					<#list cityList as dl >
+						<option value="${dl.id!}" <#if dl.id == payv2BussCompanyShop.shopRangeCity> selected="selected" </#if>>${dl.name!}</option>
+					</#list>
+					</#if>
+				</select>
+				
+				
+				<p>地点 ： <input class="dd_input" type="text" name="search_address" id="search_address">
+				<input type="button" class="btn btn-default radius" value="查询" onclick="searchByStationName()">
+				</p>
+			</dd>
+		</dl>
+
+		<dl  class="adddl">
+			<dt><label>地图坐标：</label>
+			</dt>
+			<dd>
+			<div id="allmap" style="width:500px;height:320px"></div>
+			</dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt><label>详细地址：</label>
+			</dt>
+			<dd><input type="text" id="shopAddress" name="shopAddress" value="${payv2BussCompanyShop.shopAddress}" placeHolder="请输入店铺名称" class="dd_input" datatype="*" nullmsg="店铺名称不能为空"></dd>
+		</dl>
+		
+		<dl class="adddl">
+			<dt><label>店铺小图标：</label></dt>
+			<dd>
+				<input datatype="*" nullmsg="请上传ICON" name="shopIcon" type="text" id="shopIcon" placeholder="上传" readonly="readonly" class="dd_input width200" value="${payv2BussCompanyShop.shopIcon}">
+				<input type="file" name="file" id="shopIconFile" class="width150 fileInputClass" onchange="uploadFile('${basePath}/upload/addFiles.do','shopIcon','File',this)">
+				<div class="upLoadShots">
+					<p class="shotList"><img src="${payv2BussCompanyShop.shopIcon}" id="serviceIconImgshopIcon"><i class="imageOper"></i></p>
+				</div>
+				<span class="Validform_checktip"></span></dd>
+		</dl>
+		
+		<dl class="adddl">
+			<dt><label>店铺背景图：</label></dt>
+			<dd>
+				<input datatype="*" nullmsg="请上传ICON" name="shopBackground" type="text" id="shopBackground" placeholder="上传" readonly="readonly" class="dd_input width200" value="${payv2BussCompanyShop.shopBackground}">
+				<input type="file" name="file" id="shopBackgroundFile" class="width150 fileInputClass" onchange="uploadFile('${basePath}/upload/addFiles.do','shopBackground','File',this)">
+				<div class="upLoadShots">
+					<p class="shotList"><img src="${payv2BussCompanyShop.shopBackground}" id="serviceIconImgshopBackground"><i class="imageOper"></i></p>
+				</div>
+				<span class="Validform_checktip"></span></dd>
+		</dl>
+		<dl class="adddl">
+			<dt><label>店铺介绍：</label></dt>
+			<dd><textarea class="ddTextarea" name="shopDesc" datatype="*" nullmsg="店铺介绍不能为空">${payv2BussCompanyShop.shopDesc}</textarea></dd>
+		</dl>
+		
+		<dl class="adddl">
+			<dt><label>店铺营业时间：</label></dt>
+			<dd><input type="hidden" name="shopWeekTime" id="shopWeekTime">
+				<select class="select" id="shop_week_time1" datatype="*" nullmsg="请选择！" style="width: 120px">
+		           		<option value="1" <#if "1" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期一</option>
+		           		<option value="2" <#if "2" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期二</option>
+		           		<option value="3" <#if "3" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期三</option>
+		           		<option value="4" <#if "4" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期四</option>
+		           		<option value="5" <#if "5" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期五</option>
+		           		<option value="6" <#if "6" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期六</option>
+		           		<option value="7" <#if "7" == payv2BussCompanyShop.shopWeekTimeStart> selected="selected" </#if> >星期日</option>
+      			</select> - 
+				<select class="select" id="shop_week_time2" datatype="*" nullmsg="请选择！" style="width: 120px">
+		           		<option value="1" <#if "1" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期一</option>
+		           		<option value="2" <#if "2" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期二</option>
+		           		<option value="3" <#if "3" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期三</option>
+		           		<option value="4" <#if "4" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期四</option>
+		           		<option value="5" <#if "5" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期五</option>
+		           		<option value="6" <#if "6" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期六</option>
+		           		<option value="7" <#if "7" == payv2BussCompanyShop.shopWeekTimeEnd> selected="selected" </#if> >星期日</option>
+      			</select>
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt><label>店铺营业时间段：</label></dt>
+			<dd>
+				<select class="select" id="shopDayStartTime" name="shopDayStartTime" datatype="*" nullmsg="请选择！" style="width: 120px">
+						<option value="00:00:00" <#if "00:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >00:00:00</option>
+		           		<option value="00:30:00" <#if "00:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >00:30:00</option>
+		           		<option value="01:00:00" <#if "01:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >01:00:00</option>
+		           		<option value="01:30:00" <#if "01:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >01:30:00</option>
+		           		<option value="02:00:00" <#if "02:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >02:00:00</option>
+		           		<option value="02:30:00" <#if "02:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >02:30:00</option>
+		           		<option value="03:00:00" <#if "03:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >03:00:00</option>
+		           		<option value="03:30:00" <#if "03:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >03:30:00</option>
+		           		<option value="04:00:00" <#if "04:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >04:00:00</option>
+		           		<option value="04:30:00" <#if "04:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >04:30:00</option>
+		           		<option value="05:00:00" <#if "05:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >05:00:00</option>
+		           		<option value="05:30:00" <#if "05:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >05:30:00</option>
+		           		<option value="06:00:00" <#if "06:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if>>06:00:00</option>
+		           		<option value="06:30:00" <#if "06:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >06:30:00</option>
+		           		<option value="07:00:00" <#if "07:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >07:00:00</option>
+		           		<option value="07:30:00" <#if "07:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >07:30:00</option>
+		           		<option value="08:00:00" <#if "08:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >08:00:00</option>
+		           		<option value="08:30:00" <#if "08:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >08:30:00</option>
+		           		<option value="09:00:00" <#if "09:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >09:00:00</option>
+		           		<option value="09:30:00" <#if "09:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >09:30:00</option>
+		           		<option value="10:00:00" <#if "10:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >10:00:00</option>
+		           		<option value="10:30:00" <#if "10:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >10:30:00</option>
+		           		<option value="11:00:00" <#if "11:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >11:00:00</option>
+		           		<option value="11:30:00" <#if "11:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >11:30:00</option>
+		           		<option value="12:00:00" <#if "12:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >12:00:00</option>
+		           		<option value="12:30:00" <#if "12:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >12:30:00</option>
+		           		<option value="13:00:00" <#if "13:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >13:00:00</option>
+		           		<option value="13:30:00" <#if "13:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >13:30:00</option>
+		           		<option value="14:00:00" <#if "14:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >14:00:00</option>
+		           		<option value="14:30:00" <#if "14:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >14:30:00</option>
+		           		<option value="15:00:00" <#if "15:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >15:00:00</option>
+		           		<option value="15:30:00" <#if "15:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >15:30:00</option>
+		           		<option value="16:00:00" <#if "16:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >16:00:00</option>
+		           		<option value="16:30:00" <#if "16:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >16:30:00</option>
+		           		<option value="17:00:00" <#if "17:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >17:00:00</option>
+		           		<option value="17:30:00" <#if "17:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >17:30:00</option>
+		           		<option value="18:00:00" <#if "18:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >18:00:00</option>
+		           		<option value="18:30:00" <#if "18:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >18:30:00</option>
+		           		<option value="19:00:00" <#if "19:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >19:00:00</option>
+		           		<option value="19:30:00" <#if "19:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >19:30:00</option>
+		           		<option value="20:00:00" <#if "20:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >20:00:00</option>
+		           		<option value="20:30:00" <#if "20:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >20:30:00</option>
+		           		<option value="21:00:00" <#if "21:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >21:00:00</option>
+		           		<option value="21:30:00" <#if "21:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >21:30:00</option>
+		           		<option value="22:00:00" <#if "22:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >22:00:00</option>
+		           		<option value="22:30:00" <#if "22:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >22:30:00</option>
+		           		<option value="23:00:00" <#if "23:00:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >23:00:00</option>
+		           		<option value="23:30:00" <#if "23:30:00" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >23:30:00</option>
+		           		<option value="23:59:59" <#if "23:59:59" == payv2BussCompanyShop.shopDayStartTime> selected="selected" </#if> >23:59:59</option>
+      			</select> - 
+				<select class="select" id="shopDayEndTime" name="shopDayEndTime" datatype="*" nullmsg="请选择！" style="width: 120px">
+		           		<option value="00:00:00" <#if "00:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >00:00:00</option>
+		           		<option value="00:30:00" <#if "00:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >00:30:00</option>
+		           		<option value="01:00:00" <#if "01:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >01:00:00</option>
+		           		<option value="01:30:00" <#if "01:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >01:30:00</option>
+		           		<option value="02:00:00" <#if "02:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >02:00:00</option>
+		           		<option value="02:30:00" <#if "02:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >02:30:00</option>
+		           		<option value="03:00:00" <#if "03:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >03:00:00</option>
+		           		<option value="03:30:00" <#if "03:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >03:30:00</option>
+		           		<option value="04:00:00" <#if "04:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >04:00:00</option>
+		           		<option value="04:30:00" <#if "04:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >04:30:00</option>
+		           		<option value="05:00:00" <#if "05:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >05:00:00</option>
+		           		<option value="05:30:00" <#if "05:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >05:30:00</option>
+		           		<option value="06:00:00" <#if "06:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if>>06:00:00</option>
+		           		<option value="06:30:00" <#if "06:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >06:30:00</option>
+		           		<option value="07:00:00" <#if "07:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >07:00:00</option>
+		           		<option value="07:30:00" <#if "07:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >07:30:00</option>
+		           		<option value="08:00:00" <#if "08:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >08:00:00</option>
+		           		<option value="08:30:00" <#if "08:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >08:30:00</option>
+		           		<option value="09:00:00" <#if "09:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >09:00:00</option>
+		           		<option value="09:30:00" <#if "09:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >09:30:00</option>
+		           		<option value="10:00:00" <#if "10:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >10:00:00</option>
+		           		<option value="10:30:00" <#if "10:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >10:30:00</option>
+		           		<option value="11:00:00" <#if "11:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >11:00:00</option>
+		           		<option value="11:30:00" <#if "11:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >11:30:00</option>
+		           		<option value="12:00:00" <#if "12:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >12:00:00</option>
+		           		<option value="12:30:00" <#if "12:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >12:30:00</option>
+		           		<option value="13:00:00" <#if "13:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >13:00:00</option>
+		           		<option value="13:30:00" <#if "13:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >13:30:00</option>
+		           		<option value="14:00:00" <#if "14:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >14:00:00</option>
+		           		<option value="14:30:00" <#if "14:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >14:30:00</option>
+		           		<option value="15:00:00" <#if "15:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >15:00:00</option>
+		           		<option value="15:30:00" <#if "15:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >15:30:00</option>
+		           		<option value="16:00:00" <#if "16:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >16:00:00</option>
+		           		<option value="16:30:00" <#if "16:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >16:30:00</option>
+		           		<option value="17:00:00" <#if "17:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >17:00:00</option>
+		           		<option value="17:30:00" <#if "17:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >17:30:00</option>
+		           		<option value="18:00:00" <#if "18:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >18:00:00</option>
+		           		<option value="18:30:00" <#if "18:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >18:30:00</option>
+		           		<option value="19:00:00" <#if "19:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >19:00:00</option>
+		           		<option value="19:30:00" <#if "19:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >19:30:00</option>
+		           		<option value="20:00:00" <#if "20:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >20:00:00</option>
+		           		<option value="20:30:00" <#if "20:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >20:30:00</option>
+		           		<option value="21:00:00" <#if "21:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >21:00:00</option>
+		           		<option value="21:30:00" <#if "21:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >21:30:00</option>
+		           		<option value="22:00:00" <#if "22:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >22:00:00</option>
+		           		<option value="22:30:00" <#if "22:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >22:30:00</option>
+		           		<option value="23:00:00" <#if "23:00:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >23:00:00</option>
+		           		<option value="23:30:00" <#if "23:30:00" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >23:30:00</option>
+		           		<option value="23:59:59" <#if "23:59:59" == payv2BussCompanyShop.shopDayEndTime> selected="selected" </#if> >23:59:59</option>
+      			</select>
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt><label>人均消费：</label></dt>
+			<dd><input type="text" name="shopPerAveMoney" value="${payv2BussCompanyShop.shopPerAveMoney}" placeHolder="请输入人均消费" onblur="ValidateFloat2($(this),value)" class="dd_input" datatype="*" nullmsg="人均消费不能为空"> 元</dd>
+		</dl>
+		<dl>
+			<dt><label>联系人：</label></dt>
+			<dd><input type="text" name="shopContacts" value="${payv2BussCompanyShop.shopContacts}" placeHolder="请输入服务商联系人" class="dd_input" datatype="*" nullmsg="联系人不能为空"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系方式：</label></dt>
+			<dd><input type="text" name="shopContactsPhone" value="${payv2BussCompanyShop.shopContactsPhone}" placeHolder="请输入联系人的联系方式" onblur="ValidateFloat($(this),value)" class="dd_input" datatype="*" nullmsg="联系方式不能为空"></dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt><label>支付钱包通道：</label>
+			<input type="hidden" name="codeWayId" id="codeWayId" value="${payv2BussCompanyShop.codeWayId}" >
+			</dt>
+			<dd>
+					<select class="select" id="payWayId" name="payWayId" datatype="*" nullmsg="请选择！" style="width: 150px" onchange="paywayChange()">
+			           		<option value="">全部</option>
+			           		<#if paywayList?? && paywayList?size gt 0>
+			           		<#list paywayList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == payv2BussCompanyShop.payWayId> selected="selected" </#if>>${dl.wayName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+			</dd>
+		</dl>
+		
+		<dl class="adddl" id="paywaypack">
+			<dt><label>二维码支付通道：</label>
+			</dt>
+			<dd>
+			<label><input type="checkbox" checked="checked" name="paypackage" disabled="disabled" value="${payv2BussCompanyShop.payWayId}"/>${payv2BussCompanyShop.payWayName}</label>
+			<#list payv2BussCompanyShop.inlineObj as dd >					
+
+				<label><input type="checkbox" name="paypackage" value="${dd.wayId}" <#if payv2BussCompanyShop.codeWayId?contains(dd.wayId)> checked="checked" </#if>/>${dd.userName}</label>
+					
+			</#list>
+			</dd>
+		</dl>
+		<div class="dlt_btn suresave" style="text-align:center">
+			<a><div class="dlt_sure fl" style="text-align:center">通过</div></a>
+			<a><div class="dlt_reject fl" style="text-align:center">拒绝</div></a>
+		</div>
+	</div>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+	<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom("深圳", 12);
+    map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
+    map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+
+    map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+    map.addControl(new BMap.OverviewMapControl()); //添加默认缩略地图控件
+    map.addControl(new BMap.OverviewMapControl({ isOpen: true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT }));   //右下角，打开
+
+    var localSearch = new BMap.LocalSearch(map);
+    localSearch.enableAutoViewport(); //允许自动调节窗体大小
+    
+	function searchByStationName() {
+     	if($("#search_shopRangeCity").val() == '' || $("#search_shopRangeCity").val() == null){
+    		alert("请选择要查询的城市！");
+    		return;
+    	}
+    	if($("#search_address").val() == '' || $("#search_address").val() == null){
+    		alert("请输入地点！");
+    		return;
+    	}
+    	
+    	map.clearOverlays();//清空原来的标注
+	    var keyword = $("#search_shopRangeCity").find("option:selected").text() + document.getElementById("search_address").value;
+	    localSearch.setSearchCompleteCallback(function (searchResult) {
+	        var poi = searchResult.getPoi(0);
+	        if(poi == null){
+	        	alert("请输入正确地点！");
+	        }
+	        $("#lat").val(poi.point.lng);
+	        $("#lon").val(poi.point.lat);
+	        var point = new BMap.Point(poi.point.lng, poi.point.lat);  
+	        setPoint(point);
+	    });
+    	localSearch.search(keyword);
+    }
+	  /**  
+     * 设置覆盖物，获取坐标  
+     * @param point  
+     */  
+    function setPoint(point) {  
+        if (point) {  
+            //坐标赋值  
+            Geocoder(point);  
+            map.centerAndZoom(point, 12);  
+            var marker = new BMap.Marker(point);  
+            map.addOverlay(marker);  
+            marker.enableDragging();//可以拖动  
+            //创建信息窗口  
+            var infoWindow = new BMap.InfoWindow("这就是您店铺的位置：<br/>经度："+ point.lng + "<br/>纬度：" + point.lat +"<br/>如果不正确，请拖动红色图标");  
+            //显示窗口  
+            marker.openInfoWindow(infoWindow);  
+            //点击监听  
+            marker.addEventListener("click", function () {  
+                this.openInfoWindow(infoWindow);  
+            });  
+            //拖动监听  
+            marker.addEventListener("dragend", function (e) {  
+                //坐标赋值 
+                $("#lat").val(e.point.lng);
+    	        $("#lon").val(e.point.lat);
+    	        
+                //创建信息窗口  
+                infoWindow = new BMap.InfoWindow("这就是您店铺的位置：<br/>经度："+ e.point.lng + "<br/>纬度：" + e.point.lat +"<br/>如果不正确，请拖动红色图标");  
+                //显示窗口  
+                marker.openInfoWindow(infoWindow);  
+                Geocoder(e.point);  
+            });  
+        }  
+    }  
+    function Geocoder(point) {
+        var gc = new BMap.Geocoder();  
+        gc.getLocation(point, function (rs) {  
+            var addComp = rs.addressComponents;  
+            $("#shopAddress").val(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);  
+        });  
+    } 
+	</script>
+	<script type="text/javascript">
+	
+	/* 审核通过 */
+	function handle(id,shopKey,status,tips,url){
+		if(status==2){
+
+		}else if(status==3){
+			layer_show("审核", url, 800, 500);
+		}
+	}
+	
+$(function(){
+		
+	 	$(".dlt_sure").bind("click", function(){
+			layer.confirm("确认要通过吗？", function(index) {
+				var data = {};
+				data.id = $("#shop_id").val();
+				data.shopStatus = 2;
+				data.shopKey = $("#shop_key").val();
+				//后台请求保存数据
+				$.axse("${basePath}/payv2BussCompanyShop/updatePayv2BussCompanyShop.do",  data, function(d){
+					console.info(d);
+					if(d.resultCode == 200){
+						layer.msg('已通过', {
+							icon : 1,
+							time : 1000
+						});
+						window.location.href="${basePath}/payv2BussCompanyShop/payv2BussCompanyShopList.do";
+					}else{
+						Huimodal_alert("审核失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("审核失败,服务器异常!",1500);
+				});
+			});
+
+	 	});
+	 	
+	 	$(".dlt_reject").bind("click", function(){
+	 		var url = "${basePath}/payv2BussCompanyShop/toRejectApprove.do?id=" + $("#shop_id").val();
+	 		layer_show("拒绝", url, 800, 500);
+	 	});
+	});
+	
+	
+	function back_to(){
+		window.location.href="${basePath}/payv2BussCompanyShop/payv2BussCompanyShopList.do";
+	}
+	
+	</script>
+	</form>
+</body>
+</html>

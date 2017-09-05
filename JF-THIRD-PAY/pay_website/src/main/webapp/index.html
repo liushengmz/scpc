@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>扫码测试</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		
+	</head>
+
+	<body>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<input type="button" value="支付请求" onclick="aliScanPay()"/>
+		<script type="text/javascript">
+			function aliScanPay(){
+				var paramStr="appKey%3D270461df13a412f373ae6c2771ccd926%26bussOrderNum"
+							  +"%3D39921126655572%26notifyUrl%3Dhttp%3A%2F%2Flocalhost%3A8080%2FaiJinFuPay%2FcompanyCallBack.do
+								+"%26orderName%3D%E6%B5%8B%E8%AF%95%E6%89%AB%E7%A0%81%E6%94%AF%E4%BB%98%26payMoney%3D0.01
+								+"%26returnUrl%3D%26sign%3Dae1c5f8c499362ff23384c5278da7e1d";
+				$.ajax({
+					type:"POST",
+					url:"http://aijinfupay.tunnel.echomod.cn/aiJinFuPay/aliScanPay.do?paramStr="+paramStr,
+					async:false,
+					success: function(data) {
+						//成功返回 业务实现
+					},
+					error:function(e){
+						alert("error")
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

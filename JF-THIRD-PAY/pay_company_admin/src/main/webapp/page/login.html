@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台登录</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=edge,11,10,9" >
+		<link rel="stylesheet" href="../public/css/base.css" />
+		<link rel="stylesheet" href="../public/css/login.css" />
+		<link rel="shortcut icon" href="../favico.ico" />		
+	</head>
+	<body>
+		<div class="main">
+			<div class="login">
+				<div class="title">商户管理平台</div>
+				<div class="username">
+					<input type="text" placeholder="用户名"/>
+					<i></i>
+				</div>
+				<div class="password">
+					<input type="password" placeholder="密码"/>
+					<i></i>
+				</div>
+				<div class="checkCode">
+					<input type="text" placeholder="验证码"/>
+					<img src="/static/PictureCheckCode.jpeg" />
+				</div>
+				<div class="forget"><a href="/page/forget.html">忘记密码?</a></div>
+				<div class="loging">登录</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript">
+			$(window).on("resize",function(){
+				history.go(0)
+			})
+			$("body").on("click",".checkCode img",function(){
+				$(this).attr("src","/static/PictureCheckCode.jpeg?d="+new Date());
+			})
+			$("body").on("keyup",function(e){
+				if(e.keyCode==13){
+					if($(".username input").val()&&$(".password input").val()&&$(".checkCode input").val()){
+						$.ajax({
+							type:"get",
+							url:"/sys/asynValidateImgCode.do",
+							async:true,
+							data:{"imgCode":$(".checkCode input").val()},
+							success:function(data){
+								console.log(data);
+								if(!!data&&data.resultCode==200){
+									checkData();	
+								}else{
+									$(".checkCode img").attr("src","/static/PictureCheckCode.jpeg?d="+new Date());
+									alert("验证码错误");
+								}
+							}
+						});
+					}else if(!$(".username input").val()){
+						alert("用户名不能为空")
+					}else if(!$(".password input").val()){
+						alert("密码不能为空")
+					}else if(!$(".checkCode input").val()){
+						alert("验证码不能为空")
+					}
+				}
+			})
+			$("body").on("click",".loging",function(){
+				if($(".username input").val()&&$(".password input").val()&&$(".checkCode input").val()){
+					$.ajax({
+						type:"get",
+						url:"/sys/asynValidateImgCode.do",
+						async:true,
+						data:{"imgCode":$(".checkCode input").val()},
+						success:function(data){
+							//console.log(data);
+							if(!!data&&data.resultCode==200){
+								checkData();	
+							}else{
+								$(".checkCode img").attr("src","/static/PictureCheckCode.jpeg?d="+new Date());
+								alert("验证码错误");
+							}
+						}
+					});
+				}else if(!$(".username input").val()){
+					alert("用户名不能为空")
+				}else if(!$(".password input").val()){
+					alert("密码不能为空")
+				}else if(!$(".checkCode input").val()){
+					alert("验证码不能为空")
+				}
+			})
+			function checkData(){
+				var username = $(".username input").val();
+				var password = $(".password input").val();
+				password = md5(md5(password));
+				$.ajax({
+					type:"get",
+					url:"/sys/login.do",
+					async:true,
+					data:{"password":password,"userName":username},
+					success:function(data){
+						console.log(data);
+						if(!!data&&data.resultCode==200){
+							localStorage.username = username;
+							localStorage.state=1;
+							localStorage.companyname = data.Data.companyName;
+							localStorage.isSwitch = data.Data.isTabSwitch;
+							localStorage.mail = data.Data.email;
+							if(data.Data.currentUserStatus==1){
+								location.href="/page/data.html";
+							}else if(data.Data.currentUserStatus==2){
+								//location.href="/page/dataOffline.html"
+							}
+						}else{
+							$(".checkCode img").attr("src","/static/PictureCheckCode.jpeg?d="+new Date());
+							alert(data.message);
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

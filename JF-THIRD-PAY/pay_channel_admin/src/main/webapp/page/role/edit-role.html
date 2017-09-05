@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>修改角色</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="${basePath}/roles/updrole.do" method="post" class="form form-horizontal" id="form-role-edit">
+		<input type="hidden" name="id" value="${role.id!}" />
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>所属应用：</label>
+			<div class="formControls col-5"> <span class="select-box" >
+				<select class="select" id="appId" name="appId" >
+					 <#if appList??&&appList?size gt 0>
+					 <#list appList as ll >
+					 <#if role.appId == ll.id>
+					 <option value="${ll.id!}" selected="selected">${ll.appsName!}</option>
+					 <#else>
+					 <option value="${ll.id!}">${ll.appsName!}</option>
+					 </#if>
+					 </#list>
+					 <#else>
+					 </#if>
+				</select>
+			</span> 
+			</div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>角色名称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${role.rolName!}" placeholder="" id="rolName" name="rolName" datatype="*2-60" nullmsg="角色名称不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>角色编码：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${role.rolCode}" placeholder="" id="rolCode" name="rolCode" datatype="*2-60" nullmsg="角色编码不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		
+		
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	
+	$("#form-role-edit").Validform({
+		
+
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			$.Hidemsg()
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/roles/torolelist.do");
+				layer_close();
+			}else{
+				$("#form-role-edit").resetForm();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		}
+	
+	
+// 		tiptype:2,
+// 		callback:function(form){
+// 			//后台请求保存数据
+// 			$.axse("${basePath}/roles/updrole.do",  $("#form-role-edit").serialize(), function(d){
+// 				if(d.resultCode == 200){
+// 					layer.msg('保存成功!', {
+// 						icon : 1,
+// 						time : 1000
+// 					});
+// 					var index = parent.layer.getFrameIndex(window.name);
+// // 					parent.$('.btn-refresh').click();
+// 					parent.layer.close(index);
+// // 					parent.location.replace("/roles/torolelist.do?tmp="+new Date());
+// 				}else{
+// 					$("#form-role-edit")[0].reset();
+// 					layer.msg('保存失败，请你检查数据!', {
+// 						icon : 1,
+// 						time : 1000
+// 					});
+// 				}
+// 			},
+// 			function(d){
+// 				$("#form-role-edit")[0].reset();   
+// 				layer.msg('保存失败，请你检查数据!', {
+// 					icon : 1,
+// 					time : 1000
+// 				});
+// 			});
+// 		}
+	});
+	
+});
+</script>
+</body>
+</html>

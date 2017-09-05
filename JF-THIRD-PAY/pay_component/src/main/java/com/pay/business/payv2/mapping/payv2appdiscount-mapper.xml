@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2AppDiscountMapper">
+
+	<resultMap id="payv2appdiscount_result_map" type="com.pay.business.payv2.entity.Payv2AppDiscount" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="merchant_type" property="merchantType"/>
+		<result column="scheme_name" property="schemeName"/>
+		<result column="user_type" property="userType"/>
+		<result column="startup_start_time" property="startupStartTime"/>
+		<result column="startup_end_time" property="startupEndTime"/>
+		<result column="discount_start_time" property="discountStartTime"/>
+		<result column="discount_end_time" property="discountEndTime"/>
+		<result column="scheme_type" property="schemeType"/>
+		<result column="discount_money" property="discountMoney"/>
+		<result column="single_discount_money" property="singleDiscountMoney"/>
+		<result column="single_order_money" property="singleOrderMoney"/>
+		<result column="single_order_max_money" property="singleOrderMaxMoney"/>
+		<result column="discount_order_num" property="discountOrderNum"/>
+		<result column="user_order_num" property="userOrderNum"/>
+		<result column="discount_area" property="discountArea"/>
+		<result column="discount_type" property="discountType"/>
+		<result column="discount_value" property="discountValue"/>
+		<result column="is_show" property="isShow"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_app_discount  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="schemeName!=null and schemeName!=''">
+				and scheme_name like '%'||#{schemeName}||'%'
+			</if>
+			<if test="userType!=null and userType!=''">
+				and user_type = #{userType}
+			</if>
+			<if test="startupStartTimeBegin!=null and startupStartTimeBegin!=''">
+				and startup_start_time <![CDATA[ >= ]]> str_to_date(#{startupStartTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="startupStartTimeEnd!=null and startupStartTimeEnd!=''">
+				and startup_start_time <![CDATA[ <= ]]> str_to_date(#{startupStartTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTimeBegin!=null and startupEndTimeBegin!=''">
+				and startup_end_time <![CDATA[ >= ]]> str_to_date(#{startupEndTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTimeEnd!=null and startupEndTimeEnd!=''">
+				and startup_end_time <![CDATA[ <= ]]> str_to_date(#{startupEndTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="discountStartTime!=null and discountStartTime!=''">
+				and discount_start_time like '%'||#{discountStartTime}||'%'
+			</if>
+			<if test="discountEndTime!=null and discountEndTime!=''">
+				and discount_end_time like '%'||#{discountEndTime}||'%'
+			</if>
+			<if test="schemeType!=null and schemeType!=''">
+				and scheme_type = #{schemeType}
+			</if>
+			<if test="discountMoney!=null and discountMoney!=''">
+				and discount_money = #{discountMoney}
+			</if>
+			<if test="singleDiscountMoney!=null and singleDiscountMoney!=''">
+				and single_discount_money = #{singleDiscountMoney}
+			</if>
+			<if test="singleOrderMoney!=null and singleOrderMoney!=''">
+				and single_order_money = #{singleOrderMoney}
+			</if>
+			<if test="singleOrderMaxMoney!=null and singleOrderMaxMoney!=''">
+				and single_order_max_money = #{singleOrderMaxMoney}
+			</if>
+			<if test="discountOrderNum!=null and discountOrderNum!=''">
+				and discount_order_num = #{discountOrderNum}
+			</if>
+			<if test="userOrderNum!=null and userOrderNum!=''">
+				and user_order_num = #{userOrderNum}
+			</if>
+			<if test="discountArea!=null and discountArea!=''">
+				and discount_area = #{discountArea}
+			</if>
+			<if test="discountType!=null and discountType!=''">
+				and discount_type = #{discountType}
+			</if>
+			<if test="discountValue!=null and discountValue!=''">
+				and discount_value like '%'||#{discountValue}||'%'
+			</if>
+			<if test="isShow!=null and isShow!=''">
+				and is_show = #{isShow}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2AppDiscount" useGeneratedKeys="true" keyProperty="id" >
+		insert into payv2_app_discount
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="merchantType!=null ">
+				merchant_type,
+			</if>
+      		<if test="schemeName!=null ">
+				scheme_name,
+			</if>
+      		<if test="userType!=null ">
+				user_type,
+			</if>
+      		<if test="startupStartTime!=null ">
+				startup_start_time,
+			</if>
+      		<if test="startupEndTime!=null ">
+				startup_end_time,
+			</if>
+      		<if test="discountStartTime!=null ">
+				discount_start_time,
+			</if>
+      		<if test="discountEndTime!=null ">
+				discount_end_time,
+			</if>
+      		<if test="schemeType!=null ">
+				scheme_type,
+			</if>
+      		<if test="discountMoney!=null ">
+				discount_money,
+			</if>
+      		<if test="singleDiscountMoney!=null ">
+				single_discount_money,
+			</if>
+      		<if test="singleOrderMoney!=null ">
+				single_order_money,
+			</if>
+      		<if test="singleOrderMaxMoney!=null ">
+				single_order_max_money,
+			</if>
+      		<if test="discountOrderNum!=null ">
+				discount_order_num,
+			</if>
+      		<if test="userOrderNum!=null ">
+				user_order_num,
+			</if>
+      		<if test="discountArea!=null ">
+				discount_area,
+			</if>
+      		<if test="discountType!=null ">
+				discount_type,
+			</if>
+      		<if test="discountValue!=null ">
+				discount_value,
+			</if>
+      		<if test="isShow!=null ">
+				is_show,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="merchantType!=null ">
+      			#{merchantType},
+			</if>
+      		<if test="schemeName!=null ">
+      			#{schemeName},
+			</if>
+      		<if test="userType!=null ">
+      			#{userType},
+			</if>
+      		<if test="startupStartTime!=null ">
+      			#{startupStartTime},
+			</if>
+      		<if test="startupEndTime!=null ">
+      			#{startupEndTime},
+			</if>
+      		<if test="discountStartTime!=null ">
+      			#{discountStartTime},
+			</if>
+      		<if test="discountEndTime!=null ">
+      			#{discountEndTime},
+			</if>
+      		<if test="schemeType!=null ">
+      			#{schemeType},
+			</if>
+      		<if test="discountMoney!=null ">
+      			#{discountMoney},
+			</if>
+      		<if test="singleDiscountMoney!=null ">
+      			#{singleDiscountMoney},
+			</if>
+      		<if test="singleOrderMoney!=null ">
+      			#{singleOrderMoney},
+			</if>
+      		<if test="singleOrderMaxMoney!=null ">
+      			#{singleOrderMaxMoney},
+			</if>
+      		<if test="discountOrderNum!=null ">
+      			#{discountOrderNum},
+			</if>
+      		<if test="userOrderNum!=null ">
+      			#{userOrderNum},
+			</if>
+      		<if test="discountArea!=null ">
+      			#{discountArea},
+			</if>
+      		<if test="discountType!=null ">
+      			#{discountType},
+			</if>
+      		<if test="discountValue!=null ">
+      			#{discountValue},
+			</if>
+      		<if test="isShow!=null ">
+      			#{isShow},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2AppDiscount">
+		delete from payv2_app_discount
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="merchantType!=null ">
+				and merchant_type=#{merchantType}
+			</if>
+      		<if test="schemeName!=null ">
+				and scheme_name=#{schemeName}
+			</if>
+      		<if test="userType!=null ">
+				and user_type=#{userType}
+			</if>
+      		<if test="startupStartTime!=null ">
+				and startup_start_time=#{startupStartTime}
+			</if>
+      		<if test="startupEndTime!=null ">
+				and startup_end_time=#{startupEndTime}
+			</if>
+      		<if test="discountStartTime!=null ">
+				and discount_start_time=#{discountStartTime}
+			</if>
+      		<if test="discountEndTime!=null ">
+				and discount_end_time=#{discountEndTime}
+			</if>
+      		<if test="schemeType!=null ">
+				and scheme_type=#{schemeType}
+			</if>
+      		<if test="discountMoney!=null ">
+				and discount_money=#{discountMoney}
+			</if>
+      		<if test="singleDiscountMoney!=null ">
+				and single_discount_money=#{singleDiscountMoney}
+			</if>
+      		<if test="singleOrderMoney!=null ">
+				and single_order_money=#{singleOrderMoney}
+			</if>
+      		<if test="singleOrderMaxMoney!=null ">
+				and single_order_max_money=#{singleOrderMaxMoney}
+			</if>
+      		<if test="discountOrderNum!=null ">
+				and discount_order_num=#{discountOrderNum}
+			</if>
+      		<if test="userOrderNum!=null ">
+				and user_order_num=#{userOrderNum}
+			</if>
+      		<if test="discountArea!=null ">
+				and discount_area=#{discountArea}
+			</if>
+      		<if test="discountType!=null ">
+				and discount_type=#{discountType}
+			</if>
+      		<if test="discountValue!=null ">
+				and discount_value=#{discountValue}
+			</if>
+      		<if test="isShow!=null ">
+				and is_show=#{isShow}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2AppDiscount">
+		update payv2_app_discount
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="merchantType!=null ">
+				merchant_type=#{merchantType},
+			</if>
+			<if test="schemeName!=null ">
+				scheme_name=#{schemeName},
+			</if>
+			<if test="userType!=null ">
+				user_type=#{userType},
+			</if>
+			<if test="startupStartTime!=null ">
+				startup_start_time=#{startupStartTime},
+			</if>
+			<if test="startupEndTime!=null ">
+				startup_end_time=#{startupEndTime},
+			</if>
+			<if test="discountStartTime!=null ">
+				discount_start_time=#{discountStartTime},
+			</if>
+			<if test="discountEndTime!=null ">
+				discount_end_time=#{discountEndTime},
+			</if>
+			<if test="schemeType!=null ">
+				scheme_type=#{schemeType},
+			</if>
+			<if test="discountMoney!=null ">
+				discount_money=#{discountMoney},
+			</if>
+			<if test="singleDiscountMoney!=null ">
+				single_discount_money=#{singleDiscountMoney},
+			</if>
+			<if test="singleOrderMoney!=null ">
+				single_order_money=#{singleOrderMoney},
+			</if>
+			<if test="singleOrderMaxMoney!=null ">
+				single_order_max_money=#{singleOrderMaxMoney},
+			</if>
+			<if test="discountOrderNum!=null ">
+				discount_order_num=#{discountOrderNum},
+			</if>
+			<if test="userOrderNum!=null ">
+				user_order_num=#{userOrderNum},
+			</if>
+			<if test="discountArea!=null ">
+				discount_area=#{discountArea},
+			</if>
+			<if test="discountType!=null ">
+				discount_type=#{discountType},
+			</if>
+			<if test="discountValue!=null ">
+				discount_value=#{discountValue},
+			</if>
+			<if test="isShow!=null ">
+				is_show=#{isShow},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2AppDiscount" resultMap="payv2appdiscount_result_map">
+		select id,app_id,merchant_type,scheme_name,user_type,startup_start_time,startup_end_time,discount_start_time,discount_end_time,scheme_type,discount_money,single_discount_money,single_order_money,single_order_max_money,discount_order_num,user_order_num,discount_area,discount_type,discount_value,is_show,is_delete,create_time,update_time from payv2_app_discount
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="merchantType!=null ">
+				and merchant_type=#{merchantType}
+			</if>
+			<if test="schemeName!=null ">
+				and scheme_name=#{schemeName}
+			</if>
+			<if test="userType!=null ">
+				and user_type=#{userType}
+			</if>
+			<if test="startupStartTime!=null ">
+				and startup_start_time=#{startupStartTime}
+			</if>
+			<if test="startupEndTime!=null ">
+				and startup_end_time=#{startupEndTime}
+			</if>
+			<if test="discountStartTime!=null ">
+				and discount_start_time=#{discountStartTime}
+			</if>
+			<if test="discountEndTime!=null ">
+				and discount_end_time=#{discountEndTime}
+			</if>
+			<if test="schemeType!=null ">
+				and scheme_type=#{schemeType}
+			</if>
+			<if test="discountMoney!=null ">
+				and discount_money=#{discountMoney}
+			</if>
+			<if test="singleDiscountMoney!=null ">
+				and single_discount_money=#{singleDiscountMoney}
+			</if>
+			<if test="singleOrderMoney!=null ">
+				and single_order_money=#{singleOrderMoney}
+			</if>
+			<if test="singleOrderMaxMoney!=null ">
+				and single_order_max_money=#{singleOrderMaxMoney}
+			</if>
+			<if test="discountOrderNum!=null ">
+				and discount_order_num=#{discountOrderNum}
+			</if>
+			<if test="userOrderNum!=null ">
+				and user_order_num=#{userOrderNum}
+			</if>
+			<if test="discountArea!=null ">
+				and discount_area=#{discountArea}
+			</if>
+			<if test="discountType!=null ">
+				and discount_type=#{discountType}
+			</if>
+			<if test="discountValue!=null ">
+				and discount_value=#{discountValue}
+			</if>
+			<if test="isShow!=null ">
+				and is_show=#{isShow}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2appdiscount_result_map" >
+		select id,app_id,merchant_type,scheme_name,user_type,startup_start_time,startup_end_time,discount_start_time,discount_end_time,scheme_type,discount_money,single_discount_money,single_order_money,single_order_max_money,discount_order_num,user_order_num,discount_area,discount_type,discount_value,is_show,is_delete,create_time,update_time from payv2_app_discount
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="merchantType!=null ">
+				and merchant_type=#{merchantType}
+			</if>
+			<if test="schemeName!=null ">
+				and scheme_name=#{schemeName}
+			</if>
+			<if test="userType!=null ">
+				and user_type=#{userType}
+			</if>
+			<if test="startupStartTime!=null ">
+				and startup_start_time=#{startupStartTime}
+			</if>
+			<if test="startupEndTime!=null ">
+				and startup_end_time=#{startupEndTime}
+			</if>
+			<if test="discountStartTime!=null ">
+				and discount_start_time=#{discountStartTime}
+			</if>
+			<if test="discountEndTime!=null ">
+				and discount_end_time=#{discountEndTime}
+			</if>
+			<if test="schemeType!=null ">
+				and scheme_type=#{schemeType}
+			</if>
+			<if test="discountMoney!=null ">
+				and discount_money=#{discountMoney}
+			</if>
+			<if test="singleDiscountMoney!=null ">
+				and single_discount_money=#{singleDiscountMoney}
+			</if>
+			<if test="singleOrderMoney!=null ">
+				and single_order_money=#{singleOrderMoney}
+			</if>
+			<if test="singleOrderMaxMoney!=null ">
+				and single_order_max_money=#{singleOrderMaxMoney}
+			</if>
+			<if test="discountOrderNum!=null ">
+				and discount_order_num=#{discountOrderNum}
+			</if>
+			<if test="userOrderNum!=null ">
+				and user_order_num=#{userOrderNum}
+			</if>
+			<if test="discountArea!=null ">
+				and discount_area=#{discountArea}
+			</if>
+			<if test="discountType!=null ">
+				and discount_type=#{discountType}
+			</if>
+			<if test="discountValue!=null ">
+				and discount_value=#{discountValue}
+			</if>
+			<if test="isShow!=null ">
+				and is_show=#{isShow}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2appdiscount_result_map" >
+		
+		SELECT id,app_id,merchant_type,scheme_name,user_type,startup_start_time,startup_end_time,discount_start_time,discount_end_time,scheme_type,discount_money,single_discount_money,single_order_money,single_order_max_money,discount_order_num,user_order_num,discount_area,discount_type,discount_value,is_show,is_delete,create_time,update_time FROM payv2_app_discount 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="schemeName!=null and schemeName!=''">
+				and scheme_name like '%'||#{schemeName}||'%'
+			</if>
+			<if test="userType!=null and userType!=''">
+				and user_type = #{userType}
+			</if>
+			<if test="startupStartTimeBegin!=null and startupStartTimeBegin!=''">
+				and startup_start_time <![CDATA[ >= ]]> str_to_date(#{startupStartTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="startupStartTimeEnd!=null and startupStartTimeEnd!=''">
+				and startup_start_time <![CDATA[ <= ]]> str_to_date(#{startupStartTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTimeBegin!=null and startupEndTimeBegin!=''">
+				and startup_end_time <![CDATA[ >= ]]> str_to_date(#{startupEndTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTimeEnd!=null and startupEndTimeEnd!=''">
+				and startup_end_time <![CDATA[ <= ]]> str_to_date(#{startupEndTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="discountStartTime!=null and discountStartTime!=''">
+				and discount_start_time like '%'||#{discountStartTime}||'%'
+			</if>
+			<if test="discountEndTime!=null and discountEndTime!=''">
+				and discount_end_time like '%'||#{discountEndTime}||'%'
+			</if>
+			<if test="schemeType!=null and schemeType!=''">
+				and scheme_type = #{schemeType}
+			</if>
+			<if test="discountMoney!=null and discountMoney!=''">
+				and discount_money = #{discountMoney}
+			</if>
+			<if test="singleDiscountMoney!=null and singleDiscountMoney!=''">
+				and single_discount_money = #{singleDiscountMoney}
+			</if>
+			<if test="singleOrderMoney!=null and singleOrderMoney!=''">
+				and single_order_money = #{singleOrderMoney}
+			</if>
+			<if test="singleOrderMaxMoney!=null and singleOrderMaxMoney!=''">
+				and single_order_max_money = #{singleOrderMaxMoney}
+			</if>
+			<if test="discountOrderNum!=null and discountOrderNum!=''">
+				and discount_order_num = #{discountOrderNum}
+			</if>
+			<if test="userOrderNum!=null and userOrderNum!=''">
+				and user_order_num = #{userOrderNum}
+			</if>
+			<if test="discountArea!=null and discountArea!=''">
+				and discount_area = #{discountArea}
+			</if>
+			<if test="discountType!=null and discountType!=''">
+				and discount_type = #{discountType}
+			</if>
+			<if test="discountValue!=null and discountValue!=''">
+				and discount_value like '%'||#{discountValue}||'%'
+			</if>
+			<if test="isShow!=null and isShow!=''">
+				and is_show = #{isShow}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 总数 -->
+	<select id="getCount2" resultType="java.lang.Integer">
+		select count(*) from payv2_app_discount  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="schemeName!=null and schemeName!=''">
+				and scheme_name LIKE CONCAT('%',#{schemeName},'%' )
+			</if>
+			<if test="userType!=null and userType!=''">
+				and user_type = #{userType}
+			</if>
+			<if test="startupStartTime!=null and startupStartTime!=''">
+				and DATE_FORMAT(startup_start_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{startupStartTime},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTime!=null and startupEndTime!=''">
+				and DATE_FORMAT(startup_start_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{startupEndTime},  '%Y-%m-%d') 
+			</if>
+			<if test="schemeType!=null and schemeType!=''">
+				and scheme_type = #{schemeType}
+			</if>
+			<if test="discountType!=null and discountType!=''">
+				and discount_type = #{discountType}
+			</if>
+			<if test="isShow!=null and isShow!=''">
+				and is_show = #{isShow}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+		</where>
+	</select>
+	<!-- 分页 -->
+	<select id="pageQueryByObject2" resultMap="payv2appdiscount_result_map" >
+		
+		SELECT * FROM payv2_app_discount 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="schemeName!=null and schemeName!=''">
+				and scheme_name  LIKE CONCAT('%',#{schemeName},'%' )
+			</if>
+			<if test="userType!=null and userType!=''">
+				and user_type = #{userType}
+			</if>
+			<if test="startupStartTime!=null and startupStartTime!=''">
+				and DATE_FORMAT(startup_start_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{startupStartTime},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTime!=null and startupEndTime!=''">
+				and DATE_FORMAT(startup_start_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{startupEndTime},  '%Y-%m-%d') 
+			</if>
+			<if test="schemeType!=null and schemeType!=''">
+				and scheme_type = #{schemeType}
+			</if>
+			<if test="discountType!=null and discountType!=''">
+				and discount_type = #{discountType}
+			</if>
+			<if test="isShow!=null and isShow!=''">
+				and is_show = #{isShow}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="discountWay" resultType="com.pay.business.payv2.entity.Payv2AppDiscount" resultMap="payv2appdiscount_result_map">
+		SELECT id,app_id,merchant_type,scheme_name,user_type,startup_start_time
+		,startup_end_time,discount_start_time,discount_end_time,scheme_type
+		,discount_money,single_discount_money,single_order_money,single_order_max_money
+		,discount_order_num,user_order_num,discount_area,discount_type,discount_value
+		,is_show,is_delete,create_time,update_time FROM payv2_app_discount 
+		<where>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="isShow!=null and isShow!=''">
+				and is_show = #{isShow}
+			</if>
+			<if test="userType!=null and userType!=''">
+				and user_type = #{userType}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="startupStartTime!=null and startupStartTime!=''">
+				and DATE_FORMAT(startup_start_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{startupStartTime},  '%Y-%m-%d') 
+			</if>
+			<if test="startupEndTime!=null and startupEndTime!=''">
+				and DATE_FORMAT(startup_end_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{startupStartTime},  '%Y-%m-%d') 
+			</if>
+		</where>
+		order by create_time desc limit 1
+	</select>
+</mapper>

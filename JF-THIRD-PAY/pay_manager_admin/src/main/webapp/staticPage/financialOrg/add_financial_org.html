@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>添加金融公司</title>
+	<link rel="stylesheet" type="text/css" href="/public/css/popStyle.css">
+	<script type="text/javascript" src="/public/js/utils/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="/public/js/utils/popTable.js"></script>
+	<script type="text/javascript" src="/public/js/utils/jquery.cityselect.js"></script>
+</head>
+<body>
+	<div class="pop_main">
+		<h3 class="header">添加金融机构</h3>
+		<dl>
+			<dt><label>机构名称：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>机构所在地：</label></dt>
+			<dd id="chooseCity">
+				<select class="prov" style="width:100px;"></select>
+				<select class="city" style="width:100px;"></select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>联系方式：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>跳转类型：</label></dt>
+			<dd>
+				<select class="changeSelect">
+					<option>网页</option>
+					<option>apk</option>
+				</select>
+				<div class="changeCont">
+					<dl style="display:inline-block;">
+						<dt><label>网页地址：</label></dt>
+						<dd><input type="text" name=""></dd>
+					</dl>
+					<dl>
+						<dt><label>上传APK：</label></dt>
+						<dd><input type="file" name=""></dd>
+					</dl>
+				</div>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>上传icon图片：</label></dt>
+			<dd>
+				<input type="file" name="">
+				<span class="remind_span">尺寸：120*120像素(宽*高)，icon图片会显示在机构列表中</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>旗下产品类型：</label></dt>
+			<dd>
+				<div class="productType">
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>理财产品</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>基金产品</label>
+					</div>
+					<div class="producTypeCon">
+						<dl>
+							<dt><label>基金列表机构描述：</label></dt>
+							<dd><input type="text" name=""></dd>
+						</dl>
+						<dl>
+							<dt><label>基金列表官方用户收益率：</label></dt>
+							<dd><input type="text" name=""></dd>
+						</dl>
+						<dl>
+							<dt><label>基金列表平台用户收益率：</label></dt>
+							<dd><input type="text" name=""></dd>
+						</dl>
+						<dl>
+							<dt><label>选择所需要的运营标签(可多选)：</label></dt>
+							<dd>
+								<div class="productType">
+									<div class="productTypeList">
+										<input type="checkbox" name="">
+										<label>全局标签(如开户返现等)</label>
+									</div>
+									<div class="productTypeList">
+										<input type="checkbox" name="">
+										<label>根据旗下产品属性系统自动生成</label>
+									</div>
+									<div class="productTypeList">
+										<input type="checkbox" name="">
+										<label>自定义标签</label>
+									</div>
+									<div class="producTypeCon rowLabel">
+										<div class="customLabel">
+											<!-- <p><i class="labelColor1">新</i><span>新用户购买理财享受额外补贴</span><a href="javascript:;" class="deleteLabel">删除</a></p> -->
+										</div>
+										<dl>
+											<dt><label>选择标签颜色：</label></dt>
+											<dd>
+												<div class="productType">
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio"  checked="checked" class="colorRadio" />
+														<label class="labelColor1">红色</label>
+													</div>
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio" class="colorRadio" />
+														<label class="labelColor2">橙色</label>
+													</div>
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio" class="colorRadio" />
+														<label class="labelColor3">蓝色</label>
+													</div>
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio" class="colorRadio" />
+														<label class="labelColor4">绿色</label>
+													</div>
+												</div>
+											</dd>
+										</dl>
+										<dl>
+											<dt><label>营销名称：</label></dt>
+											<dd>
+												<input type="text" name="" class="colorLable" placeholder="输入营销名称，仅限1个字" maxlength="1">
+											</dd>
+										</dl>
+										<dl>
+											<dt><label>营销内容：</label></dt>
+											<dd>
+												<input type="text" name="" class="colorCon" placeholder="输入营销内容，15个字以内">
+											</dd>
+										</dl>
+										<dl>
+											<dt>&nbsp;</dt>
+											<dd>
+												<a href="javascript:;" class="addText addColorLable">确定添加</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</dd>
+						</dl>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>保险产品</label>
+					</div>
+					<div class="producTypeCon">
+						<dl>
+							<dt><label>保险列表机构描述：</label></dt>
+							<dd><input type="text" name=""></dd>
+						</dl>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>借贷产品</label>
+					</div>
+					<div class="producTypeCon">
+						<dl>
+							<dt><label>保险列表机构描述：</label></dt>
+							<dd><input type="text" name=""></dd>
+						</dl>
+						<dl>
+							<dt><label>选择所需要的运营标签(可多选)：</label></dt>
+							<dd>
+								<div class="productType">
+									<div class="productTypeList">
+										<input type="checkbox" name="">
+										<label>全局标签(如开户返现等)</label>
+									</div>
+									<div class="productTypeList">
+										<input type="checkbox" name="">
+										<label>根据旗下产品属性系统自动生成</label>
+									</div>
+									<div class="productTypeList">
+										<input type="checkbox" name="">
+										<label>自定义标签</label>
+									</div>
+									<div class="producTypeCon rowLabel">
+										<div class="customLabel">
+											<!-- <p><i class="labelColor1">新</i><span>新用户购买理财享受额外补贴</span><a href="javascript:;" class="deleteLabel">删除</a></p> -->
+										</div>
+										<dl>
+											<dt><label>选择标签颜色：</label></dt>
+											<dd>
+												<div class="productType">
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio1"  checked="checked" class="colorRadio" />
+														<label class="labelColor1">红色</label>
+													</div>
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio1" class="colorRadio" />
+														<label class="labelColor2">橙色</label>
+													</div>
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio1" class="colorRadio" />
+														<label class="labelColor3">蓝色</label>
+													</div>
+													<div class="productTypeList">
+														<input type="radio" name="colorRadio1" class="colorRadio" />
+														<label class="labelColor4">绿色</label>
+													</div>
+												</div>
+											</dd>
+										</dl>
+										<dl>
+											<dt><label>营销名称：</label></dt>
+											<dd>
+												<input type="text" name="" class="colorLable" placeholder="输入营销名称，仅限1个字" maxlength="1">
+											</dd>
+										</dl>
+										<dl>
+											<dt><label>营销内容：</label></dt>
+											<dd>
+												<input type="text" name="" class="colorCon" placeholder="输入营销内容，15个字以内">
+											</dd>
+										</dl>
+										<dl>
+											<dt>&nbsp;</dt>
+											<dd>
+												<a href="javascript:;" class="addText addColorLable">确定添加</a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<h3>开户设置</h3>
+		<dl>
+			<dt><label>开户补贴：</label></dt>
+			<dd><input type="text" name=""><b>元</b></dd>
+		</dl>
+		<h3>开户审核</h3>
+		<dl>
+			<dt><label>添加开户指标审核项：</label></dt>
+			<dd class="auditEntryLable">
+				<div class="productType auditItemsList">
+					<div class="productTypeList">
+						<input type="checkbox" name="realName"  checked="checked" class="" />
+						<label class="">姓名</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="phoneNum" class="" />
+						<label class="">注册手机号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="idCard" class="" />
+						<label class="">身份证号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="bankId" class="bankId" />
+						<label class="">银行电子账号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="applicationId" class="" />
+						<label class="">应用账号</label>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<dl>
+			<dt>&nbsp;</dt>
+			<dd>
+				<div class="auditItems">
+					<p><i>姓名</i><input type="hidden" name="realName" value="realName"><a href="javascript:;" class="auditDeleteBtn">删除</a></p>
+				</div>
+			</dd>
+		</dl>
+		<dl class="bankIconUpdata">
+			<dt><label>上传银行icon图片：</label></dt>
+			<dd>
+				<input type="file" name="" />
+				<span class="remind_span">尺寸：44*44像素(宽*高)，icon图片会显示在银行卡列表中</span>
+			</dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" name="" value="确定">
+		</div>
+	</div>
+	
+</body>
+</html>

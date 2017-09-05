@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.admin.mapper.SysUcenterAdminRoleMapper">
+
+	<resultMap id="sysucenteradminrole_result_map" type="com.pay.business.admin.entity.SysUcenterAdminRole" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="adm_id" property="admId"/>
+		<result column="rol_id" property="rolId"/>
+		<result column="exp_date" property="expDate"/>
+		<result column="create_time" property="createTime"/>
+		<result column="create_user_by" property="createUserBy"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="update_user_by" property="updateUserBy"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_ucenter_admin_role  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="admId!=null and admId!=''">
+				and adm_id = #{admId}
+			</if>
+			<if test="rolId!=null and rolId!=''">
+				and rol_id = #{rolId}
+			</if>
+			<if test="expDateBegin!=null and expDateBegin!=''">
+				and exp_date <![CDATA[ >= ]]> str_to_date(#{expDateBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="expDateEnd!=null and expDateEnd!=''">
+				and exp_date <![CDATA[ <= ]]> str_to_date(#{expDateEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.admin.entity.SysUcenterAdminRole" >
+		insert into sys_ucenter_admin_role
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="admId!=null ">
+				adm_id,
+			</if>
+      		<if test="rolId!=null ">
+				rol_id,
+			</if>
+      		<if test="expDate!=null ">
+				exp_date,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="createUserBy!=null ">
+				create_user_by,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+      		<if test="updateUserBy!=null ">
+				update_user_by,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="admId!=null ">
+      			#{admId},
+			</if>
+      		<if test="rolId!=null ">
+      			#{rolId},
+			</if>
+      		<if test="expDate!=null ">
+      			#{expDate},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="createUserBy!=null ">
+      			#{createUserBy},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+      		<if test="updateUserBy!=null ">
+      			#{updateUserBy},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.admin.entity.SysUcenterAdminRole">
+		delete from sys_ucenter_admin_role
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="admId!=null ">
+				and adm_id=#{admId}
+			</if>
+      		<if test="rolId!=null ">
+				and rol_id=#{rolId}
+			</if>
+      		<if test="expDate!=null ">
+				and exp_date=#{expDate}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+      		<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.admin.entity.SysUcenterAdminRole">
+		update sys_ucenter_admin_role
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="admId!=null ">
+				adm_id=#{admId},
+			</if>
+			<if test="rolId!=null ">
+				rol_id=#{rolId},
+			</if>
+			<if test="expDate!=null ">
+				exp_date=#{expDate},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.admin.entity.SysUcenterAdminRole" resultMap="sysucenteradminrole_result_map">
+		select id,app_id,adm_id,rol_id,exp_date,create_time,create_user_by,update_time,update_user_by from sys_ucenter_admin_role
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="admId!=null ">
+				and adm_id=#{admId}
+			</if>
+			<if test="rolId!=null ">
+				and rol_id=#{rolId}
+			</if>
+			<if test="expDate!=null ">
+				and exp_date=#{expDate}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="sysucenteradminrole_result_map" >
+		select id,app_id,adm_id,rol_id,exp_date,create_time,create_user_by,update_time,update_user_by from sys_ucenter_admin_role
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="admId!=null ">
+				and adm_id=#{admId}
+			</if>
+			<if test="rolId!=null ">
+				and rol_id=#{rolId}
+			</if>
+			<if test="expDate!=null ">
+				and exp_date=#{expDate}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysucenteradminrole_result_map" >
+		
+		SELECT id,app_id,adm_id,rol_id,exp_date,create_time,create_user_by,update_time,update_user_by FROM sys_ucenter_admin_role 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="admId!=null and admId!=''">
+				and adm_id = #{admId}
+			</if>
+			<if test="rolId!=null and rolId!=''">
+				and rol_id = #{rolId}
+			</if>
+			<if test="expDateBegin!=null and expDateBegin!=''">
+				and exp_date <![CDATA[ >= ]]> str_to_date(#{expDateBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="expDateEnd!=null and expDateEnd!=''">
+				and exp_date <![CDATA[ <= ]]> str_to_date(#{expDateEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="findRoleByUser" resultType="Long" parameterType="Long">
+		SELECT
+		  rol_id
+		FROM sys_ucenter_admin_role
+		WHERE adm_id = #{id}
+	</select>
+</mapper>

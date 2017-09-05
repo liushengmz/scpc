@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>添加商户</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<form action="${basePath}/payv2BussCompany/addBussCompany.do" method="post" class="form form-horizontal" id="form-company-add">
+	<div class="pop_main">
+		<h3>登录账户</h3>
+		<dl>
+			<dt><label>商户管理员账号：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请输入邮箱或手机号作为商户账号" name="userName" class="dd_input" onchange="checkUserName($(this),value)"></dd>
+		</dl>
+		<dl>
+			<dt><label>初始登录密码：</label></dt>
+			<dd><input type="password" dataType="*" nullmsg="请输入登录密码" class="dd_input" id="passWord" onchange="checkpwd($(this),value)"></dd>
+		</dl>
+		<dl>
+			<dt><label>重复登录密码：</label></dt>
+			<dd><input type="password" dataType="*" nullmsg="请再次输入登录密码，密码一致" class="dd_input" id="passWordTwo" onchange="ifPassword($(this),value)"></dd>
+		</dl>
+		<h3>公司信息</h3>
+		<dl>
+			<dt><label>合作商户公司名称：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填写商户公司名称" name="companyName" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>公司行业：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司行业" name="companyTrade" style="width:100px;">
+					<#if tradeList?? && tradeList?size gt 0>
+					<#list tradeList as dl >
+						<option value="${dl.id}">${dl.tradeName}</option>
+					</#list>
+					</#if>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>公司规模：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司规模" name="companyScale" style="width:100px;">
+					<option value="1">大型</option>
+					<option value="2">中型</option>
+					<option value="3">小型</option>
+					<option value="4">微型</option>
+					<option value="5">个体户</option>
+				</select>
+			</dd>
+		</dl>
+		<!-- <dl>
+			<dt>
+				<label>营业范围：</label>
+			</dt>
+			<dd>
+				<select name="companyRangeProvince" id="companyRangeProvince" style="width:100px;" onchange="cityChange('companyRangeProvince','companyRangeCity')">
+					<option value="">全国</option>
+					<#if provincesList?? && provincesList?size gt 0>
+					<#list provincesList as dl >
+						<option value="${dl.id}">${dl.name}</option>
+					</#list>
+					</#if>
+				</select>
+				<select name="companyRangeCity" id="companyRangeCity" style="width:100px;">
+					<option value="">市</option>
+				</select>
+			</dd>
+		</dl> -->
+		<dl>
+			<dt><label>营业执照号码：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseNum" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>注册地址：</label>
+			</dt>
+			<dd><input type="text" dataType="*" nullmsg="请填注册地址" name="licenseAddr" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>上传营业执照：</label></dt>
+			<dd>
+				<input type="text" class="width200"  dataType="*" nullmsg="请上传营业执照" name="licensePic" id="licensePic"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="licensePicFile" onchange="uploadFile('${basePath}/upload/addFiles.do','licensePic','File')"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>组织机构代码：</label>
+			</dt>
+			<dd><input type="text" dataType="*" nullmsg="请填注册地址" name="organizationCode" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>上传组织机构代码照：</label></dt>
+			<dd>
+				<input type="text" class="width200"  dataType="*" nullmsg="上传组织机构代码照" name="organizationCodeUrl" id="organizationCodeUrl"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="organizationCodeUrlFile" onchange="uploadFile('${basePath}/upload/addFiles.do','organizationCodeUrl','File')"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>营业类型：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择营业类型" name="licenseType" style="width:150px;">
+					<option value="1">线上（互联网）</option>
+					<option value="2">线下（实体店铺）</option>
+					<option value="3">线上+线下</option>
+				</select>
+			</dd>
+		</dl>
+		<h3>联系人信息</h3>
+		<dl>
+			<dt><label>公司法人名称：</label></dt>
+			<dd><input dataType="*" nullmsg="公司法人名称" type="text" name="legalName"></dd>
+		</dl>
+		<dl>
+			<dt><label>法人身份证号码：</label></dt>
+			<dd><input dataType="*" nullmsg="法人身份证号码" type="text" name="legalIdCard" id="legalIdCard"  onchange="ValidatelegalIdCard($(this),value)"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人姓名：</label></dt>
+			<dd><input dataType="*" nullmsg="输入联系人姓名" type="text" name="contactsName"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人电话：</label></dt>
+			<dd><input dataType="*" nullmsg="输入联系人电话" type="text" name="contactsPhone" onchange="ValidateFloat($(this),value)"></dd>
+		</dl>
+		
+		<h3> 收款信息</h3>
+		<dl>
+			<dt><label>开户机构：</label></dt>
+			<!-- <dd><input dataType="*" nullmsg="开户银行" type="text" name="accountBank"></dd> -->
+			<dd>
+				<select dataType="*" nullmsg="开户机构" name="accountBank" style="width:100px;">
+					<#if bankList?? && bankList?size gt 0>
+					<#list bankList as dl >
+						<option value="${dl.bankName}">${dl.bankName}</option>
+					</#list>
+					</#if>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>账户类型：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择账户类型" name="accountType" style="width:150px;">
+					<option value="1">对公账户</option>
+					<option value="2">对私账户</option>
+				</select>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt><label>收款商户名：</label></dt>
+			<dd><input dataType="*" nullmsg="收款商户名" type="text" name="accountName"></dd>
+		</dl>
+		<dl>
+			<dt><label>收款账号：</label></dt>
+			<dd><input dataType="*" nullmsg="收款账号" type="text" name="accountCard" ></dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt></span>到帐类型：</label>
+			</dt>
+			<dd>
+				<select class="select" id="wayArrivalType" name="wayArrivalType" size="1" onchange="show_Type()">
+					<option value="1">T+日期(工作日)</option>
+					<option value="2">实时到账</option>
+					<option value="3">T+日期</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl  class="adddl" id="sssssss">
+			<dt></span>到账日期：</label>
+			</dt>
+			<dd>
+			<input type="text" class="dd_input" value="" placeholder="到账日期" id="wayArrivalValue" name="wayArrivalValue" datatype="*"  nullmsg="请输入到账日期" onchange="ValidateFloat($(this),value)"> 天
+			</dd>
+		</dl>
+		
+		
+		<h3> 支付通道</h3>
+		<dl>
+			<dt><label>是否随机路由：</label></dt>
+			<dd>
+				<select style="width:100px;" id="isRandom" name="isRandom" size="1">
+					<option value="1">是</option>
+					<option value="2">否</option>
+				</select>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>支付通道：</label></dt>
+				<dd id="chooseCity">
+					<span>
+					<!-- <input type="button" style="width:50px;height:30px;"  onclick="add()" value="创建">
+					<input type="button" style="width:50px;height:30px;"  onclick="submitAdd()" value="提交"></br>	 -->					
+					<select name="discoutShopRangeProvince" id="search_shopRangeProvince" style="width:100px;" onchange="payType('search_shopRangeProvince','span','')">
+						<option value="0">请选择</option>
+						<#if payList?? && payList?size gt 0>
+							<#list payList as dl >
+								<option value="${dl.id}">${dl.wayName}</option>
+							</#list>
+						</#if>
+					</select>
+					<span id ="span">
+					</span>
+					<input type="text" name="payWayRate" id="payWayRate" style="width:90px;" placeholder="通道费率,单位‰">
+					<input type="text" name="sortNum" id="sortNum" style="width:50px;" placeholder="排序编号"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+					<input type="text" name="maxMoney" id="maxMoney" style="width:50px;" placeholder="限额" 	onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+					<input type="text" name="oneMaxMoney" id="oneMaxMoney" style="width:50px;" placeholder="每笔限额" 	onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+					<input type="button" style="width:50px;height:30px;"  onclick="add()" value="添加" class="btn btn-success radius">
+					</span>
+				</dd>
+		</dl>
+		<input type="hidden" name="payWayList" id="shopRangeCity">
+		<div class="submit_btn">
+			<input type="button" name="" value="确定" onclick="btnSubmit();">
+		</div>
+	</div>
+	</form>
+	<script type="text/javascript">
+	$(function(){
+		$("#form-company-add").Validform({
+			tiptype:3,
+			showAllError:true,   //表单提交时显示所有提示信息
+			ignoreHidden: true,  //隐藏的表单元素不校验
+			ajaxPost:true,
+			callback:function(data){
+				$.Hidemsg()
+				if(data.resultCode==200){
+					layer.msg('保存成功!', {
+						icon : 1,
+						time : 1000
+					});
+					parent.location.replace("${basePath}/payv2BussCompany/companyList.do");
+					layer_close();
+				}else if(data.resultCode==201){
+					alert(data.message);
+				}else if(data.resultCode==401){
+					alert("支付通道排序重复！请重新去编辑");
+					parent.location.replace("${basePath}/payv2BussCompany/companyList.do");
+					layer_close();
+				}else if(data.resultCode==301){
+					alert("无效用户");
+					parent.location.replace("${basePath}/payv2BussCompany/companyList.do");
+					layer_close();
+				}else{
+					//$("#form-company-add").resetForm();
+					layer.msg('保存失败，请你检查数据!', {
+						icon : 1,
+						time : 1000
+					});
+				}
+			}
+		});
+	});
+	/*提交数据*/
+	function btnSubmit(){
+		submitAdd();
+		var idCard = $("#legalIdCard").val();
+		var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+		if(reg.test(idCard)==false){
+			alert("身份证格式错误");
+			$("#legalIdCard").val("");
+			$("#legalIdCard").focus();
+			return false;
+		}
+		var shopRangeCity = $("#shopRangeCity").val();
+		if(!!shopRangeCity&&shopRangeCity!=""){
+			var password = hex_md5($("#passWord").val());
+			$("#form-company-add").attr(
+					"action",
+					"${basePath}/payv2BussCompany/addBussCompany.do?passWord="+password).submit(); 
+		}else{
+			alert("请分配支付通道！")
+		}
+	}
+	
+	function cityChange(proId,cityId){
+		var pro = $("#"+proId).val();
+		$("#"+cityId).empty();
+		if(pro==""){
+			$("#"+cityId).append('<option value="">市</option>');
+		}else{
+			$.ajax({
+				type:"get",
+				url:"${basePath}/payv2BussCompany/proCity.do?parentId="+pro,
+				async:true,
+				success:function(data){
+					if(!!data&&data.resultCode==200){
+						var list = data.Data,
+							str="";
+						for(var i=0;i<list.length;i++){
+							str+='<option value="'+list[i].id+'">'+list[i].name+'</option>'
+						}
+						$("#"+cityId).append(str);
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+		}
+	}
+	
+		
+		function uploadFile(url,idstr,filestr) {
+			if($("input[id='"+idstr+filestr+"']").val()==""){
+				alert("请选择上传文件");
+				return;
+			}
+			commonUp(url, $("input[id='"+idstr+filestr+"']"), function(data) {
+					$("#"+idstr).val(data.Data.url);
+			});
+	
+		}
+	
+		//无刷新上传文件
+		function commonUp(url, e, callback) {
+			$.ajaxFileUpload({
+				url : url,
+				secureuri : false,
+				fileElement : e,
+				dataType : "JSON",//返回数据的类型
+				success : function(data,status) {
+					if (data.resultCode == 200) {
+						if (callback) {
+							callback(data);
+						}
+					} else {
+						//alert("上传失败！");
+						alert(data.Data);
+					}
+					
+				}
+			});
+		}
+		
+		function ValidateFloat(e, pnumber){ 
+			if (!/^\d+[.]?\d*$/.test(pnumber)){ 
+				$(e).val(/^\d+[.]?\d*/.exec($(e).val())); 
+			}
+			return false; 
+		}
+		//判断密码是否一致
+		function ifPassword(e, pnumber){ 
+			var p1=$("#passWord").val();
+			var p2=$("#passWordTwo").val();
+			if (p1!=p2){ 
+				alert("两次输入的密码不一致，重新输入");
+				$(e).val("");
+				$("#passWord").val("");
+			}
+			return false; 
+		}
+		//验证密码是否位数正确
+		function checkpwd(e, pnumber){ 
+			var fpwd=$("#passWord").val();
+			if(fpwd==""||fpwd.length<6||fpwd.length>16){
+				alert("× 请输入6-16位用户密码！");
+				$(e).val("");
+				return false; 
+			}
+		}
+		//验证用户名字是否是邮箱或者手机号码
+		function checkUserName(e, pnumber){
+			var falseOrtrue=false;
+			if (!(/^1[34578]\d{9}$/.test(pnumber)||/^0\d{2,3}-?\d{7,8}$/.test(pnumber))){ 
+				falseOrtrue=false;
+			}else{
+				falseOrtrue=true;
+				validateUserName(falseOrtrue,pnumber);
+				return true;
+			}
+			//验证是否是邮箱
+			var regemail=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			if(regemail.test(pnumber)){
+				falseOrtrue=true;
+				validateUserName(falseOrtrue,pnumber);
+				return true;
+			}else{
+				$(e).val("");
+				falseOrtrue=false;
+			}
+			if(falseOrtrue==false){
+				alert("邮箱或手机号作为商户账号");
+				return false;
+			}
+			
+		}
+		
+		function validateUserName(falseOrtrue,pnumber){
+			if(falseOrtrue){
+				$.ajax({
+					type:"get",
+					url:"${basePath}/payv2BussCompany/validateUserName.do?userName="+pnumber,
+					async:false,
+					success:function(data){
+						if(!!data&&data.resultCode==200){
+							
+						}else{
+							alert(data.message);
+						}
+					}
+				});
+			}
+		}
+		
+		//简单验证身份证
+		function ValidatelegalIdCard(e, pnumber){
+			//身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字
+			var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+			if(reg.test(pnumber)==false){
+				alert("身份证格式错误");
+				return false;
+			}else{
+				return true;
+			}
+		}
+		function payType(proId,cityId,index){
+			var pro = $("#"+proId).val();
+			$("#"+cityId+index).empty();
+			if(pro==""){
+				$("#"+cityId).append('<option value=""></option>');
+			}else{
+				$.ajax({
+					type:"get",
+					url:"${basePath}/payv2BussCompany/getPayWayRate.do?payWayId="+pro,
+					async:true,
+					success:function(data){
+						if(!!data&&data.resultCode==200){
+							var list = data.Data,
+								str="";
+							for(var i=0;i<list.length;i++){
+								str+='<option value="'+list[i].id+'">'+list[i].payWayName+'</option>'
+							}
+							if(str!=""){
+								str = '<select name="discoutShopRangeCity" id="search_shopRangeCity'+index+'" style="width:200px;">'+str+'</select>';
+								$("#"+cityId+index).append(str);
+							}else{
+								$("#"+cityId+index).children('select').remove();
+							}
+						}else{
+							alert(data.message);
+						}
+					}
+				});
+			}
+		}
+		var index = 0;
+		function add(){
+			index++;
+			var html = "<span><br/>"+						
+				"<select name=\"discoutShopRangeProvince\" id=\"search_shopRangeProvince"
+				+index+"\" style=\"width:100px;\" onchange=\"payType('search_shopRangeProvince"+index+"','span','"+index+"')\">"
+				+$("#search_shopRangeProvince").html()
+				+"</select>"
+				+"<span id=\"span"+index+"\">"+
+				"</span>"
+				+"<input type=\"text\" name=\"payWayRate\" id=\"payWayRate"+index+"\" style=\"width:90px;\" placeholder=\"通道费率,单位‰\">"
+				+"<input type=\"text\" name=\"sortNum\" id=\"sortNum"+index+"\" style=\"width:50px;\" placeholder=\"排序编号\" onkeyup=\"this.value=this.value.replace(/\D/g,'')\" onafterpaste=\"this.value=this.value.replace(/\D/g,'')\">"
+				+"<input type=\"text\" name=\"maxMoney\" id=\"maxMoney"+index+"\" style=\"width:50px;\" placeholder=\"限额\"  onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">"
+				+"<input type=\"text\" name=\"oneMaxMoney\" id=\"oneMaxMoney"+index+"\" style=\"width:50px;\" placeholder=\"每笔限额\"  onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\">"
+				+"<input type=\"button\" style=\"width:50px;height:30px;\"  onclick=\"deleteLabel(this)\" value=\"删除\" class=\"btn btn-danger radius\"></span>";
+				
+			$("#chooseCity").append(html);
+		}
+		//组装支付通道数据
+		function submitAdd(){
+			var provinces =  document.getElementsByName("discoutShopRangeProvince");
+			var result = "";
+			for ( var i = 0; i < provinces.length; i++) {
+				var str="";
+				if(i!=0){
+					str+=i;
+				}
+				var province = $("#search_shopRangeProvince"+str).val();
+				var city = $("#search_shopRangeCity"+str).val();
+				var rate = $("#payWayRate"+str).val();
+				var sortNum=$("#sortNum"+str).val();
+				var maxMoney=$("#maxMoney"+str).val();
+				var oneMaxMoney=$("#oneMaxMoney"+str).val();
+				if(province!=""&rate!=""&&sortNum!=""&&maxMoney!=""&&oneMaxMoney!=""){
+					if(!!city){
+						result += province+"-"+city+"-"+rate+ "-"+sortNum+"-"+maxMoney+"-"+oneMaxMoney+",";
+					}else{
+						result += province+"-0-"+rate+ "-"+sortNum+"-"+maxMoney+"-"+oneMaxMoney+",";
+					}
+				}else{
+					alert("提交失败,参数不能为空！或者填写为0");
+					return false;
+				}
+			}
+			if(result != ''){
+				//province = province.substring(0,province.length - 1);
+				//$("#shopRangeProvince").val(province);
+				result = result.substring(0,result.length - 1);
+				$("#shopRangeCity").val(result);
+				alert("提交成功");
+			}	
+		}
+		//隐藏
+		function show_Type(){
+			var a=$("#wayArrivalType").val();
+			 if(a==2){
+				document.getElementById("sssssss").style.display="none";//隐藏
+			}else{
+				document.getElementById("sssssss").style.display="";//隐藏
+			} 
+		}
+		
+		function deleteLabel(obj){
+			$(obj).parent().remove();
+			index--;
+		}
+	</script>
+</body>
+</html>

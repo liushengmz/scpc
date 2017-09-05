@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>订单管理(线下)</title>
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<div class="tips fr">
+				<div class="red"></div>
+			</div>
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<div class="users fr line">
+				<span>线下门店</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change1">线上应用</div>
+				</div>
+			</div>
+		</header>
+		<nav>
+			<ul class="clearfix">
+				<li class="li shuj">
+					<div class="icon fl">
+						<i></i>
+					</div>
+					<div class="nav-content fl">
+						<span><a href="dataOffline.html">数据</a></span>
+						<i class="img"></i>
+					</div>
+				</li>
+				<li class="sd11">
+					<div class="fl shu">
+
+					</div>
+					<div class="sh-content fl">
+						<ul>
+							<li>
+								<a href="dataOffline.html">收款数据</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="sh li active1">
+					<div class="icon fl">
+						<i></i>
+					</div>
+					<div class="nav-content fl">
+						<span>订单</span>
+						<i class="img"></i>
+					</div>
+				</li>
+				<li class="sd">
+					<div class="fl shu">
+
+					</div>
+					<div class="sh-content fl">
+						<ul>
+							<li class="co">
+								<a href="orderOffline.html">订单管理</a>
+							</li>
+							<li >
+								<a href="accountOffline.html">账单管理</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="daili li">
+					<div class="icon fl">
+						<i></i>
+					</div>
+					<div class="nav-content fl">
+						<span><a href="shopManager.html">门店</a></span>
+						<i class="img"></i>
+					</div>
+				</li>
+				<li class="dl">
+					<div class="fl dli">
+					</div>
+					<div class="dl-content fl">
+						<ul>
+							<li class="dlc"><a href="shopManager.html">门店管理</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="daili li">
+					<div class="icon fl">
+						<i></i>
+					</div>
+					<div class="nav-content fl">
+						<span><a href="gatheringCode.html">收款码</a></span>
+						<i class="img"></i>
+					</div>
+				</li>
+				<li class="dl">
+					<div class="fl dli">
+					</div>
+					<div class="dl-content fl">
+						<ul>
+							<li class="dlc"><a href="gatheringCode.html">收款码管理</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="dd li">
+					<div class="icon fl">
+						<i></i>
+					</div>
+					<div class="nav-content fl">
+						<span><a href="accountOffline.html">账户</a></span>
+						<i class="img"></i>
+					</div>
+				</li>
+				<li class="cx">
+					<div class="fl dli">
+					</div>
+					<div class="dl-content fl">
+						<ul>
+							<li class="ddc"><a href="accountOffline.html">账户信息</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<div class="dld">
+				<i></i>
+				<span>下载SDK</span>
+			</div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：订单管理</div>
+			<!--关键指标-->
+			<div class="index">
+				<div class="index-title">
+					<i></i>
+					<span>订单查询</span>
+					<div class="fr dload">
+						<i class="fr"></i>
+						<span class="fr">导出数据</span>						
+					</div>
+				</div>
+				<div class="orderNumber">
+					<div class="numberInput fl">
+						<label>订单号:</label>
+						<input type="text" placeholder="请输入商家/支付集订单号" />
+					</div>
+					<div class="search fl">查询</div>
+					<div class="reset fl">重置</div>
+				</div>
+				<div class="tradeTime">
+					<label>交易时间：</label>
+					<ul class="timeLi TimeLi">
+						<li class="activess" dateType="1">
+							<i></i>
+							<span>今天</span>
+						</li>
+						<li dateType="2">
+							<i></i>
+							<span>昨天</span>
+						</li>
+						<li dateType="3">
+							<i></i>
+							<span>前7天</span>
+						</li>
+						<li dateType="4">
+							<i></i>
+							<span>前30天</span>
+						</li>
+					</ul>
+					<div class="data fl">
+						<label>选择日期：</label>
+						<input id="" class="Wdate condition-date data1" type="text" name="" onclick="WdatePicker()">
+						<span class="date-line">&nbsp;--&nbsp;</span>
+						<input id="" class="Wdate condition-date data2" type="text" name="" onclick="WdatePicker()">
+					</div>
+					<label class="ways">交易渠道：</label>
+					<ul class="typeLi">
+						<li class="activess">
+							<i></i>
+							<span>全部</span>
+						</li>
+						<li>
+							<i></i>
+							<span>支付宝</span>
+						</li>
+						<li>
+							<i></i>
+							<span>微信</span>
+						</li>
+						<li>
+							<i></i>
+							<span>包行</span>
+						</li>
+					</ul>
+				</div>
+				<div class="tradeTime tradeState">
+					<label>交易状态：</label>
+					<ul class="timeLi stateLi">
+						<li class="activess">
+							<i></i>
+							<span>全部</span>
+						</li>
+						<li payStatus="1">
+							<i></i>
+							<span>支付成功</span>
+						</li>
+						<li payStatus="2">
+							<i></i>
+							<span>支付失败</span>
+						</li>
+						<li payStatus="3">
+							<i></i>
+							<span>未支付</span>
+						</li>
+						<li>
+							<select>
+								<option>更多</option>
+								<option payStatus="4">超时</option>
+								<option payStatus="5">扣款成功回调失败</option>
+								<option payStatus="6">已部分退款</option>
+								<option payStatus="7">已全部退款</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+				<div class="tradeTime chooseRange">
+					<label>选择门店：</label>
+					<ul class="timeLi">
+						<li>
+							<select>
+							</select>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+			<!--表格-->
+			<div class="table">
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th>交易时间</th>
+							<th>商户订单号</th>
+							<th>交易门店</th>
+							<th>交易方式</th>
+							<th>交易渠道</th>
+							<th>实收金额</th>
+							<th>订单金额</th>
+							<th>退款金额</th>
+							<th>订单状态</th>
+							<th class="last">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+				<div class="set-footer">
+					<div class="set fl">
+						共<span>4</span>条记录，每页显示<input type="text" value="4"/>条
+					</div>
+					<div class="jump fr">
+						<div class="left">
+							<i></i>
+						</div>
+						<input type="text" value="1" />
+						<div class="right">
+							<i></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bg">
+			<div class="window">
+				<div class="top">
+					<div class="closex">
+						<i></i>
+					</div>
+					<div class="state">
+						<i></i>
+						<span>支付成功</span>
+					</div>
+					<div class="detail">所属应用：<span class="yy">美团</span>商品名称：<span class="name">牛肉饭</span></div>
+				</div>
+				<div class="bottom">
+					<div class="time">交易时间：<span>2017年2月21日16:06:41</span></div>
+					<div class="order-number">商户订单交易号：<span>464649+74979+7464564646</span></div>
+					<div class="payway">支付方式：<span>现金</span></div>
+					<div class="c">
+						<div class="d1">会员权益：<span>￥0.00</span></div>
+						<div class="d2">会员余额：<span>￥0.00</span></div>
+						<div class="d3">优惠券：<span>￥0.00</span></div>
+						<div class="d4">渠道优惠：<span>￥0.00</span></div>
+						<div class="d5">积分抵扣优惠：<span>￥0.00</span></div>
+						<div class="xingzhuang"></div>
+					</div>
+					<div class="dian">
+						<div class="state1 fl"></div>
+						<div class="state2 fl"></div>
+						<div class="state3 fl"></div>
+						<div class="state4 fl"></div>
+						<div class="state5 fl"></div>
+						<div class="state6 fl"></div>
+						<div class="state7 fl"></div>
+						<div class="state8 fl"></div>
+						<div class="state9 fl"></div>
+						<div class="state10 fl"></div>
+						<div class="state11 fl"></div>
+					</div>
+					<div class="words">
+						<div class="w1 fl">
+							<div class="ws1">订单金额</div>
+							<div class="price1">￥:<span>12.00</span></div>
+						</div>
+						<div class="w2 fl">
+							<div class="ws2">商家优惠</div>
+							<div class="price2">￥:<span>0.00</span></div>
+						</div>
+						<div class="w3 fl">
+							<div class="ws3">实收金额</div>
+							<div class="price3">￥:<span>12.00</span></div>
+						</div>
+						<div class="w4 fl">
+							<div class="ws4">退款金额</div>
+							<div class="price4">￥:<span>0.00</span></div>
+						</div>
+						<div class="w5 fl">
+							<div class="ws5">手续费</div>
+							<div class="price5">￥:<span>0.00</span></div>
+						</div>
+						<div class="w6 fl">
+							<div class="ws6">到账金额</div>
+							<div class="price6">￥:<span>12.00</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="../public/js/exit.js"></script>
+		<script id="trmode" type="text/plain">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>
+					<a href="#" class="show">详情</a>
+				</td>
+			</tr>			
+		</script>
+		<script>
+		var param={
+				"appId":'',
+				"dateType":1,
+				"orderNum":"",
+				"payStatusType":1,
+				"payWayTypeId":"",
+				"curPage":1,
+				"pageData":4
+			},			
+			stateArr=["","支付成功","支付失败","未支付","超时","扣款成功回调失败","部分退款","全部退款"];		
+		/*header 事件start*/
+		$(".user").on("click mouseenter", function() {
+			$(".changeuser").show();
+		})
+		$(".user").on("click mouseleave", function() {
+			$(".changeuser").hide();
+		})
+		$(".line").on("click mouseenter", function() {
+			$(".changeline").show();
+		})
+		$(".line").on("click mouseleave", function() {
+				$(".changeline").hide();
+			})
+		/*header 事件start*/
+		/*nav 事件start*/
+		var sh = 1,
+			x = 1,
+			y = 1;
+
+		$(".sh .img").on("click", function() {
+			sh++;
+			if(sh % 2 == 0) {
+				$(this).addClass("trans1").removeClass("trans2");
+				$(".sd").animate({
+					"height": '0px'
+				}, 1000);
+			} else {
+				$(this).addClass("trans2").removeClass("trans1")
+				$(".sd").animate({
+					"height": '110px'
+				}, 1000);
+			}
+			return false;
+		})
+		$(".daili .img").on("click", function() {
+			x++;
+			if(x % 2 == 0) {
+				$(this).addClass("trans1").removeClass("trans2");
+				$(".dl").animate({
+					"height": '0px'
+				}, 1000);
+			} else {
+				$(this).addClass("trans2").removeClass("trans1")
+				$(".dl").animate({
+					"height": '55px'
+				}, 1000);
+			}
+			return false;
+		})
+		$(".dd .img").on("click", function() {
+				y++;
+				if(y % 2 == 0) {
+					$(this).addClass("trans1").removeClass("trans2");
+					$(".cx").animate({
+						"height": '0px'
+					}, 1000);
+				} else {
+					$(this).addClass("trans2").removeClass("trans1")
+					$(".cx").animate({
+						"height": '55px'
+					}, 1000);
+				}
+				return false;
+			})
+		/*nav 事件end*/
+		/*弹窗start*/
+		$("body").on("click",".show",function(){
+			$(".bg").show();
+		})
+		$("body").on("click",".closex i",function(){
+			$(".bg").hide();
+		})
+		/*弹窗start*/
+		$("body").on("change",".timeLi select",function(){
+			param.appId=$(".chooseRange option:selected").attr("appid");
+			tabledata();
+		})
+		$("body").on("click",".search",function(){
+				param.orderNum=$(".numberInput input").val();
+				tabledata();
+			})
+		$("body").on("click",".reset",function(){
+			$(".numberInput input").val("");
+		})
+		/*表格展示数据*/
+		tabledata();
+		getAppList();
+		function getAppList(){
+			$.ajax({
+				type:"get",
+				url:"/offline/bussCompanyStore/getShopIdNameList.do",
+				async:false,
+				success:function(data){
+					//console.log(data);
+					if(!!data&&data.resultCode==200){
+						var data = data.Data;
+						var appstr="<option appid=''>全部门店</option>";
+						for(var i=0;i<data.length;i++){
+							appstr+="<option appid="+data[i].id+">"+data[i].shop_name+"</option>";						
+						}
+						$(".chooseRange select").append(appstr);
+					}else{
+						alert(data.message);
+					}											
+				}
+			})
+		}
+		function tabledata(){
+			console.log(param)
+			$.ajax({
+				type:"get",
+				url:" /offline/bussCompanyOrder/orderList.do",
+				async:false,
+				data:param,
+				success:function(data){
+					//console.log(data);
+					if(!!data&&data.resultCode==200){
+						iniTable(data.Data);
+					}else{
+						alert(data.message);
+					}
+				}
+			})
+		}
+		
+		function iniTable(obj){
+			var str="",
+				list=obj.dataList;
+			//console.log(list)
+			if(list.length==0){
+				$(".table tbody").html("暂时没有数据")
+			}else{
+				for(var i=0;i<list.length;i++){
+					str+=$("#trmode").html();
+				}
+				$(".table tbody").html(str);
+				for(var j=0;j<list.length;j++){
+					//console.log(obj.list.dataList[j]);
+					$(".table tbody tr").eq(j).find("td").eq(0).html(new Date(list[j].payTime).toLocaleDateString());
+					$(".table tbody tr").eq(j).find("td").eq(1).html(list[j].orderNum);
+					$(".table tbody tr").eq(j).find("td").eq(2).html(list[j].appName);
+					$(".table tbody tr").eq(j).find("td").eq(3).html("wap支付");
+					$(".table tbody tr").eq(j).find("td").eq(4).html(list[j].wayName);
+					$(".table tbody tr").eq(j).find("td").eq(5).html(list[j].payDiscountMoney);
+					$(".table tbody tr").eq(j).find("td").eq(6).html(list[j].payMoney);
+					$(".table tbody tr").eq(j).find("td").eq(7).html(list[j].returnMoney);
+					$(".table tbody tr").eq(j).find("td").eq(8).html(stateArr[list[j].payStatusName]);
+				}
+			}
+			
+		}
+		/*交易渠道*/
+		var paywaystr='<li class="activess"><i></i><span>全部</span></li>';
+		$.ajax({
+				type:"post",
+				url:"/offline/bussCompanyOrder/getPayWayList.do",
+				async:false,
+				success:function(data){
+					//console.log(data);
+					if(!!data && data.resultCode == 200) {
+						for(var i=0;i<data.Data.length;i++){
+							paywaystr+='<li paywayId='+data.Data[i].payWayId+'><i></i><span>'+data.Data[i].payWayUserName+'</span></li>'
+						}
+						$(".typeLi").html(paywaystr);
+					}else{
+						alert(data.message)
+					}
+					
+				}
+			});
+		/*条件筛选事件*/
+		$(".TimeLi li,.typeLi li,.stateLi li").on("click",function(){
+			$(this).addClass("activess").siblings().removeClass("activess");
+			if($(this).parent().hasClass("TimeLi")){
+				param.dateType=$(this).attr("datetype");
+				tabledata();
+			}
+			if($(this).parent().hasClass("stateLi")){
+				param.payStatusType=$(this).attr("paystatus");
+				tabledata();
+			}
+			if($(this).parent().hasClass("typeLi")){
+				param.payWayId=$(this).attr("paywayid");
+				tabledata();
+			}
+			//console.log(param.payWayId)				
+		});
+		
+		$(".data1,.data2").on("blur",function(){
+			$(".TimeLi").removeClass("activess");
+			if($(".data1").val() != "" && $(".data2").val() != "") {
+				param.dateType=5;
+				param.payTimeBegin=$(".data1").val();
+				param.payTimeEnd=$(".data2").val();
+				tabledata();
+			}
+		})
+		/*导出列表*/
+		$(".dload").on("click",function(){
+			var dldurl = "/online/payv2PayOrder/exportExcelOrder.do?appId="+param.appId+"&dateType="+param.dateType+"&orderNum="+param.orderNum+"&payStatusType="+param.payStatus+"&payWayTypeId="+param.payWayId+"&payTimeBegin="+$(".data1").val()+"&payTimeEnd="+$(".data2").val();
+			//console.log(dldurl);
+			window.location.href=dldurl;
+		})
+		//window.location.href="/online/payv2PayOrder/exportExcelOrder.do?appId=&dateType=1&orderNum=&payStatus=&payWayId="
+		$("body").on("click",".changeline .change1",function(){
+			$.ajax({
+				type:"get",
+				url:"/sys/tabSwitch.do",
+				async:false,
+				success:function(data){
+					console.log(data);
+					if(!!data&&data.resultCode==200){
+						if(data.Data.isTabSwitch==2){
+							location.href="data.html";
+						}
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+		});
+		</script>
+
+	</body>
+
+</html>

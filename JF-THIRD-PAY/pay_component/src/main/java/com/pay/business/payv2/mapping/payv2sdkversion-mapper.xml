@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2SdkVersionMapper">
+
+	<resultMap id="payv2sdkversion_result_map" type="com.pay.business.payv2.entity.Payv2SdkVersion" >
+		<id column="id" property="id" />
+		<result column="sdk_file_name" property="sdkFileName"/>
+		<result column="sdk_file_url" property="sdkFileUrl"/>
+		<result column="sdk_document_name" property="sdkDocumentName"/>
+		<result column="sdk_document_url" property="sdkDocumentUrl"/>
+		<result column="sdk_type" property="sdkType"/>
+		<result column="sdk_version" property="sdkVersion"/>
+		<result column="sdk_version_code" property="sdkVersionCode"/>
+		<result column="sdk_describe" property="sdkDescribe"/>
+		<result column="sdk_md5" property="sdkMd5"/>
+		<result column="resource_file_name" property="resourceFileName"/>
+		<result column="resource_file_url" property="resourceFileUrl"/>
+		<result column="resource_version" property="resourceVersion"/>
+		<result column="resource_version_code" property="resourceVersionCode"/>
+		<result column="resource_md5" property="resourceMd5"/>
+		<result column="is_online" property="isOnline"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_sdk_version  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="sdkFileName!=null and sdkFileName!=''">
+				and sdk_file_name like CONCAT('%',#{sdkFileName},'%')
+			</if>
+			<if test="sdkFileUrl!=null and sdkFileUrl!=''">
+				and sdk_file_url like CONCAT('%',#{sdkFileUrl},'%')
+			</if>
+			<if test="sdkDocumentName!=null and sdkDocumentName!=''">
+				and sdk_document_name like CONCAT('%',#{sdkDocumentName},'%')
+			</if>
+			<if test="sdkDocumentUrl!=null and sdkDocumentUrl!=''">
+				and sdk_document_url like CONCAT('%',#{sdkDocumentUrl},'%')
+			</if>
+			<if test="sdkType!=null and sdkType!=''">
+				and sdk_type = #{sdkType}
+			</if>
+			<if test="sdkVersion!=null and sdkVersion!=''">
+				and sdk_version like CONCAT('%',#{sdkVersion},'%')
+			</if>
+			<if test="sdkVersionCode!=null and sdkVersionCode!=''">
+				and sdk_version_code = #{sdkVersionCode}
+			</if>
+			<if test="sdkDescribe!=null and sdkDescribe!=''">
+				and sdk_describe like CONCAT('%',#{sdkDescribe},'%')
+			</if>
+			<if test="sdkMd5!=null and sdkMd5!=''">
+				and sdk_md5 like CONCAT('%',#{sdkMd5},'%')
+			</if>
+			<if test="resourceFileName!=null and resourceFileName!=''">
+				and resource_file_name like CONCAT('%',#{resourceFileName},'%')
+			</if>
+			<if test="resourceFileUrl!=null and resourceFileUrl!=''">
+				and resource_file_url like CONCAT('%',#{resourceFileUrl},'%')
+			</if>
+			<if test="resourceVersion!=null and resourceVersion!=''">
+				and resource_version like CONCAT('%',#{resourceVersion},'%')
+			</if>
+			<if test="resourceVersionCode!=null and resourceVersionCode!=''">
+				and resource_version_code = #{resourceVersionCode}
+			</if>
+			<if test="resourceMd5!=null and resourceMd5!=''">
+				and resource_md5 like CONCAT('%',#{resourceMd5},'%')
+			</if>
+			<if test="isOnline!=null and isOnline!=''">
+				and is_online = #{isOnline}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2SdkVersion" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_sdk_version
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="sdkFileName!=null ">
+				sdk_file_name,
+			</if>
+      		<if test="sdkFileUrl!=null ">
+				sdk_file_url,
+			</if>
+      		<if test="sdkDocumentName!=null ">
+				sdk_document_name,
+			</if>
+      		<if test="sdkDocumentUrl!=null ">
+				sdk_document_url,
+			</if>
+      		<if test="sdkType!=null ">
+				sdk_type,
+			</if>
+      		<if test="sdkVersion!=null ">
+				sdk_version,
+			</if>
+      		<if test="sdkVersionCode!=null ">
+				sdk_version_code,
+			</if>
+      		<if test="sdkDescribe!=null ">
+				sdk_describe,
+			</if>
+      		<if test="sdkMd5!=null ">
+				sdk_md5,
+			</if>
+      		<if test="resourceFileName!=null ">
+				resource_file_name,
+			</if>
+      		<if test="resourceFileUrl!=null ">
+				resource_file_url,
+			</if>
+      		<if test="resourceVersion!=null ">
+				resource_version,
+			</if>
+      		<if test="resourceVersionCode!=null ">
+				resource_version_code,
+			</if>
+      		<if test="resourceMd5!=null ">
+				resource_md5,
+			</if>
+      		<if test="isOnline!=null ">
+				is_online,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="sdkFileName!=null ">
+      			#{sdkFileName},
+			</if>
+      		<if test="sdkFileUrl!=null ">
+      			#{sdkFileUrl},
+			</if>
+      		<if test="sdkDocumentName!=null ">
+      			#{sdkDocumentName},
+			</if>
+      		<if test="sdkDocumentUrl!=null ">
+      			#{sdkDocumentUrl},
+			</if>
+      		<if test="sdkType!=null ">
+      			#{sdkType},
+			</if>
+      		<if test="sdkVersion!=null ">
+      			#{sdkVersion},
+			</if>
+      		<if test="sdkVersionCode!=null ">
+      			#{sdkVersionCode},
+			</if>
+      		<if test="sdkDescribe!=null ">
+      			#{sdkDescribe},
+			</if>
+      		<if test="sdkMd5!=null ">
+      			#{sdkMd5},
+			</if>
+      		<if test="resourceFileName!=null ">
+      			#{resourceFileName},
+			</if>
+      		<if test="resourceFileUrl!=null ">
+      			#{resourceFileUrl},
+			</if>
+      		<if test="resourceVersion!=null ">
+      			#{resourceVersion},
+			</if>
+      		<if test="resourceVersionCode!=null ">
+      			#{resourceVersionCode},
+			</if>
+      		<if test="resourceMd5!=null ">
+      			#{resourceMd5},
+			</if>
+      		<if test="isOnline!=null ">
+      			#{isOnline},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2SdkVersion">
+		delete from payv2_sdk_version
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="sdkFileName!=null ">
+				and sdk_file_name=#{sdkFileName}
+			</if>
+      		<if test="sdkFileUrl!=null ">
+				and sdk_file_url=#{sdkFileUrl}
+			</if>
+      		<if test="sdkDocumentName!=null ">
+				and sdk_document_name=#{sdkDocumentName}
+			</if>
+      		<if test="sdkDocumentUrl!=null ">
+				and sdk_document_url=#{sdkDocumentUrl}
+			</if>
+      		<if test="sdkType!=null ">
+				and sdk_type=#{sdkType}
+			</if>
+      		<if test="sdkVersion!=null ">
+				and sdk_version=#{sdkVersion}
+			</if>
+      		<if test="sdkVersionCode!=null ">
+				and sdk_version_code=#{sdkVersionCode}
+			</if>
+      		<if test="sdkDescribe!=null ">
+				and sdk_describe=#{sdkDescribe}
+			</if>
+      		<if test="sdkMd5!=null ">
+				and sdk_md5=#{sdkMd5}
+			</if>
+      		<if test="resourceFileName!=null ">
+				and resource_file_name=#{resourceFileName}
+			</if>
+      		<if test="resourceFileUrl!=null ">
+				and resource_file_url=#{resourceFileUrl}
+			</if>
+      		<if test="resourceVersion!=null ">
+				and resource_version=#{resourceVersion}
+			</if>
+      		<if test="resourceVersionCode!=null ">
+				and resource_version_code=#{resourceVersionCode}
+			</if>
+      		<if test="resourceMd5!=null ">
+				and resource_md5=#{resourceMd5}
+			</if>
+      		<if test="isOnline!=null ">
+				and is_online=#{isOnline}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2SdkVersion">
+		update payv2_sdk_version
+		<set>
+			<if test="sdkFileName!=null ">
+				sdk_file_name=#{sdkFileName},
+			</if>
+			<if test="sdkFileUrl!=null ">
+				sdk_file_url=#{sdkFileUrl},
+			</if>
+			<if test="sdkDocumentName!=null ">
+				sdk_document_name=#{sdkDocumentName},
+			</if>
+			<if test="sdkDocumentUrl!=null ">
+				sdk_document_url=#{sdkDocumentUrl},
+			</if>
+			<if test="sdkType!=null ">
+				sdk_type=#{sdkType},
+			</if>
+			<if test="sdkVersion!=null ">
+				sdk_version=#{sdkVersion},
+			</if>
+			<if test="sdkVersionCode!=null ">
+				sdk_version_code=#{sdkVersionCode},
+			</if>
+			<if test="sdkDescribe!=null ">
+				sdk_describe=#{sdkDescribe},
+			</if>
+			<if test="sdkMd5!=null ">
+				sdk_md5=#{sdkMd5},
+			</if>
+			<if test="resourceFileName!=null ">
+				resource_file_name=#{resourceFileName},
+			</if>
+			<if test="resourceFileUrl!=null ">
+				resource_file_url=#{resourceFileUrl},
+			</if>
+			<if test="resourceVersion!=null ">
+				resource_version=#{resourceVersion},
+			</if>
+			<if test="resourceVersionCode!=null ">
+				resource_version_code=#{resourceVersionCode},
+			</if>
+			<if test="resourceMd5!=null ">
+				resource_md5=#{resourceMd5},
+			</if>
+			<if test="isOnline!=null ">
+				is_online=#{isOnline},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2SdkVersion" resultMap="payv2sdkversion_result_map">
+		select id,sdk_file_name,sdk_file_url,sdk_document_name,sdk_document_url,sdk_type,sdk_version,sdk_version_code,sdk_describe,sdk_md5,resource_file_name,resource_file_url,resource_version,resource_version_code,resource_md5,is_online,create_time,update_time from payv2_sdk_version
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="sdkFileName!=null ">
+				and sdk_file_name=#{sdkFileName}
+			</if>
+			<if test="sdkFileUrl!=null ">
+				and sdk_file_url=#{sdkFileUrl}
+			</if>
+			<if test="sdkDocumentName!=null ">
+				and sdk_document_name=#{sdkDocumentName}
+			</if>
+			<if test="sdkDocumentUrl!=null ">
+				and sdk_document_url=#{sdkDocumentUrl}
+			</if>
+			<if test="sdkType!=null ">
+				and sdk_type=#{sdkType}
+			</if>
+			<if test="sdkVersion!=null ">
+				and sdk_version=#{sdkVersion}
+			</if>
+			<if test="sdkVersionCode!=null ">
+				and sdk_version_code=#{sdkVersionCode}
+			</if>
+			<if test="sdkDescribe!=null ">
+				and sdk_describe=#{sdkDescribe}
+			</if>
+			<if test="sdkMd5!=null ">
+				and sdk_md5=#{sdkMd5}
+			</if>
+			<if test="resourceFileName!=null ">
+				and resource_file_name=#{resourceFileName}
+			</if>
+			<if test="resourceFileUrl!=null ">
+				and resource_file_url=#{resourceFileUrl}
+			</if>
+			<if test="resourceVersion!=null ">
+				and resource_version=#{resourceVersion}
+			</if>
+			<if test="resourceVersionCode!=null ">
+				and resource_version_code=#{resourceVersionCode}
+			</if>
+			<if test="resourceMd5!=null ">
+				and resource_md5=#{resourceMd5}
+			</if>
+			<if test="isOnline!=null ">
+				and is_online=#{isOnline}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2sdkversion_result_map" >
+		select id,sdk_file_name,sdk_file_url,sdk_document_name,sdk_document_url,sdk_type,sdk_version,sdk_version_code,sdk_describe,sdk_md5,resource_file_name,resource_file_url,resource_version,resource_version_code,resource_md5,is_online,create_time,update_time from payv2_sdk_version
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="sdkFileName!=null ">
+				and sdk_file_name=#{sdkFileName}
+			</if>
+			<if test="sdkFileUrl!=null ">
+				and sdk_file_url=#{sdkFileUrl}
+			</if>
+			<if test="sdkDocumentName!=null ">
+				and sdk_document_name=#{sdkDocumentName}
+			</if>
+			<if test="sdkDocumentUrl!=null ">
+				and sdk_document_url=#{sdkDocumentUrl}
+			</if>
+			<if test="sdkType!=null ">
+				and sdk_type=#{sdkType}
+			</if>
+			<if test="sdkVersion!=null ">
+				and sdk_version=#{sdkVersion}
+			</if>
+			<if test="sdkVersionCode!=null ">
+				and sdk_version_code=#{sdkVersionCode}
+			</if>
+			<if test="sdkDescribe!=null ">
+				and sdk_describe=#{sdkDescribe}
+			</if>
+			<if test="sdkMd5!=null ">
+				and sdk_md5=#{sdkMd5}
+			</if>
+			<if test="resourceFileName!=null ">
+				and resource_file_name=#{resourceFileName}
+			</if>
+			<if test="resourceFileUrl!=null ">
+				and resource_file_url=#{resourceFileUrl}
+			</if>
+			<if test="resourceVersion!=null ">
+				and resource_version=#{resourceVersion}
+			</if>
+			<if test="resourceVersionCode!=null ">
+				and resource_version_code=#{resourceVersionCode}
+			</if>
+			<if test="resourceMd5!=null ">
+				and resource_md5=#{resourceMd5}
+			</if>
+			<if test="isOnline!=null ">
+				and is_online=#{isOnline}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2sdkversion_result_map" >
+		
+		SELECT id,sdk_file_name,sdk_file_url,sdk_document_name,sdk_document_url,sdk_type,sdk_version,sdk_version_code,sdk_describe,sdk_md5,resource_file_name,resource_file_url,resource_version,resource_version_code,resource_md5,is_online,create_time,update_time FROM payv2_sdk_version 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="sdkFileName!=null and sdkFileName!=''">
+				and sdk_file_name like  CONCAT('%',#{sdkFileName},'%')
+			</if>
+			<if test="sdkFileUrl!=null and sdkFileUrl!=''">
+				and sdk_file_url like  CONCAT('%',#{sdkFileUrl},'%')
+			</if>
+			<if test="sdkDocumentName!=null and sdkDocumentName!=''">
+				and sdk_document_name like  CONCAT('%',#{sdkDocumentName},'%')
+			</if>
+			<if test="sdkDocumentUrl!=null and sdkDocumentUrl!=''">
+				and sdk_document_url like  CONCAT('%',#{sdkDocumentUrl},'%')
+			</if>
+			<if test="sdkType!=null and sdkType!=''">
+				and sdk_type = #{sdkType}
+			</if>
+			<if test="sdkVersion!=null and sdkVersion!=''">
+				and sdk_version like  CONCAT('%',#{sdkVersion},'%')
+			</if>
+			<if test="sdkVersionCode!=null and sdkVersionCode!=''">
+				and sdk_version_code = #{sdkVersionCode}
+			</if>
+			<if test="sdkDescribe!=null and sdkDescribe!=''">
+				and sdk_describe like  CONCAT('%',#{sdkDescribe},'%')
+			</if>
+			<if test="sdkMd5!=null and sdkMd5!=''">
+				and sdk_md5 like  CONCAT('%',#{sdkMd5},'%')
+			</if>
+			<if test="resourceFileName!=null and resourceFileName!=''">
+				and resource_file_name like  CONCAT('%',#{resourceFileName},'%')
+			</if>
+			<if test="resourceFileUrl!=null and resourceFileUrl!=''">
+				and resource_file_url like  CONCAT('%',#{resourceFileUrl},'%')
+			</if>
+			<if test="resourceVersion!=null and resourceVersion!=''">
+				and resource_version like  CONCAT('%',#{resourceVersion},'%')
+			</if>
+			<if test="resourceVersionCode!=null and resourceVersionCode!=''">
+				and resource_version_code = #{resourceVersionCode}
+			</if>
+			<if test="resourceMd5!=null and resourceMd5!=''">
+				and resource_md5 like  CONCAT('%',#{resourceMd5},'%')
+			</if>
+			<if test="isOnline!=null and isOnline!=''">
+				and is_online = #{isOnline}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="getVersion" resultMap="payv2sdkversion_result_map" >
+		
+		SELECT id,sdk_file_name,sdk_file_url,sdk_document_name,sdk_document_url,sdk_type,sdk_version
+		,sdk_version_code,sdk_describe,sdk_md5,resource_file_name,resource_file_url
+		,resource_version,resource_version_code,resource_md5,is_online,create_time,update_time 
+		FROM payv2_sdk_version 
+		<where>
+			<if test="sdkType!=null and sdkType!=''">
+				and sdk_type = #{sdkType}
+			</if>
+			<if test="sdkVersionCode!=null and sdkVersionCode!=''">
+				and sdk_version_code = #{sdkVersionCode}
+			</if>
+			<if test="isOnline!=null and isOnline!=''">
+				and is_online = #{isOnline}
+			</if>
+		</where>
+		ORDER BY sdk_version_code desc limit 1
+	</select>
+</mapper>

@@ -1,0 +1,315 @@
+html,body{
+	height: 100%;
+	width: 100%;
+	font-family: "微软雅黑","microsoft yahei";
+}
+*{
+	margin:0;
+	padding:0;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	overflow: hidden;
+}
+.login{
+	border-radius: 5px;
+	background-color:rgba(255,255,255,0.6);
+	float: right;
+}
+.username,.password,.checkCode input{
+	background-color:rgba(255,255,255,1);
+}
+@media only screen and (min-width: 1601px){
+	.main{
+		background-image: url(../img/login_bg2.png);
+	}
+	.login{
+		width: 384px;
+		height: 400px;
+		margin: 50px 428px 0 0;
+		
+	}
+	.title{
+		height: 30px;
+		line-height: 30px;
+		font-size: 30px;
+		font-weight: bold;
+		text-align: center;
+		margin: 36px 0;
+	}
+	.username,.password{
+		height: 38px;
+		line-height: 38px;
+		width: 324px;
+		margin-bottom: 20px;
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		margin-left: 30px;
+	}
+	.username i{
+		display: inline-block;
+		width: 17px;
+		height: 22px;
+		background-image: url(../img/us.png);
+		background-size: 100% 100%;
+		margin-top: 8px;
+	}
+	.password i{
+		display: inline-block;
+		width: 17px;
+		height: 22px;
+		background-image: url(../img/ps.png);
+		margin-top: 8px;
+		
+	}
+	.username input,.password input{
+		width: 286px;
+		height: 38px;
+		border: 0;
+		float: left;
+		border-radius: 5px;
+		text-indent: 10px;
+		outline: none;
+	}
+	.checkCode{
+		width: 324px;
+		height: 40px;
+		margin-left: 30px;
+	}
+	.checkCode input{
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		height: 38px;
+		line-height: 38px;
+		float: left;
+		width: 204px;
+		outline: none;
+		text-indent: 10px;
+	}
+	.checkCode img{
+		float: left;
+		width: 110px;
+		height: 40px;
+		margin-left: 8px;
+		cursor: pointer;
+	}
+	.forget{
+		float: left;
+		height: 14px;
+		line-height: 14px;
+		color: #3073ee;
+		margin: 22px 30px 32px 280px;
+		cursor: pointer;
+	}
+	.forget a{
+		color: #3073ee;
+	}
+	.loging{
+		width: 324px;
+		height: 40px;
+		background: #3073ee;
+		line-height: 40px;
+		text-align: center;
+		float: left;
+		border-radius: 5px;
+		margin-left: 30px;
+		color: #fff;
+		cursor: pointer;
+	}
+}
+@media only screen and (min-width: 1367px) and (max-width:1600px) {
+	.main{
+		background-image: url(../img/login_bg2.png);
+	}
+	.login{
+		width: 384px;
+		height: 400px;
+		margin: 14px 328px 0 0;
+	}
+	.title{
+		height: 30px;
+		line-height: 30px;
+		font-size: 30px;
+		font-weight: bold;
+		text-align: center;
+		margin: 36px 0;
+	}
+	.username,.password{
+		height: 38px;
+		line-height: 38px;
+		width: 324px;
+		margin-bottom: 20px;
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		margin-left: 30px;
+	}
+	.username i{
+		display: inline-block;
+		width: 17px;
+		height: 22px;
+		background-image: url(../img/us.png);
+		background-size: 100% 100%;
+		margin-top: 8px;
+	}
+	.password i{
+		display: inline-block;
+		width: 17px;
+		height: 22px;
+		background-image: url(../img/ps.png);
+		margin-top: 8px;
+		
+	}
+	.username input,.password input{
+		width: 286px;
+		height: 38px;
+		border: 0;
+		float: left;
+		border-radius: 5px;
+		text-indent: 10px;
+		outline: none;
+	}
+	.checkCode{
+		width: 324px;
+		height: 40px;
+		margin-left: 30px;
+	}
+	.checkCode input{
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		height: 38px;
+		line-height: 38px;
+		float: left;
+		width: 204px;
+		outline: none;
+		text-indent: 10px;
+	}
+	.checkCode img{
+		float: left;
+		width: 110px;
+		height: 40px;
+		margin-left: 8px;
+		cursor: pointer;
+	}
+	.forget{
+		float: left;
+		height: 14px;
+		line-height: 14px;
+		color: #3073ee;
+		margin: 22px 30px 32px 280px;
+		cursor: pointer;
+	}
+	.forget a{
+		color: #3073ee;
+	}
+	.loging{
+		width: 324px;
+		height: 40px;
+		background: #3073ee;
+		line-height: 40px;
+		text-align: center;
+		float: left;
+		border-radius: 5px;
+		margin-left: 30px;
+		color: #fff;
+		cursor: pointer;
+	}
+}
+@media only screen and (max-width: 1366px) {
+	.main{
+		background-image: url(../img/login_bg.png);
+	}
+	.login{
+		width: 384px;
+		height: 340px;
+		margin: 20px 168px 0 0;
+	}
+	.title{
+		height: 30px;
+		line-height: 30px;
+		font-size: 30px;
+		font-weight: bold;
+		text-align: center;
+		margin: 21px 0;
+	}
+	.username,.password{
+		height: 38px;
+		line-height: 38px;
+		width: 324px;
+		margin-bottom: 14px;
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		margin-left: 30px;
+	}
+	.username i{
+		display: inline-block;
+		width: 17px;
+		height: 22px;
+		background-image: url(../img/us.png);
+		background-size: 100% 100%;
+		margin-top: 8px;
+	}
+	.password i{
+		display: inline-block;
+		width: 17px;
+		height: 22px;
+		background-image: url(../img/ps.png);
+		margin-top: 8px;
+		
+	}
+	.username input,.password input{
+		width: 286px;
+		height: 38px;
+		border: 0;
+		float: left;
+		border-radius: 5px;
+		text-indent: 10px;
+		outline: none;
+	}
+	.checkCode{
+		width: 324px;
+		height: 40px;
+		margin-left: 30px;
+	}
+	.checkCode input{
+		border: 1px solid #d2d2d2;
+		border-radius: 5px;
+		height: 38px;
+		line-height: 38px;
+		float: left;
+		width: 204px;
+		outline: none;
+		text-indent: 10px;
+	}
+	.checkCode img{
+		float: left;
+		width: 110px;
+		height: 40px;
+		margin-left: 8px;
+		cursor: pointer;
+	}
+	.forget{
+		float: left;
+		height: 14px;
+		line-height: 14px;
+		color: #3073ee;
+		margin: 22px 30px 24px 280px;
+		cursor: pointer;
+	}
+	.forget a{
+		color: #3073ee;
+	}
+	.loging{
+		width: 324px;
+		height: 40px;
+		background: #3073ee;
+		line-height: 40px;
+		text-align: center;
+		float: left;
+		border-radius: 5px;
+		margin-left: 30px;
+		color: #fff;
+		cursor: pointer;
+	}
+}

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2PayUserMapper">
+
+	<resultMap id="payv2payuser_result_map" type="com.pay.business.payv2.entity.Payv2PayUser" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="user_mobile" property="userMobile"/>
+		<result column="user_device_token" property="userDeviceToken"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_user  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="userMobile!=null and userMobile!=''">
+				and user_mobile like '%'||#{userMobile}||'%'
+			</if>
+			<if test="userDeviceToken!=null and userDeviceToken!=''">
+				and user_device_token like '%'||#{userDeviceToken}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2PayUser" useGeneratedKeys="true" keyProperty="id" >
+		insert into payv2_pay_user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="userMobile!=null ">
+				user_mobile,
+			</if>
+      		<if test="userDeviceToken!=null ">
+				user_device_token,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="userMobile!=null ">
+      			#{userMobile},
+			</if>
+      		<if test="userDeviceToken!=null ">
+      			#{userDeviceToken},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2PayUser">
+		delete from payv2_pay_user
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="userMobile!=null ">
+				and user_mobile=#{userMobile}
+			</if>
+      		<if test="userDeviceToken!=null ">
+				and user_device_token=#{userDeviceToken}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2PayUser">
+		update payv2_pay_user
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="userMobile!=null ">
+				user_mobile=#{userMobile},
+			</if>
+			<if test="userDeviceToken!=null ">
+				user_device_token=#{userDeviceToken},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2PayUser" resultMap="payv2payuser_result_map">
+		select id,app_id,user_mobile,user_device_token,create_time from payv2_pay_user
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="userMobile!=null ">
+				and user_mobile=#{userMobile}
+			</if>
+			<if test="userDeviceToken!=null ">
+				and user_device_token=#{userDeviceToken}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2payuser_result_map" >
+		select id,app_id,user_mobile,user_device_token,create_time from payv2_pay_user
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="userMobile!=null ">
+				and user_mobile=#{userMobile}
+			</if>
+			<if test="userDeviceToken!=null ">
+				and user_device_token=#{userDeviceToken}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2payuser_result_map" >
+		
+		SELECT id,app_id,user_mobile,user_device_token,create_time FROM payv2_pay_user 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="userMobile!=null and userMobile!=''">
+				and user_mobile like '%'||#{userMobile}||'%'
+			</if>
+			<if test="userDeviceToken!=null and userDeviceToken!=''">
+				and user_device_token like '%'||#{userDeviceToken}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   
+	<insert id="insertBySelect" parameterType="com.pay.business.payv2.entity.Payv2PayUser" useGeneratedKeys="true" keyProperty="id" >
+			INSERT INTO payv2_pay_user (app_id, user_device_token,create_time) 
+			SELECT #{appId} as app_id, #{userDeviceToken} as user_device_token,now() as create_time 
+				FROM payv2_pay_user WHERE NOT EXISTS (
+					SELECT *
+					FROM payv2_pay_user t
+					WHERE t.app_id = #{appId} AND t.user_device_token = #{userDeviceToken}
+			) LIMIT 1;
+	</insert>-->
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertBySelect" parameterType="com.pay.business.payv2.entity.Payv2PayUser" useGeneratedKeys="true" keyProperty="id" >
+		insert ignore into payv2_pay_user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="userMobile!=null ">
+				user_mobile,
+			</if>
+      		<if test="userDeviceToken!=null ">
+				user_device_token,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="userMobile!=null ">
+      			#{userMobile},
+			</if>
+      		<if test="userDeviceToken!=null ">
+      			#{userDeviceToken},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+</mapper>

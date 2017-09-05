@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.merchant.mapper.Payv2ChannelMapper">
+
+	<resultMap id="payv2channel_result_map" type="com.pay.business.merchant.entity.Payv2Channel" >
+		<id column="id" property="id" />
+		<result column="channel_key" property="channelKey"/>
+		<result column="channel_name" property="channelName"/>
+		<result column="channel_addr" property="channelAddr"/>
+		<result column="channel_contact_name" property="channelContactName"/>
+		<result column="channel_contact_phone" property="channelContactPhone"/>
+		<result column="channel_status" property="channelStatus"/>
+		<result column="channel_login_name" property="channelLoginName"/>
+		<result column="channel_login_pwd" property="channelLoginPwd"/>
+		<result column="bank_name" property="bankName"/>
+		<result column="bank_type" property="bankType"/>
+		<result column="bank_card" property="bankCard"/>
+		<result column="bank_user" property="bankUser"/>
+		<result column="channel_rebate" property="channelRebate"/>
+		<result column="is_add_company" property="isAddCompany"/>
+		<result column="is_add_platform" property="isAddPlatform"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_channel  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelKey!=null and channelKey!=''">
+				and channel_key like CONCAT('%',#{channelKey},'%')
+			</if>
+			<if test="channelName!=null and channelName!=''">
+				and channel_name like CONCAT('%',#{channelName},'%')
+			</if>
+			<if test="channelAddr!=null and channelAddr!=''">
+				and channel_addr like CONCAT('%',#{channelAddr},'%')
+			</if>
+			<if test="channelContactName!=null and channelContactName!=''">
+				and channel_contact_name like CONCAT('%',#{channelContactName},'%')
+			</if>
+			<if test="channelContactPhone!=null and channelContactPhone!=''">
+				and channel_contact_phone like CONCAT('%',#{channelContactPhone},'%')
+			</if>
+			<if test="channelStatus!=null and channelStatus!=''">
+				and channel_status = #{channelStatus}
+			</if>
+			<if test="channelLoginName!=null and channelLoginName!=''">
+				and channel_login_name like CONCAT('%',#{channelLoginName},'%')
+			</if>
+			<if test="channelLoginPwd!=null and channelLoginPwd!=''">
+				and channel_login_pwd like CONCAT('%',#{channelLoginPwd},'%')
+			</if>
+			<if test="bankName!=null and bankName!=''">
+				and bank_name like CONCAT('%',#{bankName},'%')
+			</if>
+			<if test="bankType!=null and bankType!=''">
+				and bank_type = #{bankType}
+			</if>
+			<if test="bankCard!=null and bankCard!=''">
+				and bank_card like CONCAT('%',#{bankCard},'%')
+			</if>
+			<if test="bankUser!=null and bankUser!=''">
+				and bank_user like CONCAT('%',#{bankUser},'%')
+			</if>
+			<if test="channelRebate!=null and channelRebate!=''">
+				and channel_rebate like CONCAT('%',#{channelRebate},'%')
+			</if>
+			<if test="isAddCompany!=null and isAddCompany!=''">
+				and is_add_company = #{isAddCompany}
+			</if>
+			<if test="isAddPlatform!=null and isAddPlatform!=''">
+				and is_add_platform = #{isAddPlatform}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.merchant.entity.Payv2Channel" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_channel
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="channelKey!=null ">
+				channel_key,
+			</if>
+      		<if test="channelName!=null ">
+				channel_name,
+			</if>
+      		<if test="channelAddr!=null ">
+				channel_addr,
+			</if>
+      		<if test="channelContactName!=null ">
+				channel_contact_name,
+			</if>
+      		<if test="channelContactPhone!=null ">
+				channel_contact_phone,
+			</if>
+      		<if test="channelStatus!=null ">
+				channel_status,
+			</if>
+      		<if test="channelLoginName!=null ">
+				channel_login_name,
+			</if>
+      		<if test="channelLoginPwd!=null ">
+				channel_login_pwd,
+			</if>
+      		<if test="bankName!=null ">
+				bank_name,
+			</if>
+      		<if test="bankType!=null ">
+				bank_type,
+			</if>
+      		<if test="bankCard!=null ">
+				bank_card,
+			</if>
+      		<if test="bankUser!=null ">
+				bank_user,
+			</if>
+      		<if test="channelRebate!=null ">
+				channel_rebate,
+			</if>
+      		<if test="isAddCompany!=null ">
+				is_add_company,
+			</if>
+      		<if test="isAddPlatform!=null ">
+				is_add_platform,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="channelKey!=null ">
+      			#{channelKey},
+			</if>
+      		<if test="channelName!=null ">
+      			#{channelName},
+			</if>
+      		<if test="channelAddr!=null ">
+      			#{channelAddr},
+			</if>
+      		<if test="channelContactName!=null ">
+      			#{channelContactName},
+			</if>
+      		<if test="channelContactPhone!=null ">
+      			#{channelContactPhone},
+			</if>
+      		<if test="channelStatus!=null ">
+      			#{channelStatus},
+			</if>
+      		<if test="channelLoginName!=null ">
+      			#{channelLoginName},
+			</if>
+      		<if test="channelLoginPwd!=null ">
+      			#{channelLoginPwd},
+			</if>
+      		<if test="bankName!=null ">
+      			#{bankName},
+			</if>
+      		<if test="bankType!=null ">
+      			#{bankType},
+			</if>
+      		<if test="bankCard!=null ">
+      			#{bankCard},
+			</if>
+      		<if test="bankUser!=null ">
+      			#{bankUser},
+			</if>
+      		<if test="channelRebate!=null ">
+      			#{channelRebate},
+			</if>
+      		<if test="isAddCompany!=null ">
+      			#{isAddCompany},
+			</if>
+      		<if test="isAddPlatform!=null ">
+      			#{isAddPlatform},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.merchant.entity.Payv2Channel">
+		delete from payv2_channel
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="channelKey!=null ">
+				and channel_key=#{channelKey}
+			</if>
+      		<if test="channelName!=null ">
+				and channel_name=#{channelName}
+			</if>
+      		<if test="channelAddr!=null ">
+				and channel_addr=#{channelAddr}
+			</if>
+      		<if test="channelContactName!=null ">
+				and channel_contact_name=#{channelContactName}
+			</if>
+      		<if test="channelContactPhone!=null ">
+				and channel_contact_phone=#{channelContactPhone}
+			</if>
+      		<if test="channelStatus!=null ">
+				and channel_status=#{channelStatus}
+			</if>
+      		<if test="channelLoginName!=null ">
+				and channel_login_name=#{channelLoginName}
+			</if>
+      		<if test="channelLoginPwd!=null ">
+				and channel_login_pwd=#{channelLoginPwd}
+			</if>
+      		<if test="bankName!=null ">
+				and bank_name=#{bankName}
+			</if>
+      		<if test="bankType!=null ">
+				and bank_type=#{bankType}
+			</if>
+      		<if test="bankCard!=null ">
+				and bank_card=#{bankCard}
+			</if>
+      		<if test="bankUser!=null ">
+				and bank_user=#{bankUser}
+			</if>
+      		<if test="channelRebate!=null ">
+				and channel_rebate=#{channelRebate}
+			</if>
+      		<if test="isAddCompany!=null ">
+				and is_add_company=#{isAddCompany}
+			</if>
+      		<if test="isAddPlatform!=null ">
+				and is_add_platform=#{isAddPlatform}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.merchant.entity.Payv2Channel">
+		update payv2_channel
+		<set>
+			<if test="channelKey!=null ">
+				channel_key=#{channelKey},
+			</if>
+			<if test="channelName!=null ">
+				channel_name=#{channelName},
+			</if>
+			<if test="channelAddr!=null ">
+				channel_addr=#{channelAddr},
+			</if>
+			<if test="channelContactName!=null ">
+				channel_contact_name=#{channelContactName},
+			</if>
+			<if test="channelContactPhone!=null ">
+				channel_contact_phone=#{channelContactPhone},
+			</if>
+			<if test="channelStatus!=null ">
+				channel_status=#{channelStatus},
+			</if>
+			<if test="channelLoginName!=null ">
+				channel_login_name=#{channelLoginName},
+			</if>
+			<if test="channelLoginPwd!=null ">
+				channel_login_pwd=#{channelLoginPwd},
+			</if>
+			<if test="bankName!=null ">
+				bank_name=#{bankName},
+			</if>
+			<if test="bankType!=null ">
+				bank_type=#{bankType},
+			</if>
+			<if test="bankCard!=null ">
+				bank_card=#{bankCard},
+			</if>
+			<if test="bankUser!=null ">
+				bank_user=#{bankUser},
+			</if>
+			<if test="channelRebate!=null ">
+				channel_rebate=#{channelRebate},
+			</if>
+			<if test="isAddCompany!=null ">
+				is_add_company=#{isAddCompany},
+			</if>
+			<if test="isAddPlatform!=null ">
+				is_add_platform=#{isAddPlatform},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.merchant.entity.Payv2Channel" resultMap="payv2channel_result_map">
+		select id,channel_key,channel_name,channel_addr,channel_contact_name,channel_contact_phone,channel_status,channel_login_name,channel_login_pwd,bank_name,bank_type,bank_card,bank_user,channel_rebate,is_add_company,is_add_platform,is_delete,create_time,update_time from payv2_channel
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelKey!=null ">
+				and channel_key=#{channelKey}
+			</if>
+			<if test="channelName!=null ">
+				and channel_name=#{channelName}
+			</if>
+			<if test="channelAddr!=null ">
+				and channel_addr=#{channelAddr}
+			</if>
+			<if test="channelContactName!=null ">
+				and channel_contact_name=#{channelContactName}
+			</if>
+			<if test="channelContactPhone!=null ">
+				and channel_contact_phone=#{channelContactPhone}
+			</if>
+			<if test="channelStatus!=null ">
+				and channel_status=#{channelStatus}
+			</if>
+			<if test="channelLoginName!=null ">
+				and channel_login_name=#{channelLoginName}
+			</if>
+			<if test="channelLoginPwd!=null ">
+				and channel_login_pwd=#{channelLoginPwd}
+			</if>
+			<if test="bankName!=null ">
+				and bank_name=#{bankName}
+			</if>
+			<if test="bankType!=null ">
+				and bank_type=#{bankType}
+			</if>
+			<if test="bankCard!=null ">
+				and bank_card=#{bankCard}
+			</if>
+			<if test="bankUser!=null ">
+				and bank_user=#{bankUser}
+			</if>
+			<if test="channelRebate!=null ">
+				and channel_rebate=#{channelRebate}
+			</if>
+			<if test="isAddCompany!=null ">
+				and is_add_company=#{isAddCompany}
+			</if>
+			<if test="isAddPlatform!=null ">
+				and is_add_platform=#{isAddPlatform}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2channel_result_map" >
+		select id,channel_key,channel_name,channel_addr,channel_contact_name,channel_contact_phone,channel_status,channel_login_name,channel_login_pwd,bank_name,bank_type,bank_card,bank_user,channel_rebate,is_add_company,is_add_platform,is_delete,create_time,update_time from payv2_channel
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelKey!=null ">
+				and channel_key=#{channelKey}
+			</if>
+			<if test="channelName!=null ">
+				and channel_name=#{channelName}
+			</if>
+			<if test="channelAddr!=null ">
+				and channel_addr=#{channelAddr}
+			</if>
+			<if test="channelContactName!=null ">
+				and channel_contact_name=#{channelContactName}
+			</if>
+			<if test="channelContactPhone!=null ">
+				and channel_contact_phone=#{channelContactPhone}
+			</if>
+			<if test="channelStatus!=null ">
+				and channel_status=#{channelStatus}
+			</if>
+			<if test="channelLoginName!=null ">
+				and channel_login_name=#{channelLoginName}
+			</if>
+			<if test="channelLoginPwd!=null ">
+				and channel_login_pwd=#{channelLoginPwd}
+			</if>
+			<if test="bankName!=null ">
+				and bank_name=#{bankName}
+			</if>
+			<if test="bankType!=null ">
+				and bank_type=#{bankType}
+			</if>
+			<if test="bankCard!=null ">
+				and bank_card=#{bankCard}
+			</if>
+			<if test="bankUser!=null ">
+				and bank_user=#{bankUser}
+			</if>
+			<if test="channelRebate!=null ">
+				and channel_rebate=#{channelRebate}
+			</if>
+			<if test="isAddCompany!=null ">
+				and is_add_company=#{isAddCompany}
+			</if>
+			<if test="isAddPlatform!=null ">
+				and is_add_platform=#{isAddPlatform}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2channel_result_map" >
+		
+		SELECT id,channel_key,channel_name,channel_addr,channel_contact_name,channel_contact_phone,channel_status,channel_login_name,channel_login_pwd,bank_name,bank_type,bank_card,bank_user,channel_rebate,is_add_company,is_add_platform,is_delete,create_time,update_time FROM payv2_channel 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelKey!=null and channelKey!=''">
+				and channel_key like  CONCAT('%',#{channelKey},'%')
+			</if>
+			<if test="channelName!=null and channelName!=''">
+				and channel_name like  CONCAT('%',#{channelName},'%')
+			</if>
+			<if test="channelAddr!=null and channelAddr!=''">
+				and channel_addr like  CONCAT('%',#{channelAddr},'%')
+			</if>
+			<if test="channelContactName!=null and channelContactName!=''">
+				and channel_contact_name like  CONCAT('%',#{channelContactName},'%')
+			</if>
+			<if test="channelContactPhone!=null and channelContactPhone!=''">
+				and channel_contact_phone like  CONCAT('%',#{channelContactPhone},'%')
+			</if>
+			<if test="channelStatus!=null and channelStatus!=''">
+				and channel_status = #{channelStatus}
+			</if>
+			<if test="channelLoginName!=null and channelLoginName!=''">
+				and channel_login_name like  CONCAT('%',#{channelLoginName},'%')
+			</if>
+			<if test="channelLoginPwd!=null and channelLoginPwd!=''">
+				and channel_login_pwd like  CONCAT('%',#{channelLoginPwd},'%')
+			</if>
+			<if test="bankName!=null and bankName!=''">
+				and bank_name like  CONCAT('%',#{bankName},'%')
+			</if>
+			<if test="bankType!=null and bankType!=''">
+				and bank_type = #{bankType}
+			</if>
+			<if test="bankCard!=null and bankCard!=''">
+				and bank_card like  CONCAT('%',#{bankCard},'%')
+			</if>
+			<if test="bankUser!=null and bankUser!=''">
+				and bank_user like  CONCAT('%',#{bankUser},'%')
+			</if>
+			<if test="channelRebate!=null and channelRebate!=''">
+				and channel_rebate like  CONCAT('%',#{channelRebate},'%')
+			</if>
+			<if test="isAddCompany!=null and isAddCompany!=''">
+				and is_add_company = #{isAddCompany}
+			</if>
+			<if test="isAddPlatform!=null and isAddPlatform!=''">
+				and is_add_platform = #{isAddPlatform}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

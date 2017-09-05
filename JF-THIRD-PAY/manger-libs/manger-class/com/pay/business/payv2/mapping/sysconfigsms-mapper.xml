@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.SysConfigSmsMapper">
+
+	<resultMap id="sysconfigsms_result_map" type="com.pay.business.payv2.entity.SysConfigSms" >
+		<id column="id" property="id" />
+		<result column="user_id" property="userId"/>
+		<result column="sms_type" property="smsType"/>
+		<result column="phone_number" property="phoneNumber"/>
+		<result column="sms_vercode" property="smsVercode"/>
+		<result column="sms_contents" property="smsContents"/>
+		<result column="sms_code" property="smsCode"/>
+		<result column="is_verification" property="isVerification"/>
+		<result column="sms_effectiveTime" property="smsEffectiveTime"/>
+		<result column="create_time" property="createTime"/>
+		<result column="last_update_time" property="lastUpdateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_config_sms  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="userId!=null and userId!=''">
+				and user_id = #{userId}
+			</if>
+			<if test="smsType!=null and smsType!=''">
+				and sms_type = #{smsType}
+			</if>
+			<if test="phoneNumber!=null and phoneNumber!=''">
+				and phone_number like CONCAT('%',#{phoneNumber},'%')
+			</if>
+			<if test="smsVercode!=null and smsVercode!=''">
+				and sms_vercode like CONCAT('%',#{smsVercode},'%')
+			</if>
+			<if test="smsContents!=null and smsContents!=''">
+				and sms_contents like CONCAT('%',#{smsContents},'%')
+			</if>
+			<if test="smsCode!=null and smsCode!=''">
+				and sms_code like CONCAT('%',#{smsCode},'%')
+			</if>
+			<if test="isVerification!=null and isVerification!=''">
+				and is_verification = #{isVerification}
+			</if>
+			<if test="smsEffectiveTime!=null and smsEffectiveTime!=''">
+				and sms_effectiveTime = #{smsEffectiveTime}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="lastUpdateTimeBegin!=null and lastUpdateTimeBegin!=''">
+				and last_update_time <![CDATA[ >= ]]> str_to_date(#{lastUpdateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="lastUpdateTimeEnd!=null and lastUpdateTimeEnd!=''">
+				and last_update_time <![CDATA[ <= ]]> str_to_date(#{lastUpdateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.SysConfigSms" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_sms
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="userId!=null ">
+				user_id,
+			</if>
+      		<if test="smsType!=null ">
+				sms_type,
+			</if>
+      		<if test="phoneNumber!=null ">
+				phone_number,
+			</if>
+      		<if test="smsVercode!=null ">
+				sms_vercode,
+			</if>
+      		<if test="smsContents!=null ">
+				sms_contents,
+			</if>
+      		<if test="smsCode!=null ">
+				sms_code,
+			</if>
+      		<if test="isVerification!=null ">
+				is_verification,
+			</if>
+      		<if test="smsEffectiveTime!=null ">
+				sms_effectiveTime,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="lastUpdateTime!=null ">
+				last_update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="userId!=null ">
+      			#{userId},
+			</if>
+      		<if test="smsType!=null ">
+      			#{smsType},
+			</if>
+      		<if test="phoneNumber!=null ">
+      			#{phoneNumber},
+			</if>
+      		<if test="smsVercode!=null ">
+      			#{smsVercode},
+			</if>
+      		<if test="smsContents!=null ">
+      			#{smsContents},
+			</if>
+      		<if test="smsCode!=null ">
+      			#{smsCode},
+			</if>
+      		<if test="isVerification!=null ">
+      			#{isVerification},
+			</if>
+      		<if test="smsEffectiveTime!=null ">
+      			#{smsEffectiveTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="lastUpdateTime!=null ">
+      			#{lastUpdateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.SysConfigSms">
+		delete from sys_config_sms
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="userId!=null ">
+				and user_id=#{userId}
+			</if>
+      		<if test="smsType!=null ">
+				and sms_type=#{smsType}
+			</if>
+      		<if test="phoneNumber!=null ">
+				and phone_number=#{phoneNumber}
+			</if>
+      		<if test="smsVercode!=null ">
+				and sms_vercode=#{smsVercode}
+			</if>
+      		<if test="smsContents!=null ">
+				and sms_contents=#{smsContents}
+			</if>
+      		<if test="smsCode!=null ">
+				and sms_code=#{smsCode}
+			</if>
+      		<if test="isVerification!=null ">
+				and is_verification=#{isVerification}
+			</if>
+      		<if test="smsEffectiveTime!=null ">
+				and sms_effectiveTime=#{smsEffectiveTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="lastUpdateTime!=null ">
+				and last_update_time=#{lastUpdateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.SysConfigSms">
+		update sys_config_sms
+		<set>
+			<if test="userId!=null ">
+				user_id=#{userId},
+			</if>
+			<if test="smsType!=null ">
+				sms_type=#{smsType},
+			</if>
+			<if test="phoneNumber!=null ">
+				phone_number=#{phoneNumber},
+			</if>
+			<if test="smsVercode!=null ">
+				sms_vercode=#{smsVercode},
+			</if>
+			<if test="smsContents!=null ">
+				sms_contents=#{smsContents},
+			</if>
+			<if test="smsCode!=null ">
+				sms_code=#{smsCode},
+			</if>
+			<if test="isVerification!=null ">
+				is_verification=#{isVerification},
+			</if>
+			<if test="smsEffectiveTime!=null ">
+				sms_effectiveTime=#{smsEffectiveTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="lastUpdateTime!=null ">
+				last_update_time=#{lastUpdateTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.SysConfigSms" resultMap="sysconfigsms_result_map">
+		select id,user_id,sms_type,phone_number,sms_vercode,sms_contents,sms_code,is_verification,sms_effectiveTime,create_time,last_update_time from sys_config_sms
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="userId!=null ">
+				and user_id=#{userId}
+			</if>
+			<if test="smsType!=null ">
+				and sms_type=#{smsType}
+			</if>
+			<if test="phoneNumber!=null ">
+				and phone_number=#{phoneNumber}
+			</if>
+			<if test="smsVercode!=null ">
+				and sms_vercode=#{smsVercode}
+			</if>
+			<if test="smsContents!=null ">
+				and sms_contents=#{smsContents}
+			</if>
+			<if test="smsCode!=null ">
+				and sms_code=#{smsCode}
+			</if>
+			<if test="isVerification!=null ">
+				and is_verification=#{isVerification}
+			</if>
+			<if test="smsEffectiveTime!=null ">
+				and sms_effectiveTime=#{smsEffectiveTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="lastUpdateTime!=null ">
+				and last_update_time=#{lastUpdateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="sysconfigsms_result_map" >
+		select id,user_id,sms_type,phone_number,sms_vercode,sms_contents,sms_code,is_verification,sms_effectiveTime,create_time,last_update_time from sys_config_sms
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="userId!=null ">
+				and user_id=#{userId}
+			</if>
+			<if test="smsType!=null ">
+				and sms_type=#{smsType}
+			</if>
+			<if test="phoneNumber!=null ">
+				and phone_number=#{phoneNumber}
+			</if>
+			<if test="smsVercode!=null ">
+				and sms_vercode=#{smsVercode}
+			</if>
+			<if test="smsContents!=null ">
+				and sms_contents=#{smsContents}
+			</if>
+			<if test="smsCode!=null ">
+				and sms_code=#{smsCode}
+			</if>
+			<if test="isVerification!=null ">
+				and is_verification=#{isVerification}
+			</if>
+			<if test="smsEffectiveTime!=null ">
+				and sms_effectiveTime=#{smsEffectiveTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="lastUpdateTime!=null ">
+				and last_update_time=#{lastUpdateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysconfigsms_result_map" >
+		
+		SELECT id,user_id,sms_type,phone_number,sms_vercode,sms_contents,sms_code,is_verification,sms_effectiveTime,create_time,last_update_time FROM sys_config_sms 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="userId!=null and userId!=''">
+				and user_id = #{userId}
+			</if>
+			<if test="smsType!=null and smsType!=''">
+				and sms_type = #{smsType}
+			</if>
+			<if test="phoneNumber!=null and phoneNumber!=''">
+				and phone_number like  CONCAT('%',#{phoneNumber},'%')
+			</if>
+			<if test="smsVercode!=null and smsVercode!=''">
+				and sms_vercode like  CONCAT('%',#{smsVercode},'%')
+			</if>
+			<if test="smsContents!=null and smsContents!=''">
+				and sms_contents like  CONCAT('%',#{smsContents},'%')
+			</if>
+			<if test="smsCode!=null and smsCode!=''">
+				and sms_code like  CONCAT('%',#{smsCode},'%')
+			</if>
+			<if test="isVerification!=null and isVerification!=''">
+				and is_verification = #{isVerification}
+			</if>
+			<if test="smsEffectiveTime!=null and smsEffectiveTime!=''">
+				and sms_effectiveTime = #{smsEffectiveTime}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="lastUpdateTimeBegin!=null and lastUpdateTimeBegin!=''">
+				and last_update_time <![CDATA[ >= ]]> str_to_date(#{lastUpdateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="lastUpdateTimeEnd!=null and lastUpdateTimeEnd!=''">
+				and last_update_time <![CDATA[ <= ]]> str_to_date(#{lastUpdateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

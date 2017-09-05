@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.business.admin.mapper.SysUcenterRoleMapper">
+
+	<resultMap id="sysucenterrole_result_map"
+		type="com.pay.business.admin.entity.SysUcenterRole">
+		<id column="id" property="id" />
+		<result column="app_id" property="appId" />
+		<result column="rol_code" property="rolCode" />
+		<result column="rol_name" property="rolName" />
+		<result column="rol_status" property="rolStatus" />
+		<result column="create_time" property="createTime" />
+		<result column="create_user_by" property="createUserBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_user_by" property="updateUserBy" />
+	</resultMap>
+
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_ucenter_role
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="rolCode!=null and rolCode!=''">
+				and rol_code like CONCAT('%',#{rolCode},'%') 
+			</if>
+			<if test="rolName!=null and rolName!=''">
+				and rol_name like      CONCAT('%',#{rolName},'%') 
+			</if>
+			<if test="rolStatus!=null and rolStatus!=''">
+				and rol_status = #{rolStatus}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]>
+				str_to_date(#{createTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]>
+				str_to_date(#{createTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]>
+				str_to_date(#{updateTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]>
+				str_to_date(#{updateTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+		</where>
+	</select>
+
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id" -->
+	<insert id="insertByEntity" parameterType="com.pay.business.admin.entity.SysUcenterRole">
+		insert into sys_ucenter_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!=null ">
+				id,
+			</if>
+			<if test="appId!=null ">
+				app_id,
+			</if>
+			<if test="rolCode!=null ">
+				rol_code,
+			</if>
+			<if test="rolName!=null ">
+				rol_name,
+			</if>
+			<if test="rolStatus!=null ">
+				rol_status,
+			</if>
+			<if test="createTime!=null ">
+				create_time,
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by,
+			</if>
+			<if test="updateTime!=null ">
+				update_time,
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!=null ">
+				#{id},
+			</if>
+			<if test="appId!=null ">
+				#{appId},
+			</if>
+			<if test="rolCode!=null ">
+				#{rolCode},
+			</if>
+			<if test="rolName!=null ">
+				#{rolName},
+			</if>
+			<if test="rolStatus!=null ">
+				#{rolStatus},
+			</if>
+			<if test="createTime!=null ">
+				#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				#{updateUserBy},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.admin.entity.SysUcenterRole">
+		delete from sys_ucenter_role
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="rolCode!=null ">
+				and rol_code=#{rolCode}
+			</if>
+			<if test="rolName!=null ">
+				and rol_name=#{rolName}
+			</if>
+			<if test="rolStatus!=null ">
+				and rol_status=#{rolStatus}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.admin.entity.SysUcenterRole">
+		update sys_ucenter_role
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="rolCode!=null ">
+				rol_code=#{rolCode},
+			</if>
+			<if test="rolName!=null ">
+				rol_name=#{rolName},
+			</if>
+			<if test="rolStatus!=null ">
+				rol_status=#{rolStatus},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.admin.entity.SysUcenterRole"
+		resultMap="sysucenterrole_result_map">
+		select
+		id,app_id,rol_code,rol_name,rol_status,create_time,create_user_by,update_time,update_user_by
+		from sys_ucenter_role
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="rolCode!=null ">
+				and rol_code=#{rolCode}
+			</if>
+			<if test="rolName!=null ">
+				and rol_name=#{rolName}
+			</if>
+			<if test="rolStatus!=null ">
+				and rol_status=#{rolStatus}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据对象查询列表 -->
+	<select id="selectByObject" resultMap="sysucenterrole_result_map">
+		select
+		id,app_id,rol_code,rol_name,rol_status,create_time,create_user_by,update_time,update_user_by
+		from sys_ucenter_role
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="rolCode!=null ">
+				and rol_code=#{rolCode}
+			</if>
+			<if test="rolName!=null ">
+				and rol_name=#{rolName}
+			</if>
+			<if test="rolStatus!=null ">
+				and rol_status=#{rolStatus}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysucenterrole_result_map">
+
+		SELECT
+		id,app_id,rol_code,rol_name,rol_status,create_time,create_user_by,update_time,update_user_by
+		FROM sys_ucenter_role
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="rolCode!=null and rolCode!=''">
+				and rol_code like CONCAT('%',#{rolCode},'%')
+			</if>
+			<if test="rolName!=null and rolName!=''">
+				and rol_name like CONCAT('%',#{rolName},'%')
+			</if>
+			<if test="rolStatus!=null and rolStatus!=''">
+				and rol_status = #{rolStatus}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]>
+				str_to_date(#{createTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]>
+				str_to_date(#{createTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]>
+				str_to_date(#{updateTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]>
+				str_to_date(#{updateTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+		</where>
+		<if test="sortName!=null and sortName!=''">
+			ORDER BY ${sortName} ${sortOrder}
+		</if>
+		<include refid="base_page_query_end" />
+	</select>
+
+	<!-- 分页sql 返回map -->
+	<sql id="base_page_query_map">
+		<![CDATA[
+		SELECT
+		  sr.id,
+		  sr.app_id,
+		  sua.app_name,
+		  rol_code,
+		  rol_name,
+		  rol_status,
+		  sr.create_time,
+		  sr.create_user_by
+		FROM sys_ucenter_role sr
+		LEFT JOIN sys_ucenter_apps sua 
+		ON sr.app_id = sua.id 
+		]]>
+	</sql>
+	<!-- 分页返回map -->
+	<select id="pageQueryByObject_Map" resultType="java.util.HashMap">
+
+		<include refid="base_page_query_map" />
+		<where>
+			<if test="appId!=null and appId!=''">
+				and sr.app_id = #{appId}
+			</if>
+			<if test="rolCode!=null and rolCode!=''">
+				and sr.rol_code like CONCAT('%',#{rolCode},'%')
+			</if>
+			<if test="rolName!=null and rolName!=''">
+				and sr.rol_name like CONCAT(CONCAT('%',#{rolName}),'%') 
+			</if>
+			<if test="appName!=null and appName!=''">
+				and sua.app_name like CONCAT(CONCAT('%',#{appName}),'%') 
+			</if>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		</where>
+
+		<include refid="base_page_query_end" />
+	</select>
+
+	
+	<!-- 分页返回map -->
+	<select id="queryByObject_Map" resultType="java.util.HashMap">
+
+		<include refid="base_page_query_map" />
+		<where>
+			<if test="appId!=null and appId!=''">
+				and sr.app_id = #{appId}
+			</if>
+			<if test="rolCode!=null and rolCode!=''">
+				and sr.rol_code like  CONCAT('%',#{rolCode},'%')
+			</if>
+			<if test="rolName!=null and rolName!=''">
+				and sr.rol_name like CONCAT('%',#{rolName},'%')
+			</if>
+			<if test="appsName!=null and appsName!=''">
+				and sua.app_name like   CONCAT('%',#{appsName},'%')
+			</if>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取总数 for map 查询分页 -->
+	<select id="getCount_Map" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(sr.id)
+		FROM sys_ucenter_role sr
+		LEFT JOIN sys_ucenter_apps sua 
+		ON sr.app_id = sua.id 
+		<where>
+			<if test="appId!=null and appId!=''">
+				and sr.app_id = #{appId}
+			</if>
+			<if test="rolCode!=null and rolCode!=''">
+				and sr.rol_code like CONCAT('%',#{rolCode},'%')
+			</if>
+			<if test="rolName!=null and rolName!=''">
+				and sr.rol_name like CONCAT('%',#{rolName},'%')
+			</if>
+			<if test="appsName!=null and appsName!=''">
+				and sua.app_name like CONCAT('%',#{appsName},'%')
+			</if>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		</where>
+	</select>
+</mapper>

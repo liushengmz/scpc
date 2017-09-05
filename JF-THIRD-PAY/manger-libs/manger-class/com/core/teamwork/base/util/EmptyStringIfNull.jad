@@ -1,0 +1,66 @@
+// Decompiled by DJ v2.9.9.60 Copyright 2000 Atanas Neshkov  Date: 2017/9/4 ÐÇÆÚÒ» 20:03:22
+// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   EmptyStringIfNull.java
+
+package com.core.teamwork.base.util;
+
+import java.sql.*;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
+public class EmptyStringIfNull
+    implements TypeHandler
+{
+
+    public EmptyStringIfNull()
+    {
+    }
+
+    public String getResult(ResultSet rs, String columnName)
+        throws SQLException
+    {
+        return rs.getString(columnName) != null ? rs.getString(columnName) : "";
+    }
+
+    public String getResult(ResultSet rs, int columnIndex)
+        throws SQLException
+    {
+        return rs.getString(columnIndex) != null ? rs.getString(columnIndex) : "";
+    }
+
+    public String getResult(CallableStatement cs, int columnIndex)
+        throws SQLException
+    {
+        return cs.getString(columnIndex) != null ? cs.getString(columnIndex) : "";
+    }
+
+    public void setParameter(PreparedStatement preparedstatement, int i, String s, JdbcType jdbctype)
+        throws SQLException
+    {
+    }
+
+    public volatile void setParameter(PreparedStatement preparedstatement, int i, Object obj, JdbcType jdbctype)
+        throws SQLException
+    {
+        setParameter(preparedstatement, i, (String)obj, jdbctype);
+    }
+
+    public volatile Object getResult(CallableStatement callablestatement, int i)
+        throws SQLException
+    {
+        return getResult(callablestatement, i);
+    }
+
+    public volatile Object getResult(ResultSet resultset, int i)
+        throws SQLException
+    {
+        return getResult(resultset, i);
+    }
+
+    public volatile Object getResult(ResultSet resultset, String s)
+        throws SQLException
+    {
+        return getResult(resultset, s);
+    }
+}

@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.merchant.mapper.Payv2BussCompanyAppMapper">
+
+	<resultMap id="payv2busscompanyapp_result_map" type="com.pay.business.merchant.entity.Payv2BussCompanyApp" >
+		<id column="id" property="id" />
+		<result column="company_id" property="companyId"/>
+		<result column="app_name" property="appName"/>
+		<result column="app_type_id" property="appTypeId"/>
+		<result column="app_icon" property="appIcon"/>
+		<result column="app_img" property="appImg"/>
+		<result column="app_desc" property="appDesc"/>
+		<result column="app_desc_file" property="appDescFile"/>
+		<result column="app_copyright" property="appCopyright"/>
+		<result column="is_android" property="isAndroid"/>
+		<result column="android_app_url" property="androidAppUrl"/>
+		<result column="android_app_md5" property="androidAppMd5"/>
+		<result column="android_app_package" property="androidAppPackage"/>
+		<result column="android_apk_url" property="androidApkUrl"/>
+		<result column="android_apk_md5" property="androidApkMd5"/>
+		<result column="android_apk_package" property="androidApkPackage"/>
+		<result column="android_apk_logo" property="androidApkLogo"/>
+		<result column="is_ios" property="isIos"/>
+		<result column="ios_ipa_url" property="iosIpaUrl"/>
+		<result column="ios_ipa_md5" property="iosIpaMd5"/>
+		<result column="ios_ipa_test_id" property="iosIpaTestId"/>
+		<result column="ios_iphone_url" property="iosIphoneUrl"/>
+		<result column="ios_iphone_id" property="iosIphoneId"/>
+		<result column="ios_iphone_test_id" property="iosIphoneTestId"/>
+		<result column="is_web" property="isWeb"/>
+		<result column="web_url" property="webUrl"/>
+		<result column="app_key" property="appKey"/>
+		<result column="app_secret" property="appSecret"/>
+		<result column="app_status" property="appStatus"/>
+		<result column="app_pass_reason" property="appPassReason"/>
+		<result column="callback_url" property="callbackUrl"/>
+		<result column="is_new" property="isNew"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+
+		<result column="channel_id" property="channelId"/>
+		<result column="is_random" property="isRandom"/>
+		<result column="company_name" property="companyName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_company_app  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app_name like CONCAT('%',#{appName},'%')
+			</if>
+			<if test="appTypeId!=null and appTypeId!=''">
+				and app_type_id = #{appTypeId}
+			</if>
+			<if test="appIcon!=null and appIcon!=''">
+				and app_icon like CONCAT('%',#{appIcon},'%')
+			</if>
+			<if test="appImg!=null and appImg!=''">
+				and app_img like CONCAT('%',#{appImg},'%')
+			</if>
+			<if test="appDesc!=null and appDesc!=''">
+				and app_desc like CONCAT('%',#{appDesc},'%')
+			</if>
+			<if test="appDescFile!=null and appDescFile!=''">
+				and app_desc_file like CONCAT('%',#{appDescFile},'%')
+			</if>
+			<if test="appCopyright!=null and appCopyright!=''">
+				and app_copyright like CONCAT('%',#{appCopyright},'%')
+			</if>
+			<if test="isAndroid!=null and isAndroid!=''">
+				and is_android = #{isAndroid}
+			</if>
+			<if test="androidAppUrl!=null and androidAppUrl!=''">
+				and android_app_url like CONCAT('%',#{androidAppUrl},'%')
+			</if>
+			<if test="androidAppMd5!=null and androidAppMd5!=''">
+				and android_app_md5 like CONCAT('%',#{androidAppMd5},'%')
+			</if>
+			<if test="androidAppPackage!=null and androidAppPackage!=''">
+				and android_app_package like CONCAT('%',#{androidAppPackage},'%')
+			</if>
+			<if test="androidApkUrl!=null and androidApkUrl!=''">
+				and android_apk_url like CONCAT('%',#{androidApkUrl},'%')
+			</if>
+			<if test="androidApkMd5!=null and androidApkMd5!=''">
+				and android_apk_md5 like CONCAT('%',#{androidApkMd5},'%')
+			</if>
+			<if test="androidApkPackage!=null and androidApkPackage!=''">
+				and android_apk_package like CONCAT('%',#{androidApkPackage},'%')
+			</if>
+			<if test="androidApkLogo!=null and androidApkLogo!=''">
+				and android_apk_logo like CONCAT('%',#{androidApkLogo},'%')
+			</if>
+			<if test="isIos!=null and isIos!=''">
+				and is_ios = #{isIos}
+			</if>
+			<if test="iosIpaUrl!=null and iosIpaUrl!=''">
+				and ios_ipa_url like CONCAT('%',#{iosIpaUrl},'%')
+			</if>
+			<if test="iosIpaMd5!=null and iosIpaMd5!=''">
+				and ios_ipa_md5 like CONCAT('%',#{iosIpaMd5},'%')
+			</if>
+			<if test="iosIpaTestId!=null and iosIpaTestId!=''">
+				and ios_ipa_test_id like CONCAT('%',#{iosIpaTestId},'%')
+			</if>
+			<if test="iosIphoneUrl!=null and iosIphoneUrl!=''">
+				and ios_iphone_url like CONCAT('%',#{iosIphoneUrl},'%')
+			</if>
+			<if test="iosIphoneId!=null and iosIphoneId!=''">
+				and ios_iphone_id like CONCAT('%',#{iosIphoneId},'%')
+			</if>
+			<if test="iosIphoneTestId!=null and iosIphoneTestId!=''">
+				and ios_iphone_test_id like CONCAT('%',#{iosIphoneTestId},'%')
+			</if>
+			<if test="isWeb!=null and isWeb!=''">
+				and is_web = #{isWeb}
+			</if>
+			<if test="webUrl!=null and webUrl!=''">
+				and web_url like CONCAT('%',#{webUrl},'%')
+			</if>
+			<if test="appKey!=null and appKey!=''">
+				and app_key like CONCAT('%',#{appKey},'%')
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+				and app_secret like CONCAT('%',#{appSecret},'%')
+			</if>
+			<if test="appStatus!=null and appStatus!=''">
+				and app_status = #{appStatus}
+			</if>
+			<if test="appPassReason!=null and appPassReason!=''">
+				and app_pass_reason like CONCAT('%',#{appPassReason},'%')
+			</if>
+			<if test="callbackUrl!=null and callbackUrl!=''">
+				and callback_url like CONCAT('%',#{callbackUrl},'%')
+			</if>
+			<if test="isNew!=null and isNew!=''">
+				and is_new = #{isNew}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyApp" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_buss_company_app
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="appName!=null ">
+				app_name,
+			</if>
+      		<if test="appTypeId!=null ">
+				app_type_id,
+			</if>
+      		<if test="appIcon!=null ">
+				app_icon,
+			</if>
+      		<if test="appImg!=null ">
+				app_img,
+			</if>
+      		<if test="appDesc!=null ">
+				app_desc,
+			</if>
+      		<if test="appDescFile!=null ">
+				app_desc_file,
+			</if>
+      		<if test="appCopyright!=null ">
+				app_copyright,
+			</if>
+      		<if test="isAndroid!=null ">
+				is_android,
+			</if>
+      		<if test="androidAppUrl!=null ">
+				android_app_url,
+			</if>
+      		<if test="androidAppMd5!=null ">
+				android_app_md5,
+			</if>
+      		<if test="androidAppPackage!=null ">
+				android_app_package,
+			</if>
+      		<if test="androidApkUrl!=null ">
+				android_apk_url,
+			</if>
+      		<if test="androidApkMd5!=null ">
+				android_apk_md5,
+			</if>
+      		<if test="androidApkPackage!=null ">
+				android_apk_package,
+			</if>
+      		<if test="androidApkLogo!=null ">
+				android_apk_logo,
+			</if>
+      		<if test="isIos!=null ">
+				is_ios,
+			</if>
+      		<if test="iosIpaUrl!=null ">
+				ios_ipa_url,
+			</if>
+      		<if test="iosIpaMd5!=null ">
+				ios_ipa_md5,
+			</if>
+      		<if test="iosIpaTestId!=null ">
+				ios_ipa_test_id,
+			</if>
+      		<if test="iosIphoneUrl!=null ">
+				ios_iphone_url,
+			</if>
+      		<if test="iosIphoneId!=null ">
+				ios_iphone_id,
+			</if>
+      		<if test="iosIphoneTestId!=null ">
+				ios_iphone_test_id,
+			</if>
+      		<if test="isWeb!=null ">
+				is_web,
+			</if>
+      		<if test="webUrl!=null ">
+				web_url,
+			</if>
+      		<if test="appKey!=null ">
+				app_key,
+			</if>
+      		<if test="appSecret!=null ">
+				app_secret,
+			</if>
+      		<if test="appStatus!=null ">
+				app_status,
+			</if>
+      		<if test="appPassReason!=null ">
+				app_pass_reason,
+			</if>
+      		<if test="callbackUrl!=null ">
+				callback_url,
+			</if>
+      		<if test="isNew!=null ">
+				is_new,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="appName!=null ">
+      			#{appName},
+			</if>
+      		<if test="appTypeId!=null ">
+      			#{appTypeId},
+			</if>
+      		<if test="appIcon!=null ">
+      			#{appIcon},
+			</if>
+      		<if test="appImg!=null ">
+      			#{appImg},
+			</if>
+      		<if test="appDesc!=null ">
+      			#{appDesc},
+			</if>
+      		<if test="appDescFile!=null ">
+      			#{appDescFile},
+			</if>
+      		<if test="appCopyright!=null ">
+      			#{appCopyright},
+			</if>
+      		<if test="isAndroid!=null ">
+      			#{isAndroid},
+			</if>
+      		<if test="androidAppUrl!=null ">
+      			#{androidAppUrl},
+			</if>
+      		<if test="androidAppMd5!=null ">
+      			#{androidAppMd5},
+			</if>
+      		<if test="androidAppPackage!=null ">
+      			#{androidAppPackage},
+			</if>
+      		<if test="androidApkUrl!=null ">
+      			#{androidApkUrl},
+			</if>
+      		<if test="androidApkMd5!=null ">
+      			#{androidApkMd5},
+			</if>
+      		<if test="androidApkPackage!=null ">
+      			#{androidApkPackage},
+			</if>
+      		<if test="androidApkLogo!=null ">
+      			#{androidApkLogo},
+			</if>
+      		<if test="isIos!=null ">
+      			#{isIos},
+			</if>
+      		<if test="iosIpaUrl!=null ">
+      			#{iosIpaUrl},
+			</if>
+      		<if test="iosIpaMd5!=null ">
+      			#{iosIpaMd5},
+			</if>
+      		<if test="iosIpaTestId!=null ">
+      			#{iosIpaTestId},
+			</if>
+      		<if test="iosIphoneUrl!=null ">
+      			#{iosIphoneUrl},
+			</if>
+      		<if test="iosIphoneId!=null ">
+      			#{iosIphoneId},
+			</if>
+      		<if test="iosIphoneTestId!=null ">
+      			#{iosIphoneTestId},
+			</if>
+      		<if test="isWeb!=null ">
+      			#{isWeb},
+			</if>
+      		<if test="webUrl!=null ">
+      			#{webUrl},
+			</if>
+      		<if test="appKey!=null ">
+      			#{appKey},
+			</if>
+      		<if test="appSecret!=null ">
+      			#{appSecret},
+			</if>
+      		<if test="appStatus!=null ">
+      			#{appStatus},
+			</if>
+      		<if test="appPassReason!=null ">
+      			#{appPassReason},
+			</if>
+      		<if test="callbackUrl!=null ">
+      			#{callbackUrl},
+			</if>
+      		<if test="isNew!=null ">
+      			#{isNew},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyApp">
+		delete from payv2_buss_company_app
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+      		<if test="appTypeId!=null ">
+				and app_type_id=#{appTypeId}
+			</if>
+      		<if test="appIcon!=null ">
+				and app_icon=#{appIcon}
+			</if>
+      		<if test="appImg!=null ">
+				and app_img=#{appImg}
+			</if>
+      		<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+      		<if test="appDescFile!=null ">
+				and app_desc_file=#{appDescFile}
+			</if>
+      		<if test="appCopyright!=null ">
+				and app_copyright=#{appCopyright}
+			</if>
+      		<if test="isAndroid!=null ">
+				and is_android=#{isAndroid}
+			</if>
+      		<if test="androidAppUrl!=null ">
+				and android_app_url=#{androidAppUrl}
+			</if>
+      		<if test="androidAppMd5!=null ">
+				and android_app_md5=#{androidAppMd5}
+			</if>
+      		<if test="androidAppPackage!=null ">
+				and android_app_package=#{androidAppPackage}
+			</if>
+      		<if test="androidApkUrl!=null ">
+				and android_apk_url=#{androidApkUrl}
+			</if>
+      		<if test="androidApkMd5!=null ">
+				and android_apk_md5=#{androidApkMd5}
+			</if>
+      		<if test="androidApkPackage!=null ">
+				and android_apk_package=#{androidApkPackage}
+			</if>
+      		<if test="androidApkLogo!=null ">
+				and android_apk_logo=#{androidApkLogo}
+			</if>
+      		<if test="isIos!=null ">
+				and is_ios=#{isIos}
+			</if>
+      		<if test="iosIpaUrl!=null ">
+				and ios_ipa_url=#{iosIpaUrl}
+			</if>
+      		<if test="iosIpaMd5!=null ">
+				and ios_ipa_md5=#{iosIpaMd5}
+			</if>
+      		<if test="iosIpaTestId!=null ">
+				and ios_ipa_test_id=#{iosIpaTestId}
+			</if>
+      		<if test="iosIphoneUrl!=null ">
+				and ios_iphone_url=#{iosIphoneUrl}
+			</if>
+      		<if test="iosIphoneId!=null ">
+				and ios_iphone_id=#{iosIphoneId}
+			</if>
+      		<if test="iosIphoneTestId!=null ">
+				and ios_iphone_test_id=#{iosIphoneTestId}
+			</if>
+      		<if test="isWeb!=null ">
+				and is_web=#{isWeb}
+			</if>
+      		<if test="webUrl!=null ">
+				and web_url=#{webUrl}
+			</if>
+      		<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+      		<if test="appSecret!=null ">
+				and app_secret=#{appSecret}
+			</if>
+      		<if test="appStatus!=null ">
+				and app_status=#{appStatus}
+			</if>
+      		<if test="appPassReason!=null ">
+				and app_pass_reason=#{appPassReason}
+			</if>
+      		<if test="callbackUrl!=null ">
+				and callback_url=#{callbackUrl}
+			</if>
+      		<if test="isNew!=null ">
+				and is_new=#{isNew}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyApp">
+		update payv2_buss_company_app
+		<set>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="appName!=null ">
+				app_name=#{appName},
+			</if>
+			<if test="appTypeId!=null ">
+				app_type_id=#{appTypeId},
+			</if>
+			<if test="appIcon!=null ">
+				app_icon=#{appIcon},
+			</if>
+			<if test="appImg!=null ">
+				app_img=#{appImg},
+			</if>
+			<if test="appDesc!=null ">
+				app_desc=#{appDesc},
+			</if>
+			<if test="appDescFile!=null ">
+				app_desc_file=#{appDescFile},
+			</if>
+			<if test="appCopyright!=null ">
+				app_copyright=#{appCopyright},
+			</if>
+			<if test="isAndroid!=null ">
+				is_android=#{isAndroid},
+			</if>
+			<if test="androidAppUrl!=null ">
+				android_app_url=#{androidAppUrl},
+			</if>
+			<if test="androidAppMd5!=null ">
+				android_app_md5=#{androidAppMd5},
+			</if>
+			<if test="androidAppPackage!=null ">
+				android_app_package=#{androidAppPackage},
+			</if>
+			<if test="androidApkUrl!=null ">
+				android_apk_url=#{androidApkUrl},
+			</if>
+			<if test="androidApkMd5!=null ">
+				android_apk_md5=#{androidApkMd5},
+			</if>
+			<if test="androidApkPackage!=null ">
+				android_apk_package=#{androidApkPackage},
+			</if>
+			<if test="androidApkLogo!=null ">
+				android_apk_logo=#{androidApkLogo},
+			</if>
+			<if test="isIos!=null ">
+				is_ios=#{isIos},
+			</if>
+			<if test="iosIpaUrl!=null ">
+				ios_ipa_url=#{iosIpaUrl},
+			</if>
+			<if test="iosIpaMd5!=null ">
+				ios_ipa_md5=#{iosIpaMd5},
+			</if>
+			<if test="iosIpaTestId!=null ">
+				ios_ipa_test_id=#{iosIpaTestId},
+			</if>
+			<if test="iosIphoneUrl!=null ">
+				ios_iphone_url=#{iosIphoneUrl},
+			</if>
+			<if test="iosIphoneId!=null ">
+				ios_iphone_id=#{iosIphoneId},
+			</if>
+			<if test="iosIphoneTestId!=null ">
+				ios_iphone_test_id=#{iosIphoneTestId},
+			</if>
+			<if test="isWeb!=null ">
+				is_web=#{isWeb},
+			</if>
+			<if test="webUrl!=null ">
+				web_url=#{webUrl},
+			</if>
+			<if test="appKey!=null ">
+				app_key=#{appKey},
+			</if>
+			<if test="appSecret!=null ">
+				app_secret=#{appSecret},
+			</if>
+			<if test="appStatus!=null ">
+				app_status=#{appStatus},
+			</if>
+			<if test="appPassReason!=null ">
+				app_pass_reason=#{appPassReason},
+			</if>
+			<if test="callbackUrl!=null ">
+				callback_url=#{callbackUrl},
+			</if>
+			<if test="isNew!=null ">
+				is_new=#{isNew},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.merchant.entity.Payv2BussCompanyApp" resultMap="payv2busscompanyapp_result_map">
+		select id,company_id,app_name,app_type_id,app_icon,app_img,app_desc,app_desc_file,app_copyright,is_android,android_app_url,android_app_md5,android_app_package,android_apk_url,android_apk_md5,android_apk_package,android_apk_logo,is_ios,ios_ipa_url,ios_ipa_md5,ios_ipa_test_id,ios_iphone_url,ios_iphone_id,ios_iphone_test_id,is_web,web_url,app_key,app_secret,app_status,app_pass_reason,callback_url,is_new,is_delete,create_time,update_time from payv2_buss_company_app
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+			<if test="appTypeId!=null ">
+				and app_type_id=#{appTypeId}
+			</if>
+			<if test="appIcon!=null ">
+				and app_icon=#{appIcon}
+			</if>
+			<if test="appImg!=null ">
+				and app_img=#{appImg}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appDescFile!=null ">
+				and app_desc_file=#{appDescFile}
+			</if>
+			<if test="appCopyright!=null ">
+				and app_copyright=#{appCopyright}
+			</if>
+			<if test="isAndroid!=null ">
+				and is_android=#{isAndroid}
+			</if>
+			<if test="androidAppUrl!=null ">
+				and android_app_url=#{androidAppUrl}
+			</if>
+			<if test="androidAppMd5!=null ">
+				and android_app_md5=#{androidAppMd5}
+			</if>
+			<if test="androidAppPackage!=null ">
+				and android_app_package=#{androidAppPackage}
+			</if>
+			<if test="androidApkUrl!=null ">
+				and android_apk_url=#{androidApkUrl}
+			</if>
+			<if test="androidApkMd5!=null ">
+				and android_apk_md5=#{androidApkMd5}
+			</if>
+			<if test="androidApkPackage!=null ">
+				and android_apk_package=#{androidApkPackage}
+			</if>
+			<if test="androidApkLogo!=null ">
+				and android_apk_logo=#{androidApkLogo}
+			</if>
+			<if test="isIos!=null ">
+				and is_ios=#{isIos}
+			</if>
+			<if test="iosIpaUrl!=null ">
+				and ios_ipa_url=#{iosIpaUrl}
+			</if>
+			<if test="iosIpaMd5!=null ">
+				and ios_ipa_md5=#{iosIpaMd5}
+			</if>
+			<if test="iosIpaTestId!=null ">
+				and ios_ipa_test_id=#{iosIpaTestId}
+			</if>
+			<if test="iosIphoneUrl!=null ">
+				and ios_iphone_url=#{iosIphoneUrl}
+			</if>
+			<if test="iosIphoneId!=null ">
+				and ios_iphone_id=#{iosIphoneId}
+			</if>
+			<if test="iosIphoneTestId!=null ">
+				and ios_iphone_test_id=#{iosIphoneTestId}
+			</if>
+			<if test="isWeb!=null ">
+				and is_web=#{isWeb}
+			</if>
+			<if test="webUrl!=null ">
+				and web_url=#{webUrl}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appSecret!=null ">
+				and app_secret=#{appSecret}
+			</if>
+			<if test="appStatus!=null ">
+				and app_status=#{appStatus}
+			</if>
+			<if test="appPassReason!=null ">
+				and app_pass_reason=#{appPassReason}
+			</if>
+			<if test="callbackUrl!=null ">
+				and callback_url=#{callbackUrl}
+			</if>
+			<if test="isNew!=null ">
+				and is_new=#{isNew}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2busscompanyapp_result_map" >
+		select id,company_id,app_name,app_type_id,app_icon,app_img,app_desc,app_desc_file,app_copyright,is_android,android_app_url,android_app_md5,android_app_package,android_apk_url,android_apk_md5,android_apk_package,android_apk_logo,is_ios,ios_ipa_url,ios_ipa_md5,ios_ipa_test_id,ios_iphone_url,ios_iphone_id,ios_iphone_test_id,is_web,web_url,app_key,app_secret,app_status,app_pass_reason,callback_url,is_new,is_delete,create_time,update_time from payv2_buss_company_app
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+			<if test="appTypeId!=null ">
+				and app_type_id=#{appTypeId}
+			</if>
+			<if test="appIcon!=null ">
+				and app_icon=#{appIcon}
+			</if>
+			<if test="appImg!=null ">
+				and app_img=#{appImg}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appDescFile!=null ">
+				and app_desc_file=#{appDescFile}
+			</if>
+			<if test="appCopyright!=null ">
+				and app_copyright=#{appCopyright}
+			</if>
+			<if test="isAndroid!=null ">
+				and is_android=#{isAndroid}
+			</if>
+			<if test="androidAppUrl!=null ">
+				and android_app_url=#{androidAppUrl}
+			</if>
+			<if test="androidAppMd5!=null ">
+				and android_app_md5=#{androidAppMd5}
+			</if>
+			<if test="androidAppPackage!=null ">
+				and android_app_package=#{androidAppPackage}
+			</if>
+			<if test="androidApkUrl!=null ">
+				and android_apk_url=#{androidApkUrl}
+			</if>
+			<if test="androidApkMd5!=null ">
+				and android_apk_md5=#{androidApkMd5}
+			</if>
+			<if test="androidApkPackage!=null ">
+				and android_apk_package=#{androidApkPackage}
+			</if>
+			<if test="androidApkLogo!=null ">
+				and android_apk_logo=#{androidApkLogo}
+			</if>
+			<if test="isIos!=null ">
+				and is_ios=#{isIos}
+			</if>
+			<if test="iosIpaUrl!=null ">
+				and ios_ipa_url=#{iosIpaUrl}
+			</if>
+			<if test="iosIpaMd5!=null ">
+				and ios_ipa_md5=#{iosIpaMd5}
+			</if>
+			<if test="iosIpaTestId!=null ">
+				and ios_ipa_test_id=#{iosIpaTestId}
+			</if>
+			<if test="iosIphoneUrl!=null ">
+				and ios_iphone_url=#{iosIphoneUrl}
+			</if>
+			<if test="iosIphoneId!=null ">
+				and ios_iphone_id=#{iosIphoneId}
+			</if>
+			<if test="iosIphoneTestId!=null ">
+				and ios_iphone_test_id=#{iosIphoneTestId}
+			</if>
+			<if test="isWeb!=null ">
+				and is_web=#{isWeb}
+			</if>
+			<if test="webUrl!=null ">
+				and web_url=#{webUrl}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appSecret!=null ">
+				and app_secret=#{appSecret}
+			</if>
+			<if test="appStatus!=null ">
+				and app_status=#{appStatus}
+			</if>
+			<if test="appPassReason!=null ">
+				and app_pass_reason=#{appPassReason}
+			</if>
+			<if test="callbackUrl!=null ">
+				and callback_url=#{callbackUrl}
+			</if>
+			<if test="isNew!=null ">
+				and is_new=#{isNew}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2busscompanyapp_result_map" >
+		
+		SELECT id,company_id,app_name,app_type_id,app_icon,app_img,app_desc,app_desc_file,app_copyright,is_android,android_app_url,android_app_md5,android_app_package,android_apk_url,android_apk_md5,android_apk_package,android_apk_logo,is_ios,ios_ipa_url,ios_ipa_md5,ios_ipa_test_id,ios_iphone_url,ios_iphone_id,ios_iphone_test_id,is_web,web_url,app_key,app_secret,app_status,app_pass_reason,callback_url,is_new,is_delete,create_time,update_time FROM payv2_buss_company_app 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app_name like  CONCAT('%',#{appName},'%')
+			</if>
+			<if test="appTypeId!=null and appTypeId!=''">
+				and app_type_id = #{appTypeId}
+			</if>
+			<if test="appIcon!=null and appIcon!=''">
+				and app_icon like  CONCAT('%',#{appIcon},'%')
+			</if>
+			<if test="appImg!=null and appImg!=''">
+				and app_img like  CONCAT('%',#{appImg},'%')
+			</if>
+			<if test="appDesc!=null and appDesc!=''">
+				and app_desc like  CONCAT('%',#{appDesc},'%')
+			</if>
+			<if test="appDescFile!=null and appDescFile!=''">
+				and app_desc_file like  CONCAT('%',#{appDescFile},'%')
+			</if>
+			<if test="appCopyright!=null and appCopyright!=''">
+				and app_copyright like  CONCAT('%',#{appCopyright},'%')
+			</if>
+			<if test="isAndroid!=null and isAndroid!=''">
+				and is_android = #{isAndroid}
+			</if>
+			<if test="androidAppUrl!=null and androidAppUrl!=''">
+				and android_app_url like  CONCAT('%',#{androidAppUrl},'%')
+			</if>
+			<if test="androidAppMd5!=null and androidAppMd5!=''">
+				and android_app_md5 like  CONCAT('%',#{androidAppMd5},'%')
+			</if>
+			<if test="androidAppPackage!=null and androidAppPackage!=''">
+				and android_app_package like  CONCAT('%',#{androidAppPackage},'%')
+			</if>
+			<if test="androidApkUrl!=null and androidApkUrl!=''">
+				and android_apk_url like  CONCAT('%',#{androidApkUrl},'%')
+			</if>
+			<if test="androidApkMd5!=null and androidApkMd5!=''">
+				and android_apk_md5 like  CONCAT('%',#{androidApkMd5},'%')
+			</if>
+			<if test="androidApkPackage!=null and androidApkPackage!=''">
+				and android_apk_package like  CONCAT('%',#{androidApkPackage},'%')
+			</if>
+			<if test="androidApkLogo!=null and androidApkLogo!=''">
+				and android_apk_logo like  CONCAT('%',#{androidApkLogo},'%')
+			</if>
+			<if test="isIos!=null and isIos!=''">
+				and is_ios = #{isIos}
+			</if>
+			<if test="iosIpaUrl!=null and iosIpaUrl!=''">
+				and ios_ipa_url like  CONCAT('%',#{iosIpaUrl},'%')
+			</if>
+			<if test="iosIpaMd5!=null and iosIpaMd5!=''">
+				and ios_ipa_md5 like  CONCAT('%',#{iosIpaMd5},'%')
+			</if>
+			<if test="iosIpaTestId!=null and iosIpaTestId!=''">
+				and ios_ipa_test_id like  CONCAT('%',#{iosIpaTestId},'%')
+			</if>
+			<if test="iosIphoneUrl!=null and iosIphoneUrl!=''">
+				and ios_iphone_url like  CONCAT('%',#{iosIphoneUrl},'%')
+			</if>
+			<if test="iosIphoneId!=null and iosIphoneId!=''">
+				and ios_iphone_id like  CONCAT('%',#{iosIphoneId},'%')
+			</if>
+			<if test="iosIphoneTestId!=null and iosIphoneTestId!=''">
+				and ios_iphone_test_id like  CONCAT('%',#{iosIphoneTestId},'%')
+			</if>
+			<if test="isWeb!=null and isWeb!=''">
+				and is_web = #{isWeb}
+			</if>
+			<if test="webUrl!=null and webUrl!=''">
+				and web_url like  CONCAT('%',#{webUrl},'%')
+			</if>
+			<if test="appKey!=null and appKey!=''">
+				and app_key like  CONCAT('%',#{appKey},'%')
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+				and app_secret like  CONCAT('%',#{appSecret},'%')
+			</if>
+			<if test="appStatus!=null and appStatus!=''">
+				and app_status = #{appStatus}
+			</if>
+			<if test="appPassReason!=null and appPassReason!=''">
+				and app_pass_reason like  CONCAT('%',#{appPassReason},'%')
+			</if>
+			<if test="callbackUrl!=null and callbackUrl!=''">
+				and callback_url like  CONCAT('%',#{callbackUrl},'%')
+			</if>
+			<if test="isNew!=null and isNew!=''">
+				and is_new = #{isNew}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 获取总数 -->
+	<select id="getLinkCount" resultType="java.lang.Integer">
+		select count(*) 
+		FROM payv2_buss_company_app app
+		left join payv2_buss_company comp on app.company_id=comp.id
+		<where>
+			<if test="channelId!=null and channelId!=''">
+				and comp.channel_id = #{channelId}
+			</if>
+			<if test="id!=null and id!=''">
+				and app.id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and app.company_id = #{companyId}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app.app_name like CONCAT('%',#{appName},'%')
+			</if>
+			<if test="isAndroid!=null and isAndroid!=''">
+				and app.is_android = #{isAndroid}
+			</if>
+			<if test="androidApkUrl!=null and androidApkUrl!=''">
+				and app.android_apk_url like '%'||#{androidApkUrl}||'%'
+			</if>
+			<if test="androidApkMd5!=null and androidApkMd5!=''">
+				and app.android_apk_md5 like '%'||#{androidApkMd5}||'%'
+			</if>
+			<if test="androidApkPackage!=null and androidApkPackage!=''">
+				and app.android_apk_package like '%'||#{androidApkPackage}||'%'
+			</if>
+			<if test="androidApkLogo!=null and androidApkLogo!=''">
+				and app.android_apk_logo like '%'||#{androidApkLogo}||'%'
+			</if>
+			<if test="isIos!=null and isIos!=''">
+				and app.is_ios = #{isIos}
+			</if>
+			<if test="iosIpaUrl!=null and iosIpaUrl!=''">
+				and app.ios_ipa_url like '%'||#{iosIpaUrl}||'%'
+			</if>
+			<if test="iosIpaMd5!=null and iosIpaMd5!=''">
+				and app.ios_ipa_md5 like '%'||#{iosIpaMd5}||'%'
+			</if>
+			<if test="isWeb!=null and isWeb!=''">
+				and app.is_web = #{isWeb}
+			</if>
+			<if test="webUrl!=null and webUrl!=''">
+				and app.web_url like '%'||#{webUrl}||'%'
+			</if>
+			<if test="appKey!=null and appKey!=''">
+				and app.app_key like '%'||#{appKey}||'%'
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+				and app.app_secret like '%'||#{appSecret}||'%'
+			</if>
+			<if test="appStatus!=null and appStatus!=''">
+				and app.app_status = #{appStatus}
+			</if>
+			<if test="appPassReason!=null and appPassReason!=''">
+				and app.app_pass_reason like '%'||#{appPassReason}||'%'
+			</if>
+			<if test="callbackUrl!=null and callbackUrl!=''">
+				and app.callback_url like '%'||#{callbackUrl}||'%'
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and app.is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and app.create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and app.create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and app.update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and app.update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageLinkQueryByObject" resultMap="payv2busscompanyapp_result_map" >
+		
+		SELECT app.*
+		FROM payv2_buss_company_app app
+		left join payv2_buss_company comp on app.company_id=comp.id
+		<where>
+			<if test="channelId!=null and channelId!=''">
+				and comp.channel_id = #{channelId}
+			</if>
+			<if test="id!=null and id!=''">
+				and app.id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and app.company_id = #{companyId}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app.app_name like CONCAT('%',#{appName},'%')
+			</if>
+			<if test="isAndroid!=null and isAndroid!=''">
+				and app.is_android = #{isAndroid}
+			</if>
+			<if test="androidApkUrl!=null and androidApkUrl!=''">
+				and app.android_apk_url like '%'||#{androidApkUrl}||'%'
+			</if>
+			<if test="androidApkMd5!=null and androidApkMd5!=''">
+				and app.android_apk_md5 like '%'||#{androidApkMd5}||'%'
+			</if>
+			<if test="androidApkPackage!=null and androidApkPackage!=''">
+				and app.android_apk_package like '%'||#{androidApkPackage}||'%'
+			</if>
+			<if test="androidApkLogo!=null and androidApkLogo!=''">
+				and app.android_apk_logo like '%'||#{androidApkLogo}||'%'
+			</if>
+			<if test="isIos!=null and isIos!=''">
+				and app.is_ios = #{isIos}
+			</if>
+			<if test="iosIpaUrl!=null and iosIpaUrl!=''">
+				and app.ios_ipa_url like '%'||#{iosIpaUrl}||'%'
+			</if>
+			<if test="iosIpaMd5!=null and iosIpaMd5!=''">
+				and app.ios_ipa_md5 like '%'||#{iosIpaMd5}||'%'
+			</if>
+			<if test="isWeb!=null and isWeb!=''">
+				and app.is_web = #{isWeb}
+			</if>
+			<if test="webUrl!=null and webUrl!=''">
+				and app.web_url like '%'||#{webUrl}||'%'
+			</if>
+			<if test="appKey!=null and appKey!=''">
+				and app.app_key like '%'||#{appKey}||'%'
+			</if>
+			<if test="appSecret!=null and appSecret!=''">
+				and app.app_secret like '%'||#{appSecret}||'%'
+			</if>
+			<if test="appStatus!=null and appStatus!=''">
+				and app.app_status = #{appStatus}
+			</if>
+			<if test="appPassReason!=null and appPassReason!=''">
+				and app.app_pass_reason like '%'||#{appPassReason}||'%'
+			</if>
+			<if test="callbackUrl!=null and callbackUrl!=''">
+				and app.callback_url like '%'||#{callbackUrl}||'%'
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and app.is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and app.create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and app.create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and app.update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and app.update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="keyWord!=null and keyWord!=''">
+				and (app.app_name like CONCAT('%',#{keyWord},'%') or app.app_key like CONCAT('%',#{keyWord},'%'))
+			</if>
+		</where>
+			<if test="sortName!=null or sortName!=''">
+				ORDER BY app.create_time desc
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 根据对象ID集合查询列表总数-->
+	<select id="selectCountByAppIds" resultType="java.lang.Integer"  >
+		select count(1) from payv2_buss_company_app
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app_name=#{appName}
+			</if>
+			<if test="appIds!=null ">
+				and id in 
+					<foreach item="item" index="index" collection="appIds" open="(" separator="," close=")">  
+				     #{item}  
+				    </foreach> 
+			</if>
+			<if test="appTypeId!=null ">
+				and app_type_id=#{appTypeId}
+			</if>
+			<if test="appIcon!=null ">
+				and app_icon=#{appIcon}
+			</if>
+			<if test="appImg!=null ">
+				and app_img=#{appImg}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appDescFile!=null ">
+				and app_desc_file=#{appDescFile}
+			</if>
+			<if test="appCopyright!=null ">
+				and app_copyright=#{appCopyright}
+			</if>
+			<if test="isAndroid!=null ">
+				and is_android=#{isAndroid}
+			</if>
+			<if test="androidApkUrl!=null ">
+				and android_apk_url=#{androidApkUrl}
+			</if>
+			<if test="androidApkMd5!=null ">
+				and android_apk_md5=#{androidApkMd5}
+			</if>
+			<if test="androidApkPackage!=null ">
+				and android_apk_package=#{androidApkPackage}
+			</if>
+			<if test="androidApkLogo!=null ">
+				and android_apk_logo=#{androidApkLogo}
+			</if>
+			<if test="isIos!=null ">
+				and is_ios=#{isIos}
+			</if>
+			<if test="iosIpaUrl!=null ">
+				and ios_ipa_url=#{iosIpaUrl}
+			</if>
+			<if test="iosIpaMd5!=null ">
+				and ios_ipa_md5=#{iosIpaMd5}
+			</if>
+			<if test="isWeb!=null ">
+				and is_web=#{isWeb}
+			</if>
+			<if test="webUrl!=null ">
+				and web_url=#{webUrl}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appSecret!=null ">
+				and app_secret=#{appSecret}
+			</if>
+			<if test="appStatus!=null ">
+				and app_status=#{appStatus}
+			</if>
+			<if test="appPassReason!=null ">
+				and app_pass_reason=#{appPassReason}
+			</if>
+			<if test="callbackUrl!=null ">
+				and callback_url=#{callbackUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+		
+	<!-- 根据对象id集合查询列表-->
+	<select id="selectByAppIds" resultMap="payv2busscompanyapp_result_map" >
+		select id,company_id,app_name,app_type_id,app_icon,app_img,app_desc,app_desc_file,app_copyright,is_android,android_apk_url,android_apk_md5,android_apk_package,android_apk_logo,is_ios,ios_ipa_url,ios_ipa_md5,is_web,web_url,app_key,app_secret,app_status,app_pass_reason,callback_url,is_delete,create_time,update_time from payv2_buss_company_app
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app_name=#{appName}
+			</if>
+			<if test="appIds!=null ">
+				and id in 
+					<foreach item="item" index="index" collection="appIds" open="(" separator="," close=")">  
+				     #{item}  
+				    </foreach> 
+			</if>
+			<if test="appTypeId!=null ">
+				and app_type_id=#{appTypeId}
+			</if>
+			<if test="appIcon!=null ">
+				and app_icon=#{appIcon}
+			</if>
+			<if test="appImg!=null ">
+				and app_img=#{appImg}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appDescFile!=null ">
+				and app_desc_file=#{appDescFile}
+			</if>
+			<if test="appCopyright!=null ">
+				and app_copyright=#{appCopyright}
+			</if>
+			<if test="isAndroid!=null ">
+				and is_android=#{isAndroid}
+			</if>
+			<if test="androidApkUrl!=null ">
+				and android_apk_url=#{androidApkUrl}
+			</if>
+			<if test="androidApkMd5!=null ">
+				and android_apk_md5=#{androidApkMd5}
+			</if>
+			<if test="androidApkPackage!=null ">
+				and android_apk_package=#{androidApkPackage}
+			</if>
+			<if test="androidApkLogo!=null ">
+				and android_apk_logo=#{androidApkLogo}
+			</if>
+			<if test="isIos!=null ">
+				and is_ios=#{isIos}
+			</if>
+			<if test="iosIpaUrl!=null ">
+				and ios_ipa_url=#{iosIpaUrl}
+			</if>
+			<if test="iosIpaMd5!=null ">
+				and ios_ipa_md5=#{iosIpaMd5}
+			</if>
+			<if test="isWeb!=null ">
+				and is_web=#{isWeb}
+			</if>
+			<if test="webUrl!=null ">
+				and web_url=#{webUrl}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appSecret!=null ">
+				and app_secret=#{appSecret}
+			</if>
+			<if test="appStatus!=null ">
+				and app_status=#{appStatus}
+			</if>
+			<if test="appPassReason!=null ">
+				and app_pass_reason=#{appPassReason}
+			</if>
+			<if test="callbackUrl!=null ">
+				and callback_url=#{callbackUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	
+	<select id="selectByObject2" resultMap="payv2busscompanyapp_result_map" >
+		select * from payv2_buss_company_app
+		<where>
+			1=1
+			and company_id IN
+			<foreach collection="companyIdList" item="item" index="index" open="(" separator="," close=")" >
+					#{item}
+			</foreach>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+			<if test="appTypeId!=null ">
+				and app_type_id=#{appTypeId}
+			</if>
+			<if test="appIcon!=null ">
+				and app_icon=#{appIcon}
+			</if>
+			<if test="appImg!=null ">
+				and app_img=#{appImg}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appDescFile!=null ">
+				and app_desc_file=#{appDescFile}
+			</if>
+			<if test="appCopyright!=null ">
+				and app_copyright=#{appCopyright}
+			</if>
+			<if test="isAndroid!=null ">
+				and is_android=#{isAndroid}
+			</if>
+			<if test="androidApkUrl!=null ">
+				and android_apk_url=#{androidApkUrl}
+			</if>
+			<if test="androidApkMd5!=null ">
+				and android_apk_md5=#{androidApkMd5}
+			</if>
+			<if test="androidApkPackage!=null ">
+				and android_apk_package=#{androidApkPackage}
+			</if>
+			<if test="androidApkLogo!=null ">
+				and android_apk_logo=#{androidApkLogo}
+			</if>
+			<if test="isIos!=null ">
+				and is_ios=#{isIos}
+			</if>
+			<if test="iosIpaUrl!=null ">
+				and ios_ipa_url=#{iosIpaUrl}
+			</if>
+			<if test="iosIpaMd5!=null ">
+				and ios_ipa_md5=#{iosIpaMd5}
+			</if>
+			<if test="isWeb!=null ">
+				and is_web=#{isWeb}
+			</if>
+			<if test="webUrl!=null ">
+				and web_url=#{webUrl}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appSecret!=null ">
+				and app_secret=#{appSecret}
+			</if>
+			<if test="appStatus!=null ">
+				and app_status=#{appStatus}
+			</if>
+			<if test="appPassReason!=null ">
+				and app_pass_reason=#{appPassReason}
+			</if>
+			<if test="callbackUrl!=null ">
+				and callback_url=#{callbackUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryByAppKey" resultMap="payv2busscompanyapp_result_map" >
+		select pbca.id,pbca.company_id,pbc.channel_id,pbca.app_secret,pbc.is_random,pbca.android_app_package,pbca.ios_iphone_id
+		,pbca.app_name,pbc.company_name
+		 from payv2_buss_company_app as pbca 
+		join payv2_buss_company as pbc on pbca.company_id = pbc.id
+		<where>
+			pbca.app_key=#{appKey} 
+			and pbca.app_status=#{appStatus} and pbca.is_delete=#{isDelete}
+			and pbc.company_status=#{companyStatus} and pbc.is_delete=#{isDelete}
+		</where>
+	</select>
+	
+	<select id="queryAppIdByCompanyId" resultMap="payv2busscompanyapp_result_map">
+		select id from payv2_buss_company_app
+		where company_id = #{companyId}
+	</select>
+</mapper>

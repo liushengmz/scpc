@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.sysconfig.mapper.SysConfigDictionaryMapper">
+
+	<resultMap id="sysconfigdictionary_result_map" type="com.pay.business.sysconfig.entity.SysConfigDictionary" >
+		<id column="id" property="id" />
+		<result column="dict_pvalue" property="dictPvalue"/>
+		<result column="dict_name" property="dictName"/>
+		<result column="dict_value" property="dictValue"/>
+		<result column="curr_type" property="currType"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_config_dictionary  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="dictPvalue!=null and dictPvalue!=''">
+				and dict_pvalue = #{dictPvalue}
+			</if>
+			<if test="dictName!=null and dictName!=''">
+				and dict_name like '%'||#{dictName}||'%'
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+				and dict_value like '%'||#{dictValue}||'%'
+			</if>
+			<if test="currType!=null and currType!=''">
+				and curr_type = #{currType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.sysconfig.entity.SysConfigDictionary" useGeneratedKeys="true" keyProperty="id" >
+		insert into sys_config_dictionary
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="dictPvalue!=null ">
+				dict_pvalue,
+			</if>
+      		<if test="dictName!=null ">
+				dict_name,
+			</if>
+      		<if test="dictValue!=null ">
+				dict_value,
+			</if>
+      		<if test="currType!=null ">
+				curr_type,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="dictPvalue!=null ">
+      			#{dictPvalue},
+			</if>
+      		<if test="dictName!=null ">
+      			#{dictName},
+			</if>
+      		<if test="dictValue!=null ">
+      			#{dictValue},
+			</if>
+      		<if test="currType!=null ">
+      			#{currType},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.sysconfig.entity.SysConfigDictionary">
+		delete from sys_config_dictionary
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="dictPvalue!=null ">
+				and dict_pvalue=#{dictPvalue}
+			</if>
+      		<if test="dictName!=null ">
+				and dict_name=#{dictName}
+			</if>
+      		<if test="dictValue!=null ">
+				and dict_value=#{dictValue}
+			</if>
+      		<if test="currType!=null ">
+				and curr_type=#{currType}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.sysconfig.entity.SysConfigDictionary">
+		update sys_config_dictionary
+		<set>
+			<if test="dictPvalue!=null ">
+				dict_pvalue=#{dictPvalue},
+			</if>
+			<if test="dictName!=null ">
+				dict_name=#{dictName},
+			</if>
+			<if test="dictValue!=null ">
+				dict_value=#{dictValue},
+			</if>
+			<if test="currType!=null ">
+				curr_type=#{currType},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.sysconfig.entity.SysConfigDictionary" resultMap="sysconfigdictionary_result_map">
+		select id,dict_pvalue,dict_name,dict_value,curr_type from sys_config_dictionary
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="dictPvalue!=null ">
+				and dict_pvalue=#{dictPvalue}
+			</if>
+			<if test="dictName!=null ">
+				and dict_name=#{dictName}
+			</if>
+			<if test="dictValue!=null ">
+				and dict_value=#{dictValue}
+			</if>
+			<if test="currType!=null ">
+				and curr_type=#{currType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="sysconfigdictionary_result_map" >
+		select id,dict_pvalue,dict_name,dict_value,curr_type from sys_config_dictionary
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="dictPvalue!=null ">
+				and dict_pvalue=#{dictPvalue}
+			</if>
+			<if test="dictName!=null ">
+				and dict_name=#{dictName}
+			</if>
+			<if test="dictValue!=null ">
+				and dict_value=#{dictValue}
+			</if>
+			<if test="currType!=null ">
+				and curr_type=#{currType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysconfigdictionary_result_map" >
+		
+		SELECT id,dict_pvalue,dict_name,dict_value,curr_type FROM sys_config_dictionary 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="dictPvalue!=null and dictPvalue!=''">
+				and dict_pvalue = #{dictPvalue}
+			</if>
+			<if test="dictName!=null and dictName!=''">
+				and dict_name like CONCAT('%',#{dictName},'%')
+			</if>
+			<if test="dictValue!=null and dictValue!=''">
+				and dict_value like CONCAT('%',#{dictValue},'%')
+			</if>
+			<if test="currType!=null and currType!=''">
+				and curr_type = #{currType}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

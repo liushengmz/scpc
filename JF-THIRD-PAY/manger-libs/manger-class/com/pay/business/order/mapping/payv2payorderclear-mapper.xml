@@ -1,0 +1,1087 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.order.mapper.Payv2PayOrderClearMapper">
+
+	<resultMap id="payv2payorderclear_result_map" type="com.pay.business.order.entity.Payv2PayOrderClear" >
+		<id column="id" property="id" />
+		<result column="order_num" property="orderNum"/>
+		<result column="transaction_id" property="transactionId"/>
+		<result column="refund_num" property="refundNum"/>
+		<result column="merchant_order_num" property="merchantOrderNum"/>
+		<result column="channel_id" property="channelId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="app_id" property="appId"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="rate_id" property="rateId"/>
+		<result column="merchant_type" property="merchantType"/>
+		<result column="type" property="type"/>
+		<result column="order_name" property="orderName"/>
+		<result column="order_money" property="orderMoney"/>
+		<result column="upstream_amount" property="upstreamAmount"/>
+		<result column="pay_status" property="payStatus"/>
+		<result column="upstream_status" property="upstreamStatus"/>
+		<result column="discount_money" property="discountMoney"/>
+		<result column="buss_way_rate_money" property="bussWayRateMoney"/>
+		<result column="buss_way_rate" property="bussWayRate"/>
+		<result column="cost_rate" property="costRate"/>
+		<result column="cost_rate_money" property="costRateMoney"/>
+		<result column="pay_time" property="payTime"/>
+		<result column="upstream_time" property="upstreamTime"/>
+		<result column="status" property="status"/>
+		<result column="clear_time" property="clearTime"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_order_clear  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+				and order_num like CONCAT('%',#{orderNum},'%')
+			</if>
+			<if test="transactionId!=null and transactionId!=''">
+				and transaction_id like CONCAT('%',#{transactionId},'%')
+			</if>
+			<if test="refundNum!=null and refundNum!=''">
+				and refund_num like CONCAT('%',#{refundNum},'%')
+			</if>
+			<if test="merchantOrderNum!=null and merchantOrderNum!=''">
+				and merchant_order_num like CONCAT('%',#{merchantOrderNum},'%')
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="orderName!=null and orderName!=''">
+				and order_name like CONCAT('%',#{orderName},'%')
+			</if>
+			<if test="orderMoney!=null and orderMoney!=''">
+				and order_money like CONCAT('%',#{orderMoney},'%')
+			</if>
+			<if test="upstreamAmount!=null and upstreamAmount!=''">
+				and upstream_amount like CONCAT('%',#{upstreamAmount},'%')
+			</if>
+			<if test="payStatus!=null and payStatus!=''">
+				and pay_status = #{payStatus}
+			</if>
+			<if test="upstreamStatus!=null and upstreamStatus!=''">
+				and upstream_status = #{upstreamStatus}
+			</if>
+			<if test="discountMoney!=null and discountMoney!=''">
+				and discount_money like CONCAT('%',#{discountMoney},'%')
+			</if>
+			<if test="bussWayRateMoney!=null and bussWayRateMoney!=''">
+				and buss_way_rate_money like CONCAT('%',#{bussWayRateMoney},'%')
+			</if>
+			<if test="bussWayRate!=null and bussWayRate!=''">
+				and buss_way_rate like CONCAT('%',#{bussWayRate},'%')
+			</if>
+			<if test="costRate!=null and costRate!=''">
+				and cost_rate like CONCAT('%',#{costRate},'%')
+			</if>
+			<if test="costRateMoney!=null and costRateMoney!=''">
+				and cost_rate_money like CONCAT('%',#{costRateMoney},'%')
+			</if>
+			<if test="payTimeBegin!=null and payTimeBegin!=''">
+				and pay_time <![CDATA[ >= ]]> str_to_date(#{payTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="payTimeEnd!=null and payTimeEnd!=''">
+				and pay_time <![CDATA[ <= ]]> str_to_date(#{payTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="upstreamTimeBegin!=null and upstreamTimeBegin!=''">
+				and upstream_time <![CDATA[ >= ]]> str_to_date(#{upstreamTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="upstreamTimeEnd!=null and upstreamTimeEnd!=''">
+				and upstream_time <![CDATA[ <= ]]> str_to_date(#{upstreamTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderClear" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_pay_order_clear
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="orderNum!=null ">
+				order_num,
+			</if>
+      		<if test="transactionId!=null ">
+				transaction_id,
+			</if>
+      		<if test="refundNum!=null ">
+				refund_num,
+			</if>
+      		<if test="merchantOrderNum!=null ">
+				merchant_order_num,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="rateId!=null ">
+				rate_id,
+			</if>
+      		<if test="merchantType!=null ">
+				merchant_type,
+			</if>
+      		<if test="type!=null ">
+				type,
+			</if>
+      		<if test="orderName!=null ">
+				order_name,
+			</if>
+      		<if test="orderMoney!=null ">
+				order_money,
+			</if>
+      		<if test="upstreamAmount!=null ">
+				upstream_amount,
+			</if>
+      		<if test="payStatus!=null ">
+				pay_status,
+			</if>
+      		<if test="upstreamStatus!=null ">
+				upstream_status,
+			</if>
+      		<if test="discountMoney!=null ">
+				discount_money,
+			</if>
+      		<if test="bussWayRateMoney!=null ">
+				buss_way_rate_money,
+			</if>
+      		<if test="bussWayRate!=null ">
+				buss_way_rate,
+			</if>
+      		<if test="costRate!=null ">
+				cost_rate,
+			</if>
+      		<if test="costRateMoney!=null ">
+				cost_rate_money,
+			</if>
+      		<if test="payTime!=null ">
+				pay_time,
+			</if>
+      		<if test="upstreamTime!=null ">
+				upstream_time,
+			</if>
+      		<if test="status!=null ">
+				status,
+			</if>
+      		<if test="clearTime!=null ">
+				clear_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="orderNum!=null ">
+      			#{orderNum},
+			</if>
+      		<if test="transactionId!=null ">
+      			#{transactionId},
+			</if>
+      		<if test="refundNum!=null ">
+      			#{refundNum},
+			</if>
+      		<if test="merchantOrderNum!=null ">
+      			#{merchantOrderNum},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="rateId!=null ">
+      			#{rateId},
+			</if>
+      		<if test="merchantType!=null ">
+      			#{merchantType},
+			</if>
+      		<if test="type!=null ">
+      			#{type},
+			</if>
+      		<if test="orderName!=null ">
+      			#{orderName},
+			</if>
+      		<if test="orderMoney!=null ">
+      			#{orderMoney},
+			</if>
+      		<if test="upstreamAmount!=null ">
+      			#{upstreamAmount},
+			</if>
+      		<if test="payStatus!=null ">
+      			#{payStatus},
+			</if>
+      		<if test="upstreamStatus!=null ">
+      			#{upstreamStatus},
+			</if>
+      		<if test="discountMoney!=null ">
+      			#{discountMoney},
+			</if>
+      		<if test="bussWayRateMoney!=null ">
+      			#{bussWayRateMoney},
+			</if>
+      		<if test="bussWayRate!=null ">
+      			#{bussWayRate},
+			</if>
+      		<if test="costRate!=null ">
+      			#{costRate},
+			</if>
+      		<if test="costRateMoney!=null ">
+      			#{costRateMoney},
+			</if>
+      		<if test="payTime!=null ">
+      			#{payTime},
+			</if>
+      		<if test="upstreamTime!=null ">
+      			#{upstreamTime},
+			</if>
+      		<if test="status!=null ">
+      			#{status},
+			</if>
+      		<if test="clearTime!=null ">
+      			#{clearTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderClear">
+		delete from payv2_pay_order_clear
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+      		<if test="transactionId!=null ">
+				and transaction_id=#{transactionId}
+			</if>
+      		<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+      		<if test="merchantOrderNum!=null ">
+				and merchant_order_num=#{merchantOrderNum}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+      		<if test="merchantType!=null ">
+				and merchant_type=#{merchantType}
+			</if>
+      		<if test="type!=null ">
+				and type=#{type}
+			</if>
+      		<if test="orderName!=null ">
+				and order_name=#{orderName}
+			</if>
+      		<if test="orderMoney!=null ">
+				and order_money=#{orderMoney}
+			</if>
+      		<if test="upstreamAmount!=null ">
+				and upstream_amount=#{upstreamAmount}
+			</if>
+      		<if test="payStatus!=null ">
+				and pay_status=#{payStatus}
+			</if>
+      		<if test="upstreamStatus!=null ">
+				and upstream_status=#{upstreamStatus}
+			</if>
+      		<if test="discountMoney!=null ">
+				and discount_money=#{discountMoney}
+			</if>
+      		<if test="bussWayRateMoney!=null ">
+				and buss_way_rate_money=#{bussWayRateMoney}
+			</if>
+      		<if test="bussWayRate!=null ">
+				and buss_way_rate=#{bussWayRate}
+			</if>
+      		<if test="costRate!=null ">
+				and cost_rate=#{costRate}
+			</if>
+      		<if test="costRateMoney!=null ">
+				and cost_rate_money=#{costRateMoney}
+			</if>
+      		<if test="payTime!=null ">
+				and pay_time=#{payTime}
+			</if>
+      		<if test="upstreamTime!=null ">
+				and upstream_time=#{upstreamTime}
+			</if>
+      		<if test="status!=null ">
+				and status=#{status}
+			</if>
+      		<if test="clearTime!=null ">
+				and clear_time=#{clearTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderClear">
+		update payv2_pay_order_clear
+		<set>
+			<if test="orderNum!=null ">
+				order_num=#{orderNum},
+			</if>
+			<if test="transactionId!=null ">
+				transaction_id=#{transactionId},
+			</if>
+			<if test="refundNum!=null ">
+				refund_num=#{refundNum},
+			</if>
+			<if test="merchantOrderNum!=null ">
+				merchant_order_num=#{merchantOrderNum},
+			</if>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="rateId!=null ">
+				rate_id=#{rateId},
+			</if>
+			<if test="merchantType!=null ">
+				merchant_type=#{merchantType},
+			</if>
+			<if test="type!=null ">
+				type=#{type},
+			</if>
+			<if test="orderName!=null ">
+				order_name=#{orderName},
+			</if>
+			<if test="orderMoney!=null ">
+				order_money=#{orderMoney},
+			</if>
+			<if test="upstreamAmount!=null ">
+				upstream_amount=#{upstreamAmount},
+			</if>
+			<if test="payStatus!=null ">
+				pay_status=#{payStatus},
+			</if>
+			<if test="upstreamStatus!=null ">
+				upstream_status=#{upstreamStatus},
+			</if>
+			<if test="discountMoney!=null ">
+				discount_money=#{discountMoney},
+			</if>
+			<if test="bussWayRateMoney!=null ">
+				buss_way_rate_money=#{bussWayRateMoney},
+			</if>
+			<if test="bussWayRate!=null ">
+				buss_way_rate=#{bussWayRate},
+			</if>
+			<if test="costRate!=null ">
+				cost_rate=#{costRate},
+			</if>
+			<if test="costRateMoney!=null ">
+				cost_rate_money=#{costRateMoney},
+			</if>
+			<if test="payTime!=null ">
+				pay_time=#{payTime},
+			</if>
+			<if test="upstreamTime!=null ">
+				upstream_time=#{upstreamTime},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="clearTime!=null ">
+				clear_time=#{clearTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.order.entity.Payv2PayOrderClear" resultMap="payv2payorderclear_result_map">
+		select id,order_num,transaction_id,refund_num,merchant_order_num,channel_id,company_id,app_id,pay_way_id,rate_id,merchant_type,type,order_name,order_money,upstream_amount,pay_status,upstream_status,discount_money,buss_way_rate_money,buss_way_rate,cost_rate,cost_rate_money,pay_time,upstream_time,status,clear_time,create_time from payv2_pay_order_clear
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+			<if test="transactionId!=null ">
+				and transaction_id=#{transactionId}
+			</if>
+			<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+			<if test="merchantOrderNum!=null ">
+				and merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="merchantType!=null ">
+				and merchant_type=#{merchantType}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="orderName!=null ">
+				and order_name=#{orderName}
+			</if>
+			<if test="orderMoney!=null ">
+				and order_money=#{orderMoney}
+			</if>
+			<if test="upstreamAmount!=null ">
+				and upstream_amount=#{upstreamAmount}
+			</if>
+			<if test="payStatus!=null ">
+				and pay_status=#{payStatus}
+			</if>
+			<if test="upstreamStatus!=null ">
+				and upstream_status=#{upstreamStatus}
+			</if>
+			<if test="discountMoney!=null ">
+				and discount_money=#{discountMoney}
+			</if>
+			<if test="bussWayRateMoney!=null ">
+				and buss_way_rate_money=#{bussWayRateMoney}
+			</if>
+			<if test="bussWayRate!=null ">
+				and buss_way_rate=#{bussWayRate}
+			</if>
+			<if test="costRate!=null ">
+				and cost_rate=#{costRate}
+			</if>
+			<if test="costRateMoney!=null ">
+				and cost_rate_money=#{costRateMoney}
+			</if>
+			<if test="payTime!=null ">
+				and pay_time=#{payTime}
+			</if>
+			<if test="upstreamTime!=null ">
+				and upstream_time=#{upstreamTime}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="clearTime!=null ">
+				and clear_time=#{clearTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2payorderclear_result_map" >
+		select id,order_num,transaction_id,refund_num,merchant_order_num,channel_id,company_id,app_id,pay_way_id,rate_id,merchant_type,type,order_name,order_money,upstream_amount,pay_status,upstream_status,discount_money,buss_way_rate_money,buss_way_rate,cost_rate,cost_rate_money,pay_time,upstream_time,status,clear_time,create_time from payv2_pay_order_clear
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+			<if test="transactionId!=null ">
+				and transaction_id=#{transactionId}
+			</if>
+			<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+			<if test="merchantOrderNum!=null ">
+				and merchant_order_num=#{merchantOrderNum}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="merchantType!=null ">
+				and merchant_type=#{merchantType}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="orderName!=null ">
+				and order_name=#{orderName}
+			</if>
+			<if test="orderMoney!=null ">
+				and order_money=#{orderMoney}
+			</if>
+			<if test="upstreamAmount!=null ">
+				and upstream_amount=#{upstreamAmount}
+			</if>
+			<if test="payStatus!=null ">
+				and pay_status=#{payStatus}
+			</if>
+			<if test="upstreamStatus!=null ">
+				and upstream_status=#{upstreamStatus}
+			</if>
+			<if test="discountMoney!=null ">
+				and discount_money=#{discountMoney}
+			</if>
+			<if test="bussWayRateMoney!=null ">
+				and buss_way_rate_money=#{bussWayRateMoney}
+			</if>
+			<if test="bussWayRate!=null ">
+				and buss_way_rate=#{bussWayRate}
+			</if>
+			<if test="costRate!=null ">
+				and cost_rate=#{costRate}
+			</if>
+			<if test="costRateMoney!=null ">
+				and cost_rate_money=#{costRateMoney}
+			</if>
+			<if test="payTime!=null ">
+				and pay_time=#{payTime}
+			</if>
+			<if test="upstreamTime!=null ">
+				and upstream_time=#{upstreamTime}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="clearTime!=null ">
+				and clear_time=#{clearTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2payorderclear_result_map" >
+		
+		SELECT id,order_num,transaction_id,refund_num,merchant_order_num,channel_id,company_id,app_id,pay_way_id,rate_id,merchant_type,type,order_name,order_money,upstream_amount,pay_status,upstream_status,discount_money,buss_way_rate_money,buss_way_rate,cost_rate,cost_rate_money,pay_time,upstream_time,status,clear_time,create_time FROM payv2_pay_order_clear 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+				and order_num like  CONCAT('%',#{orderNum},'%')
+			</if>
+			<if test="transactionId!=null and transactionId!=''">
+				and transaction_id like  CONCAT('%',#{transactionId},'%')
+			</if>
+			<if test="refundNum!=null and refundNum!=''">
+				and refund_num like  CONCAT('%',#{refundNum},'%')
+			</if>
+			<if test="merchantOrderNum!=null and merchantOrderNum!=''">
+				and merchant_order_num like  CONCAT('%',#{merchantOrderNum},'%')
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="merchantType!=null and merchantType!=''">
+				and merchant_type = #{merchantType}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="orderName!=null and orderName!=''">
+				and order_name like  CONCAT('%',#{orderName},'%')
+			</if>
+			<if test="orderMoney!=null and orderMoney!=''">
+				and order_money like  CONCAT('%',#{orderMoney},'%')
+			</if>
+			<if test="upstreamAmount!=null and upstreamAmount!=''">
+				and upstream_amount like  CONCAT('%',#{upstreamAmount},'%')
+			</if>
+			<if test="payStatus!=null and payStatus!=''">
+				and pay_status = #{payStatus}
+			</if>
+			<if test="upstreamStatus!=null and upstreamStatus!=''">
+				and upstream_status = #{upstreamStatus}
+			</if>
+			<if test="discountMoney!=null and discountMoney!=''">
+				and discount_money like  CONCAT('%',#{discountMoney},'%')
+			</if>
+			<if test="bussWayRateMoney!=null and bussWayRateMoney!=''">
+				and buss_way_rate_money like  CONCAT('%',#{bussWayRateMoney},'%')
+			</if>
+			<if test="bussWayRate!=null and bussWayRate!=''">
+				and buss_way_rate like  CONCAT('%',#{bussWayRate},'%')
+			</if>
+			<if test="costRate!=null and costRate!=''">
+				and cost_rate like  CONCAT('%',#{costRate},'%')
+			</if>
+			<if test="costRateMoney!=null and costRateMoney!=''">
+				and cost_rate_money like  CONCAT('%',#{costRateMoney},'%')
+			</if>
+			<if test="payTimeBegin!=null and payTimeBegin!=''">
+				and pay_time <![CDATA[ >= ]]> str_to_date(#{payTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="payTimeEnd!=null and payTimeEnd!=''">
+				and pay_time <![CDATA[ <= ]]> str_to_date(#{payTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="upstreamTimeBegin!=null and upstreamTimeBegin!=''">
+				and upstream_time <![CDATA[ >= ]]> str_to_date(#{upstreamTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="upstreamTimeEnd!=null and upstreamTimeEnd!=''">
+				and upstream_time <![CDATA[ <= ]]> str_to_date(#{upstreamTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and clear_time <![CDATA[ >= ]]> str_to_date(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and clear_time <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 对账插入订单表里面的数据 -->
+	<select id="addOrderClearByOrder">
+	INSERT INTO payv2_pay_order_clear (
+			order_num,
+			merchant_order_num,
+			channel_id,
+			company_id,
+			app_id,
+			pay_way_id,
+			rate_id,
+			merchant_type,
+			order_name,
+			order_money,
+			pay_status,
+			discount_money,
+			buss_way_rate_money,
+			buss_way_rate,
+			cost_rate,
+			cost_rate_money,
+			pay_time,
+			`status`,
+			type,
+			clear_time,
+			create_time
+	) SELECT
+			o.order_num,
+			o.merchant_order_num,
+			o.channel_id,
+			o.company_id,
+			o.app_id,
+			o.pay_way_id,
+			o.rate_id,
+			o.order_type,
+			o.order_name,
+			o.pay_money,
+			o.pay_status,
+			o.discount_money,
+			o.pay_way_money as buss_way_rate_money,
+			IFNULL(pbspw.pay_way_rate,0) as buss_way_rate,
+			IFNULL(ppwr.pay_way_rate,0) as cost_rate,
+			CEIL(IFNULL(ppwr.pay_way_rate,0)*o.pay_money/1000*100)/100 as cost_rate_money,
+			o.create_time,
+			4,
+			1,
+			date_add(now(), interval -1 day),
+			NOW()
+		FROM
+			payv2_pay_order as o left join payv2_buss_support_pay_way as pbspw 
+			on pbspw.parent_id = o.company_id and pbspw.rate_id = o.rate_id
+			left join payv2_pay_way_rate as ppwr on ppwr.id = o.rate_id
+		<where>
+			1 = 1
+			and o.rate_id is not null 
+		<if test="createTimeBegin!=null and createTimeBegin!=''">
+				<!-- TO_DAYS(NOW()) - TO_DAYS(create_time) = 1  -->
+				and DATE_FORMAT(o.create_time,'%Y-%m-%d') <![CDATA[ = ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	<!-- 对账插入退款订单表里面的数据 -->
+	<select id="addOrderClearByRefundOrder">
+		INSERT INTO payv2_pay_order_clear (
+			order_num,
+			merchant_order_num,
+			channel_id,
+			company_id,
+			app_id,
+			pay_way_id,
+			rate_id,
+			merchant_type,
+			order_name,
+			order_money,
+			pay_status,
+			pay_time,
+			`status`,
+			type,
+			clear_time,
+			create_time,
+			refund_num
+		) SELECT
+			o.order_num,
+			o.merchant_order_num,
+			o.channel_id,
+			r.company_id,
+			r.app_id,
+			r.pay_way_id,
+			o.rate_id,
+			r.order_type,
+			o.order_name,
+			r.refund_money,
+			r.refund_status,
+			r.refund_time,
+			4,
+			2,
+			date_add(now(), interval -1 day),
+			NOW(),
+			r.refund_num
+		FROM
+			payv2_pay_order_refund r LEFT JOIN payv2_pay_order o ON o.id=r.order_id
+		<where>
+			1 = 1
+		<if test="createTimeBegin!=null and createTimeBegin!=''">
+				<!-- TO_DAYS(NOW())- TO_DAYS(refund_time) = 1 -->
+				and DATE_FORMAT(r.create_time,'%Y-%m-%d') <![CDATA[ = ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>	
+		</where>
+	</select>
+	
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity2" parameterType="com.pay.business.order.entity.Payv2PayOrderClear">
+		update payv2_pay_order_clear
+		<set>
+			<if test="orderNum!=null ">
+				order_num=#{orderNum},
+			</if>
+			<if test="transactionId!=null ">
+				transaction_id=#{transactionId},
+			</if>
+			<if test="refundNum!=null ">
+				refund_num=#{refundNum},
+			</if>
+			<if test="merchantOrderNum!=null ">
+				merchant_order_num=#{merchantOrderNum},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="rateId!=null ">
+				rate_id=#{rateId},
+			</if>
+			<if test="merchantType!=null ">
+				merchant_type=#{merchantType},
+			</if>
+			<if test="type!=null ">
+				type=#{type},
+			</if>
+			<if test="orderName!=null ">
+				order_name=#{orderName},
+			</if>
+			<if test="orderMoney!=null ">
+				order_money=#{orderMoney},
+			</if>
+			<if test="upstreamAmount!=null ">
+				upstream_amount=#{upstreamAmount},
+			</if>
+			<if test="payStatus!=null ">
+				pay_status=#{payStatus},
+			</if>
+			<if test="upstreamStatus!=null ">
+				upstream_status=#{upstreamStatus},
+			</if>
+			<if test="discountMoney!=null ">
+				discount_money=#{discountMoney},
+			</if>
+			<if test="bussWayRateMoney!=null ">
+				buss_way_rate_money=#{bussWayRateMoney},
+			</if>
+			<if test="bussWayRate!=null ">
+				buss_way_rate=#{bussWayRate},
+			</if>
+			<if test="costRate!=null ">
+				cost_rate=#{costRate},
+			</if>
+			<if test="costRateMoney!=null ">
+				cost_rate_money=#{costRateMoney},
+			</if>
+			<if test="payTime!=null ">
+				pay_time=#{payTime},
+			</if>
+			<if test="upstreamTime!=null ">
+				upstream_time=#{upstreamTime},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="clearTime!=null ">
+				clear_time=#{clearTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			1=1
+			<if test="orderNum!=null ">
+				and order_num=#{orderNum}
+			</if>
+			<if test="refundNum!=null ">
+				and refund_num=#{refundNum}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+		</where>
+	</update>
+	
+	<select id="getBills" resultType="String">
+		select DATE_FORMAT(clear_time,'%Y-%m-%d') as times from payv2_pay_order_clear where status!='5' GROUP BY DATE_FORMAT(clear_time,'%Y-%m-%d') order by times desc
+	</select>
+	
+	<select id="getBillList" resultType="Map">
+		<!-- select IFNULL(a.count, 0) as upcount, IFNULL(a.sumall, 0) as upall, b.pay_way_name as name, b.count as downcount, b.sumall as downall FROM
+			(select count(1) as count,sum(clear.order_money) as sumall ,rate.pay_way_name , clear.rate_id as rateid
+				from payv2_pay_order_clear clear LEFT JOIN payv2_pay_way_rate rate on clear.rate_id=rate.id
+				where DATE_FORMAT(clear.clear_time,'%Y-%m-%d')=#{date} group by clear.rate_id order by clear.rate_id) as b
+		LEFT JOIN
+			(select count(1) as count,sum(clear.order_money) as sumall , clear.rate_id as rateid, clear.clear_time
+				from payv2_pay_order_clear clear
+				where TRANSACTION_id is not null and DATE_FORMAT(clear.clear_time,'%Y-%m-%d')=#{date}  group by clear.rate_id order by clear.rate_id) as a
+		on a.rateid=b.rateid -->
+		select IFNULL(a.count, 0) as upcount, IFNULL(a.sumall, 0) as upall, b.rate_name as name, b.count as downcount, b.sumall as downall,IFNULL(c.differ, 0) as differ,b.rateid,IFNULL(d.unpay,0) as unpay,IFNULL(d.unMoney,0) as unMoney,b.auto FROM
+			(select count(1) as count,sum(clear.order_money) as sumall ,rate.rate_name , clear.rate_id as rateid ,rate.auto_record as auto
+				from payv2_pay_order_clear clear LEFT JOIN payv2_pay_way_rate rate on clear.rate_id=rate.id
+				where DATE_FORMAT(clear.clear_time,'%Y-%m-%d')=#{date} and clear.status!='5' group by clear.rate_id order by clear.rate_id) as b
+		LEFT JOIN
+			(select count(1) as count,sum(clear.upstream_amount) as sumall , clear.rate_id as rateid, clear.clear_time
+				from payv2_pay_order_clear clear
+				where TRANSACTION_id is not null and DATE_FORMAT(clear.clear_time,'%Y-%m-%d')=#{date} and clear.status!=5 group by clear.rate_id) as a
+			on b.rateid=a.rateid
+		LEFT JOIN
+			(select count(1) as differ,rate_id as rateid from payv2_pay_order_clear where DATE_FORMAT(clear_time,'%Y-%m-%d')=#{date} and status in (2,3,4) and pay_status!=3 group by rate_id) as c
+			on b.rateid=c.rateid
+		LEFT JOIN
+			(select count(1) as unpay,rate_id as rateid,sum(order_money) as unMoney from payv2_pay_order_clear where DATE_FORMAT(clear_time,'%Y-%m-%d')=#{date} and pay_status='3' and TRANSACTION_id is null group by rate_id) as d
+			on b.rateid=d.rateid
+	</select>
+	
+	<select id="getDifferOrder" resultType="com.pay.business.order.entity.OrderClearVO">
+		<!-- 订单号、上游金额、类型、上游支付状态、上游交易时间、订单金额、订单时间、订单状态 -->
+		select id,order_num as orderNum,upstream_amount as upmoney,type,upstream_status as upstatus,upstream_time as uptime,order_money as downmoney,pay_time as downtime,pay_status as downstatus
+			from  payv2_pay_order_clear
+			where status in (2,3,4) and rate_id = #{rateid} and DATE_FORMAT(clear_time,'%Y-%m-%d')=#{date} and pay_status!=3 order by create_time,order_num desc
+			<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="getDifferCount" resultType="Integer">
+		select count(1) from  payv2_pay_order_clear
+			where status in (2,3,4) and rate_id = #{rateid} and DATE_FORMAT(clear_time,'%Y-%m-%d')=#{date} and pay_status!=3
+	</select>
+	
+	<update id="updateClear">
+		update payv2_pay_order_clear 
+			set status=1,order_money=if(TRANSACTION_id is null,order_money,upstream_amount),
+			buss_way_rate_money=if(type=1,(buss_way_rate*upstream_amount)/1000.0,0), 
+			cost_rate_money=if(type=1,(cost_rate*upstream_amount)/1000.0,0) 
+		where id in (${ids})
+		<!-- <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+			#{item}  
+		</foreach>  -->
+	</update>
+	
+	<update id="updateOutOrder">
+		update payv2_pay_order_clear set status=5 where rate_id = #{rateId} and DATE_FORMAT(clear_time,'%Y-%m-%d')=#{date}
+	</update>
+	
+	<select id="getOrdeClear" resultType="Map">
+		<!-- 订单号，退单号，金额，类型，手续费 -->
+		select order_num,refund_num,order_money,type,buss_way_rate_money,upstream_status from payv2_pay_order_clear where id in (${ids})
+	</select>
+	
+	<select id="getClearDetail" resultType="Map">
+		SELECT company_id,app_id,type,sum(order_money) as money,sum(buss_way_rate_money) as wayMoney,
+			sum(cost_rate_money) as costMoney,count(1) as counts,buss_way_rate,cost_rate,channel_id
+			from payv2_pay_order_clear 
+		where DATE_FORMAT(clear_time,'%Y-%m-%d')=#{date} and rate_id=#{rateId} and status='5' and pay_status='1' GROUP BY rate_id,company_id,app_id,type ORDER BY company_id;
+	</select>
+	
+	<!-- 根据商户Id与账单时间判断该商户是否已经出账-->
+	<select id="isHaveBill" resultMap="payv2payorderclear_result_map" >
+		select status from payv2_pay_order_clear
+		<where>	
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>			
+			<if test="clearTime!=null ">
+				and str_to_date(clear_time,  '%Y-%m-%d') = #{clearTime} 
+			</if>
+			and status in (1,2,3,4)
+		</where>
+	</select>
+	
+	<!-- 根据商户Id与账单时间判断该商户是否有账单数据-->
+	<select id="isHaveClear" resultMap="payv2payorderclear_result_map" >
+		select status from payv2_pay_order_clear
+		<where>	
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="clearTime!=null ">
+				and str_to_date(clear_time,  '%Y-%m-%d') = #{clearTime} 
+			</if>
+			and status = 5
+		</where>
+	</select>
+	
+	<!-- 根据appId集合，商户id，对账时间搜索订单-->
+	<select id="queryByApp" resultMap="payv2payorderclear_result_map" >
+		select id,order_num,transaction_id,refund_num,merchant_order_num,channel_id,company_id,app_id,pay_way_id,rate_id,merchant_type,type,order_name,order_money,upstream_amount,pay_status,upstream_status,discount_money,buss_way_rate_money,buss_way_rate,cost_rate,cost_rate_money,pay_time,upstream_time,status,clear_time,create_time 
+			from payv2_pay_order_clear
+		<where>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="clearTime!=null ">
+				and str_to_date(clear_time,  '%Y-%m-%d') = str_to_date(#{clearTime},  '%Y-%m-%d') 
+			</if>
+			and status = 5
+		</where>
+	</select>
+</mapper>

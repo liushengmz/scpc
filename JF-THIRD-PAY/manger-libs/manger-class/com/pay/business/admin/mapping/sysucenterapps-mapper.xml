@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.admin.mapper.SysUcenterAppsMapper">
+
+	<resultMap id="sysucenterapps_result_map" type="com.pay.business.admin.entity.SysUcenterApps" >
+		<id column="id" property="id" />
+		<result column="app_name" property="appName"/>
+		<result column="app_type" property="appType"/>
+		<result column="app_key" property="appKey"/>
+		<result column="app_logo" property="appLogo"/>
+		<result column="app_desc" property="appDesc"/>
+		<result column="app_contacts_name" property="appContactsName"/>
+		<result column="app_contacts_phone" property="appContactsPhone"/>
+		<result column="create_time" property="createTime"/>
+		<result column="create_user_by" property="createUserBy"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="update_user_by" property="updateUserBy"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_ucenter_apps  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app_name like '%'||#{appName}||'%'
+			</if>
+			<if test="appType!=null and appType!=''">
+				and app_type = #{appType}
+			</if>
+			<if test="appKey!=null and appKey!=''">
+				and app_key like '%'||#{appKey}||'%'
+			</if>
+			<if test="appLogo!=null and appLogo!=''">
+				and app_logo like '%'||#{appLogo}||'%'
+			</if>
+			<if test="appDesc!=null and appDesc!=''">
+				and app_desc like '%'||#{appDesc}||'%'
+			</if>
+			<if test="appContactsName!=null and appContactsName!=''">
+				and app_contacts_name like '%'||#{appContactsName}||'%'
+			</if>
+			<if test="appContactsPhone!=null and appContactsPhone!=''">
+				and app_contacts_phone like '%'||#{appContactsPhone}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.admin.entity.SysUcenterApps" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_ucenter_apps
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appName!=null ">
+				app_name,
+			</if>
+      		<if test="appType!=null ">
+				app_type,
+			</if>
+      		<if test="appKey!=null ">
+				app_key,
+			</if>
+      		<if test="appLogo!=null ">
+				app_logo,
+			</if>
+      		<if test="appDesc!=null ">
+				app_desc,
+			</if>
+      		<if test="appContactsName!=null ">
+				app_contacts_name,
+			</if>
+      		<if test="appContactsPhone!=null ">
+				app_contacts_phone,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="createUserBy!=null ">
+				create_user_by,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+      		<if test="updateUserBy!=null ">
+				update_user_by,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appName!=null ">
+      			#{appName},
+			</if>
+      		<if test="appType!=null ">
+      			#{appType},
+			</if>
+      		<if test="appKey!=null ">
+      			#{appKey},
+			</if>
+      		<if test="appLogo!=null ">
+      			#{appLogo},
+			</if>
+      		<if test="appDesc!=null ">
+      			#{appDesc},
+			</if>
+      		<if test="appContactsName!=null ">
+      			#{appContactsName},
+			</if>
+      		<if test="appContactsPhone!=null ">
+      			#{appContactsPhone},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="createUserBy!=null ">
+      			#{createUserBy},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+      		<if test="updateUserBy!=null ">
+      			#{updateUserBy},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.admin.entity.SysUcenterApps">
+		delete from sys_ucenter_apps
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+      		<if test="appType!=null ">
+				and app_type=#{appType}
+			</if>
+      		<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+      		<if test="appLogo!=null ">
+				and app_logo=#{appLogo}
+			</if>
+      		<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+      		<if test="appContactsName!=null ">
+				and app_contacts_name=#{appContactsName}
+			</if>
+      		<if test="appContactsPhone!=null ">
+				and app_contacts_phone=#{appContactsPhone}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+      		<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.admin.entity.SysUcenterApps">
+		update sys_ucenter_apps
+		<set>
+			<if test="appName!=null ">
+				app_name=#{appName},
+			</if>
+			<if test="appType!=null ">
+				app_type=#{appType},
+			</if>
+			<if test="appKey!=null ">
+				app_key=#{appKey},
+			</if>
+			<if test="appLogo!=null ">
+				app_logo=#{appLogo},
+			</if>
+			<if test="appDesc!=null ">
+				app_desc=#{appDesc},
+			</if>
+			<if test="appContactsName!=null ">
+				app_contacts_name=#{appContactsName},
+			</if>
+			<if test="appContactsPhone!=null ">
+				app_contacts_phone=#{appContactsPhone},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.admin.entity.SysUcenterApps" resultMap="sysucenterapps_result_map">
+		select id,app_name,app_type,app_key,app_logo,app_desc,app_contacts_name,app_contacts_phone,create_time,create_user_by,update_time,update_user_by from sys_ucenter_apps
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+			<if test="appType!=null ">
+				and app_type=#{appType}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appLogo!=null ">
+				and app_logo=#{appLogo}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appContactsName!=null ">
+				and app_contacts_name=#{appContactsName}
+			</if>
+			<if test="appContactsPhone!=null ">
+				and app_contacts_phone=#{appContactsPhone}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="sysucenterapps_result_map" >
+		select id,app_name,app_type,app_key,app_logo,app_desc,app_contacts_name,app_contacts_phone,create_time,create_user_by,update_time,update_user_by from sys_ucenter_apps
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appName!=null ">
+				and app_name=#{appName}
+			</if>
+			<if test="appType!=null ">
+				and app_type=#{appType}
+			</if>
+			<if test="appKey!=null ">
+				and app_key=#{appKey}
+			</if>
+			<if test="appLogo!=null ">
+				and app_logo=#{appLogo}
+			</if>
+			<if test="appDesc!=null ">
+				and app_desc=#{appDesc}
+			</if>
+			<if test="appContactsName!=null ">
+				and app_contacts_name=#{appContactsName}
+			</if>
+			<if test="appContactsPhone!=null ">
+				and app_contacts_phone=#{appContactsPhone}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysucenterapps_result_map" >
+		
+		SELECT id,app_name,app_type,app_key,app_logo,app_desc,app_contacts_name,app_contacts_phone,create_time,create_user_by,update_time,update_user_by FROM sys_ucenter_apps 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appName!=null and appName!=''">
+				and app_name like '%'||#{appName}||'%'
+			</if>
+			<if test="appType!=null and appType!=''">
+				and app_type = #{appType}
+			</if>
+			<if test="appKey!=null and appKey!=''">
+				and app_key like '%'||#{appKey}||'%'
+			</if>
+			<if test="appLogo!=null and appLogo!=''">
+				and app_logo like '%'||#{appLogo}||'%'
+			</if>
+			<if test="appDesc!=null and appDesc!=''">
+				and app_desc like '%'||#{appDesc}||'%'
+			</if>
+			<if test="appContactsName!=null and appContactsName!=''">
+				and app_contacts_name like '%'||#{appContactsName}||'%'
+			</if>
+			<if test="appContactsPhone!=null and appContactsPhone!=''">
+				and app_contacts_phone like '%'||#{appContactsPhone}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

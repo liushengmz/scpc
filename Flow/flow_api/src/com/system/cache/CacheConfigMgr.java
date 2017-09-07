@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.system.dao.BaseDataDao;
+import com.system.dao.CpTroneDao;
 import com.system.dao.LocateDao;
 import com.system.dao.SysConfigDao;
 import com.system.model.SysCodeModel;
@@ -46,6 +47,7 @@ public class CacheConfigMgr
 	{
 		refreshCpCache();
 		refreshConfigPropertiesCache();
+		refreshCpTroneCache();
 		logger.info("refreshFrequenceCache finish");
 	}
 	
@@ -79,7 +81,7 @@ public class CacheConfigMgr
 		LocateCache.setProvince(dao.loadProvinceList());
 		LocateCache.setCity(dao.loadCityList());
 		
-		//LocateCache.setPhoneLocate(dao.loadPhoneLocateMap());
+		LocateCache.setPhoneLocate(dao.loadPhoneLocateMap());
 		logger.info("还没有加载手机对应的地区哦");
 		logger.info("refreshLocateCache finish");
 	}
@@ -89,6 +91,13 @@ public class CacheConfigMgr
 		ConfigPropertiesDao dao = new ConfigPropertiesDao();
 		SysConfigCache.setConfigPropertiesList(dao.loadConfigProperties());
 		logger.info("refreshConfigPropertiesCache finish");
+	}
+	
+	private static void refreshCpTroneCache()
+	{
+		CpTroneDao dao = new CpTroneDao();
+		BaseDataCache.setCpTroneCache(dao.loadCpTroneList(1));
+		logger.info("refreshCpTroneCache finish");
 	}
 	
 	

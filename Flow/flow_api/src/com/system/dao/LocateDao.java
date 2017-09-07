@@ -10,6 +10,7 @@ import java.util.Map;
 import com.system.database.JdbcControl;
 import com.system.database.QueryCallBack;
 import com.system.model.CityModel;
+import com.system.model.PhoneLocateModel;
 import com.system.model.ProvinceModel;
 import com.system.util.StringUtil;
 
@@ -63,20 +64,31 @@ public class LocateDao
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Map<String,Integer> loadPhoneLocateMap()
+	public Map<String,PhoneLocateModel> loadPhoneLocateMap()
 	{
-		String sql = "SELECT * FROM daily_config.`tbl_phone_locate`";
+		String sql = "SELECT a.phone,c.id province_id,b.id city_id,a.operator ";
+		sql += "FROM daily_config.`tbl_phone_locate` a";
+		sql += "LEFT JOIN daily_config.tbl_city b ON a.city_id = b.id";
+		sql += "LEFT JOIN daily_config.tbl_province c ON b.province_id = c.id";
+		sql += "";
 		
-		return (Map<String,Integer>)new JdbcControl().query(sql, new QueryCallBack()
+		return (Map<String,PhoneLocateModel>)new JdbcControl().query(sql, new QueryCallBack()
 		{
 			@Override
 			public Object onCallBack(ResultSet rs) throws SQLException
 			{
-				Map<String,Integer> map = new HashMap<String, Integer>();
+				Map<String,PhoneLocateModel> map = new HashMap<String, PhoneLocateModel>();
 				
 				while(rs.next())
 				{
-					map.put(rs.getString("phone"), rs.getInt("city_id"));
+					PhoneLocateModel model = new PhoneLocateModel();
+					
+					model.setProvinceId(rs.getInt("province_id"));
+					model.setOperator(rs.getInt("operator"));
+					model.setCityId(rs.getInt("city_id"));
+					model.setPhonePre(StringUtil.getString(rs.getString("phone"), ""));
+					
+					map.put(model.getPhonePre(), model);
 				}
 				
 				return map;

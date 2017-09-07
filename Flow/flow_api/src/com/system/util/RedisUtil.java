@@ -116,4 +116,19 @@ public final class RedisUtil
 	{
 		
 	}
+	
+	public static void main(String[] args) throws InterruptedException
+	{
+		RedisUtil.init();
+		System.out.println("start..");
+		Thread.sleep(2000);
+		long oriStartMils = System.currentTimeMillis();
+		for(int i=0; i<10000; i++)
+		{
+			long startMils = System.currentTimeMillis();
+			RedisUtil.getJedis().hgetAll("test");
+			System.out.println("SpendMils:" + (System.currentTimeMillis() - startMils));
+		}
+		System.out.println("Last Mils :" + (System.currentTimeMillis() - oriStartMils));
+	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.system.model.CityModel;
+import com.system.model.PhoneLocateModel;
 import com.system.model.ProvinceModel;
 
 public class LocateCache
@@ -14,7 +15,7 @@ public class LocateCache
 	
 	private static List<CityModel> _cityList = new ArrayList<CityModel>();
 	
-	private static Map<String, Integer> _phoneLocateMap = new HashMap<String, Integer>();
+	private static Map<String, PhoneLocateModel> _phoneLocateMap = new HashMap<String, PhoneLocateModel>();
 	
 	protected static void setProvince(List<ProvinceModel> list)
 	{
@@ -26,19 +27,14 @@ public class LocateCache
 		_cityList = list;
 	}
 	
-	protected static void setPhoneLocate(Map<String, Integer> map)
+	protected static void setPhoneLocate(Map<String, PhoneLocateModel> map)
 	{
 		_phoneLocateMap = map;
 	}
 	
-	public static int getCityIdByPhone(String phonePrefix)
+	public static PhoneLocateModel getPhoneLocateModelByPhone(String phonePrefix)
 	{
-		Integer cityId = _phoneLocateMap.get(phonePrefix);
-		
-		if(cityId!=null)
-			return cityId;
-		
-		return -1;
+		return _phoneLocateMap.get(phonePrefix);
 	}
 	
 	public static ProvinceModel getProvinceByCityId(int cityId)

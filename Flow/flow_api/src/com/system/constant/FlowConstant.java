@@ -85,7 +85,22 @@ public class FlowConstant
 	 * SCOR 未知错误
 	 */
 	public static final int CP_SINGLE_ORDER_REQUEST_UN_KNOW_ERROR = 11008;
-	
+	/**
+	 * SCOR 号码错误
+	 */
+	public static final int CP_SINGLE_ORDER_REQUEST_MOBILE_ERROR = 11009;
+	/**
+	 * SCOR 未识别地区的号码
+	 */
+	public static final int CP_SINGLE_ORDER_REQUEST_UN_KNOW_MOBILE = 11010;
+	/**
+	 * SCOR 未合作的省份
+	 */
+	public static final int CP_SINGLE_ORDER_REQUEST_UN_COMPANY_PROVINCE = 11011;
+	/**
+	 * SCOR CP 余额不足
+	 */
+	public static final int CP_SINGLE_ORDER_REQUEST_NOT_SUFFICIENT_FUNDS = 11012;
 	
 	
 	

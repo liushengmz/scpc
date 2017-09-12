@@ -93,6 +93,12 @@ namespace Shotgun.Database
         /// </summary>
         bool ReleseConnection();
 
+        /// <summary>
+        /// 当数据库连接关闭时
+        /// </summary>
+        event EventHandler OnConnectionClosed;
+
+        bool Disposed { get; }
 
     }
 }

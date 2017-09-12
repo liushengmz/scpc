@@ -23,48 +23,23 @@ namespace Shotgun.Model.Logical
 
         public Logical(Shotgun.Database.IBaseDataClass2 db)
         {
-            this._dBase = db;
+            this.dBase = db;
         }
         public Logical()
         {
         }
 
         #region ILogical 成员
-        Shotgun.Database.IBaseDataClass2 _dBase;
-        public Shotgun.Database.IBaseDataClass2 dBase
-        {
-            get
-            {
-                return _dBase;
-            }
-            set
-            {
-                _dBase = value;
-            }
-        }
+        public virtual Shotgun.Database.IBaseDataClass2 dBase { get; set; }
 
-        bool _isSuccess;
-        public bool IsSuccess
-        {
-            get { return _isSuccess; }
-            protected set { _isSuccess = value; }
+        public bool IsSuccess { get; protected set; }
 
-        }
-        string _msg;
-        public string ErrorMesage
-        {
-            get { return _msg; }
-            protected set { _msg = value; }
-        }
-        int _lastUpadted = 0;
+        public string ErrorMesage { get; protected set; }
+
         /// <summary>
         /// 最后一次成功操作，影响的记录数
         /// </summary>
-        public int lastUpdateCount
-        {
-            get { return _lastUpadted; }
-            protected set { _lastUpadted = value; }
-        }
+        public int lastUpdateCount { get; protected set; }
 
         #endregion
 
@@ -75,8 +50,8 @@ namespace Shotgun.Model.Logical
         /// <returns>false only</returns>
         protected virtual bool SetErrorMesage(string err)
         {
-            _msg = err;
-            _isSuccess = false;
+            ErrorMesage = err;
+            IsSuccess = false;
             return false;
         }
 
@@ -86,8 +61,8 @@ namespace Shotgun.Model.Logical
         /// <returns>true only</returns>
         protected virtual bool SetSuccess()
         {
-            _msg = "成功";
-            _isSuccess = true;
+            ErrorMesage = "成功";
+            IsSuccess = true;
             return true;
         }
 

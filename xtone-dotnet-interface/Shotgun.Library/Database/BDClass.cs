@@ -133,9 +133,9 @@ namespace Shotgun.Database
             {
                 vData = vData.Replace("'", "''");
             }
-            else if(vData==null)
-               vData=string.Empty;
-            if(AddQut)
+            else if (vData == null)
+                vData = string.Empty;
+            if (AddQut)
                 return "'" + vData + "'";
             return vData;
         }
@@ -160,6 +160,7 @@ namespace Shotgun.Database
                 }
             }
             OnDisposing();
+            OnConnectionClosed?.Invoke(this, new EventArgs());
             this.Disposed = true;
             GC.SuppressFinalize(this);
         }

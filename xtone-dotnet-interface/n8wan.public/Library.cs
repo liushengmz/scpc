@@ -17,7 +17,7 @@ namespace n8wan.Public
         /// <returns></returns>
         public static Regex GetRegex(string mStr)
         {
-            mStr = Regex.Replace(mStr, @"([\.\[\]\|\^\$\<\>])", @"\$1");
+            mStr = Regex.Replace(mStr, @"([\.\[\]\|\^\$\<\>\+])", @"\$1");
 
             if (mStr.Contains('?'))
                 mStr = Regex.Replace(mStr, @"\?{1,}", e => string.Format(".{{0,{0}}}", e.Value.Length));

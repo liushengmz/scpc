@@ -19,6 +19,8 @@ namespace Shotgun.Database
 
         System.Data.IDbTransaction IBaseDataClass2.Transaction { get { return Tran; } }
 
+        public event EventHandler OnConnectionClosed;
+
         System.Data.IDbCommand IBaseDataClass2.Command() { return Command(); }
 
         void IBaseDataClass2.TableFill(string sql, System.Data.DataTable table) { TableFill(sql, table); }
@@ -100,6 +102,9 @@ namespace Shotgun.Database
             if (IsTransaction)
                 return false;
             OnDisposing();
+
+            OnConnectionClosed?.Invoke(this, new EventArgs());
+
             return true;
         }
 

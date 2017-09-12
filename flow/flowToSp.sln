@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "flowToSp", "flowToSp\", "{EB0CBE3B-334E-4FD5-9CB3-5C32488BA741}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{6455dfd1-99e2-4167-abc8-d908a38980f2}|FlowLibraryNet.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52541"
+		Debug.AspNetCompiler.PhysicalPath = "flowToSp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52541\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52541"
+		Release.AspNetCompiler.PhysicalPath = "flowToSp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52541\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52541"
+		SlnRelativePath = "flowToSp\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowLibraryNet", "FlowLibraryNet\FlowLibraryNet.csproj", "{6455DFD1-99E2-4167-ABC8-D908A38980F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTester", "ClassTester\ClassTester.csproj", "{FCD70538-D3B8-4538-B73B-1205333C5F84}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB0CBE3B-334E-4FD5-9CB3-5C32488BA741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB0CBE3B-334E-4FD5-9CB3-5C32488BA741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB0CBE3B-334E-4FD5-9CB3-5C32488BA741}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB0CBE3B-334E-4FD5-9CB3-5C32488BA741}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6455DFD1-99E2-4167-ABC8-D908A38980F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6455DFD1-99E2-4167-ABC8-D908A38980F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6455DFD1-99E2-4167-ABC8-D908A38980F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6455DFD1-99E2-4167-ABC8-D908A38980F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCD70538-D3B8-4538-B73B-1205333C5F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCD70538-D3B8-4538-B73B-1205333C5F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCD70538-D3B8-4538-B73B-1205333C5F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCD70538-D3B8-4538-B73B-1205333C5F84}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5EE2EDF-FBF9-473C-A2C1-3C3A779F18F9}
+	EndGlobalSection
+EndGlobal

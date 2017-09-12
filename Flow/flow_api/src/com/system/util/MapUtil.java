@@ -3,7 +3,14 @@ package com.system.util;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.google.gson.JsonObject;
+
+import net.sf.json.JSONObject;
 
 public class MapUtil
 {
@@ -90,6 +97,22 @@ public class MapUtil
 	
 	public static void main(String[] args)
 	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("Name", "Andy.Chen");
+		map.put("Age", 27);
+		map.put("ADDRESS", "在那遥远的小地方");
+		List<Map<String,Object> > list = new ArrayList<Map<String,Object>>();
+		map.put("Children", list);
+		for(int i=0; i<5; i++)
+		{
+			Map<String, Object> child = new HashMap<String, Object>();
+			child.put("Sex", "GIRL" + i);
+			child.put("Name", "LISAI" + i);
+			child.put("Age", 9 + i);
+			list.add(child);
+		}
+		System.out.println(StringUtil.getJsonFormObject(map));
+		
 	}
 	
 }

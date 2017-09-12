@@ -10,10 +10,41 @@ import java.util.Map;
 import com.system.constant.SysConstant;
 import com.system.database.JdbcControl;
 import com.system.database.QueryCallBack;
+import com.system.model.CpModel;
 import com.system.model.CpTroneModel;
+import com.system.util.StringUtil;
 
-public class CpTroneDao
+public class CpDataDao
 {
+	@SuppressWarnings("unchecked")
+	public List<CpModel> loadCpList()
+	{
+		String sql = "SELECT * FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp WHERE STATUS = 1";
+		return (List<CpModel>)new JdbcControl().query(sql, new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				List<CpModel> list = new ArrayList<CpModel>();
+				while(rs.next())
+				{
+					CpModel model = new CpModel();
+					model.setCpId(rs.getInt("id"));
+					model.setCurrency(rs.getInt("currency"));
+					model.setSignKey(StringUtil.getString(rs.getString("sign_key"), ""));
+					String ipList = StringUtil.getString(rs.getString("iplist"), "");
+					String[] ips = ipList.split(",");
+					for(String ip : ips)
+					{
+						model.getIpList().add(ip);
+					}
+					list.add(model);
+				}
+				return list;
+			}
+		});
+	}
+	
 	/**
 	 * 
 	 * @param type 1是用户建立 2是选择通道自主建立
@@ -22,7 +53,7 @@ public class CpTroneDao
 	@SuppressWarnings("unchecked")
 	public List<CpTroneModel> loadCpTroneList(int addType)
 	{
-		String sql = "SELECT a.id,a.cp_id,a.ratio cp_ratio,b.pro_id,b.ratio sp_ratio,c.send_sms,b.id trone_id";
+		String sql = "SELECT a.id,a.cp_id,a.ratio cp_ratio,b.pro_id,b.ratio sp_ratio,c.send_sms,b.id trone_id,";
 		sql += " c.id sp_trone_id,d.id sp_id,e.num flow_size,e.operator,e.price,f.use_rang rang,f.time_type";
 		sql += " FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp_trone a";
 		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_trone b ON a.trone_id = b.id";
@@ -71,7 +102,7 @@ public class CpTroneDao
 	
 	public CpTroneModel getCpTrone(int cpTroneId)
 	{
-		String sql = "SELECT a.id,a.cp_id,a.ratio cp_ratio,b.pro_id,b.ratio sp_ratio,c.send_sms,b.id trone_id";
+		String sql = "SELECT a.id,a.cp_id,a.ratio cp_ratio,b.pro_id,b.ratio sp_ratio,c.send_sms,b.id trone_id,e.id base_price_id";
 		sql += " c.id sp_trone_id,d.id sp_id,e.num flow_size,e.operator,e.price,f.use_rang rang,f.time_type";
 		sql += " FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp_trone a";
 		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_trone b ON a.trone_id = b.id";
@@ -102,6 +133,7 @@ public class CpTroneDao
 					model.setFlowSize(rs.getInt("flow_size"));
 					model.setOperator(rs.getInt("operator"));
 					model.setRang(rs.getInt("rang"));
+					model.setBasePriceId(rs.getInt("base_price_id"));
 					
 					return model;
 				}
@@ -110,9 +142,16 @@ public class CpTroneDao
 		});
 	}
 	
+	/**
+	 * 自动增加CP通道
+	 * @param cpId
+	 * @param troneId
+	 * @param ratio
+	 * @return
+	 */
 	public int addCpTrone(int cpId,int troneId,int ratio)
 	{
-		String sql = "insert into " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp_trone(cp_id,trone_id,ratio,status,add_type)(?,?,?,?,?)";
+		String sql = "insert into " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp_trone(cp_id,trone_id,ratio,status,add_type) values(?,?,?,?,?)";
 		
 		Map<Integer, Object> param = new HashMap<Integer, Object>();
 		

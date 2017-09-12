@@ -126,7 +126,7 @@ public class ToBusinessRequestServerV1
 		}
 		
 		//缓存中已存在相同的定单号
-		if(ToBusinessRedisServer.existCpOrderId(realCpId, orderId))
+		if(RedisServer.existCpOrderId(realCpId, orderId))
 		{
 			setResponseStatus(response, FlowConstant.TO_B_REQUEST_ORDER_REPEAT); 
 			return response;
@@ -167,7 +167,7 @@ public class ToBusinessRequestServerV1
 		redisCpOrderModel.setOrderId(orderModel.getOrderId());
 		redisCpOrderModel.setListSize(orderModel.getOrderList().size());
 		
-		ToBusinessRedisServer.setCpOrder(redisCpOrderModel);
+		RedisServer.setCpOrder(redisCpOrderModel);
 		
 		setResponseStatus(response,FlowConstant.TO_B_REQUEST_SUCCESS);
 		logger.info("end handle cp[" + realCpId + "] order[" + orderId + "]'s order ");

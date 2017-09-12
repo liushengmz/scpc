@@ -40,5 +40,9 @@ public class PhoneLocateModel
 		this.operator = operator;
 	}
 	
-	
+	@Override
+	public String toString()
+	{
+		return "phonePre:" + phonePre + ";provinceId:" + provinceId + ";cityId:" + cityId + ";operator:" + operator;
+	}
 }

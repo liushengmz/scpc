@@ -101,12 +101,14 @@ public class FlowConstant
 	 * SCOR CP 余额不足
 	 */
 	public static final int CP_SINGLE_ORDER_REQUEST_NOT_SUFFICIENT_FUNDS = 11012;
-	
-	
-	
-	
-	
-	
+	/**
+	 * SCOR 没有可以充值的通道 
+	 */
+	public static final int CP_SINGLE_ORDER_REQUEST_NO_SUITABLE_TRONE = 11013;
+	/**
+	 * SCOR 没有合适的流量充值包
+	 */
+	public static final int CP_SINGLE_ORDER_REQUEST_NOT_MATCH_FLOW_SIZE = 11014;
 	
 	
 	/*		########################################################
@@ -117,4 +119,6 @@ public class FlowConstant
 	 * 
 	 */
 	public static final int FLOW_SYS_CP_CODE_BASE_COUNT = 80000;
+	
+	//public static final int FLOW_
 }

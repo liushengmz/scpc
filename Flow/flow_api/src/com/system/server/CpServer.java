@@ -1,6 +1,6 @@
 package com.system.server;
 
-import com.system.dao.CpTroneDao;
+import com.system.dao.CpDataDao;
 
 public class CpServer
 {
@@ -23,6 +23,6 @@ public class CpServer
 	 */
 	public static int addCpTrone(int cpId,int troneId,int ratio)
 	{
-		return new CpTroneDao().addCpTrone(cpId, troneId, ratio);
+		return new CpDataDao().addCpTrone(cpId, troneId, ratio);
 	}
 }

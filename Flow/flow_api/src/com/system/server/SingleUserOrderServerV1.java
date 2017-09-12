@@ -1,20 +1,20 @@
 package com.system.server;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 import com.system.cache.BaseDataCache;
 import com.system.cache.LocateCache;
 import com.system.cache.SysConfigCache;
 import com.system.constant.FlowConstant;
+import com.system.dao.SingleCpOrderDao;
+import com.system.model.BasePriceModel;
 import com.system.model.CpModel;
 import com.system.model.CpRatioModel;
 import com.system.model.CpTroneModel;
-import com.system.model.CpUserOrderModel;
 import com.system.model.CpUserOrderResponseModel;
 import com.system.model.PhoneLocateModel;
-import com.system.model.ProvinceModel;
+import com.system.model.RedisCpSingleOrderModel;
+import com.system.model.TroneModel;
 import com.system.util.Base64UTF;
 import com.system.util.StringUtil;
 
@@ -109,13 +109,26 @@ public class SingleUserOrderServerV1
 			return response;
 		}
 		
+		String serverOrderId = StringUtil.getMd5String(realCpId + "_" + orderId, 16);
+		
+		boolean isClientOrderRepeat = RedisServer.existSingleCpOrder(serverOrderId);
+		
+		if(isClientOrderRepeat)
+		{
+			setResponseStatus(response, FlowConstant.CP_SINGLE_ORDER_REQUEST_ORDER_REPEAT);
+			return response;
+		}
+		
 		//以上就是检查用户的合法性
 		
 		String mobile = joParam.getString("mobile");
 		int rang = joParam.getInt("rang");
 		int flowSize = joParam.getInt("flowSize");
 		int timeType = joParam.getInt("timeType");
+		
 
+		//flowSize 和 timeType 后面再来检查
+		
 		if(StringUtil.isNullOrEmpty(mobile) || flowSize<=0 || rang>1 )
 		{
 			setResponseStatus(response, FlowConstant.CP_SINGLE_ORDER_REQUEST_LACK_PARAMS);
@@ -136,6 +149,14 @@ public class SingleUserOrderServerV1
 			return response;
 		}
 		
+		BasePriceModel basePrice = BaseDataCache.loadBasePrice(phoneModel.getOperator(), flowSize);
+		
+		if(basePrice==null)
+		{
+			setResponseStatus(response, FlowConstant.CP_SINGLE_ORDER_REQUEST_NOT_MATCH_FLOW_SIZE);
+			return response;
+		}
+		
 		//以上是检查数据的合法性
 		
 		CpRatioModel cpRatioModel = BaseDataCache.getCpRatio(realCpId, phoneModel.getOperator(), phoneModel.getProvinceId());
@@ -147,47 +168,106 @@ public class SingleUserOrderServerV1
 		}
 		
 		//数据查找逻辑
+		//1、根据 CPID PROVINCEID OPERATOR 等条件  查找已分配的 最优通道
+		//2、如果 没有已分配的通道，根据关系去上游通道去查找最优通道
 		
-		//2、根据 CPID PROVINCEID OPERATOR 查找已分配的 通道
-		//3、根据 通道列表查找最优方案
-		//4、如果 没有已分配的的通道列表，根据上游的关系链查找最优的通道
-		//5、检测 CPID 对应在我方的余额
-		//6、通知到支付上游。
+		CpTroneModel cpTroneModel = BaseDataCache.loadCpTrone(phoneModel.getProvinceId(),phoneModel.getOperator(),flowSize,rang,timeType);
 		
-		List<CpTroneModel> cpTroneList = BaseDataCache.loadCpTrone(realCpId, phoneModel.getProvinceId(),phoneModel.getOperator());
+		TroneModel troneModel = null;
 		
-		CpTroneModel cpTroneModel = null;
-		
-		if(cpTroneList!=null && !cpTroneList.isEmpty())
+		if(cpTroneModel==null)//没有在已配置的通道中找到则继续去未配置的通道里面找
 		{
-			int ratio = 0;
-			int index = 0;
-			int tmpRatio;
-			//就算是配置的通道，也得找出利润最高的通道出来
-			for(int i=0; i<cpTroneList.size(); i++)
+			troneModel = BaseDataCache.loadTroneModel(
+					phoneModel.getProvinceId(), phoneModel.getOperator(),flowSize,rang,
+					timeType, cpRatioModel.getRatio());
+			if(troneModel==null)
 			{
-				CpTroneModel tmp = cpTroneList.get(i);
-				tmpRatio = tmp.getCpRatio() - tmp.getSpRatio();
-				if(tmpRatio > ratio)
+				setResponseStatus(response, FlowConstant.CP_SINGLE_ORDER_REQUEST_NO_SUITABLE_TRONE);
+				return response;
+			}
+		}
+		
+		//如果这个不为空，则说明通过未配置的通道找到了，那么就要建立上下游的关系了
+		if(troneModel!=null)
+		{
+			//如果通道不存在则增加通道
+			if(!BaseDataCache.isExistCpTrone(realCpId, troneModel.getId()))
+			{
+				int cpTroneId =  CpServer.addCpTrone(realCpId, troneModel.getId(), cpRatioModel.getRatio());
+				
+				if(cpTroneId>0)
 				{
-					ratio = tmpRatio;
-					index = i;
+					BaseDataCache.addCpTroneHideCache(cpTroneId, realCpId, troneModel.getId());
+					
+					cpTroneModel = BaseDataCache.getCpTroneModelById(cpTroneId);
 				}
 			}
-			
-			cpTroneModel = cpTroneList.get(index);
 		}
 		
-		if(cpTroneModel==null)//通道没有在已配置的通道找出来则 继续去未配置的通道里面找
+		//能跑到这里来说明 cpTroneModel 这个对象就不会为空的了，然后就要开始以下逻辑
+		//1、检查CP的余额是否足够
+		//2、写临时表定单、月表定单、REDIS数据缓存
+		//3、通知上游进行充值	
+		
+		int cpRemainSum = RedisServer.getCpRemainingMoney(realCpId);
+		
+		if(cpRemainSum < cpTroneModel.getPrice()*cpTroneModel.getCpRatio())
 		{
-			
+			setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_NOT_SUFFICIENT_FUNDS);
+			return response;
 		}
 		
+		RedisCpSingleOrderModel redisModel = new RedisCpSingleOrderModel();
+		
+		redisModel.setBasePriceId(basePrice.getId());
+		redisModel.setClientOrderId(orderId);
+		redisModel.setCpId(realCpId);
+		redisModel.setCpRatio(cpTroneModel.getCpRatio());
+		redisModel.setCpTroneId(cpTroneModel.getId());
+		redisModel.setFlowSize(flowSize);
+		redisModel.setMobile(mobile);
+		redisModel.setMonthName(StringUtil.getMonthFormat());
+		redisModel.setOperator(phoneModel.getOperator());
+		redisModel.setPrice(cpTroneModel.getPrice());
+		redisModel.setRang(rang);
+		redisModel.setSendSms(cpTroneModel.getSendSms());
+		redisModel.setServerOrderId(serverOrderId);
+		redisModel.setSpId(cpTroneModel.getSpId());
+		redisModel.setSpRatio(cpTroneModel.getSpRatio());
+		redisModel.setSpTroneId(cpTroneModel.getTroneId());
+		redisModel.setTimeType(timeType);
+		redisModel.setTroneId(cpTroneModel.getTroneId());
+		
+		SingleCpOrderDao dao = new SingleCpOrderDao();
+		
+		int monthTableId = dao.addSingleCpOrderToMonthTable(redisModel);
+		
+		if(monthTableId<=0)
+		{
+			if(dao.isExistCpOrder(redisModel.getMonthName(), realCpId, orderId))
+			{
+				setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_ORDER_REPEAT);
+				return response;
+			}
+			else
+			{
+				setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_UN_KNOW_ERROR);
+				return response;
+			}
+		}
+		
+		redisModel.setMonthTableId(monthTableId);
+		
+		int tempTableId = dao.addSingleCpOrderToTempTable(redisModel);
+		
+		redisModel.setTempTableId(tempTableId);
+		
+		RedisServer.setSingleCpOrder(redisModel);
+		
+		setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_SUCCESS);
 		
 		return response;
 	}
-	
-	
 	
 	
 	private static void setResponseStatus(CpUserOrderResponseModel response,int resultCode)

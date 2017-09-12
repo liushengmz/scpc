@@ -17,6 +17,7 @@ public class CpTroneModel
 	private int spTroneId;
 	private int spId;
 	private int rang;
+	private int basePriceId;
 	
 	public int getId()
 	{
@@ -137,6 +138,14 @@ public class CpTroneModel
 	public void setRang(int rang)
 	{
 		this.rang = rang;
+	}
+	public int getBasePriceId()
+	{
+		return basePriceId;
+	}
+	public void setBasePriceId(int basePriceId)
+	{
+		this.basePriceId = basePriceId;
 	}
 	
 	

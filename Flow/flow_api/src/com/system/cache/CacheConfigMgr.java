@@ -5,9 +5,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.system.dao.BaseDataDao;
-import com.system.dao.CpTroneDao;
-import com.system.dao.LocateDao;
+import com.system.dao.CpDataDao;
+import com.system.dao.CpRatioDao;
 import com.system.dao.SysConfigDao;
+import com.system.dao.TroneDao;
 import com.system.model.SysCodeModel;
 import com.system.sdao.ConfigPropertiesDao;
 
@@ -35,9 +36,11 @@ public class CacheConfigMgr
 	 */
 	public static void refreshUnusualCache()
 	{
+		refreshConfigPropertiesCache();
 		refreshLocateCache();
 		refreshSysConfigCache();
-		logger.info("refreshUnusualCache finish");
+		refreshBasePrice();
+		logger.info("---------refreshUnusualCache finish");
 	}
 	
 	/**
@@ -46,9 +49,10 @@ public class CacheConfigMgr
 	public static void refreshFrequenceCache()
 	{
 		refreshCpCache();
-		refreshConfigPropertiesCache();
+		refreshCpRatio();
 		refreshCpTroneCache();
-		logger.info("refreshFrequenceCache finish");
+		refreshTrone();
+		logger.info("---------refreshFrequenceCache finish");
 	}
 	
 	/**
@@ -56,7 +60,7 @@ public class CacheConfigMgr
 	 */
 	private static void refreshCpCache()
 	{
-		BaseDataDao dao = new BaseDataDao();
+		CpDataDao dao = new CpDataDao();
 		BaseDataCache.setCpCache(dao.loadCpList());
 		logger.info("refreshCpCache finish");
 	}
@@ -77,12 +81,11 @@ public class CacheConfigMgr
 	 */
 	private static void refreshLocateCache()
 	{
-		LocateDao dao = new LocateDao();
+		BaseDataDao dao = new BaseDataDao();
 		LocateCache.setProvince(dao.loadProvinceList());
 		LocateCache.setCity(dao.loadCityList());
 		
 		LocateCache.setPhoneLocate(dao.loadPhoneLocateMap());
-		logger.info("还没有加载手机对应的地区哦");
 		logger.info("refreshLocateCache finish");
 	}
 	
@@ -95,9 +98,28 @@ public class CacheConfigMgr
 	
 	private static void refreshCpTroneCache()
 	{
-		CpTroneDao dao = new CpTroneDao();
+		CpDataDao dao = new CpDataDao();
 		BaseDataCache.setCpTroneCache(dao.loadCpTroneList(1));
+		BaseDataCache.setCpTroneHideCache(dao.loadCpTroneList(2));
 		logger.info("refreshCpTroneCache finish");
+	}
+	
+	private static void refreshCpRatio()
+	{
+		BaseDataCache.setCpRatioCache(new CpRatioDao().loadCpRatioList());
+		logger.info("refreshCpRatio finish");
+	}
+	
+	private static void refreshTrone()
+	{
+		BaseDataCache.setTroneCache(new TroneDao().loadTroneList());
+		logger.info("refreshTrone finish");
+	}
+	
+	private static void refreshBasePrice()
+	{
+		BaseDataCache.setBasePriceCache(new BaseDataDao().loadBasePriceData());
+		logger.info("refreshBasePrice finish");
 	}
 	
 	

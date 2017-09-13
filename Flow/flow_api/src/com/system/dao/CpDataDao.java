@@ -11,6 +11,7 @@ import com.system.constant.SysConstant;
 import com.system.database.JdbcControl;
 import com.system.database.QueryCallBack;
 import com.system.model.CpModel;
+import com.system.model.CpRatioModel;
 import com.system.model.CpTroneModel;
 import com.system.util.StringUtil;
 
@@ -43,6 +44,59 @@ public class CpDataDao
 				return list;
 			}
 		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<Integer, Integer> loadCpCurrency()
+	{
+		String sql = "SELECT * FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp WHERE STATUS = 1";
+		return (Map<Integer, Integer>)new JdbcControl().query(sql, new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+				while(rs.next())
+				{
+					map.put(rs.getInt("id"), rs.getInt("currency"));
+				}
+				return map;
+			}
+		});
+	}
+	
+	/**
+	 * 获取我方给下游的折扣
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CpRatioModel> loadCpRatioList()
+	{
+		String sql = "SELECT * FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp_ratio WHERE STATUS = 1";
+		return (List<CpRatioModel>)new JdbcControl().query(sql, new QueryCallBack()
+		{
+			
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				List<CpRatioModel> list = new ArrayList<CpRatioModel>(); 
+				
+				while(rs.next())
+				{
+					CpRatioModel model = new CpRatioModel();
+					model.setId(rs.getInt("id"));
+					model.setCpId(rs.getInt("cp_id"));
+					model.setOperator(rs.getInt("operator"));
+					model.setProId(rs.getInt("pro_id"));
+					model.setRatio(rs.getInt("ratio"));
+					model.setRemark(StringUtil.getString(rs.getString("remark"), ""));
+					list.add(model);
+				}
+				
+				return list;
+			}
+		});
+		
 	}
 	
 	/**
@@ -163,5 +217,17 @@ public class CpDataDao
 		
 		return new JdbcControl().insertWithGenKey(sql, param);
 	}
+	
+	/**
+	 * 更新CP的余额
+	 * @param cpId
+	 * @param fee
+	 */
+	public void updateCpCurrency(int cpId,int fee)
+	{
+		String sql = "update " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp set currency = " + fee + " where id = " + cpId;
+		new JdbcControl().execute(sql);
+	}
+	
 	
 }

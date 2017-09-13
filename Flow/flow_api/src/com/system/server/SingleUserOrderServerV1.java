@@ -109,7 +109,7 @@ public class SingleUserOrderServerV1
 			return response;
 		}
 		
-		String serverOrderId = StringUtil.getMd5String(realCpId + "_" + orderId, 16);
+		String serverOrderId = StringUtil.getMd5String(realCpId + "_" + orderId, 16).toUpperCase();
 		
 		boolean isClientOrderRepeat = RedisServer.existSingleCpOrder(serverOrderId);
 		
@@ -209,9 +209,9 @@ public class SingleUserOrderServerV1
 		//2、写临时表定单、月表定单、REDIS数据缓存
 		//3、通知上游进行充值	
 		
-		int cpRemainSum = RedisServer.getCpRemainingMoney(realCpId);
+		int cpRemainSum = BaseDataCache.getCpCurrency(realCpId);
 		
-		if(cpRemainSum < cpTroneModel.getPrice()*cpTroneModel.getCpRatio())
+		if(cpRemainSum < cpTroneModel.getPrice()*cpTroneModel.getCpRatio()/1000)
 		{
 			setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_NOT_SUFFICIENT_FUNDS);
 			return response;
@@ -237,6 +237,7 @@ public class SingleUserOrderServerV1
 		redisModel.setSpTroneId(cpTroneModel.getTroneId());
 		redisModel.setTimeType(timeType);
 		redisModel.setTroneId(cpTroneModel.getTroneId());
+		redisModel.setStatus(1);
 		
 		SingleCpOrderDao dao = new SingleCpOrderDao();
 		

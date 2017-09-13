@@ -15,9 +15,9 @@ import redis.clients.jedis.Jedis;
 public class RedisServer
 {
 	private static final String CP_ORDER_PREFIX = "CP_ORDER_PREFIX_";
-	private static final String SINGLE_CP_ORDER_REQUEST_PREFIX = "SINGLE_CP_ORDER_PREFIX_";
-	private static final String CP_REMAINING_MONEY_PREFIX  = "CP_REMAINING_MONEY_PREFIX_"; 
-	private static final String SP_REMAINING_MONEY_PREFIX  = "SP_REMAINING_MONEY_PREFIX_"; 
+	private static final String SINGLE_CP_ORDER_REQUEST_PREFIX = "SCOR_PREFIX_";
+//	private static final String CP_REMAINING_MONEY_PREFIX  = "CP_MONEY_PREFIX_"; 
+//	private static final String SP_REMAINING_MONEY_PREFIX  = "SP_MONEY_PREFIX_"; 
 	
 	/**
 	 * 是否存在 CP ORDER ID 
@@ -43,25 +43,6 @@ public class RedisServer
 		return RedisUtil.getJedis().exists(SINGLE_CP_ORDER_REQUEST_PREFIX + serverId);
 	}
 	
-	/**
-	 * 获取CP余额
-	 * @param cpId
-	 * @return
-	 */
-	public static int getCpRemainingMoney(int cpId)
-	{
-		return StringUtil.getInteger(RedisUtil.getJedis().get(CP_REMAINING_MONEY_PREFIX + cpId),0);
-	}
-	
-	/**
-	 * 获取SP余额
-	 * @param spId
-	 * @return
-	 */
-	public static int getSpRemainingMoney(int spId)
-	{
-		return StringUtil.getInteger(RedisUtil.getJedis().get(SP_REMAINING_MONEY_PREFIX + spId),0);
-	}
 	
 	/**
 	 * 根据ORDER
@@ -115,28 +96,30 @@ public class RedisServer
 		Jedis jedis = RedisUtil.getJedis();
 		String key = SINGLE_CP_ORDER_REQUEST_PREFIX + model.getServerOrderId();
 		Map<String, String> map = new HashMap<String, String>();
-		map.put(RedisCpSingleOrderModel.MAP_KEY_TEMP_TABLE_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_MONTH_NAME,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_MONTH_TABLE_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_CP_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_CLIENT_ORDER_ID	,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_FLOW_SIZE,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_OPERATOR,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_MOBILE,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_RANG,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_TIME_TYPE,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_CP_TRONE_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_TRONE_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_CP_RATIO,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_RATIO,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_TRONE_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_SEND_SMS,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_PRICE,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_SERVER_ORDER_ID,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_BASE_PRICE_ID,"");
+		map.put(RedisCpSingleOrderModel.MAP_KEY_TEMP_TABLE_ID,"" + model.getTempTableId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_MONTH_NAME,"" + model.getMonthName());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_MONTH_TABLE_ID,"" + model.getMonthTableId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CP_ID,"" + model.getCpId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CLIENT_ORDER_ID	,"" + model.getClientOrderId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_FLOW_SIZE,"" + model.getFlowSize());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_OPERATOR,"" + model.getOperator());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_MOBILE,"" + model.getMobile());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_RANG,"" + model.getRang());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_TIME_TYPE,"" + model.getTimeType());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CP_TRONE_ID,"" + model.getCpTroneId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_TRONE_ID,"" + model.getTroneId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CP_RATIO,"" + model.getCpRatio());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_RATIO,"" + model.getSpRatio());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_TRONE_ID,"" + model.getSpTroneId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_ID,"" + model.getSpId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SEND_SMS,"" + model.getSendSms());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_PRICE,"" + model.getPrice());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SERVER_ORDER_ID,"" + model.getServerOrderId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_BASE_PRICE_ID,"" + model.getBasePriceId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_STATUS,"" + model.getStatus());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_STATUS,"");
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_ERROR_MSG,"");
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CREATE_DATE, StringUtil.getNowFormat());
 		
 		if(jedis.hgetAll(key)!=null)
 		{

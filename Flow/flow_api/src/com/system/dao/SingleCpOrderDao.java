@@ -21,7 +21,7 @@ public class SingleCpOrderDao
 	{
 		String sql = "INSERT INTO " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list_" + model.getMonthName() 
 		+ " (cp_order_id,sp_order_id,mobile,operator,flowsize,use_rang,time_type,";
-		sql += " cp_trone_id,cp_id,cp_ratio,STATUS,trone_id,sptrone_id,sp_id,sp_ratio,base_price_id)";
+		sql += " cp_trone_id,cp_id,cp_ratio,status,trone_id,sp_trone_id,sp_id,sp_ratio,base_price_id)";
 		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		Map<Integer, Object> params = new HashMap<Integer, Object>();
@@ -35,7 +35,7 @@ public class SingleCpOrderDao
 		params.put(8, model.getCpTroneId());
 		params.put(9, model.getCpId());
 		params.put(10, model.getCpRatio());
-		params.put(11, model.getSpStatus());
+		params.put(11, model.getStatus());
 		params.put(12, model.getTroneId());
 		params.put(13, model.getSpTroneId());
 		params.put(14, model.getSpId());
@@ -54,8 +54,8 @@ public class SingleCpOrderDao
 	{
 		String sql = "INSERT INTO " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list"
 		+ " (cp_order_id,sp_order_id,mobile,operator,flowsize,use_rang,time_type,";
-		sql += " cp_trone_id,cp_id,cp_ratio,STATUS,trone_id,sptrone_id,sp_id,sp_ratio,base_price_id,month_table_id)";
-		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql += " cp_trone_id,cp_id,cp_ratio,status,trone_id,sp_trone_id,sp_id,sp_ratio,base_price_id,month_table_id,month)";
+		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		Map<Integer, Object> params = new HashMap<Integer, Object>();
 		params.put(1, model.getClientOrderId());
@@ -68,13 +68,14 @@ public class SingleCpOrderDao
 		params.put(8, model.getCpTroneId());
 		params.put(9, model.getCpId());
 		params.put(10, model.getCpRatio());
-		params.put(11, model.getSpStatus());
+		params.put(11, model.getStatus());
 		params.put(12, model.getTroneId());
 		params.put(13, model.getSpTroneId());
 		params.put(14, model.getSpId());
 		params.put(15, model.getSpRatio());
 		params.put(16, model.getBasePriceId());
 		params.put(17, model.getMonthTableId());
+		params.put(18, model.getMonthName());
 		
 		return new JdbcControl().insertWithGenKey(sql, params);
 	}

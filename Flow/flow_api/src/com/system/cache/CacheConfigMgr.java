@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import com.system.dao.BaseDataDao;
 import com.system.dao.CpDataDao;
-import com.system.dao.CpRatioDao;
 import com.system.dao.SysConfigDao;
 import com.system.dao.TroneDao;
 import com.system.model.SysCodeModel;
@@ -52,6 +51,8 @@ public class CacheConfigMgr
 		refreshCpRatio();
 		refreshCpTroneCache();
 		refreshTrone();
+		refreshCpCurrency();
+		refreshSpCurrency();
 		logger.info("---------refreshFrequenceCache finish");
 	}
 	
@@ -106,7 +107,7 @@ public class CacheConfigMgr
 	
 	private static void refreshCpRatio()
 	{
-		BaseDataCache.setCpRatioCache(new CpRatioDao().loadCpRatioList());
+		BaseDataCache.setCpRatioCache(new CpDataDao().loadCpRatioList());
 		logger.info("refreshCpRatio finish");
 	}
 	
@@ -122,6 +123,17 @@ public class CacheConfigMgr
 		logger.info("refreshBasePrice finish");
 	}
 	
+	private static void refreshCpCurrency()
+	{
+		BaseDataCache.setCpCurrencyCache(new CpDataDao().loadCpCurrency());
+		logger.info("refreshCpCurrency finish");
+	}
+	
+	private static void refreshSpCurrency()
+	{
+		BaseDataCache.setSpCurrencyCache(new BaseDataDao().loadSpCurrency());
+		logger.info("refreshSpCurrency finish");
+	}
 	
 	public static void init(){}
 }

@@ -1,7 +1,9 @@
 package com.system.cache;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.system.dao.CpDataDao;
 import com.system.model.BasePriceModel;
@@ -9,7 +11,6 @@ import com.system.model.CpModel;
 import com.system.model.CpRatioModel;
 import com.system.model.CpTroneModel;
 import com.system.model.TroneModel;
-import com.system.server.RedisServer;
 
 public class BaseDataCache
 {
@@ -24,6 +25,10 @@ public class BaseDataCache
 	private static List<TroneModel> troneCache = new ArrayList<TroneModel>();
 	
 	private static List<BasePriceModel> basePriceCache = new ArrayList<BasePriceModel>();
+	
+	private static Map<Integer, Integer> spCurrencyCache = new HashMap<Integer, Integer>();
+	
+	private static Map<Integer,Integer> cpCurrencyCache = new HashMap<Integer, Integer>();
 	
 	protected static void setCpCache(List<CpModel> cpList)
 	{
@@ -53,6 +58,16 @@ public class BaseDataCache
 	protected static void setBasePriceCache(List<BasePriceModel> list)
 	{
 		basePriceCache = list;
+	}
+	
+	protected static void setSpCurrencyCache(Map<Integer, Integer> map)
+	{
+		spCurrencyCache = map;
+	}
+	
+	protected static void setCpCurrencyCache(Map<Integer,Integer> map)
+	{
+		cpCurrencyCache = map;
 	}
 	
 	public static CpModel loadCpById(int cpId)
@@ -92,7 +107,9 @@ public class BaseDataCache
 					&& model.getOperator() == operator
 					&& model.getFlowSize() == flowSize
 					&& model.getRang() == rang
-					&& model.getTimeType() == timeType)
+					&& model.getTimeType() == timeType
+					&& BaseDataCache.getSpCurrency(model.getSpId()) > 
+					(model.getPrice() * model.getSpRatio() / 1000))
 			{
 				//并找到利润最高的一条通道
 				tmpRatio = model.getCpRatio() - model.getSpRatio();
@@ -221,7 +238,7 @@ public class BaseDataCache
 					&& model.getRang() == rang
 					&& model.getTimeType() == timeType
 					//满足这些条件的同时要在上游有余额
-					&& RedisServer.getSpRemainingMoney(model.getSpId()) > 
+					&& BaseDataCache.getSpCurrency(model.getSpId()) > 
 						(model.getPrice() * model.getRatio() / 1000))
 			{
 				//并找到利润最高的一条通道
@@ -259,5 +276,74 @@ public class BaseDataCache
 		
 		return null;
 	}
+	
+	/**
+	 * 根据SPID获取充值余额
+	 * @param spId
+	 * @return
+	 */
+	public static int getSpCurrency(int spId)
+	{
+		return spCurrencyCache.containsKey(spId) ? spCurrencyCache.get(spId) : 0 ;
+	}
+	
+	/**
+	 * 根据CPID获取充值余额
+	 * @param cpId
+	 * @return
+	 */
+	public static int getCpCurrency(int cpId)
+	{
+		return cpCurrencyCache.containsKey(cpId) ? cpCurrencyCache.get(cpId) : 0 ;
+	}
+	
+	/**
+	 * 更新SP余额
+	 * @param spId
+	 * @param fee
+	 * @param isDel true从当前余额中减去 fee; false把fee增加进当前余额 (充值成功及退款)
+	 */
+	public static void updateSpCurrency(int spId,int fee,boolean isDel)
+	{
+		if(spCurrencyCache.containsKey(spId))
+		{
+			if(isDel)
+				spCurrencyCache.put(spId, spCurrencyCache.get(spId) - fee);
+			else
+				spCurrencyCache.put(spId, spCurrencyCache.get(spId) + fee); 
+		}
+		else
+		{
+			if(isDel)
+				spCurrencyCache.put(spId, -fee);
+			else
+				spCurrencyCache.put(spId, fee); 
+		}
+	}
+	
+	/**
+	 * 更新CP余额
+	 * @param spId
+	 * @param fee
+	 * @param isDel true从当前余额中减去 fee; false把fee增加进当前余额 (充值成功及退款)
+	 */
+	public static void updateCpCurrency(int cpId,int fee,boolean isDel)
+	{
+		if(cpCurrencyCache.containsKey(cpId))
+		{
+			if(isDel)
+				cpCurrencyCache.put(cpId, spCurrencyCache.get(cpId) - fee);
+			else
+				cpCurrencyCache.put(cpId, spCurrencyCache.get(cpId) + fee); 
+		}
+		else
+		{
+			if(isDel)
+				cpCurrencyCache.put(cpId, -fee);
+			else
+				cpCurrencyCache.put(cpId, fee); 
+		}
+	}
+	
 	
 }

@@ -186,6 +186,7 @@ public class StringUtil
 	
 	private static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMM");
+	private static SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	//传入 yyyy-MM-dd 的格式 传回 yyyyMM 的格式
 	public static String getMonthFormat(String date)
@@ -202,6 +203,11 @@ public class StringUtil
 	public static  String getMonthFormat()
 	{
 		return sdf2.format(new Date());
+	}
+	
+	public static String getNowFormat()
+	{
+		return sdf3.format(new Date());
 	}
 	
 	private static DecimalFormat df1 = new DecimalFormat("###0.00%");
@@ -222,6 +228,8 @@ public class StringUtil
 	{
 		return df2.format(data);
 	}
+	
+	
 	
 	public static String mergerStrings(String[] oris,String splitor)
 	{

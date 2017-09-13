@@ -33,6 +33,8 @@ public class RedisCpSingleOrderModel
 	public static final String	MAP_KEY_BASE_PRICE_ID	= "BASE_PRICE_ID";
 	public static final String	MAP_KEY_SP_STATUS		= "SP_STATUS";
 	public static final String	MAP_KEY_SP_ERROR_MSG	= "SP_ERROR_MSG";
+	public static final String	MAP_KEY_STATUS			= "STATUS";
+	public static final String 	MAP_KEY_CREATE_DATE		= "CREATE_DATE";
 
 	private int					tempTableId;
 	private String				monthName;
@@ -56,6 +58,8 @@ public class RedisCpSingleOrderModel
 	private int					basePriceId;
 	private String				spStatus;
 	private String				spErrorMsg;
+	private int					status;
+	private String				createDate;
 
 	public int getTempTableId()
 	{
@@ -275,6 +279,26 @@ public class RedisCpSingleOrderModel
 	public void setSpErrorMsg(String spErrorMsg)
 	{
 		this.spErrorMsg = spErrorMsg;
+	}
+
+	public int getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(int status)
+	{
+		this.status = status;
+	}
+
+	public String getCreateDate()
+	{
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate)
+	{
+		this.createDate = createDate;
 	}
 
 	// 原始 KEY用 CP_SINGLE_CPID_CLIENT_ORDER_ID

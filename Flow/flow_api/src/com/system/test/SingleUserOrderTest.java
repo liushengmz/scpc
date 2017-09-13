@@ -7,6 +7,7 @@ import com.system.cache.CacheConfigMgr;
 import com.system.constant.FlowConstant;
 import com.system.server.SingleUserOrderServerV1;
 import com.system.util.Base64UTF;
+import com.system.util.RedisUtil;
 import com.system.util.StringUtil;
 
 public class SingleUserOrderTest
@@ -15,8 +16,10 @@ public class SingleUserOrderTest
 	private static String key = "*B92E689A034E998DBE0D7367CB62A9496EDC7237";
 	
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
+		RedisUtil.init();
+		Thread.sleep(1000);
 		CacheConfigMgr.init();
 		
 		Map<String, Object> map = new HashMap<String, Object>();

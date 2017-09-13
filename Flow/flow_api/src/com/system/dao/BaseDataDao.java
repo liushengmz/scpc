@@ -124,5 +124,28 @@ public class BaseDataDao
 		});
 	}
 	
+	public void updateSpCurrency(int spId,int fee)
+	{
+		String sql = "update " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_sp set currency = " + fee + " where id = " + spId;
+		new JdbcControl().execute(sql);
+	}
 	
+	@SuppressWarnings("unchecked")
+	public Map<Integer, Integer> loadSpCurrency()
+	{
+		String sql = "SELECT * FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_sp WHERE STATUS = 1";
+		return (Map<Integer, Integer>)new JdbcControl().query(sql, new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+				while(rs.next())
+				{
+					map.put(rs.getInt("id"), rs.getInt("currency"));
+				}
+				return map;
+			}
+		});
+	}
 }

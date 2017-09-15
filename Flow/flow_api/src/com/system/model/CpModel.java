@@ -11,6 +11,7 @@ public class CpModel
 	private int status;
 	private String signKey;
 	private List<String> ipList = new ArrayList<String>();
+	private String notifyUrl = "";
 	
 	public int getCpId()
 	{
@@ -59,6 +60,14 @@ public class CpModel
 	public void setIpList(List<String> ipList)
 	{
 		this.ipList = ipList;
+	}
+	public String getNotifyUrl()
+	{
+		return notifyUrl;
+	}
+	public void setNotifyUrl(String notifyUrl)
+	{
+		this.notifyUrl = notifyUrl;
 	}
 	
 	

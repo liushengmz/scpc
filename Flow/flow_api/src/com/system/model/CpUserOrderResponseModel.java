@@ -1,7 +1,5 @@
 package com.system.model;
 
-import java.util.Map;
-
 /**
  * CP单个充值的返回码
  * @author Andy.Chen

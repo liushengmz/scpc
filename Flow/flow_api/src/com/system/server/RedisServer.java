@@ -112,6 +112,7 @@ public class RedisServer
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_RATIO,"" + model.getSpRatio());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_TRONE_ID,"" + model.getSpTroneId());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_ID,"" + model.getSpId());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_API_ID,"" + model.getSpApiId());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SEND_SMS,"" + model.getSendSms());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_PRICE,"" + model.getPrice());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SERVER_ORDER_ID,"" + model.getServerOrderId());
@@ -119,14 +120,69 @@ public class RedisServer
 		map.put(RedisCpSingleOrderModel.MAP_KEY_STATUS,"" + model.getStatus());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_STATUS,"");
 		map.put(RedisCpSingleOrderModel.MAP_KEY_SP_ERROR_MSG,"");
-		map.put(RedisCpSingleOrderModel.MAP_KEY_CREATE_DATE, StringUtil.getNowFormat());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CREATE_DATE, model.getCreateDate());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_URL, model.getNotifyUrl());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_STATUS, "" + model.getNotifyStatus());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_URL, model.getNotifyUrl());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_TIMES,"" + model.getNotifyTimes());
+		map.put(RedisCpSingleOrderModel.MAP_KEY_LAST_NOTIFY_MILS,"0");
 		
-		if(jedis.hgetAll(key)!=null)
+		if(!jedis.exists(key))
 		{
 			jedis.hmset(key, map);
 			jedis.expire(key,RedisUtil.REDIS_OBJECT_EXPIRED_SECONDS);
 		}
 	}
 	
+	/**
+	 * 根据 SP ORDER ID 取得整个MAP
+	 * @param spOrderId
+	 * @return
+	 */
+	public static Map<String, String> getSingleCpOrder(String spOrderId)
+	{
+		Jedis jedis = RedisUtil.getJedis();
+		return jedis.hgetAll(SINGLE_CP_ORDER_REQUEST_PREFIX + spOrderId);
+	}
+	
+	
+	public static void updateRedisData(int type,String key,Map<String, String> map)
+	{
+		if(map==null)
+			return;
+		
+		String deskey = "";
+		
+		if(type==1)
+		{
+			deskey = SINGLE_CP_ORDER_REQUEST_PREFIX + key;
+		}
+		else
+		{
+			return;
+		}
+		
+		Jedis jedis = RedisUtil.getJedis();
+		
+		jedis.hmset(deskey, map);
+		
+		jedis.expire(deskey,RedisUtil.REDIS_OBJECT_EXPIRED_SECONDS);
+		
+	}
+	
+	public static void main(String[] args) throws InterruptedException
+	{
+		String spOrderId = "FEE4D26158A9842B";
+		RedisUtil.init();
+		Thread.sleep(1000);;
+		Jedis jedis = RedisUtil.getJedis();
+		
+		Map<String, String> map = jedis.hgetAll(SINGLE_CP_ORDER_REQUEST_PREFIX + spOrderId);
+		map.put(RedisCpSingleOrderModel.MAP_KEY_CREATE_DATE, StringUtil.getNowFormat());
+			
+		updateRedisData(1,spOrderId,map);
+		
+		System.out.println("finish");
+	}
 	
 }

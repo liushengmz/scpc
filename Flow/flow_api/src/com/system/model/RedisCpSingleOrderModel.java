@@ -15,7 +15,7 @@ public class RedisCpSingleOrderModel
 	public static final String	MAP_KEY_MONTH_NAME		= "MONTH_NAME";
 	public static final String	MAP_KEY_MONTH_TABLE_ID	= "MONTH_TABLE_ID";
 	public static final String	MAP_KEY_CP_ID			= "CP_ID";
-	public static final String	MAP_KEY_CLIENT_ORDER_ID	= "CLIENT_ORDER_ID";
+	public static final String	MAP_KEY_CLIENT_ORDER_ID	= "CP_ORDER_ID";
 	public static final String	MAP_KEY_FLOW_SIZE		= "FLOW_SIZE";
 	public static final String	MAP_KEY_OPERATOR		= "OPERATOR";
 	public static final String	MAP_KEY_MOBILE			= "MOBILE";
@@ -27,14 +27,20 @@ public class RedisCpSingleOrderModel
 	public static final String	MAP_KEY_SP_RATIO		= "SP_RATIO";
 	public static final String	MAP_KEY_SP_TRONE_ID		= "SP_TRONE_ID";
 	public static final String	MAP_KEY_SP_ID			= "SP_ID";
+	public static final String  MAP_KEY_SP_API_ID		= "SP_API_ID";
 	public static final String	MAP_KEY_SEND_SMS		= "SEND_SMS";
 	public static final String	MAP_KEY_PRICE			= "PRICE";
-	public static final String	MAP_KEY_SERVER_ORDER_ID	= "SERVER_ORDER_ID";
+	public static final String	MAP_KEY_SERVER_ORDER_ID	= "SP_ORDER_ID";
 	public static final String	MAP_KEY_BASE_PRICE_ID	= "BASE_PRICE_ID";
 	public static final String	MAP_KEY_SP_STATUS		= "SP_STATUS";
 	public static final String	MAP_KEY_SP_ERROR_MSG	= "SP_ERROR_MSG";
 	public static final String	MAP_KEY_STATUS			= "STATUS";
 	public static final String 	MAP_KEY_CREATE_DATE		= "CREATE_DATE";
+	public static final String	MAP_KEY_NOTIFY_URL		= "NOTIFY_URL";
+	public static final String	MAP_KEY_CREATE_MILS		= "CREATE_MILS";
+	public static final String	MAP_KEY_NOTIFY_STATUS	= "NOTIFY_STATUS";
+	public static final String	MAP_KEY_NOTIFY_TIMES	= "NOTIFY_TIMES";
+	public static final String	MAP_KEY_LAST_NOTIFY_MILS	= "LAST_NOTIFY_MILS";
 
 	private int					tempTableId;
 	private String				monthName;
@@ -50,6 +56,7 @@ public class RedisCpSingleOrderModel
 	private int					troneId;
 	private int					spTroneId;
 	private int					spId;
+	private int 				spApiId;
 	private int					sendSms;
 	private int					price;
 	private int					cpRatio;
@@ -60,6 +67,12 @@ public class RedisCpSingleOrderModel
 	private String				spErrorMsg;
 	private int					status;
 	private String				createDate;
+	private long 				createMils;
+	private String				notifyUrl;
+	private int					notifyStatus;
+	private int					notifyTimes;
+	private int					lastNotifyMils;
+	
 
 	public int getTempTableId()
 	{
@@ -241,6 +254,16 @@ public class RedisCpSingleOrderModel
 		this.spId = spId;
 	}
 
+	public int getSpApiId()
+	{
+		return spApiId;
+	}
+
+	public void setSpApiId(int spApiId)
+	{
+		this.spApiId = spApiId;
+	}
+
 	public void setSendSms(int sendSms)
 	{
 		this.sendSms = sendSms;
@@ -299,6 +322,56 @@ public class RedisCpSingleOrderModel
 	public void setCreateDate(String createDate)
 	{
 		this.createDate = createDate;
+	}
+
+	public long getCreateMils()
+	{
+		return createMils;
+	}
+
+	public void setCreateMils(long createMils)
+	{
+		this.createMils = createMils;
+	}
+
+	public String getNotifyUrl()
+	{
+		return notifyUrl;
+	}
+
+	public int getNotifyStatus()
+	{
+		return notifyStatus;
+	}
+
+	public int getNotifyTimes()
+	{
+		return notifyTimes;
+	}
+
+	public void setNotifyUrl(String notifyUrl)
+	{
+		this.notifyUrl = notifyUrl;
+	}
+
+	public void setNotifyStatus(int notifyStatus)
+	{
+		this.notifyStatus = notifyStatus;
+	}
+
+	public void setNotifyTimes(int notifyTimes)
+	{
+		this.notifyTimes = notifyTimes;
+	}
+
+	public int getLastNotifyMils()
+	{
+		return lastNotifyMils;
+	}
+
+	public void setLastNotifyMils(int lastNotifyMils)
+	{
+		this.lastNotifyMils = lastNotifyMils;
 	}
 
 	// 原始 KEY用 CP_SINGLE_CPID_CLIENT_ORDER_ID

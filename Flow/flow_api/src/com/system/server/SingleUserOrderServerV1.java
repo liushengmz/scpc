@@ -126,7 +126,6 @@ public class SingleUserOrderServerV1
 		int flowSize = joParam.getInt("flowSize");
 		int timeType = joParam.getInt("timeType");
 		
-
 		//flowSize 和 timeType 后面再来检查
 		
 		if(StringUtil.isNullOrEmpty(mobile) || flowSize<=0 || rang>1 )
@@ -238,6 +237,13 @@ public class SingleUserOrderServerV1
 		redisModel.setTimeType(timeType);
 		redisModel.setTroneId(cpTroneModel.getTroneId());
 		redisModel.setStatus(1);
+		redisModel.setNotifyUrl(cpModel.getNotifyUrl());
+		redisModel.setNotifyStatus(0);
+		redisModel.setNotifyTimes(0);
+		redisModel.setCreateMils(System.currentTimeMillis());
+		redisModel.setCreateDate(StringUtil.getNowFormat());
+		redisModel.setSpApiId(cpTroneModel.getSpApiId());
+		
 		
 		SingleCpOrderDao dao = new SingleCpOrderDao();
 		

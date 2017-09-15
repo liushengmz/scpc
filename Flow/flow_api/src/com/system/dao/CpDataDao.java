@@ -39,6 +39,7 @@ public class CpDataDao
 					{
 						model.getIpList().add(ip);
 					}
+					model.setNotifyUrl(StringUtil.getString(rs.getString("notify_url"), ""));
 					list.add(model);
 				}
 				return list;
@@ -107,7 +108,7 @@ public class CpDataDao
 	@SuppressWarnings("unchecked")
 	public List<CpTroneModel> loadCpTroneList(int addType)
 	{
-		String sql = "SELECT a.id,a.cp_id,a.ratio cp_ratio,b.pro_id,b.ratio sp_ratio,c.send_sms,b.id trone_id,";
+		String sql = "SELECT a.id,a.cp_id,a.ratio cp_ratio,b.pro_id,b.ratio sp_ratio,c.send_sms,b.id trone_id,g.id sp_api_id,";
 		sql += " c.id sp_trone_id,d.id sp_id,e.num flow_size,e.operator,e.price,f.use_rang rang,f.time_type";
 		sql += " FROM " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_cp_trone a";
 		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_trone b ON a.trone_id = b.id";
@@ -115,6 +116,7 @@ public class CpDataDao
 		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_sp d ON c.sp_id = d.id";
 		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_basic_price e ON c.price_id = e.id";
 		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_flow_type f ON c.flow_type_id = f.id";
+		sql += " LEFT JOIN " + SysConstant.DB_CONFIG_MAIN + ".tbl_f_sp_api g ON c.sp_api_id = g.id";
 		sql += " WHERE a.status = 1";
 		sql += " AND b.status = 1 AND c.status  = 1";
 		
@@ -146,6 +148,7 @@ public class CpDataDao
 					model.setFlowSize(rs.getInt("flow_size"));
 					model.setOperator(rs.getInt("operator"));
 					model.setRang(rs.getInt("rang"));
+					model.setSpApiId(rs.getInt("sp_api_id"));
 					
 					list.add(model);
 				}

@@ -13,6 +13,7 @@ public class TroneModel
 	private int sendSms;
 	private int spTroneId;
 	private int spId;
+	private int spApiId;
 	private int rang;
 	public int getId()
 	{
@@ -57,6 +58,14 @@ public class TroneModel
 	public int getSpId()
 	{
 		return spId;
+	}
+	public int getSpApiId()
+	{
+		return spApiId;
+	}
+	public void setSpApiId(int spApiId)
+	{
+		this.spApiId = spApiId;
 	}
 	public int getRang()
 	{

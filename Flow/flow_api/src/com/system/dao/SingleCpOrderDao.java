@@ -102,4 +102,34 @@ public class SingleCpOrderDao
 		}) > 0 ;
 	}
 	
+	/**
+	 * 更新临时表的状态
+	 * @param tempTableId
+	 * @param syncStatus
+	 * @param lastSyncMils
+	 * @param syncTimes
+	 * @return
+	 */
+	public boolean updateSingleCpOrderSyncStatusInTempTable(int tempTableId,int syncStatus,long lastSyncMils,int syncTimes)
+	{
+		String sql = "UPDATE daily_log.tbl_f_cp_order_list SET notify_status = " + syncStatus + ", notify_times = " + syncTimes + ", last_notify_mils = " + lastSyncMils + " WHERE id  = " + tempTableId;
+		
+		return new JdbcControl().execute(sql);
+	}
+	
+	/**
+	 * 更新月表的状态
+	 * @param tableName
+	 * @param monthTableId
+	 * @param syncStatus
+	 * @param lastSyncMils
+	 * @param syncTimes
+	 * @return
+	 */
+	public boolean updateSingleCpOrderSyncStatusInMonthTable(String tableName,int monthTableId,int syncStatus,long lastSyncMils,int syncTimes)
+	{
+		String sql = "UPDATE daily_log.tbl_f_cp_order_list_" + tableName + " SET notify_status = " + syncStatus + ", notify_times = " + syncTimes + ", last_notify_mils = " + lastSyncMils + " WHERE id  = " + monthTableId;
+		return new JdbcControl().execute(sql);
+	}
+	
 }

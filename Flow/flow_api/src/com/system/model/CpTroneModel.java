@@ -16,6 +16,7 @@ public class CpTroneModel
 	private int sendSms;
 	private int spTroneId;
 	private int spId;
+	private int spApiId;
 	private int rang;
 	private int basePriceId;
 	
@@ -74,6 +75,14 @@ public class CpTroneModel
 	public int getSpId()
 	{
 		return spId;
+	}
+	public int getSpApiId()
+	{
+		return spApiId;
+	}
+	public void setSpApiId(int spApiId)
+	{
+		this.spApiId = spApiId;
 	}
 	public int getRang()
 	{

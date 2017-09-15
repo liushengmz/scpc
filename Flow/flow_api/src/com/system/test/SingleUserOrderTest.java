@@ -28,7 +28,7 @@ public class SingleUserOrderTest
 		map.put("sign",StringUtil.getMd5String(cpId + map.get("orderId").toString() + key, 32));
 		map.put("mobile", "13436104976");
 		map.put("rang", 0);
-		map.put("flowSize", 500);
+		map.put("flowSize", 10);
 		map.put("timeType", 0);
 		
 		String json = StringUtil.getJsonFormObject(map);

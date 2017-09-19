@@ -31,7 +31,7 @@ public class CpDataDao
 				{
 					CpModel model = new CpModel();
 					model.setCpId(rs.getInt("id"));
-					model.setCurrency(rs.getInt("currency"));
+					//model.setCurrency(rs.getInt("currency"));
 					model.setSignKey(StringUtil.getString(rs.getString("sign_key"), ""));
 					String ipList = StringUtil.getString(rs.getString("iplist"), "");
 					String[] ips = ipList.split(",");

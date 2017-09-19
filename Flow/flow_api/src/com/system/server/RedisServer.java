@@ -172,17 +172,10 @@ public class RedisServer
 	
 	public static void main(String[] args) throws InterruptedException
 	{
-		String spOrderId = "FEE4D26158A9842B";
+		String spOrderId = "fdsafewq";
 		RedisUtil.init();
 		Thread.sleep(1000);;
-		Jedis jedis = RedisUtil.getJedis();
-		
-		Map<String, String> map = jedis.hgetAll(SINGLE_CP_ORDER_REQUEST_PREFIX + spOrderId);
-		map.put(RedisCpSingleOrderModel.MAP_KEY_CREATE_DATE, StringUtil.getNowFormat());
-			
-		updateRedisData(1,spOrderId,map);
-		
-		System.out.println("finish");
+		System.out.println(getSingleCpOrder(spOrderId));
 	}
 	
 }

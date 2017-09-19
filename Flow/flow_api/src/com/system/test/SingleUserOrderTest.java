@@ -30,6 +30,7 @@ public class SingleUserOrderTest
 		map.put("rang", 0);
 		map.put("flowSize", 10);
 		map.put("timeType", 0);
+		map.put("notifyUrl", "http://www.sznews.com/");
 		
 		String json = StringUtil.getJsonFormObject(map);
 		String encodeData = Base64UTF.encode(json);

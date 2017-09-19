@@ -7,7 +7,7 @@ public class CpModel
 {
 	private int cpId;
 	private String fullName;
-	private int currency;
+	//private int currency;
 	private int status;
 	private String signKey;
 	private List<String> ipList = new ArrayList<String>();
@@ -21,10 +21,10 @@ public class CpModel
 	{
 		return fullName;
 	}
-	public int getCurrency()
-	{
-		return currency;
-	}
+//	public int getCurrency()
+//	{
+//		return currency;
+//	}
 	public int getStatus()
 	{
 		return status;
@@ -41,10 +41,10 @@ public class CpModel
 	{
 		this.fullName = fullName;
 	}
-	public void setCurrency(int currency)
-	{
-		this.currency = currency;
-	}
+//	public void setCurrency(int currency)
+//	{
+//		this.currency = currency;
+//	}
 	public void setStatus(int status)
 	{
 		this.status = status;

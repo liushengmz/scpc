@@ -2,6 +2,8 @@ package com.system.server;
 
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.JsonObject;
 import com.system.cache.BaseDataCache;
 import com.system.cache.SyncCacheMgr;
@@ -16,6 +18,9 @@ import com.system.util.StringUtil;
 
 public class SyncToCpServer implements Runnable
 {
+	
+	private Logger logger = Logger.getLogger(SyncToCpServer.class);
+	
 	private String _key = null;
 	
 	private Map<String, String> _map = null;
@@ -43,6 +48,7 @@ public class SyncToCpServer implements Runnable
 		boolean isSyncSuc  = syncToClient();
 		
 		int syncTimes = StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_TIMES), 0);
+		int cpId = StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_CP_ID), 0);
 		
 		syncTimes++;
 		
@@ -82,11 +88,14 @@ public class SyncToCpServer implements Runnable
 		
 		RedisServer.updateRedisData(1, _key, _map);
 		
+		logger.info("Sync To Cp[" + cpId + "] " + (isSyncSuc ? "SUCCESS" : "FAIL"));
 	}
 	
 	private boolean syncToClient()
 	{
 		String postData = getPostJson();
+		
+		System.out.println(postData);
 		
 		String url = _map.get(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_URL);
 		
@@ -112,9 +121,10 @@ public class SyncToCpServer implements Runnable
 			String sign = StringUtil.getMd5String((FlowConstant.FLOW_SYS_CP_CODE_BASE_COUNT + cpId) + orderId + cpModel.getSignKey(), 32);
 			jo.addProperty("order", orderId);
 			jo.addProperty("sign", sign);
-			jo.addProperty("status", StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_STATUS),0));
+			int status = StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_STATUS),0);
+			jo.addProperty("status", status==2 ? 12000 : status);
 			SysCodeModel codeModel = SysConfigCache.loadResultCodeByFlag(StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_STATUS), 0));
-			jo.addProperty("msg", codeModel==null ? "失败" : codeModel.getCodeName());
+			jo.addProperty("msg", status == 2 ? "充值成功" : (codeModel==null ? "充值失败" : codeModel.getCodeName()));
 			return jo.toString();
 		}
 		catch(Exception ex)

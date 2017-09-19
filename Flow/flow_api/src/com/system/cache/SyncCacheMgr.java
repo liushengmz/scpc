@@ -27,14 +27,15 @@ public class SyncCacheMgr
 			long lastSyncMils = data[1];
 			long curMils = System.currentTimeMillis();
 			int nextSyncMils = StringUtil.getInteger(SysConfigCache.getConfigFromSys(1, "NOTIFY_" + syncTimes + "_MILS"),0);
-			if(lastSyncMils + nextSyncMils >= curMils)
+			
+			if(curMils > (lastSyncMils + nextSyncMils))
 			{
 				SyncToCpServer server = new SyncToCpServer();
 				server.setKey(key);
 				new Thread(server).start();
 			}
 		}
-		logger.info("Scan Un Sync Data Finish ...");
+		logger.info("Scan Un Sync Data Finish (SIZE:" + map.keySet().size() + ")...");
 	}
 	
 	public static void addSyncData(String key,long[] data)

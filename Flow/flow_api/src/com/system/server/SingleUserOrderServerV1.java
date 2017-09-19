@@ -16,6 +16,7 @@ import com.system.model.PhoneLocateModel;
 import com.system.model.RedisCpSingleOrderModel;
 import com.system.model.TroneModel;
 import com.system.util.Base64UTF;
+import com.system.util.ServiceUtil;
 import com.system.util.StringUtil;
 
 import net.sf.json.JSONObject;
@@ -109,7 +110,7 @@ public class SingleUserOrderServerV1
 			return response;
 		}
 		
-		String serverOrderId = StringUtil.getMd5String(realCpId + "_" + orderId, 16).toUpperCase();
+		final String serverOrderId = StringUtil.getMd5String(realCpId + "_" + orderId, 16).toUpperCase();
 		
 		boolean isClientOrderRepeat = RedisServer.existSingleCpOrder(serverOrderId);
 		
@@ -125,6 +126,7 @@ public class SingleUserOrderServerV1
 		int rang = joParam.getInt("rang");
 		int flowSize = joParam.getInt("flowSize");
 		int timeType = joParam.getInt("timeType");
+		String notifyUrl = StringUtil.getString(joParam.getString("notifyUrl"),cpModel.getNotifyUrl());
 		
 		//flowSize 和 timeType 后面再来检查
 		
@@ -237,7 +239,7 @@ public class SingleUserOrderServerV1
 		redisModel.setTimeType(timeType);
 		redisModel.setTroneId(cpTroneModel.getTroneId());
 		redisModel.setStatus(1);
-		redisModel.setNotifyUrl(cpModel.getNotifyUrl());
+		redisModel.setNotifyUrl(notifyUrl);
 		redisModel.setNotifyStatus(0);
 		redisModel.setNotifyTimes(0);
 		redisModel.setCreateMils(System.currentTimeMillis());
@@ -272,6 +274,16 @@ public class SingleUserOrderServerV1
 		RedisServer.setSingleCpOrder(redisModel);
 		
 		setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_SUCCESS);
+		
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				String url = SysConfigCache.getConfigFromSys(2, "NOTIFY_DGG_URL") + "?key=" + serverOrderId;
+				System.out.println("Call System Handle:" + ServiceUtil.sendGet(url, null, null));
+			}
+		}).start();
 		
 		return response;
 	}

@@ -47,4 +47,26 @@
 		<url-pattern>/clientOrder.do</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 邓工工代码回调URL -->
+	<servlet>
+		<servlet-name>SpOrderReCallServlet</servlet-name>
+		<jsp-file>/recall.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpOrderReCallServlet</servlet-name>
+		<!-- 这里才是访问的URL -->
+		<url-pattern>/reCall.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- SingleUserOrderServerV1 访问URL -->
+	<servlet>
+		<servlet-name>SingleUserOrderServer</servlet-name>
+		<jsp-file>/scor.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SingleUserOrderServer</servlet-name>
+		<!-- 这里才是访问的URL -->
+		<url-pattern>/cpUserOrder.do</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

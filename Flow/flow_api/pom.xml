@@ -79,7 +79,7 @@
 			<id>szlz</id>
 			<properties>
 				<runtime.env>config\szlz</runtime.env>
-				<final.name>credit</final.name>
+				<final.name>flow_api</final.name>
 			</properties>
 		</profile>
 	</profiles>
@@ -164,13 +164,14 @@
 		</dependency>
 
 		<!-- 试一下打开看看能不能产生正常的WAR包 -->
+		<!--
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+		-->
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>

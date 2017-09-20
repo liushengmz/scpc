@@ -119,12 +119,13 @@ public class SyncToCpServer implements Runnable
 			CpModel cpModel = BaseDataCache.loadCpById(cpId);
 			String orderId = _map.get(RedisCpSingleOrderModel.MAP_KEY_CLIENT_ORDER_ID);
 			String sign = StringUtil.getMd5String((FlowConstant.FLOW_SYS_CP_CODE_BASE_COUNT + cpId) + orderId + cpModel.getSignKey(), 32);
-			jo.addProperty("order", orderId);
+			jo.addProperty("cpId", FlowConstant.FLOW_SYS_CP_CODE_BASE_COUNT + cpId);
+			jo.addProperty("orderId", orderId);
 			jo.addProperty("sign", sign);
 			int status = StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_STATUS),0);
-			jo.addProperty("status", status==2 ? 12000 : status);
+			jo.addProperty("resultCode", status==2 ? 12000 : status);
 			SysCodeModel codeModel = SysConfigCache.loadResultCodeByFlag(StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_STATUS), 0));
-			jo.addProperty("msg", status == 2 ? "充值成功" : (codeModel==null ? "充值失败" : codeModel.getCodeName()));
+			jo.addProperty("resultMsg", status == 2 ? "充值成功" : (codeModel==null ? "充值失败" : codeModel.getCodeName()));
 			return jo.toString();
 		}
 		catch(Exception ex)

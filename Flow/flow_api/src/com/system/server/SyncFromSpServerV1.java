@@ -53,6 +53,6 @@ public class SyncFromSpServerV1
 		syncToCp.setKey(key);
 		new Thread(syncToCp).start();
 		
-		return result;
+		return "OK";
 	}
 }

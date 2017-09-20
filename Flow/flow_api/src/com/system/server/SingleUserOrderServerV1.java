@@ -1,19 +1,21 @@
 package com.system.server;
 
-import org.apache.log4j.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.system.cache.BaseDataCache;
 import com.system.cache.LocateCache;
 import com.system.cache.SysConfigCache;
 import com.system.constant.FlowConstant;
+import com.system.constant.ResConstant;
 import com.system.dao.SingleCpOrderDao;
 import com.system.model.BasePriceModel;
 import com.system.model.CpModel;
 import com.system.model.CpRatioModel;
 import com.system.model.CpTroneModel;
-import com.system.model.CpUserOrderResponseModel;
 import com.system.model.PhoneLocateModel;
 import com.system.model.RedisCpSingleOrderModel;
+import com.system.model.SysCodeModel;
 import com.system.model.TroneModel;
 import com.system.util.Base64UTF;
 import com.system.util.ServiceUtil;
@@ -28,22 +30,9 @@ import net.sf.json.JSONObject;
  */
 public class SingleUserOrderServerV1
 {
-	
-	/**
-	 * 处理逻辑
-	 * 1、检查用户的合法性
-	 * 2、检查充值数据的合法性
-	 * 3、检查tbl_f_cp_ratio中折扣的准确性，如果不存在则没有合作
-	 * 4、检查tbl_f_cp_trone表中配置的SP通道，如果没有对应的SP通道，则进行自由查找模式
-	 * 5、进入自由查找模式，规则是：查找上游所有的合适的通道，并选择利润最大的通道进行充值
-	 * 6、存储所有数据，更新REDIS，并通知充值
-	 */
-	
-	private static Logger logger = Logger.getLogger(ToBusinessRequestServerV1.class);
-	
-	public static CpUserOrderResponseModel handleUserOrder(String queryData,String ip)
+	public static Map<String, Object> handleUserOrder(String queryData,String ip)
 	{
-		CpUserOrderResponseModel response = new CpUserOrderResponseModel();
+		Map<String, Object> response = new HashMap<String, Object>();
 		
 		String oriJsonData = Base64UTF.decode(queryData);
 		
@@ -72,7 +61,7 @@ public class SingleUserOrderServerV1
 			return response;
 		}
 		
-		response.setOrderId(orderId);
+		response.put(ResConstant.RES_SCOR_KEY_CLIENT_ORDER_ID, orderId);
 		
 		int realCpId = cpId - FlowConstant.FLOW_SYS_CP_CODE_BASE_COUNT;
 		
@@ -93,21 +82,24 @@ public class SingleUserOrderServerV1
 			return response;
 		}
 		
-		boolean isIpAuthFail = true;
-		
-		for(String tmpIp : cpModel.getIpList())
+		if(!cpModel.getIpList().isEmpty())
 		{
-			if(ip.equals(tmpIp))
+			boolean isIpAuthFail = true;
+			
+			for(String tmpIp : cpModel.getIpList())
 			{
-				isIpAuthFail = false;
-				break;
+				if(ip.equals(tmpIp))
+				{
+					isIpAuthFail = false;
+					break;
+				}
 			}
-		}
-		
-		if(isIpAuthFail)
-		{
-			setResponseStatus(response, FlowConstant.CP_SINGLE_ORDER_REQUEST_IP_AUTH_FAIL);
-			return response;
+			
+			if(isIpAuthFail)
+			{
+				setResponseStatus(response, FlowConstant.CP_SINGLE_ORDER_REQUEST_IP_AUTH_FAIL);
+				return response;
+			}
 		}
 		
 		final String serverOrderId = StringUtil.getMd5String(realCpId + "_" + orderId, 16).toUpperCase();
@@ -273,14 +265,23 @@ public class SingleUserOrderServerV1
 		
 		RedisServer.setSingleCpOrder(redisModel);
 		
+		//我方返回的签名
+		String rSign = StringUtil.getMd5String(cpId + serverOrderId + cpModel.getSignKey(), 32);
+		
+		response.put(ResConstant.RES_SCOR_KEY_SERVER_ORDER_ID, serverOrderId);
+		
+		response.put(ResConstant.RES_SCOR_KEY_SIGN, rSign);
+		
 		setResponseStatus(response,FlowConstant.CP_SINGLE_ORDER_REQUEST_SUCCESS);
+		
+		final int spApiId = cpTroneModel.getSpApiId();
 		
 		new Thread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				String url = SysConfigCache.getConfigFromSys(2, "NOTIFY_DGG_URL") + "?key=" + serverOrderId;
+				String url = String.format(SysConfigCache.getConfigFromSys(2, "NOTIFY_DGG_URL"),spApiId) + "?key=" + serverOrderId;
 				System.out.println("Call System Handle:" + ServiceUtil.sendGet(url, null, null));
 			}
 		}).start();
@@ -289,12 +290,13 @@ public class SingleUserOrderServerV1
 	}
 	
 	
-	private static void setResponseStatus(CpUserOrderResponseModel response,int resultCode)
+	private static void setResponseStatus(Map<String, Object> response,int resultCode)
 	{
-		response.setResultCode(resultCode);
+		response.put(ResConstant.RES_SCOR_KEY_RESULT_CODE, resultCode);
 		
-		response.setResultMsg(SysConfigCache.loadResultCodeByFlag(response.getResultCode()).getCodeName());
+		SysCodeModel codeModel = SysConfigCache.loadResultCodeByFlag(resultCode);
 		
-		logger.info("return result code:" + resultCode  + "-->msg:" + response.getResultMsg() + "-->orderId:" + response.getOrderId());
+		response.put(ResConstant.RES_SCOR_KEY_RESULT_MSG, codeModel==null ? "" : codeModel.getCodeName());
+		
 	}
 }

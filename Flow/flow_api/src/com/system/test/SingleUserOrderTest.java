@@ -18,23 +18,58 @@ public class SingleUserOrderTest
 	
 	public static void main(String[] args) throws InterruptedException
 	{
-		RedisUtil.init();
-		Thread.sleep(1000);
-		CacheConfigMgr.init();
+		//ss();
+		String userOrderData = genUserOrderData();
 		
+		System.out.println(userOrderData);
+		
+		System.out.println(testHandleUserOrder(userOrderData, "127.0.0.1"));
+	}
+	
+	public static String genUserOrderData()
+	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cpId", cpId);
 		map.put("orderId", System.currentTimeMillis() + "");
 		map.put("sign",StringUtil.getMd5String(cpId + map.get("orderId").toString() + key, 32));
-		map.put("mobile", "13436104976");
+		map.put("mobile", "13570830935");
 		map.put("rang", 0);
 		map.put("flowSize", 10);
 		map.put("timeType", 0);
-		map.put("notifyUrl", "http://www.sznews.com/");
-		
+		map.put("notifyUrl", "http://tp-core.n8wan.com/sc.html");
 		String json = StringUtil.getJsonFormObject(map);
-		String encodeData = Base64UTF.encode(json);
-		System.out.println(SingleUserOrderServerV1.handleUserOrder(encodeData, "127.0.0.1"));
+		System.out.println(json);
+		return Base64UTF.encode(json);
+	}
+	
+	public static String testHandleUserOrder(String postData,String ip)
+	{
+		RedisUtil.init();
 		
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		CacheConfigMgr.init();
+		
+		return SingleUserOrderServerV1.handleUserOrder(postData, "127.0.0.1").toString();
+	}
+	
+	public static void ss()
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cpId", 80001);
+		map.put("resultMsg", "充值成功");
+		map.put("resultCode", 12000);
+		map.put("orderId", "1505895085525");
+		map.put("sign", "8834586dfbb1e23b3487cc8ecda73747");
+		String json = StringUtil.getJsonFormObject(map);
+		System.out.println(json);
+		System.out.println(Base64UTF.encode(json));
 	}
 }

@@ -90,6 +90,21 @@ function getAjaxValue(url,onSuccess)
 	}); 
 }
 
+function postAjaxValue(url,postData,onSuccess)
+{
+	$.ajax(
+	{
+		url: url,
+		type : "post",
+		data : postData,
+		async: true,
+		success:function(data)
+		{
+			onSuccess(data.trim());
+		}
+	}); 
+}
+
 function isInteger(value)
 {
 	 if((/^(\+|-)?\d+$/.test(value)))

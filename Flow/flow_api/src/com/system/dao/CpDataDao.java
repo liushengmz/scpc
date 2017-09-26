@@ -34,11 +34,16 @@ public class CpDataDao
 					//model.setCurrency(rs.getInt("currency"));
 					model.setSignKey(StringUtil.getString(rs.getString("sign_key"), ""));
 					String ipList = StringUtil.getString(rs.getString("iplist"), "");
-					String[] ips = ipList.split(",");
-					for(String ip : ips)
+					
+					if(!StringUtil.isNullOrEmpty(ipList))
 					{
-						model.getIpList().add(ip);
+						String[] ips = ipList.split(",");
+						for(String ip : ips)
+						{
+							model.getIpList().add(ip);
+						}
 					}
+					
 					model.setNotifyUrl(StringUtil.getString(rs.getString("notify_url"), ""));
 					list.add(model);
 				}
@@ -149,6 +154,7 @@ public class CpDataDao
 					model.setOperator(rs.getInt("operator"));
 					model.setRang(rs.getInt("rang"));
 					model.setSpApiId(rs.getInt("sp_api_id"));
+					model.setSendSms(rs.getInt("send_sms"));
 					
 					list.add(model);
 				}
@@ -191,6 +197,7 @@ public class CpDataDao
 					model.setOperator(rs.getInt("operator"));
 					model.setRang(rs.getInt("rang"));
 					model.setBasePriceId(rs.getInt("base_price_id"));
+					model.setSendSms(rs.getInt("send_sms"));
 					
 					return model;
 				}

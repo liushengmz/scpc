@@ -41,6 +41,9 @@ public class RedisCpSingleOrderModel
 	public static final String	MAP_KEY_NOTIFY_STATUS	= "NOTIFY_STATUS";
 	public static final String	MAP_KEY_NOTIFY_TIMES	= "NOTIFY_TIMES";
 	public static final String	MAP_KEY_LAST_NOTIFY_MILS	= "LAST_NOTIFY_MILS";
+	public static final String  MAP_KEY_SEND_SMS_STATUS	= "SEND_SMS_STATUS";
+	public static final String	MAP_KEY_RECALL_STATUS		= "RECALL_STATUS";
+	
 
 	private int					tempTableId;
 	private String				monthName;
@@ -72,7 +75,8 @@ public class RedisCpSingleOrderModel
 	private int					notifyStatus;
 	private int					notifyTimes;
 	private int					lastNotifyMils;
-	
+	private int					sendSmsStatus;
+	private int 				recallStatus;
 
 	public int getTempTableId()
 	{
@@ -372,6 +376,26 @@ public class RedisCpSingleOrderModel
 	public void setLastNotifyMils(int lastNotifyMils)
 	{
 		this.lastNotifyMils = lastNotifyMils;
+	}
+
+	public int getSendSmsStatus()
+	{
+		return sendSmsStatus;
+	}
+
+	public void setSendSmsStatus(int sendSmsStatus)
+	{
+		this.sendSmsStatus = sendSmsStatus;
+	}
+
+	public int getRecallStatus()
+	{
+		return recallStatus;
+	}
+
+	public void setRecallStatus(int recallStatus)
+	{
+		this.recallStatus = recallStatus;
 	}
 
 	// 原始 KEY用 CP_SINGLE_CPID_CLIENT_ORDER_ID

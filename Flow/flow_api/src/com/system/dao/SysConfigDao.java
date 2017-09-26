@@ -29,7 +29,7 @@ public class SysConfigDao
 					SysCodeModel model = new SysCodeModel();
 					model.setId(rs.getInt("id"));
 					model.setFlag(rs.getInt("flag"));
-					model.setCodeName(StringUtil.getString(rs.getString("code_name"), ""));
+					model.setCodeName(StringUtil.getString(rs.getString("code_name"), "").trim());
 					model.setRemark(StringUtil.getString(rs.getString("remark"), ""));
 					list.add(model);
 				}

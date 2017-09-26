@@ -35,10 +35,7 @@ public class CacheConfigMgr
 	 */
 	public static void refreshUnusualCache()
 	{
-		refreshConfigPropertiesCache();
 		refreshLocateCache();
-		refreshSysConfigCache();
-		refreshBasePrice();
 		logger.info("---------refreshUnusualCache finish");
 	}
 	
@@ -53,6 +50,9 @@ public class CacheConfigMgr
 		refreshTrone();
 		refreshCpCurrency();
 		refreshSpCurrency();
+		refreshConfigPropertiesCache();
+		refreshSysConfigCache();
+		refreshBasePrice();
 		logger.info("---------refreshFrequenceCache finish");
 	}
 	

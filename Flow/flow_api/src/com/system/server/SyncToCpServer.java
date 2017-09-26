@@ -43,6 +43,11 @@ public class SyncToCpServer implements Runnable
 		if(_map==null)
 			return;
 		
+		int notifyStatus = StringUtil.getInteger(_map.get(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_STATUS),2);
+		
+		if(notifyStatus==1)
+			return;
+		
 		long curMils = System.currentTimeMillis();
 		
 		boolean isSyncSuc  = syncToClient();

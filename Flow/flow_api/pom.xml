@@ -251,5 +251,20 @@
 		    <artifactId>jedis</artifactId>
 		    <version>2.1.0</version>
 		</dependency>
+		
+		<!-- 阿里发送短信的本地JAR  DEMPENCY -->
+		<dependency>
+		    <groupId>com.alicom.dysmsapi</groupId>
+		    <artifactId>alicom-dysms-api</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.alicom.dysms</groupId>
+		    <artifactId>alicom-dysms-api</artifactId>
+		    <version>core-3.2.3</version>
+		</dependency>
+		
+		
 	</dependencies>
 </project>

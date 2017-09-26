@@ -21,8 +21,8 @@ public class SingleCpOrderDao
 	{
 		String sql = "INSERT INTO " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list_" + model.getMonthName() 
 		+ " (cp_order_id,sp_order_id,mobile,operator,flowsize,use_rang,time_type,";
-		sql += " cp_trone_id,cp_id,cp_ratio,status,trone_id,sp_trone_id,sp_id,sp_ratio,base_price_id,sp_api_id,notify_url)";
-		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql += " cp_trone_id,cp_id,cp_ratio,status,trone_id,sp_trone_id,sp_id,sp_ratio,base_price_id,sp_api_id,notify_url,need_send_sms)";
+		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		Map<Integer, Object> params = new HashMap<Integer, Object>();
 		params.put(1, model.getClientOrderId());
@@ -43,6 +43,7 @@ public class SingleCpOrderDao
 		params.put(16, model.getBasePriceId());
 		params.put(17, model.getSpApiId());
 		params.put(18, model.getNotifyUrl());
+		params.put(19, model.getSendSms());
 		
 		return new JdbcControl().insertWithGenKey(sql, params);
 	}
@@ -56,8 +57,8 @@ public class SingleCpOrderDao
 	{
 		String sql = "INSERT INTO " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list"
 		+ " (cp_order_id,sp_order_id,mobile,operator,flowsize,use_rang,time_type,";
-		sql += " cp_trone_id,cp_id,cp_ratio,status,trone_id,sp_trone_id,sp_id,sp_ratio,base_price_id,month_table_id,month,sp_api_id,notify_url)";
-		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql += " cp_trone_id,cp_id,cp_ratio,status,trone_id,sp_trone_id,sp_id,sp_ratio,base_price_id,month_table_id,month,sp_api_id,notify_url,need_send_sms)";
+		sql += " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		Map<Integer, Object> params = new HashMap<Integer, Object>();
 		params.put(1, model.getClientOrderId());
@@ -80,6 +81,7 @@ public class SingleCpOrderDao
 		params.put(18, model.getMonthName());
 		params.put(19, model.getSpApiId());
 		params.put(20, model.getNotifyUrl());
+		params.put(21, model.getSendSms());
 		
 		return new JdbcControl().insertWithGenKey(sql, params);
 	}
@@ -116,7 +118,7 @@ public class SingleCpOrderDao
 	 */
 	public boolean updateSingleCpOrderSyncStatusInTempTable(int tempTableId,int syncStatus,long lastSyncMils,int syncTimes)
 	{
-		String sql = "UPDATE daily_log.tbl_f_cp_order_list SET notify_status = " + syncStatus + ", notify_times = " + syncTimes + ", last_notify_mils = " + lastSyncMils + " WHERE id  = " + tempTableId;
+		String sql = "UPDATE " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list SET notify_status = " + syncStatus + ", notify_times = " + syncTimes + ", last_notify_mils = " + lastSyncMils + " WHERE id  = " + tempTableId;
 		
 		return new JdbcControl().execute(sql);
 	}
@@ -132,7 +134,68 @@ public class SingleCpOrderDao
 	 */
 	public boolean updateSingleCpOrderSyncStatusInMonthTable(String tableName,int monthTableId,int syncStatus,long lastSyncMils,int syncTimes)
 	{
-		String sql = "UPDATE daily_log.tbl_f_cp_order_list_" + tableName + " SET notify_status = " + syncStatus + ", notify_times = " + syncTimes + ", last_notify_mils = " + lastSyncMils + " WHERE id  = " + monthTableId;
+		String sql = "UPDATE " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list_" + tableName + " SET notify_status = " + syncStatus + ", notify_times = " + syncTimes + ", last_notify_mils = " + lastSyncMils + " WHERE id  = " + monthTableId;
+		return new JdbcControl().execute(sql);
+	}
+	
+	/**
+	 * 更新临时表的状态
+	 * @param tempTableId
+	 * @param syncStatus
+	 * @param lastSyncMils
+	 * @param syncTimes
+	 * @return
+	 */
+	public boolean updateSingleCpOrderSendSmsStautusInTempTable(int tempTableId,int sendSmsStatus)
+	{
+		String sql = "UPDATE " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list SET send_sms_status = " + sendSmsStatus + " WHERE id  = " + tempTableId;
+		
+		return new JdbcControl().execute(sql);
+	}
+	
+	/**
+	 * 更新月表的状态
+	 * @param tableName
+	 * @param monthTableId
+	 * @param syncStatus
+	 * @param lastSyncMils
+	 * @param syncTimes
+	 * @return
+	 */
+	public boolean updateSingleCpOrderSendSmsStautusInMonthTable(String tableName,int monthTableId,int sendSmsStatus)
+	{
+		String sql = "UPDATE " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list_" + tableName + " SET notify_status = " + sendSmsStatus + " WHERE id  = " + monthTableId;
+		return new JdbcControl().execute(sql);
+	}
+	
+	
+	/**
+	 * 更新临时表的状态
+	 * @param tempTableId
+	 * @param syncStatus
+	 * @param lastSyncMils
+	 * @param syncTimes
+	 * @return
+	 */
+	public boolean updateSingleCpOrderReCallStautusInTempTable(int tempTableId,int recallStatus)
+	{
+		String sql = "UPDATE " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list SET recall_status = " + recallStatus + " WHERE id  = " + tempTableId;
+		
+		return new JdbcControl().execute(sql);
+	}
+	
+	/**
+	 * 更新月表的状态
+	 * @param tableName
+	 * @param monthTableId
+	 * @param syncStatus
+	 * @param lastSyncMils
+	 * @param syncTimes
+	 * @return
+	 */
+	public boolean updateSingleCpOrderReCallStautusInMonthTable(String tableName,int monthTableId,int recallStatus)
+	{
+		String sql = "UPDATE " + SysConstant.DB_LOG_MAIN + ".tbl_f_cp_order_list_" + tableName + " SET recall_status = " + recallStatus + " WHERE id  = " + monthTableId;
 		return new JdbcControl().execute(sql);
 	}
 	

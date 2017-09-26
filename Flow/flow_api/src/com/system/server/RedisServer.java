@@ -126,6 +126,8 @@ public class RedisServer
 		map.put(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_URL, model.getNotifyUrl());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_NOTIFY_TIMES,"" + model.getNotifyTimes());
 		map.put(RedisCpSingleOrderModel.MAP_KEY_LAST_NOTIFY_MILS,"0");
+		map.put(RedisCpSingleOrderModel.MAP_KEY_SEND_SMS_STATUS,"0");
+		map.put(RedisCpSingleOrderModel.MAP_KEY_RECALL_STATUS,"0");
 		
 		if(!jedis.exists(key))
 		{

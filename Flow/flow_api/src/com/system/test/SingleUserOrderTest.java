@@ -21,9 +21,13 @@ public class SingleUserOrderTest
 		//ss();
 		String userOrderData = genUserOrderData();
 		
-		System.out.println(userOrderData);
+		System.out.println("POST DATA:" + userOrderData);
 		
-		System.out.println(testHandleUserOrder(userOrderData, "127.0.0.1"));
+		String returnData = testHandleUserOrder(userOrderData, "127.0.0.1");
+		
+		System.out.println("RETURN DATA:" + returnData);
+		
+		System.out.println(Base64UTF.decode(returnData));
 	}
 	
 	public static String genUserOrderData()
@@ -32,7 +36,7 @@ public class SingleUserOrderTest
 		map.put("cpId", cpId);
 		map.put("orderId", System.currentTimeMillis() + "");
 		map.put("sign",StringUtil.getMd5String(cpId + map.get("orderId").toString() + key, 32));
-		map.put("mobile", "13570830935");
+		map.put("mobile", "17788773835");
 		map.put("rang", 0);
 		map.put("flowSize", 10);
 		map.put("timeType", 0);

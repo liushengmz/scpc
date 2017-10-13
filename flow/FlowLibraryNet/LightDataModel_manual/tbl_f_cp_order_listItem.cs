@@ -23,7 +23,7 @@ namespace LightDataModel
             get { return FIX_TABLE_NAME; }
         }
 
-        public ChangeOrderStatusEnum statusE { get => (ChangeOrderStatusEnum)status; set => status = (byte)value; }
+        public ChangeOrderStatusEnum statusE { get => (ChangeOrderStatusEnum)status; set => status = (int)value; }
 
         #region 静态方法
         /// <summary>

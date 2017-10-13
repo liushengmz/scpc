@@ -26,7 +26,7 @@ namespace FlowLibraryNet.Logical
         {
             if (_sbLog == null || _sbLog.Length == 0)
                 return;
-            string FileName = string.Format("~/splog/{0:yyyyMMdd}/{1}.log", DateTime.Now, LogName);
+            string FileName = string.Format("~/log/{1}_{0:yyyyMMdd}.log", DateTime.Now, LogName);
             var fi = new FileInfo(Request.MapPath(FileName));
             if (!fi.Directory.Exists)
                 fi.Directory.Create();
@@ -53,7 +53,7 @@ namespace FlowLibraryNet.Logical
                 StreamWriter stm = null;
                 try
                 {
-                    stm = new StreamWriter(logFile.FullName, true);
+                    stm = new StreamWriter(logFile.FullName, true, Encoding.UTF8);
                     stm.WriteLine(_sbLog.ToString());
                 }
                 catch { }

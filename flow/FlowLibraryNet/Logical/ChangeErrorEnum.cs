@@ -10,7 +10,8 @@ namespace FlowLibraryNet.Logical
     {
         OK,
         UnkonwError,
-        OrderNotFound
-
+        OrderNotFound,
+        InnerError,
+        ChargeFail
     }
 }

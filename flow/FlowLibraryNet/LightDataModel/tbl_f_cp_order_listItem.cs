@@ -6,9 +6,9 @@ using System.Text;
 namespace LightDataModel
 {
     /// <summary>
-    /// tbl_f_cp_order_list_201707数据模型
+    /// tbl_f_cp_order_list_201709数据模型
     /// </summary>
-    public partial class tbl_f_cp_order_listItem 
+    public partial class tbl_f_cp_order_listItem
     {
         /// <summary>
         /// 数据表字段列表对像
@@ -37,9 +37,17 @@ namespace LightDataModel
             /// </summary>
             public const string mobile = "mobile";
             /// <summary>
-            /// 订单号
+            /// CP订单号
             /// </summary>
-            public const string orderid = "orderid";
+            public const string cp_order_id = "cp_order_id";
+            /// <summary>
+            /// 我方订单号
+            /// </summary>
+            public const string sp_order_id = "sp_order_id";
+            /// <summary>
+            /// 运营商
+            /// </summary>
+            public const string @operator = "operator";
             /// <summary>
             /// 流量大小
             /// </summary>
@@ -53,7 +61,7 @@ namespace LightDataModel
             /// </summary>
             public const string time_type = "time_type";
             /// <summary>
-            /// 符合该定单的SP_TRONE_ID
+            /// 符合该TRONE_ID
             /// </summary>
             public const string trone_id = "trone_id";
             /// <summary>
@@ -65,11 +73,9 @@ namespace LightDataModel
 
             public const string cp_id = "cp_id";
 
-            public const string sp_custom_order = "sp_custom_order";
-
             public const string sp_status = "sp_status";
 
-            public const string sp_err_msg = "sp_err_msg";
+            public const string sp_error_msg = "sp_error_msg";
             /// <summary>
             /// cp 折扣
             /// </summary>
@@ -79,11 +85,18 @@ namespace LightDataModel
             /// </summary>
             public const string sp_ratio = "sp_ratio";
 
+            public const string sp_trone_id = "sp_trone_id";
+            /// <summary>
+            /// tbl_f_trone.id
+            /// </summary>
             public const string cp_trone_id = "cp_trone_id";
 
-            public const string base_price = "base_price";
+            public const string base_price_id = "base_price_id";
 
             public const string sp_id = "sp_id";
+
+            public const string sp_api_id = "sp_api_id";
+
 
             #endregion
 
@@ -102,9 +115,17 @@ namespace LightDataModel
         /// </summary>
         private string _mobile;
         /// <summary>
-        /// 订单号
+        /// CP订单号
         /// </summary>
-        private string _orderid;
+        private string _cp_order_id;
+        /// <summary>
+        /// 我方订单号
+        /// </summary>
+        private string _sp_order_id;
+        /// <summary>
+        /// 运营商
+        /// </summary>
+        private byte _operator;
         /// <summary>
         /// 流量大小
         /// </summary>
@@ -118,23 +139,21 @@ namespace LightDataModel
         /// </summary>
         private byte _time_type;
         /// <summary>
-        /// 符合该定单的SP_TRONE_ID
+        /// 符合该TRONE_ID
         /// </summary>
         private int _trone_id;
         /// <summary>
         /// 订单状态(0:未处理，１处理中，２，提交供应商成功，３提交ＳＰ失败，４充值成功,5退款)
         /// </summary>
-        private byte _status;
+        private int _status;
 
         private DateTime _create_date;
 
         private int _cp_id;
 
-        private string _sp_custom_order;
-
         private string _sp_status;
 
-        private string _sp_err_msg;
+        private string _sp_error_msg;
         /// <summary>
         /// cp 折扣
         /// </summary>
@@ -144,9 +163,13 @@ namespace LightDataModel
         /// </summary>
         private int _sp_ratio;
 
-        private string _cp_trone_id;
+        private int _sp_trone_id;
+        /// <summary>
+        /// tbl_f_trone.id
+        /// </summary>
+        private int _cp_trone_id;
 
-        private int _base_price;
+        private int _base_price_id;
 
         private int _sp_id;
 
@@ -155,7 +178,7 @@ namespace LightDataModel
         public override string IdentifyField { get { return identifyField; } }
 
         public static readonly string identifyField = "id";
-
+        private int _sp_api_id;
 
         public int id
         {
@@ -227,24 +250,79 @@ namespace LightDataModel
             }
         }
         /// <summary>
-        /// 订单号
+        /// CP订单号
         /// </summary>
-        public string orderid
+        public string cp_order_id
         {
-            get { return this._orderid; }
+            get { return this._cp_order_id; }
             set
             {
 #if false && false
-				RemoveNullFlag(Fields.orderid);
+				RemoveNullFlag(Fields.cp_order_id);
 #elif !false
                 if (value == null)
-                    SetNullFlag(Fields.orderid);
+                    SetNullFlag(Fields.cp_order_id);
                 else
-                    RemoveNullFlag(Fields.orderid);
+                    RemoveNullFlag(Fields.cp_order_id);
 #endif
 
-                SetFieldHasUpdate(Fields.orderid, this._orderid, value);
-                this._orderid = value;
+                SetFieldHasUpdate(Fields.cp_order_id, this._cp_order_id, value);
+                this._cp_order_id = value;
+            }
+        }
+
+        public int sp_api_id
+        {
+            get { return this._sp_api_id; }
+            set
+            {
+                SetFieldHasUpdate(Fields.sp_api_id, this._sp_api_id, value);
+                this._sp_api_id = value;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 我方订单号
+        /// </summary>
+        public string sp_order_id
+        {
+            get { return this._sp_order_id; }
+            set
+            {
+#if false && false
+				RemoveNullFlag(Fields.sp_order_id);
+#elif !false
+                if (value == null)
+                    SetNullFlag(Fields.sp_order_id);
+                else
+                    RemoveNullFlag(Fields.sp_order_id);
+#endif
+
+                SetFieldHasUpdate(Fields.sp_order_id, this._sp_order_id, value);
+                this._sp_order_id = value;
+            }
+        }
+        /// <summary>
+        /// 运营商
+        /// </summary>
+        public byte @operator
+        {
+            get { return this._operator; }
+            set
+            {
+#if true && true
+                RemoveNullFlag(Fields.@operator);
+#elif !true
+			    if (value == null)
+                    SetNullFlag(Fields.@operator);
+                else
+                    RemoveNullFlag(Fields.@operator);
+#endif
+
+                SetFieldHasUpdate(Fields.@operator, this._operator, value);
+                this._operator = value;
             }
         }
         /// <summary>
@@ -311,7 +389,7 @@ namespace LightDataModel
             }
         }
         /// <summary>
-        /// 符合该定单的SP_TRONE_ID
+        /// 符合该TRONE_ID
         /// </summary>
         public int trone_id
         {
@@ -334,7 +412,7 @@ namespace LightDataModel
         /// <summary>
         /// 订单状态(0:未处理，１处理中，２，提交供应商成功，３提交ＳＰ失败，４充值成功,5退款)
         /// </summary>
-        public byte status
+        public int status
         {
             get { return this._status; }
             set
@@ -391,34 +469,15 @@ namespace LightDataModel
             }
         }
 
-        public string sp_custom_order
-        {
-            get { return this._sp_custom_order; }
-            set
-            {
-#if false && true
-				RemoveNullFlag(Fields.sp_custom_order);
-#elif !false
-                if (value == null)
-                    SetNullFlag(Fields.sp_custom_order);
-                else
-                    RemoveNullFlag(Fields.sp_custom_order);
-#endif
-
-                SetFieldHasUpdate(Fields.sp_custom_order, this._sp_custom_order, value);
-                this._sp_custom_order = value;
-            }
-        }
-
         public string sp_status
         {
             get { return this._sp_status; }
             set
             {
-#if true && true
-                RemoveNullFlag(Fields.sp_status);
-#elif !true
-			    if (value == null)
+#if false && true
+				RemoveNullFlag(Fields.sp_status);
+#elif !false
+                if (value == null)
                     SetNullFlag(Fields.sp_status);
                 else
                     RemoveNullFlag(Fields.sp_status);
@@ -429,22 +488,22 @@ namespace LightDataModel
             }
         }
 
-        public string sp_err_msg
+        public string sp_error_msg
         {
-            get { return this._sp_err_msg; }
+            get { return this._sp_error_msg; }
             set
             {
 #if false && true
-				RemoveNullFlag(Fields.sp_err_msg);
+				RemoveNullFlag(Fields.sp_error_msg);
 #elif !false
                 if (value == null)
-                    SetNullFlag(Fields.sp_err_msg);
+                    SetNullFlag(Fields.sp_error_msg);
                 else
-                    RemoveNullFlag(Fields.sp_err_msg);
+                    RemoveNullFlag(Fields.sp_error_msg);
 #endif
 
-                SetFieldHasUpdate(Fields.sp_err_msg, this._sp_err_msg, value);
-                this._sp_err_msg = value;
+                SetFieldHasUpdate(Fields.sp_error_msg, this._sp_error_msg, value);
+                this._sp_error_msg = value;
             }
         }
         /// <summary>
@@ -490,15 +549,36 @@ namespace LightDataModel
             }
         }
 
-        public string cp_trone_id
+        public int sp_trone_id
+        {
+            get { return this._sp_trone_id; }
+            set
+            {
+#if true && false
+				RemoveNullFlag(Fields.sp_trone_id);
+#elif !true
+			    if (value == null)
+                    SetNullFlag(Fields.sp_trone_id);
+                else
+                    RemoveNullFlag(Fields.sp_trone_id);
+#endif
+
+                SetFieldHasUpdate(Fields.sp_trone_id, this._sp_trone_id, value);
+                this._sp_trone_id = value;
+            }
+        }
+        /// <summary>
+        /// tbl_f_trone.id
+        /// </summary>
+        public int cp_trone_id
         {
             get { return this._cp_trone_id; }
             set
             {
-#if false && true
+#if true && false
 				RemoveNullFlag(Fields.cp_trone_id);
-#elif !false
-                if (value == null)
+#elif !true
+			    if (value == null)
                     SetNullFlag(Fields.cp_trone_id);
                 else
                     RemoveNullFlag(Fields.cp_trone_id);
@@ -509,22 +589,22 @@ namespace LightDataModel
             }
         }
 
-        public int base_price
+        public int base_price_id
         {
-            get { return this._base_price; }
+            get { return this._base_price_id; }
             set
             {
 #if true && true
-                RemoveNullFlag(Fields.base_price);
+                RemoveNullFlag(Fields.base_price_id);
 #elif !true
 			    if (value == null)
-                    SetNullFlag(Fields.base_price);
+                    SetNullFlag(Fields.base_price_id);
                 else
-                    RemoveNullFlag(Fields.base_price);
+                    RemoveNullFlag(Fields.base_price_id);
 #endif
 
-                SetFieldHasUpdate(Fields.base_price, this._base_price, value);
-                this._base_price = value;
+                SetFieldHasUpdate(Fields.base_price_id, this._base_price_id, value);
+                this._base_price_id = value;
             }
         }
 
@@ -552,34 +632,30 @@ namespace LightDataModel
         protected override string[] GetNullableFields()
         {
             return new string[]{null
-            ,"sp_custom_order"
+            ,"operator"
 ,"sp_status"
-,"sp_err_msg"
-,"cp_trone_id"
-,"base_price"
+,"sp_error_msg"
+,"base_price_id"
 ,"sp_id"
 };
         }
-        public bool Issp_custom_orderNull() { return IsNull(Fields.sp_custom_order); }
+        public bool IsoperatorNull() { return IsNull(Fields.@operator); }
 
-        public void Setsp_custom_orderNull() { SetNull(Fields.sp_custom_order); }
+        public void SetoperatorNull() { SetNull(Fields.@operator); }
         public bool Issp_statusNull() { return IsNull(Fields.sp_status); }
 
         public void Setsp_statusNull() { SetNull(Fields.sp_status); }
-        public bool Issp_err_msgNull() { return IsNull(Fields.sp_err_msg); }
+        public bool Issp_error_msgNull() { return IsNull(Fields.sp_error_msg); }
 
-        public void Setsp_err_msgNull() { SetNull(Fields.sp_err_msg); }
-        public bool Iscp_trone_idNull() { return IsNull(Fields.cp_trone_id); }
+        public void Setsp_error_msgNull() { SetNull(Fields.sp_error_msg); }
+        public bool Isbase_price_idNull() { return IsNull(Fields.base_price_id); }
 
-        public void Setcp_trone_idNull() { SetNull(Fields.cp_trone_id); }
-        public bool Isbase_priceNull() { return IsNull(Fields.base_price); }
-
-        public void Setbase_priceNull() { SetNull(Fields.base_price); }
+        public void Setbase_price_idNull() { SetNull(Fields.base_price_id); }
         public bool Issp_idNull() { return IsNull(Fields.sp_id); }
 
         public void Setsp_idNull() { SetNull(Fields.sp_id); }
 
         #endregion
-        
+
     }
 }

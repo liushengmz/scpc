@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,7 +85,13 @@ namespace FlowLibraryNet.Logical
 
             foreach (var kv in map)
             {
-                var pro = t.GetProperty(kv.Name);
+                var pro = t.GetProperty((string)kv.Name, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+                if (pro == null)
+                {
+                    m[kv.Name] = kv.Value;
+                    continue;
+                }
+
                 var pType = pro.PropertyType;
                 switch (pType.Name)
                 {
@@ -93,6 +100,7 @@ namespace FlowLibraryNet.Logical
                     case "Long": pro.SetValue(m, (bool)kv.Value); break;
                     case "DateTime": pro.SetValue(m, DateTime.Parse(kv.Value)); break;
                     case "String": pro.SetValue(m, (string)kv.Value); break;
+                    case "Byte": pro.SetValue(m, (byte)kv.Value); break;
                     default: throw new NotSupportedException("未支持类型：" + pType.FullName);
                 }
             }
@@ -101,36 +109,34 @@ namespace FlowLibraryNet.Logical
             return m;
         }
 
-        public void SetModel(Shotgun.Database.IUpatedataInfo m, string idStr = null)
+        public void SetModel(Shotgun.Database.IUpatedataInfo m, string idStr)
         {
             var fs = m.GetUpateFields();
             if (fs.Count == 0)
                 return;
 
-            if (string.IsNullOrEmpty(idStr))
-                idStr = m.IdentifyField;
-
 
             List<HashEntry> data = new List<HashEntry>();
             foreach (var f in fs)
             {
-                var val = m.GetValueByName(f);
+                var key = f.ToUpper();
+                var val = m.GetValueByName(key);
                 if (val is DateTime)
-                    data.Add(new HashEntry(f, val.ToString()));
+                    data.Add(new HashEntry(key, val.ToString()));
                 else if (val is bool)
-                    data.Add(new HashEntry(f, (bool)val));
+                    data.Add(new HashEntry(key, (bool)val));
                 else if (val is int)
-                    data.Add(new HashEntry(f, (int)val));
+                    data.Add(new HashEntry(key, (int)val));
                 else if (val is long)
-                    data.Add(new HashEntry(f, (long)val));
+                    data.Add(new HashEntry(key, (long)val));
                 else if (val is double)
-                    data.Add(new HashEntry(f, (double)val));
+                    data.Add(new HashEntry(key, (double)val));
                 else if (val is string)
-                    data.Add(new HashEntry(f, (string)val));
+                    data.Add(new HashEntry(key, (string)val));
                 else if (val is byte[])
-                    data.Add(new HashEntry(f, (byte[])val));
+                    data.Add(new HashEntry(key, (byte[])val));
                 else
-                    data.Add(new HashEntry(f, val.ToString()));
+                    data.Add(new HashEntry(key, val.ToString()));
             }
 
             Console.WriteLine(string.Join(",", fs));

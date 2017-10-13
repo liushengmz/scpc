@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlowLibraryNet.Dao;
 using LightDataModel;
+using System.Threading;
 
 namespace FlowLibraryNet.Logical
 {
@@ -15,17 +16,64 @@ namespace FlowLibraryNet.Logical
 
         public override void BeginProcess()
         {
-            if (!LoadOrderInfo())
+
+            WriteLog(Request.RawUrl);
+            if (Request.HttpMethod == "POST")
             {
-                WriteError("Order not found!");
-                return;
+                var stm = Request.InputStream;
+                var bin = new byte[stm.Length];
+                stm.Read(bin, 0, bin.Length);
+                var txt = System.Text.ASCIIEncoding.UTF8.GetString(bin);
+                WriteLog(txt);
+                stm.Seek(0, System.IO.SeekOrigin.Begin);
             }
 
-            UpdateOrderInfo();
+            try
+            {
+                if (!LoadOrderInfo())
+                {
+                    WriteError("Order not found!");
+                    return;
+                }
 
-            _orderDao.Update(OrderInfo);
-            WriteSuccess();
+                UpdateOrderInfo();
+                if (OrderInfo != null)
+                    _orderDao.Update(OrderInfo);
+                SendNotify();
 
+                WriteSuccess();
+            }
+#if DEBUG 
+            catch (Exception ex)
+            {
+                OrderInfo.statusE = ChangeOrderStatusEnum.InnerError;
+                WriteError("内部错误：" + ex.Message);
+                WriteLog("未处理错误：{0}", ex.ToString());
+            }
+#endif
+            finally
+            {
+                FlushLog();
+            }
+        }
+
+        private void SendNotify()
+        {
+            var appset = System.Configuration.ConfigurationManager.AppSettings["NotifyForwardUrl"];
+            if (string.IsNullOrEmpty(appset))
+                throw new Exception("回调模板未匹配，config -> configuration/appSettings/NotifyForwardUrl");
+
+            var url = string.Format(appset, Server.UrlEncode(OrderInfo.sp_order_id));
+            ThreadPool.QueueUserWorkItem(e =>
+            {
+                string html;
+                try
+                {
+                    html = n8wan.Public.Library.DownloadHTML(url, null, 1000, null);
+                }
+                catch (Exception ex) { html = ex.Message; }
+                Shotgun.Library.SimpleLogRecord.WriteLog("NotifyForwardUrl", string.Format("{0} {1}", url, html));
+            }, null);
         }
 
         /// <summary>

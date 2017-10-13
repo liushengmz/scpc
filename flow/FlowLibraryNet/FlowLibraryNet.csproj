@@ -39,8 +39,8 @@
     <Reference Include="Shotgun.Library">
       <HintPath>..\..\xtone-dotnet-interface\Shotgun.Library\bin\Release\Shotgun.Library.dll</HintPath>
     </Reference>
-    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.1.2.6\lib\net45\StackExchange.Redis.dll</HintPath>
+    <Reference Include="StackExchange.Redis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.Mono.1.0.0\lib\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -56,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dao\CpOrderDao.cs" />
+    <Compile Include="LightDataModel\tbl_f_basic_priceItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_f_basic_priceItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_f_cp_order_list_tempItem.cs" />
     <Compile Include="Logical\ChangeErrorEnum.cs" />
     <Compile Include="Logical\ChangeOrderStatusEnum.cs" />
     <Compile Include="Logical\FlowBaseHandler.cs" />

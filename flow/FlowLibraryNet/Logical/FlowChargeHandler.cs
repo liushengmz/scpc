@@ -11,6 +11,7 @@ namespace FlowLibraryNet.Logical
         Dao.CpOrderDao orderDao;
         private ChangeErrorEnum _errcode;
         private tbl_f_cp_order_listItem _orderInfo;
+        private tbl_f_basic_priceItem _basePrice;
 
         public sealed override void BeginProcess()
         {
@@ -23,21 +24,30 @@ namespace FlowLibraryNet.Logical
                 }
                 else if (!DoCharge())
                 {
+                    OrderInfo.statusE = ChangeOrderStatusEnum.SpUnkowError;
                     WriteLog("充值失败，{0}", ErrorMesage);
+                    if (_errcode == ChangeErrorEnum.OK)
+                        SetError(ChangeErrorEnum.ChargeFail);
                 }
-
+                else
+                    OrderInfo.statusE = ChangeOrderStatusEnum.Charging;
             }
-#if !DEBUG
+#if !DEBUG 
             catch (Exception ex)
             {
+                OrderInfo.statusE = ChangeOrderStatusEnum.InnerError;
+                SetError("内部错误：" + ex.Message, ChangeErrorEnum.InnerError);
                 WriteLog("未处理错误：{0}", ex.ToString());
+                UpdateSpResult("N/A", ErrorMesage);
             }
 #endif
             finally
             {
                 FlushLog();
             }
-            Response.Write(ErrorMesage);
+            if (_orderInfo != null)
+                orderDao.Update(_orderInfo);
+            Response.Write(string.Format("{0},{1}", _errcode, ErrorMesage));
 
         }
 
@@ -46,7 +56,11 @@ namespace FlowLibraryNet.Logical
         private bool LoadOrderInfo()
         {
             orderDao = new Dao.CpOrderDao(dBase);
-            var idStr = Request["orderid"];
+            var idStr = Request["key"];
+#if DEBUG
+            if (string.IsNullOrEmpty(idStr))
+                idStr = System.Configuration.ConfigurationManager.AppSettings["TestOrderId"];
+#endif
             if (string.IsNullOrEmpty(idStr))
                 return SetError(ChangeErrorEnum.OrderNotFound);
 
@@ -81,8 +95,23 @@ namespace FlowLibraryNet.Logical
         {
             if (OrderInfo == null)
                 return;
-            OrderInfo.sp_err_msg = message;
+            OrderInfo.sp_error_msg = message;
             OrderInfo.sp_status = code;
         }
+
+        public LightDataModel.tbl_f_basic_priceItem FlowSizeInfo
+        {
+            get
+            {
+                if (_basePrice != null)
+                    return _basePrice;
+                _basePrice = tbl_f_basic_priceItem.GetRowById(dBase, OrderInfo.base_price_id);
+                if (_basePrice == null)
+                    throw new ArgumentException("订单关联的基础价格信息丢失！");
+                return _basePrice;
+            }
+        }
+
+
     }
 }

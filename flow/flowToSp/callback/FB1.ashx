@@ -11,20 +11,19 @@ public class FB1 : FlowLibraryNet.Logical.FlowCallbackHandler
         if (_linkid != null)
             return _linkid;
         return _linkid = Request["orderid"];
-
     }
 
     protected override void UpdateOrderInfo()
     {
 
         OrderInfo.sp_status = Request["state"];
-        OrderInfo.sp_err_msg = Request["stateinfo"];
+        OrderInfo.sp_error_msg = Request["stateinfo"];
 
         switch (OrderInfo.sp_status)
         {
             case "1": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Success; break;
-            case "0": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Changing; break;
-            case "-1": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.SpError; break;
+            case "0": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Charging; break;
+            case "-1": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.ChargFail; break;
         }
     }
 

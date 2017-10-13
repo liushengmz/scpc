@@ -6,31 +6,47 @@ using System.Threading.Tasks;
 
 namespace FlowLibraryNet.Logical
 {
-    public enum ChangeOrderStatusEnum : byte
+    public enum ChangeOrderStatusEnum
     {
         /// <summary>
         /// 0:未处理
         /// </summary>
-        Unkonw,
+        Unkonw = 0,
+
+
         /// <summary>
-        /// １处理中
+        /// 充值成功(收到成功回调)
         /// </summary>
-        Procesing,
+        Success = 2,
         /// <summary>
         /// 提交供应商成功
         /// </summary>
-        Changing,
+        Charging = 12003,
         /// <summary>
-        /// ３提交ＳＰ失败
+        ///SP未处理的错误返回（接口返回失败）
         /// </summary>
-        SpError,
+        SpUnkowError = 12001,
         /// <summary>
-        /// ４充值成功
+        /// 内部错误充值时发错误（与SP对接有问题或充值代码有bug）
         /// </summary>
-        Success,
+        InnerError = 12005,
         /// <summary>
-        /// 5退款
+        ///  充值失败（收到失败的回调）
         /// </summary>
-        Cancel = 5
+        ChargFail = 12004,
+        /// <summary>
+        /// 创建订单超时
+        /// </summary>
+        GatewayTimeout = 12006,
+        /// <summary>
+        /// 创建订单时出错
+        /// </summary>
+        GatewayError = 12007,
+        /// <summary>
+        /// SP预付费金额不足
+        /// </summary>
+        BalanceLow = 12002
+
+
     }
 }

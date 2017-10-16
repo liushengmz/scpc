@@ -23,9 +23,9 @@ public class MailSend {
  
     private Properties props; //系统属性
  
-    private String username = "support@aijinfu.cn"; //smtp认证用户名和密码
+    private String username = "szquxun@shqlink.cn"; //smtp认证用户名和密码
  
-    private String password = "U7zSRCxjtGMsr1Rq";
+    private String password = "Qx1607";
  
     private Multipart mp = new MimeMultipart(); //Multipart对象,邮件内容,标题,附件等内容均添加到其中后再生成MimeMessage对象
  
@@ -173,11 +173,11 @@ public class MailSend {
     public static void main(String argv[]) {
  
         MailSend ms = new MailSend();
-        ms.setSubject("eeeee");
-        ms.setText("dfsg");
-        ms.setFrom("support@aijinfu.cn");
+        ms.setSubject("Hi~ Boy !");
+        ms.setText("Do You Have A Gril Friend ? 木有");
+        ms.setFrom("szquxun@shqlink.cn");
         String []s = new String[1];
-		s[0]="275079425@qq.com";
+		s[0]="316317998@qq.com";
         ms.setRecipients(s, "TO");
         ms.setSentDate();
         ms.sendMail();

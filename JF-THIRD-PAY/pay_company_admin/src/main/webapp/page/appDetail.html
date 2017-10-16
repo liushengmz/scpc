@@ -293,7 +293,7 @@
 		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
 		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
 		<script type="text/javascript" src=../public/js/Validform.min.js></script>
-		<script src="../../public/js/ajaxfileupload.js"></script>
+		<script src="../public/js/ajaxfileupload.js"></script>
 		<script type="text/javascript" src="../public/js/exit.js"></script>
 		<script type="text/plain" id="imgMode">
 			<div class="fl bigimg"><img src=''/><i></i></div>
@@ -324,7 +324,7 @@
 		$("body").on("click",".changeline .change2",function(){
 			$.ajax({
 				type:"get",
-				url:"/sys/tabSwitch.do",
+				url:"../sys/tabSwitch.do",
 				async:false,
 				success:function(data){
 					console.log(data);
@@ -363,7 +363,7 @@
 				console.log(paramtwo)
 				$.ajax({
 					type:"get",
-					url:"/online/payv2BussCompany/checkEmailCode.do",
+					url:"../online/payv2BussCompany/checkEmailCode.do",
 					data:paramtwo,
 					async:false,
 					success:function(data){
@@ -401,7 +401,7 @@
 				keyparam.id=thisid;
 				$.ajax({
 					type:"post",
-					url:"/online/payv2BussCompany/sendEmail.do",
+					url:"../online/payv2BussCompany/sendEmail.do",
 					data:keyparam,
 					async:true,
 					success:function(data){

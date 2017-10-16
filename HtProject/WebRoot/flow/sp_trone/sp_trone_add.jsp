@@ -439,7 +439,7 @@
 					<dd class="dd03_me"></dd>
 					&nbsp;
 					&nbsp;
-					<textarea name="remark"  style="border:solid 1px black;" overflow-y="auto" overflow-x="hidden" maxlength="1000" cols="91" rows="5"  id="remark" ></textarea>
+					<textarea name="remark"  style="border:solid 1px black;width: 588px;" overflow-y="auto" overflow-x="hidden" maxlength="1000" cols="91" rows="5"  id="remark" ></textarea>
 					
 
 					<br />

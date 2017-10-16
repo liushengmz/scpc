@@ -70,7 +70,7 @@
 								{
 									if(data.Data.payOrder.returnUrl)
 									{
-										location.href = data.Data.payOrder.returnUrl;
+										location.href = data.Data.payOrder.returnUrl + "?bussOrderNum=" + data.Data.payOrder.merchantOrderNum;
 									}						
 									
 									/*

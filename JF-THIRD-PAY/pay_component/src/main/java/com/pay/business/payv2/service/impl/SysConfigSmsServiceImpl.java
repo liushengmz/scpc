@@ -3,6 +3,7 @@ package com.pay.business.payv2.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import com.core.teamwork.base.util.sms.GetSMSCodeUtil;
 import com.pay.business.payv2.entity.SysConfigSms;
 import com.pay.business.payv2.mapper.SysConfigSmsMapper;
 import com.pay.business.payv2.service.SysConfigSmsService;
+import com.pay.business.util.YzxSmsUtil;
 /**
 * @ClassName: SysConfigSmsServiceImpl 
 * @Description:(手机短信信息实现类) 
@@ -58,8 +60,17 @@ public class SysConfigSmsServiceImpl extends BaseServiceImpl<SysConfigSms, SysCo
         configSms.setSmsType(type);
         configSms.setIsVerification(2);
         sysConfigSmsMapper.updateByEntity(configSms);
-        GetSMSCodeUtil smsutil = GetSMSCodeUtil.getInstence();
-        String  code = smsutil.sendSSmsDydx(phone.toString()); // 发送短信
+        
+        //Modify By Andy
+//        GetSMSCodeUtil smsutil = GetSMSCodeUtil.getInstence();
+//        String  code = smsutil.sendSSmsDydx(phone.toString()); // 发送短信
+        
+        String code = getCode();
+        
+        int sendType = type == 9 ? YzxSmsUtil.YZX_SEND_SMS_DATA_TYPE_CHANGE_SKEY : YzxSmsUtil.YZX_SEND_SMS_DATA_TYPE_FORGET_PWD;
+        
+        YzxSmsUtil.sendForgetPwdSmsData(phone.toString(), code, sendType);
+        
         if (ValidatorUtil.isNotEmpty(code)) {
             // 将短信验证码存入数据库
             configSms.setSmsCode(code);
@@ -76,6 +87,17 @@ public class SysConfigSmsServiceImpl extends BaseServiceImpl<SysConfigSms, SysCo
             return -1;
         }
     }
+    
+    /**
+     * Add By Andy
+     * @return
+     */
+    private String getCode() {
+        Random random = new Random();
+        int code = random.nextInt(9000) + 1000;
+        return code + "";
+    }
+    
 	/**
 	* @Title: checkSms 
 	* @Description:短信验证验证码

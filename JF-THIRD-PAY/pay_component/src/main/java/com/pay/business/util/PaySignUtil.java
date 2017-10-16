@@ -120,9 +120,9 @@ public class PaySignUtil {
 		//微信公众号内支付
 		//wxGzhPay();
 		//平安特殊微信公众号支付
-		paSpecialPay();
+		//paSpecialPay();
 		//支付宝微信扫码支付
-		//alipyWxScan(2);
+		alipyWxScan(1);
 	}
 	
 	//微信公众号内支付
@@ -236,10 +236,11 @@ public class PaySignUtil {
 		map.put("ip", "192.168.1.172");
 		map.put("channel", 2);
 		//map.put("appType", 1);
-		map.put("returnUrl", "http://www.sznews.com/news/content/2017-09/05/content_17194075_3.htm");
 		String s = "";
 		try
 		{
+			//map.put("returnUrl", URLEncoder.encode("http://tchannel.iquxun.cn/index.html?data=123456&bussOrderNum=" + map.get("bussOrderNum"),"UTF-8"));
+			map.put("returnUrl", "http://tchannel.iquxun.cn/index.html");
 			s = getSign(map, "IxRsjdpKLEn9oml1ikixuKJItRygrsar0A1C6tV1");
 			//s = getSign(map,"BntS7WsINaWWmlAKe0huVa8J4DRDZDCmIiHvH9n6");
 		}

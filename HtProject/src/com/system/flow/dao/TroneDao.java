@@ -50,7 +50,7 @@ public class TroneDao
 	
 	public void addTroneList(int spTroneId,List<TroneModel> list)
 	{
-		String sql = "insert into daily_config.tbl_f_trone(sp_trone_id,pro_id,ratio,status) values ";
+		String sql = "insert into " + Constant.DB_DAILY_CONFIG + ".tbl_f_trone(sp_trone_id,pro_id,ratio,status) values ";
 		for(TroneModel model : list)
 		{
 			sql  += "(" + spTroneId + "," + model.getProId() + "," + model.getRatio() + "," + model.getStatus() + "),";
@@ -62,7 +62,7 @@ public class TroneDao
 	
 	public void updateTroneList(List<TroneModel> list)
 	{
-		String sql = "update daily_config.tbl_f_trone set sp_trone_id =  %d , pro_id = %d , ratio = %d , status = %d where id = %d ";
+		String sql = "update " + Constant.DB_DAILY_CONFIG + ".tbl_f_trone set sp_trone_id =  %d , pro_id = %d , ratio = %d , status = %d where id = %d ";
 		
 		JdbcControl control = new JdbcControl() ;
 		

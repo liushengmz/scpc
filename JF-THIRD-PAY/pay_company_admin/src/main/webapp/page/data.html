@@ -204,7 +204,7 @@
 		$("body").on("click",".changeline .change2",function(){
 			$.ajax({
 				type:"get",
-				url:"/sys/tabSwitch.do",
+				url:"../sys/tabSwitch.do",
 				async:false,
 				success:function(data){
 					console.log(data);
@@ -227,7 +227,7 @@
 		function getAppList(){
 			$.ajax({
 				type:"get",
-				url:"/online/payv2BussCompanyApp/getAppList.do",
+				url:"../online/payv2BussCompanyApp/getAppList.do",
 				async:false,
 				success:function(data){
 					//console.log(data);

@@ -27,9 +27,9 @@ public class SslSmtpMailUtil {
  
     private Properties props; //系统属性
  
-    private String username = "support@aijinfu.cn"; //smtp认证用户名和密码
+    private String username = "szquxun@shqlink.cn"; //smtp认证用户名和密码
  
-    private String password = "U7zSRCxjtGMsr1Rq";
+    private String password = "Qx1607";
  
     private Multipart mp = new MimeMultipart(); //Multipart对象,邮件内容,标题,附件等内容均添加到其中后再生成MimeMessage对象
  
@@ -200,11 +200,11 @@ public class SslSmtpMailUtil {
     	SslSmtpMailUtil ms = new SslSmtpMailUtil();
         ms.setSubject("通道错误【154646546】");
         ms.setText("通道错误【54487666】");
-        ms.setFrom("support@aijinfu.cn");
+        ms.setFrom("szquxun@shqlink.cn");
         String []s = new String[3];
-		s[0]="shuhongxin@aijinfu.cn";
-		s[1]="zhangkui@aijinfu.cn";
-		s[2]="qiuguojie@aijinfu.cn";
+		s[0]="5202843@qq.com";
+		s[1]="137918549@qq.com";
+		s[2]="316317998@qq.com";
         ms.setRecipients(s, "TO");
         ms.setSentDate();
         ms.sendMail();

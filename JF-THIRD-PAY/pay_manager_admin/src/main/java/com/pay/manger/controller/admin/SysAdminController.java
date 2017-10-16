@@ -424,7 +424,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin, S
 	
 	public static void main(String[] args)
 	{
-		System.out.println(com.core.teamwork.base.util.encrypt.PasswordEncoder.getPassword("andy123"));
+		System.out.println(com.core.teamwork.base.util.encrypt.PasswordEncoder.getPassword("123456"));
 	}
 	
 }

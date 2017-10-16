@@ -30,6 +30,7 @@ import com.pay.business.util.minshengbank.HttpMinshengBank;
 import com.pay.business.util.pinganbank.config.TestParams;
 import com.pay.business.util.pinganbank.pay.PABankPay;
 import com.pay.business.util.xyBankWeChatPay.XyBankPay;
+import com.pay.business.util.xyShenzhen.XYSZBankPay;
 
 /**
  * @Title: AliPayServiceImpl.java
@@ -275,6 +276,30 @@ public class AliPayServiceImpl implements AliPayService {
 					return orderMap;
 				}
 			}
+			
+			//这里加进兴业深圳微信扫码支付
+			if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_XYSZ_WEIXIN_SCAN))
+			{
+				String OPEN_ID=orderMap.get("rateKey1");
+				String OPEN_KEY=orderMap.get("rateKey2");
+				String out_trade_no = orderMap.get("orderNum");
+				String total_fee = DecimalUtil.yuanToCents(orderMap.get("payMoney").toString());
+				String body = orderMap.get("orderName");
+				return XYSZBankPay.xySZWFTWXScanPay(out_trade_no, total_fee, body, "119.137.35.50", OPEN_ID, OPEN_KEY);
+			}
+			
+			//这里加进兴业深圳支付宝扫码支付
+			if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_XYSZ_ALI_SCAN))
+			{
+				String OPEN_ID=orderMap.get("rateKey1");
+				String OPEN_KEY=orderMap.get("rateKey2");
+				String out_trade_no = orderMap.get("orderNum");
+				String total_fee = DecimalUtil.yuanToCents(orderMap.get("payMoney").toString());
+				String body = orderMap.get("orderName");
+				return XYSZBankPay.xySZWFTAliaScanPay(out_trade_no, total_fee, body, "119.137.35.50", OPEN_ID, OPEN_KEY);
+			}
+			
+			
 			/**
 			 * 平安银行：微信 ，支付宝，扫码支付,公众号特殊支付
 			 */

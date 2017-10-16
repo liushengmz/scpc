@@ -327,8 +327,8 @@
 					<input type="hidden" name="sp_trone_id" id="hid_sp_trone_id" value="<%= spTroneId %>">
 					<dd class="dd01_me">供应商名称</dd>
 					<dd class="dd03_me">
-						<input  type="text" id="sel_sp_name" value="<%= spTroneModel.getSpName() %>" onclick="namePicker(this,spList,onSpDataSelect)" style="width: 200px;" readonly="readonly" >
-						<input  type="hidden" id="sel_sp_id" name="sp_id" value="<%= spTroneModel.getSpId() %>">
+						<input  type="text" id="sel_sp_name" value="<%= spTroneModel.getSpName() %>" onclick="namePicker(this,spList,onSpDataSelect)" style="width: 200px;" readonly="readonly" />
+						<input  type="hidden" id="sel_sp_id" name="sp_id" value="<%= spTroneModel.getSpId() %>" />
 					</dd>
 
 					<br />
@@ -416,7 +416,6 @@
 					</dd>
 			
 					
-					<br />
 					<br />
 					<br />
 					<dd class="dd00_me"></dd>

@@ -128,7 +128,7 @@ public class ServiceUtil
 	{
 		//String data = "amount=10000&open_id=dae6fb7c8af527d98e878ecebe12f210&ord_no=91504195142289485887&out_no=DD2017083123590222475746&pay_time=20170831235935&rand_str=vmRLiBIbSxLvFN8hvNQUnmtUpAmZsvwYRoJaZrlRY6nEUvVpjLjH8MBxnYwQt3Olryvq0RiZYFDSbyhvkAcsnNZLMwBfApA1Y6sYXKXVqANC847sFjV37VOTrq91QJ3O&status=1&timestamp=1504195176&sign=6d152bc27bfc0ea9733420ff05b28f61";
 		
-		String ss = "https://pay.iquxun.cn/aiJinFuPay/aliScanPay.do?paramStr=appKey%3df97769e5e6951a1c410f3216d0734d4f%26bussOrderNum%3dDD908919567%26channel%3d2%26notifyUrl%3dhttp%3a%2f%2fxiangtone.iquxun.cn%2fQuxunPayNotice.ashx%26orderName%3d%e6%b5%8b%e8%af%95%e6%89%ab%e7%a0%81%26payMoney%3d0.01%26return_url%3dhttps%3a%2f%2fwww.baidu.com%26sign%3de852624c3a377d0a11be07a645668fbe";
+		String ss = "https://pay.iquxun.cn/aiJinFuPay/aliScanPay.do";
 		
 		//System.out.println("send get data:" + sendGet("https://pay.iquxun.cn/aiJinFuPay/PABankScanPayCallBack.do", null, data));
 		

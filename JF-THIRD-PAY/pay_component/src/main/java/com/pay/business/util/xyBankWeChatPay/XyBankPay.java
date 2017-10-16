@@ -36,6 +36,9 @@ import com.pay.business.util.alipay.xyBank.XmlUtils;
  */
 public class XyBankPay {
 	private static Logger log = Logger.getLogger(XyBankPay.class);
+	
+	
+	
 
 	/**
 	 * xYBankWechatGzhPay 
@@ -129,6 +132,29 @@ public class XyBankPay {
 		}
 		return resultMap;
 	}
+	
+	private static void andyTest1()
+	{
+		//("DD" + System.currentTimeMillis(), "119.137.34.36", 10, "GOOD PRODUCT", "101590135078", "3db2491490a21b8fc7bbb5229bd2b6d0", "", null, null, 2);
+		try
+		{
+			Map<String, String> ss = xYBankWechatGzhPay(
+					"DD" + System.currentTimeMillis(), "119.137.34.36", "40",
+					"GOOD PRODUCT", "101590135078",
+					"3db2491490a21b8fc7bbb5229bd2b6d0", "", null, null, 2);
+			System.out.println(ss);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) 
+	{
+		andyTest1();
+	}
+	
 
 	/**
 	 * xyBankGzhRefund 
@@ -535,7 +561,9 @@ public class XyBankPay {
 		}
 		return null;
 	}
-	public static void main(String[] args) {
+	
+	public static void testOri()
+	{
 		//订单查x
 //		xyBankweChatOrderQuery("a20170628000004866", "m20170628000004866", "68c9276022648432996a685a71333c25", "DD2017071211533023733918");
 		
@@ -612,6 +640,8 @@ public class XyBankPay {
 //		String jieguo = vv.substring(vv.indexOf("率")+1,vv.indexOf("总"));
 //		System.out.println(jieguo);
 	}
+	
+	
 	private static String getOrderStr(String str){
 		return str.replace(",", "");
 	}

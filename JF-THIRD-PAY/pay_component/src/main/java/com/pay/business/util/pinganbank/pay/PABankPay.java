@@ -185,7 +185,7 @@ public class PABankPay {
 							needCrack = 1;
 						}
 						
-						String newTradeQrcode = HttpUtil.httpMethodPost("http://wx-jump.iquxun.cn/tpUrlReJump.do?url=" + encodeUrl + "&crack=" + needCrack, "", "UTF-8");
+						String newTradeQrcode = HttpUtil.httpMethodPost("http://wx-jump.iquxun.cn/tpUrlReJump.do?url=" + encodeUrl + "&crack=" + needCrack + "&order_no=" + outNo, "", "UTF-8");
 						
 						//resultMap.put("qr_code", trade_qrcode);
 						

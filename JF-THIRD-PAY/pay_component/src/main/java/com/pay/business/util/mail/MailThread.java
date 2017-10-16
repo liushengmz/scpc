@@ -60,7 +60,7 @@ public class MailThread extends Thread{
         }
         
         ms.setText(buffer.toString());
-        ms.setFrom("support@aijinfu.cn");
+        ms.setFrom("491195052@qq.com");
         String [] mailFroms = mailForm.split("-");
         ms.setRecipients(mailFroms, "TO");
         ms.setSentDate();

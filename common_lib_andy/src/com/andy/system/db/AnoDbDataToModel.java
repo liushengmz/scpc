@@ -1,7 +1,6 @@
 package com.andy.system.db;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,31 +21,23 @@ public class AnoDbDataToModel
 		
 		try
 		{
-			List<AnoMethodClass> list = new ArrayList<AnoMethodClass>();
+			List<AnoFieldClass> list = new ArrayList<AnoFieldClass>();
 			
-			for(Method method : model.getClassLoader().loadClass(model.getName()).getMethods())
+			Class<?> eClass = model.getClassLoader().loadClass(model.getName());
+
+			Field[] fields = eClass.getDeclaredFields();
+			
+			for (Field field : fields)
 			{
-				//如果当前方法有注解为DbColumn
-				if (method.isAnnotationPresent(DbColumn.class))
+				if (field.isAnnotationPresent(DbColumn.class))
 				{
-					Type[] types = method.getGenericParameterTypes();
-					
-					String typeName = types[0].getTypeName();
-					
-					DbColumn column = method.getAnnotation(DbColumn.class);
-					
-					AnoMethodClass data = this.new AnoMethodClass();
-					
-					data.method = method;
+					DbColumn column = field.getAnnotation(DbColumn.class);
+					field.setAccessible(true);
+					String typeName = field.getType().getTypeName();
+					AnoFieldClass data = this.new AnoFieldClass();
+					data.field = field;
 					data.typeName = typeName;
-					data.columnName = column.columnName();
-					
-					if(StringUtil.isNullOrEmpty(data.columnName))
-					{
-						logger.info(method.getName() + " DbColumn empty");
-						continue;
-					}
-					
+					data.columnName = column.columnName(); 
 					list.add(data);
 				}
 			}
@@ -56,27 +47,23 @@ public class AnoDbDataToModel
 				@SuppressWarnings("unchecked")
 				T obj = (T)Class.forName(model.getName()).newInstance();
 				
-				reList.add(obj);
-				
-				for(AnoMethodClass data : list)
+				for(AnoFieldClass data : list)
 				{
-					if(String.class.getName().equals(data.typeName))
+					if (String.class.getName().equals(data.typeName))
 					{
-						data.method.invoke(obj, StringUtil.getString(rs.getString(data.columnName),""));
+						data.field.set(obj, StringUtil.getString(rs.getString(data.columnName),""));
 					}
-					else if(int.class.getName().equals(data.typeName))
+					else if (int.class.getName().equals(data.typeName))
 					{
-						data.method.invoke(obj, rs.getInt(data.columnName));
+						data.field.set(obj, rs.getInt(data.columnName));
 					}
-					else if(float.class.getName().equals(data.typeName))
+					else if (float.class.getName().equals(data.typeName))
 					{
-						data.method.invoke(obj, rs.getFloat(data.columnName));
-					}
-					else if(float.class.getName().equals(data.typeName))
-					{
-						data.method.invoke(obj, rs.getDouble(data.columnName));
+						data.field.set(obj, rs.getFloat(data.columnName));
 					}
 				}
+				
+				reList.add(obj);
 			}
 		}
 		catch(Exception ex)
@@ -87,57 +74,54 @@ public class AnoDbDataToModel
 		return reList;
 	}
 	
-	private class AnoMethodClass
+	private class AnoFieldClass
 	{
-		Method method = null;
 		String typeName = null;
 		String columnName = null;
+		Field field = null;
 	}
-	
+		
 	public <T> T fillChildDbModel(Class<? extends BaseDbModel> model,ResultSet rs)
 	{
 		try
 		{
 			@SuppressWarnings("unchecked")
-			T obj = (T)Class.forName(model.getName()).newInstance();
+			T obj = (T) Class.forName(model.getName()).newInstance();
+
+			Class<?> eClass = model.getClassLoader().loadClass(model.getName());
+
+			Field[] fields = eClass.getDeclaredFields();
 			
-			for(Method method : model.getClassLoader().loadClass(model.getName()).getMethods())
+			for (Field field : fields)
 			{
-				//如果当前方法有注解为DbColumn
-				if (method.isAnnotationPresent(DbColumn.class))
+				if (field.isAnnotationPresent(DbColumn.class))
 				{
-					Type[] types = method.getGenericParameterTypes();
-					
-					String typeName = types[0].getTypeName();
-					
-					DbColumn column = method.getAnnotation(DbColumn.class);
-					
-					if(String.class.getName().equals(typeName))
+					DbColumn column = field.getAnnotation(DbColumn.class);
+					field.setAccessible(true);
+					String typeName = field.getType().getTypeName();
+					if (String.class.getName().equals(typeName))
 					{
-						method.invoke(obj, rs.getString(column.columnName()));
+						field.set(obj, StringUtil.getString(rs.getString(column.columnName()),""));
 					}
-					else if(int.class.getName().equals(typeName))
+					else if (int.class.getName().equals(typeName))
 					{
-						method.invoke(obj, rs.getInt(column.columnName()));
+						field.set(obj, rs.getInt(column.columnName()));
 					}
-					else if(float.class.getName().equals(typeName))
+					else if (float.class.getName().equals(typeName))
 					{
-						method.invoke(obj, rs.getFloat(column.columnName()));
-					}
-					else if(float.class.getName().equals(typeName))
-					{
-						method.invoke(obj, rs.getDouble(column.columnName()));
+						field.set(obj, rs.getFloat(column.columnName()));
 					}
 				}
 			}
-			
+
 			return obj;
 		}
-		catch(Exception ex)
+		catch (Exception ex)
 		{
 			logger.error(ex.getMessage());
 		}
-		
+
 		return null;
 	}
+	
 }

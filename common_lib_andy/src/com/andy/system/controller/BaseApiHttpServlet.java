@@ -37,7 +37,7 @@ public abstract class BaseApiHttpServlet extends HttpServlet
 	{
 		request.setCharacterEncoding("UTF-8");
 		
-		response.setContentType("text/javascript;charset=UTF-8"); 
+		response.setContentType("application/json;charset=utf-8"); 
 		
 		Map<String, String> params = ServletUtil.getRequestParams(request,"UTF-8");
 		

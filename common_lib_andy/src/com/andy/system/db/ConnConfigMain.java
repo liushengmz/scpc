@@ -37,6 +37,10 @@ public abstract class ConnConfigMain
         ds.setMaxIdle(8);
         ds.setMinIdle(4);
         ds.setMaxWait(2048);
+        ds.setValidationQuery("SELECT 1");
+        ds.setTestWhileIdle(true);
+        ds.setRemoveAbandoned(true);
+        ds.setTestOnBorrow(true);
         return ds;
     }
 

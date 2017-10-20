@@ -92,24 +92,27 @@ public class AnoDbDataToModel
 
 			Field[] fields = eClass.getDeclaredFields();
 			
-			for (Field field : fields)
+			if(rs.next())
 			{
-				if (field.isAnnotationPresent(DbColumn.class))
+				for (Field field : fields)
 				{
-					DbColumn column = field.getAnnotation(DbColumn.class);
-					field.setAccessible(true);
-					String typeName = field.getType().getTypeName();
-					if (String.class.getName().equals(typeName))
+					if (field.isAnnotationPresent(DbColumn.class))
 					{
-						field.set(obj, StringUtil.getString(rs.getString(column.columnName()),""));
-					}
-					else if (int.class.getName().equals(typeName))
-					{
-						field.set(obj, rs.getInt(column.columnName()));
-					}
-					else if (float.class.getName().equals(typeName))
-					{
-						field.set(obj, rs.getFloat(column.columnName()));
+						DbColumn column = field.getAnnotation(DbColumn.class);
+						field.setAccessible(true);
+						String typeName = field.getType().getTypeName();
+						if (String.class.getName().equals(typeName))
+						{
+							field.set(obj, StringUtil.getString(rs.getString(column.columnName()),""));
+						}
+						else if (int.class.getName().equals(typeName))
+						{
+							field.set(obj, rs.getInt(column.columnName()));
+						}
+						else if (float.class.getName().equals(typeName))
+						{
+							field.set(obj, rs.getFloat(column.columnName()));
+						}
 					}
 				}
 			}

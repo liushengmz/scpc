@@ -85,15 +85,15 @@ public class AnoDbDataToModel
 	{
 		try
 		{
-			@SuppressWarnings("unchecked")
-			T obj = (T) Class.forName(model.getName()).newInstance();
-
-			Class<?> eClass = model.getClassLoader().loadClass(model.getName());
-
-			Field[] fields = eClass.getDeclaredFields();
-			
 			if(rs.next())
 			{
+				@SuppressWarnings("unchecked")
+				T obj = (T) Class.forName(model.getName()).newInstance();
+
+				Class<?> eClass = model.getClassLoader().loadClass(model.getName());
+
+				Field[] fields = eClass.getDeclaredFields();
+				
 				for (Field field : fields)
 				{
 					if (field.isAnnotationPresent(DbColumn.class))
@@ -115,9 +115,9 @@ public class AnoDbDataToModel
 						}
 					}
 				}
+				
+				return obj;
 			}
-
-			return obj;
 		}
 		catch (Exception ex)
 		{

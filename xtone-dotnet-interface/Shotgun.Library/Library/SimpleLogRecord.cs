@@ -38,7 +38,7 @@ namespace Shotgun.Library
             else
             {
                 logFile += "_" + DateTime.Today.ToString("yyyy-MM-dd") + ".log";
-                fi = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "\\Log\\" + logFile);
+                fi = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "\\log\\" + logFile);
             }
             StreamWriter sWrite = null;
             try
@@ -47,7 +47,7 @@ namespace Shotgun.Library
                 if (!di.Exists)
                     di.Create();
 
-                sWrite = new StreamWriter(fi.FullName, true);
+                sWrite = new StreamWriter(fi.FullName, true, Encoding.UTF8);
                 sWrite.NewLine = "\r\n";
                 sWrite.WriteLine("{0},{1}", DateTime.Now.ToString("HH:mm:ss"), msg);
                 sWrite.Flush();

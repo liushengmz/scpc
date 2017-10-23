@@ -61,8 +61,6 @@ namespace LightDataModel
             else
                 minId = phones.Values.Max(e => e.id);
 
-            System.Diagnostics.Stopwatch st = new System.Diagnostics.Stopwatch();
-            st.Start();
             using (var dBase = new DBDriver().CreateDBase())
             {
                 var q = GetQueries(dBase);
@@ -89,13 +87,6 @@ namespace LightDataModel
                     }
                 }
                 cacheStatus = iDone ? 2 : 0;
-                st.Stop();
-                Shotgun.Library.SimpleLogRecord.WriteLog("load_cache",
-                    string.Format("threadId:{0} tbl_phone_locateItem cache Elapsed {1:#,###}ms ,count {2}",
-                        System.Threading.Thread.CurrentThread.ManagedThreadId,
-                        st.ElapsedMilliseconds,
-                       phones.Count)
-                    );
             }
         }
 

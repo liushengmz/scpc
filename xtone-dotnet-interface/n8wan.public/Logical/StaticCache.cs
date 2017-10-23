@@ -427,7 +427,7 @@ namespace n8wan.Public.Logical
 
         void WriteLog(string msg)
         {
-            Shotgun.Library.SimpleLogRecord.WriteLog("static_cache", _tabName + " " + msg);
+            //Shotgun.Library.SimpleLogRecord.WriteLog("static_cache", _tabName + " " + msg);
         }
 
         /// <summary>

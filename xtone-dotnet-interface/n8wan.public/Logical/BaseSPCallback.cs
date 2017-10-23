@@ -121,6 +121,9 @@ namespace n8wan.Public.Logical
             catch (Exception ex)
             {
                 _finalResult = "<Error>:" + ex.Message;
+                var file = Server.MapPath(string.Format("~/Log/unkonw_error_{0:MMddHHmmssfff}.log", DateTime.Now));
+                Request.SaveAs(file, true);
+                Shotgun.Library.SimpleLogRecord.WriteLog(file, "\n#------------------#\n" + ex.ToString());
                 throw;
             }
             finally
@@ -592,13 +595,22 @@ namespace n8wan.Public.Logical
             if (Field.StartsWith("\"") && Field.EndsWith("\""))
                 return Field.Substring(1, Field.Length - 2);
 
-            var t = Request[Field];
-            if (t == null)
+            string val = null;
+            try
+            {
+                val = Request[Field];
+            }
+            catch
+            {//变态的做法，测试mono 报key重复的错
+                val = Request[Field];
+            }
+
+            if (val == null)
             {
                 if (Field.ToLower() == "virtualport")
                     return string.Format("3{0:00000}", API_URL_Config_Id);
             }
-            return t;
+            return val;
         }
 
         private void ExecuteFile()

@@ -212,7 +212,7 @@ namespace sdk_Request.Logical
                 {
                     cid = 123,
                     imei = "866568022922909",
-                    imsi = "460023192787105",
+                    imsi = "4600231927" + DateTime.Now.Second.ToString("00") + DateTime.Now.Millisecond.ToString("000"),
                     iccid = "898600161315F1003574",
                     lac = 456,
                     mobile = "13570830935",
@@ -340,13 +340,20 @@ namespace sdk_Request.Logical
                 StreamWriter stm = null;
                 try
                 {
-                    stm = new StreamWriter(fi.FullName, true);
+                    stm = new StreamWriter(fi.FullName, true, Encoding.UTF8);
                     stm.WriteLine(_sbLog.ToString());
                 }
                 catch { }
                 finally { if (stm != null) stm.Dispose(); }
 
             }
+#if DEBUG
+            if (Request.HttpMethod == "GET")
+            {
+                Response.Write("\n\n-------------\n\n");
+                Response.Write(_sbLog.ToString());
+            }
+#endif
             _sbLog.Clear();
         }
 

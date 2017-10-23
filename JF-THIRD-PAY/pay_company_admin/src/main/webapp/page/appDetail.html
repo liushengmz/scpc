@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台应用详情</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+		<link rel="stylesheet" href="../public/css/nav.css" />
+		<link rel="shortcut icon" href="../favico.ico" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<!-- <div class="tips fr">
+				<div class="red"></div>
+			</div> -->
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<!-- <div class="users fr line">
+				<span>线上应用</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change2">线下门店</div>
+				</div>
+			</div> -->
+		</header>
+		<nav>
+			<ul>
+				<li class="stair datali" style="cursor: pointer;"><img src="../public/img/sjtj2.png"><span class="c_33">数据统计</span></li>
+				<li class="stair"><img src="../public/img/dd.png"><span class="c_80">订单</span></li>
+				<li class="secondLevel">
+					<a href="orderManager.html" class="c_33">订单管理</a>
+					<a href="refund.html" class="c_33">退款订单</a>
+					<a href="accountManager.html" class="c_33">账单管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/yy.png"><span class="c_80">应用</span></li>
+				<li class="secondLevel">
+					<a href="appManager.html" class="c_33 active">应用管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/zh.png"><span class="c_80">账户</span></li>
+				<li class="secondLevel">
+					<a href="account.html" class="c_33">账户信息</a>
+				</li>
+			</ul>
+			<div class="dld"><img src="../public/img/dld.png"/><span>下载SDK</span></div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：应用管理>应用详情</div>
+			<div class="ac-tips">
+				<div class="base fl"><i></i><span>基础信息</span></div>
+				<div class="edit fr"><i></i><span>编辑</span></div>
+			</div>
+			<div class="detail-app">
+				<dl class="appName">
+					<dt>应用名称：</dt>
+					<dd class="text"></dd>
+				</dl>
+				<dl class="appKey">
+					<dt>appKey：</dt>
+					<dd class="text"></dd>
+				</dl>
+				<dl class="appSecret">
+					<dt>应用秘钥：</dt>
+					<dd class="text"><span class="btn-span">重置</span></dd>
+				</dl>
+				<dl class="appIcon">
+					<dt>应用图标：</dt>
+					<dd class="imgs4 text">
+						<div class="oldimg fl">
+							<img src="" class="app-icon" />
+						</div>
+						<div class="addimg fl">
+							<img src="../public/img/add.png"/>
+							<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img4"  />
+						</div>
+					</dd>
+				</dl>
+				<dl class="typeName">
+					<dt>应用行业：</dt>
+					<dd class="text"></dd>
+				</dl>
+				<dl class="supportList">
+					<dt>支付渠道：</dt>
+					<dd><div class="fl ali"><i></i><span>支付宝</span></div><div class="fl wx"><i></i><span>微信</span></div></dd>
+				</dl>
+				<dl class="clearfix appDesc">
+					<dt>应用说明：</dt>
+					<dd class="sm text"></dd>
+				</dl>
+				<dl class="imgs appImg aheight">
+					<dt class="imgs aheight"><div>应用截图：</div><div style='margin-right:15px'>(选填)</div></dt>
+					<dd class="imgsCon imgs imgheight imgs1 text">
+						<div class="fl addImg">
+							<img src="../public/img/add.png"/>
+							<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img1" />
+						</div>
+						<span class="introwords">最多可上传5张，大小2M以内，JPG、PNG格式的图片</span>
+					</dd>
+				</dl>
+				<dl class="imgs appDescFile aheight">
+					<dt class="imgs aheight"><div>应用说明文档：</div><div style='margin-right:15px'>(选填)</div></dt>
+					<dd class="imgsCon imgs imgheight imgs2 text">
+						<div class="fl addImg">
+							<img src="../public/img/add.png"/>
+							<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img2"  />
+						</div>
+						<span class="introwords">最多可上传5张，大小2M以内，JPG、PNG格式的图片</span>
+					</dd>
+				</dl>
+				<dl class="androidApkPackage">
+					<dt><div>已有安装包：</div><div style='margin-right:15px;height:14px;line-height:14px;font-size:14px;'>(选填)</div></dt>
+					<dd text><span class="fl"></span>
+						<!--<div class="fl uploadfile">上传<input type="file" /></div>-->
+					</dd>
+				</dl>
+				<dl class="imgs last appCopyright aheight">
+					<dt class="imgs aheight"><div>著作权验证：</div><div style='margin-right:15px'>(选填)</div></dt>
+					<dd class="imgsCon imgs imgheight imgs3 text">
+						<div class="fl addImg">
+							<img src="../public/img/add.png"/>
+							<input type="file" name="fileinfo" id="fileinfoFile" class="fileInputClass img3"  />
+						</div>
+						<span class="introwords">最多可上传5张，大小2M以内，JPG、PNG格式的图片</span>
+					</dd>
+				</dl>
+			</div>
+			<div class="platform platform2">
+				<div class="account-infor-title">
+					<i></i><span>平台信息</span>
+				</div>
+				<div class="little-title">应用平台
+					<span>至少选择一个平台。若应用还未提交到应用市场，请先勾选需要的平台，将下载地址等暂时置空，待审核通过、开发完毕，提交到各平台应用市场后，再修改应用的下载地址为正确的地址</span>
+				</div>
+				<div class="ios ioss">
+					<i></i>IOS应用<span>请至少选择一个设备类型</span>
+				</div>
+				<div class="iphone iph">
+					<i></i>iPhone
+				</div>
+				<div class="iphone-dl iph-dl">
+					<dl class="clearfix iosIphoneUrl">
+						<dt>AppStore下载地址:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+					<dl class="clearfix iosIphoneId">
+						<dt>Bundle ID:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+					<dl class="clearfix iosIphoneTestId">
+						<dt>测试版本Bundle ID:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+				</div>
+				<div class="iphone ipd">
+					<i></i>iPad
+				</div>
+				<div class="iphone-dl ipd-dl">
+					<dl class="clearfix iosIpaUrl">
+						<dt>AppStore下载地址:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+					<dl class="clearfix iosIpaMd5">
+						<dt>Bundle ID:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+					<dl class="clearfix iosIpaTestId">
+						<dt>测试版本Bundle ID:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+				</div>
+				<div class="ios android">
+					<i></i>Android应用<span>请至少选择一个设备类型</span>
+				</div>
+				<div class="iphone-dl ad-dl">
+					<dl class="clearfix androidAppUrl">
+						<dt>应用下载地址:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+					<dl class="clearfix androidAppMd5">
+						<dt>应用签名:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+					<dl class="clearfix androidAppPackage">
+						<dt>应用包名:</dt>
+						<dd>
+							<div class="dd-up"></div>
+							
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="account-footer">
+				<div class="cancel fl">取消编辑</div>
+				<div class="save fl">保存</div>
+			</div>
+		</div>
+		<div class="bg">
+			<div class="window2">
+				<div class="top2">
+					重置秘钥
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+					
+				</div>
+				<div class="bottom2" >
+					<div class=phoneNumber>已向138****1111的手机发送验证码</div>
+					<div class="sureNumber">
+						<label>短信验证码:</label>
+						<input type="text" placeholder="输入收到的短信验证码" />
+						<div class="send fr" style="cursor:pointer;">发送验证码</div>
+					</div>
+					<div class=" surebtn surebtn3">确定</div>
+				</div>
+				<div class="bottom3">
+					<div class="keyTips">新的秘钥</div>
+					<div class="newKey">213213131313131</div>
+				</div>
+			</div>
+			<div class="window3">
+				<div class="top2">
+					修改密码
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+				</div>
+				<div class="bottom3">
+					<div class="oldpwd">
+						<label>原密码:</label>
+						<input type="password" placeholder="请输入原密码" />
+						<span style="color:red;font-size:14px;display:none">请输入原密码</span>
+					</div>
+					<div class="newpwd">
+						<label>新密码:</label>
+						<input type="password" placeholder="6-16位密码(数字、字母组成)" />
+						<span style="color:red;font-size:14px;display:none">请输入新密码</span>
+					</div>
+					<div class="newpwda">
+						<label>确认密码:</label>
+						<input type="password" placeholder="请再次输入新密码" />
+						<span style="color:red;font-size:14px;display:none">请再次输入新密码</span>
+					</div>
+					<div class="surebtn surebtn4">确定</div>
+				</div>
+			</div>
+		</div>
+		<!--  <div class='bg' style='display:none;backgroung-color:rgba(0,0,0,0.3);width:100%;height:100%;overflow:hidden'>
+			<img src='' />
+		</div>-->
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.myhtml5upload.js"></script>
+		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src=../public/js/Validform.min.js></script>
+		<script src="../public/js/ajaxfileupload.js"></script>
+		<script type="text/javascript" src="../public/js/exit.js"></script>
+		<script type="text/plain" id="imgMode">
+			<div class="fl bigimg"><img src=''/><i></i></div>
+		</script>
+		<script type="text/javascript" src="../public/js/app.js"></script>
+		<script type="text/javascript">
+		var isSwitch = localStorage.isSwitch,
+			companyName = localStorage.companyname,
+			paramtwo={},
+			phonestr=localStorage.username.slice(0,3)+"****"+localStorage.username.slice(7,11),time=60;
+			mailStr = localStorage.mail;
+		$(".user span").text(companyName);
+		if(isSwitch == 1) {
+			$(".changeline").remove();
+		}
+		$(".datali").on("click",function(){
+			window.location="data.html"
+		})
+		$(".dld").on("click",function(){
+			window.open("http://pay.aijinfu.cn/sdk-download.html")
+		})
+		$(".btn-span,.cancel,.save,.dld").on("mousedown",function(){
+			$(this).css("background-color","#2ea1f9")
+		})
+		$(".btn-span,.cancel,.save,.dld").on("mouseup",function(){
+			$(this).css("background-color","#2581f4")
+		})
+		$("body").on("click",".changeline .change2",function(){
+			$.ajax({
+				type:"get",
+				url:"../sys/tabSwitch.do",
+				async:false,
+				success:function(data){
+					console.log(data);
+					if(!!data&&data.resultCode==200){
+						if(data.Data.isTabSwitch==2){
+							location.href="dataOffline.html";
+						}
+					}else{
+						if(!!data.message){
+								alert(data.message);
+							}else{
+								
+								$("body").html(data);
+							}
+					}
+				}
+			})
+		})
+		$("body").on("click",".btn-span",function(){
+			
+			//console.log(str)
+			$(".bottom2 .phoneNumber").html("已向"+mailStr+"的手机发送验证码");
+			
+			$(".send").removeClass("gray");
+			$(".send").html("发送验证码");
+			$(".bg").show();
+			$(".window2").show();
+			$(".bottom2").show();
+		})
+		$("body").on("click",".surebtn3",function(){
+			if($(".sureNumber input").val()){
+				paramtwo.id=thisid;
+				paramtwo.code=$(".sureNumber input").val();
+				//paramtwo.useType=1;
+				//paramtwo.userName=localStorage.username;
+				console.log(paramtwo)
+				$.ajax({
+					type:"get",
+					url:"../online/payv2BussCompany/checkEmailCode.do",
+					data:paramtwo,
+					async:false,
+					success:function(data){
+						console.log(data);
+						if(!!data&&data.resultCode==200){
+							$(".newKey").html(data.Data.newAppSecret);
+							$(".bottom2").hide();
+							$(".bottom3").show();
+						}else{
+							if(!!data.message){
+								alert(data.message);
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+					}
+				})
+			}else{
+				alert("请先输入验证码！");
+			}
+			
+		})
+		$("body").on("click",".send",function(){
+			var _this=$(this);
+			var time=60;
+			var keyparam={};
+			if($(this).hasClass("gray")){
+				
+			}else{
+				_this.addClass("gray");
+				retime()
+				//keyparam.useType=1;
+				//keyparam.userName="";
+				keyparam.id=thisid;
+				$.ajax({
+					type:"post",
+					url:"../online/payv2BussCompany/sendEmail.do",
+					data:keyparam,
+					async:true,
+					success:function(data){
+						console.log(data)
+						if(!!data&&data.resultCode==200){
+							//timeout();
+						}else{
+							if(!!data.message){
+								alert(data.message);
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+					}
+				})
+			}
+			function retime(){
+				time--;
+				if(time>0&&_this.hasClass("gray")){
+					$(".send").html(time+"秒重发")
+					setTimeout(retime,1000);
+				}else if(time==0){
+					$(".send").html("发送验证码");
+					_this.removeClass("gray");
+				}
+			}
+		})
+		//console.log(thisid)
+		</script>
+	</body>
+
+</html>

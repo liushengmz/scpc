@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.order.mapper.Payv2PayOrderGroupMapper">
+
+	<resultMap id="payv2payordergroup_result_map" type="com.pay.business.order.entity.Payv2PayOrderGroup" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="group_value" property="groupValue"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_order_group  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="groupValue!=null and groupValue!=''">
+				and group_value like CONCAT('%',#{groupValue},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderGroup" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_pay_order_group
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="groupValue!=null ">
+				group_value,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="groupValue!=null ">
+      			#{groupValue},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderGroup">
+		delete from payv2_pay_order_group
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="groupValue!=null ">
+				and group_value=#{groupValue}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.order.entity.Payv2PayOrderGroup">
+		update payv2_pay_order_group
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="groupValue!=null ">
+				group_value=#{groupValue},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.order.entity.Payv2PayOrderGroup" resultMap="payv2payordergroup_result_map">
+		select id,app_id,group_value,create_time from payv2_pay_order_group
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="groupValue!=null ">
+				and group_value=#{groupValue}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2payordergroup_result_map" >
+		select id,app_id,group_value,create_time from payv2_pay_order_group
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="groupValue!=null ">
+				and group_value=#{groupValue}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2payordergroup_result_map" >
+		
+		SELECT id,app_id,group_value,create_time FROM payv2_pay_order_group 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="groupValue!=null and groupValue!=''">
+				and group_value like  CONCAT('%',#{groupValue},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject2" resultMap="payv2payordergroup_result_map" >
+		select id,app_id,group_value,create_time from payv2_pay_order_group
+		<where>
+			1=1
+			and app_id IN
+			<foreach collection="appIdList" item="item" index="index" open="(" separator="," close=")" >
+					#{item}
+			</foreach>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="groupValue!=null ">
+				and group_value=#{groupValue}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+</mapper>

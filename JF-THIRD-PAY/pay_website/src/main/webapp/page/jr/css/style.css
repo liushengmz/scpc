@@ -1,0 +1,524 @@
+
+.hide{
+	display: none;
+}
+.header{
+	width: 100%;
+	height: 0.95rem;
+	background: #fafafa;
+}
+.header_container{
+	width: 6.7rem;
+	height: 0.95rem;
+	margin: 0 auto;
+}
+.icon{
+	width: 0.35rem;
+	height: 0.95rem;
+	background: url(../img/left.png) no-repeat left center;
+}
+.words{
+	width: 6.06rem;
+	height: 0.95rem;
+	line-height: 0.95rem;
+	text-align: center;
+	font-size: 0.36rem;
+	color: #333;
+}
+.banner{
+	width: 100%;
+	height: 3.69rem;
+	background: url(../img/banner_bg.png);
+	background-size: 100% 100%;
+	overflow: hidden;
+}
+.banner_title{
+	width: 100%;
+	margin-top: 0.25rem;
+}
+.banner_title h3{
+	width: 100%;
+	text-align: center;
+	height: 0.56rem;
+	line-height: 0.56rem;
+	color: #fff;
+	font-size: 0.24rem;
+}
+.banner_title h2{
+	width: 100%;
+	text-align: center;
+	height: 0.94rem;
+	line-height: 0.94rem;
+	color: #fff;
+	font-size: 0.24rem;
+}
+.banner_title h2 span{
+	font-size: 0.6rem;
+}
+.banner_footer{
+	width: 100%;
+	height: 1.05rem;
+	margin-top: 0.72rem;
+	position: relative;
+}
+.two{
+	width: 100%;
+	height: 1.05rem;
+	display: flex;
+	display: -webkit-flex;
+	margin-top: 0.75rem;
+}
+.three{
+	width: 100%;
+	height: 1.05rem;
+	margin-top: 0.75rem;
+	display: flex;
+	display: -webkit-flex;
+}
+.data1,.data2,.data3{
+	flex: 1;
+	-webkit-flex: 1;
+	color: #fff;
+}
+.data1 h1,.data2 h1,.data3 h1{
+	height: 0.5rem;
+	line-height: 0.5rem;
+	color: #fff;
+	font-size: 0.24rem;
+	padding-left: 0.6rem;
+	margin-top: 0.1rem;
+}
+.data1 h2,.data2 h2,.data3 h2{
+	height: 0.57rem;
+	line-height: 0.57rem;
+	color: #fff;
+	font-size: 0.20rem;
+	padding-left: 0.6rem;
+}
+.data1 h2 span,.data2 h2 span,.data3 h2 span{
+	font-size: 0.4rem;
+}
+.left{
+	height: 1.05rem;
+	flex: 1;
+	-webkit-flex: 1;
+}
+.right{
+	height: 1.05rem;
+	flex: 1;
+	-webkit-flex: 1;
+}
+.stick,.stick2,.stick3{
+	width: 1px;
+	height: 0.66rem;
+	background: url(../img/stick.png);
+	background-size: 100% 100%;
+	position: absolute;
+	top:2.8rem;
+	
+	z-index: 2;
+}
+.stick{
+	left: 50%;
+}
+.stick2{
+	left: 33%;
+}
+.stick3{left: 66%;}
+.left h1{
+	height: 0.5rem;
+	line-height: 0.5rem;
+	color: #fff;
+	font-size: 0.24rem;
+	padding-left: 0.6rem;
+	margin-top: 0.1rem;
+}
+.left h2{
+	height: 0.57rem;
+	line-height: 0.57rem;
+	color: #fff;
+	font-size: 0.20rem;
+	padding-left: 0.6rem;
+}
+.left h2 span{
+	font-size: 0.4rem;
+}
+.right h1{
+	height: 0.5rem;
+	line-height: 0.5rem;
+	color: #fff;
+	font-size: 0.24rem;
+	margin-right: 0.7rem;
+	text-align: right;
+	margin-top: 0.1rem;
+}
+.right h2{
+	height: 0.57rem;
+	line-height: 0.57rem;
+	color: #fff;
+	font-size: 0.20rem;
+	margin-right: 0.7rem;
+	text-align: right;
+}
+.right h2 span{
+	font-size: 0.4rem;
+}
+.intro{
+	width: 100%;
+	height: 1.35rem;
+	background: #fff;
+	border-bottom: 1px solid #dedede;	
+}
+.inleft{
+	width: 66.6%;
+	height: 1.35rem;
+	float: left;
+}
+.top{
+	color: #9f9f9f;
+	font-size: 0.24rem;
+	padding-left: 0.6rem;
+	margin-top: 0.25rem;
+	color: #808080;
+}
+.bottom{
+	padding-left: 0.6rem;
+	font-size: 0.32rem;
+	margin-top: 0.04rem;
+}
+.earning{
+	color: #333;
+	font-size: 0.4rem;
+}
+.main{
+	color: #333;
+}
+.butie{
+	color: #f00;
+}
+.futou{
+	color: dodgerblue;
+}
+.inright{
+	float: left;
+	height: 1.35rem;
+	width: 33.3%;
+}
+.tips1{
+	margin-right: 0.6rem;
+	text-align: right;
+	color: #9f9f9f;
+	font-size: 0.24rem;
+	margin-top: 0.25rem;
+	color: #808080;
+}
+.mount{
+	font-size: 0.4rem;
+	margin-right: 0.63rem;
+	margin-top: 0.06rem;
+	text-align: right;
+}
+.info {
+	width: 100%;
+	min-height: 1.1rem;
+	background: #f1f7fd;
+	overflow: hidden;
+	color: #666;
+}
+.atten{
+	width: 6.84rem;
+	margin-left: 0.15rem;
+	font-size: 0.24rem;
+	margin-top: 0.12rem;
+	height: 0.64rem;
+}
+.atten_cu{
+	width: 0.4rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	border-radius: 5px;
+	color: #fff;
+	background: #007AFF;
+	background-size: 100% 100%;
+    margin-left: 0.12rem;
+}
+.atten_word{
+	width: 6.25rem;
+	line-height: 0.44rem;
+	color: #333;
+	margin-left: 0.06rem;
+}
+.new{
+	width: 6.84rem;
+	height: 0.52rem;
+	margin-left: 0.15rem;
+	font-size: 0.24rem;
+	margin-top: 0.12rem;
+}
+.new_cu{
+	width: 0.4rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	border-radius: 5px;
+	color: #fff;
+	background: #8b9bf1;
+	background-size: 100% 100%;
+    margin-left: 0.12rem;
+}
+.new_word{
+	width: 6.25rem;
+	line-height: 0.44rem;
+	color: #333;
+	margin-left: 0.06rem;
+}
+.introduce{
+	width: 100%;
+	height: 0.88rem;
+	color: #333;
+	font-size: 0.32rem;
+	border-bottom: 1px solid #dedede;	
+	background: #fff;
+}
+.w{
+	padding-left:0.24rem ;
+	height: 0.88rem;
+	line-height: 0.88rem;
+}
+.infor{
+	background: #fff;
+	width: 100%;
+	font-size: 0.28rem;
+	border-bottom: 1px solid #dedede;
+}
+.infor_container{
+	width: 93.0555555555555555%;
+	margin: 0 auto;
+}
+.name,.time,.lilv,.first,.max,.tuoguan,.amount,.danbao,.qixian,.way,.futousub,.futoufre,.futoumax{
+	height: 0.8rem;
+	line-height: 0.8rem;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+}
+.way{
+	border: 0;
+}
+.first span{
+	color: #ff6d6e;
+}
+.left2{
+	color: #808080;
+}
+.right2{
+	color: #333;
+	width: 5rem;
+	text-align: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.shuoming{
+	width: 100%;
+	height: 0.88rem;
+	background: #fff;
+	margin-top: 0.2rem;
+	color: #a5a5a5;
+	border-bottom: 1px solid #ededed;
+}
+.container{
+	height: 0.88rem;
+	line-height: 0.88rem;
+	font-size: 0.32rem;
+	padding-left: 0.24rem;
+	color: #333;
+	
+}
+.neirong{
+	width: 100%;
+	min-height: 2.1rem;
+	background: #fff;
+	padding-top: 0.2rem;
+}
+.neirongcontainer{
+	font-size: 0.28rem;
+	height: 0.48rem;
+	line-height: 0.48rem;
+	padding-left: 0.24rem;
+	color: #666;
+}
+.footer{
+	width: 100%;
+	height: 0.45rem;
+	background: #ededed;
+}
+.eg{
+	width:100%;
+	height: 0.9rem;
+	background: #fff;
+	margin-top: 0.2rem;
+	border-bottom: 1px solid #dedede;
+}
+.egw{
+	font-size: 0.32rem;
+	color: #333;
+	height:0.9rem;
+	line-height: 0.9rem;
+	margin-left: 0.24rem;
+}
+.egi{
+	height: 0.9rem;
+	margin-right: 0.24rem;
+}
+.egi img{
+	margin-bottom: 0.2rem;
+}
+.egt{
+	width:100%;
+	height: 0.9rem;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+}
+.egwt{
+	font-size: 0.32rem;
+	color: #333;
+	height:0.9rem;
+	line-height: 0.9rem;
+	margin-left: 0.24rem;
+}
+.egit{
+	height: 0.9rem;
+	margin-right: 0.24rem;
+}
+.egit img{
+		margin-bottom: 0.2rem;
+}
+.right2{
+	width: 4.76rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align:right
+}
+.way .right2{
+	white-space: normal;
+	line-height: 0.5rem;
+	margin-top: 0.2rem;
+	text-align: left;
+}
+.pro{
+	width: 100%;
+	height: 2.33rem;
+	background: -webkit-linear-gradient(top ,#4867f5,#6070e5);
+	overflow: hidden;
+	display: none;
+}
+.prosev{
+	width: 100%;
+	font-size: 0.24rem;
+	color: #fff;
+	text-align: center;
+	margin-top: 0.4rem;
+}
+.proval{
+	width: 100%;
+	height: 0.8rem;
+	color: #fff;
+	text-align: center;
+}
+.num{
+	font-size: 0.8rem;
+}
+.per{
+	font-size: 0.28rem;
+}
+
+.banner2{
+	width: 100%;
+	height: 2.75rem;
+	background: url(../img/bg.png) 100% 100%;
+	overflow: hidden;
+	display: none;
+}
+.banner_title2{
+	height: 0.45rem;
+	margin: 0.4rem 0 0 0.4rem;
+}
+.banner_title2 img{
+	width: 0.45rem;
+	height: 0.45rem;
+	border: 0;
+	float: left;
+}
+.img{
+	width:0.46rem;
+	height: 0.46rem;
+}
+.jigou{
+	color: #fff;
+	height: 0.45rem;
+	line-height: 0.45rem;
+	font-size: 0.32rem;
+	margin-left: 0.16rem;
+}
+.banner_details{
+	margin-top: 0.44rem;
+	display: flex;
+	height: 1.15rem;
+}
+.btl{
+	flex: 1;
+	margin-left: 0.4rem;
+}
+.btr{
+	flex: 1;
+	margin-left: 0.4rem;
+}
+.btlp{
+	
+	color: #fff;
+	line-height: 0.62rem;
+	font-size: 0.43rem;
+}
+.btlp .abc{
+	font-size: 0.22rem;
+}
+.btlp span{
+	font-size: 0.43rem;
+}
+.btlw{
+	font-size: 0.24rem;
+	color: #ccd0f7;
+	line-height: 0.46rem;
+}
+.shouyi{
+	width: 100%;
+	height: 1.4rem;
+	background: #fff;
+	display: none;
+}
+.syl{
+	margin-left: 0.4rem;
+	width: 44%;
+	float: left;
+}
+	
+.syr{
+	margin-left: 0.4rem;
+	width: 44%;
+	float: left;
+}
+.sylw{
+	height: 0.44rem;
+	line-height: 0.44rem;
+	font-size: 0.24rem;
+	color: #808080;
+	margin-top: 0.22rem;
+}
+.aa{
+	font-size: 0.22rem;
+}
+.sylp{
+	font-size: 0.4rem;
+}

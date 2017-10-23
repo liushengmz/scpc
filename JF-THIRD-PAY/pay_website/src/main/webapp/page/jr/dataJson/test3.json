@@ -1,0 +1,67 @@
+jsonp1({
+	"message": "成功",
+	"Data": {
+		"loanCooperationMode": 1,
+		"openAnAccount": 3,
+		"loanGuaranteeCompany": "",
+		"loanInviteCode": "",
+		"loanSubsidyType": 1,
+		"loanEndTime": "2016-10-21 00:00:00",
+		"loanTips": "",
+		"loanApplyCondition": "2131313",
+		"loanTags": "[{\"autoTags\":[],\"customTags\":[],\"publicTags\":[]}]",
+		"loanBorrowMoneyMin": 3,
+		"loanLoanedAmount": "",
+		"termList": [
+			{
+				"loanRate": 1,
+				"loanIsRecommend": 2,
+				"orderNum": "",
+				"loanSubsidyRate": "",
+				"loanId": 97,
+				"loanTerm": 1,
+				"loanRecommendShowType": 1,
+				"id": 246
+			},{
+				"loanRate": 3,
+				"loanIsRecommend": 2,
+				"orderNum": "",
+				"loanSubsidyRate": 1,
+				"loanId": 97,
+				"loanTerm": 3,
+				"loanRecommendShowType": 1,
+				"id": 246
+			},{
+				"loanRate": 3,
+				"loanIsRecommend": 2,
+				"orderNum": "",
+				"loanSubsidyRate": 5,
+				"loanId": 97,
+				"loanTerm": 6,
+				"loanRecommendShowType": 1,
+				"id": 246
+			}
+		],
+		"loanBuySuccPicExample": "",
+		"loanName": "33",
+		"turnUrl": "http://focus.tianya.cn/",
+		"loanBuySuccNorm": "[{\"key\":\"buyAccount\",\"seq\":1,\"tips\":\"请输入借款金额\",\"value\":\"借款金额\"},{\"key\":\"borrowTerm\",\"seq\":2,\"tips\":\"请输入借款期数\",\"value\":\"借款期数\"}]",
+		"loanOpenAccountPicExample": "",
+		"loanSubsidyDescribe": "3",
+		"loanBorrowMoneyMax": 333333,
+		"loanDisclaimer": "3",
+		"loanTotalAmount": 1111111,
+		"turnType": 1,
+		"id": 97,
+		"loanSubsidyFrequency": "",
+		"loanApplyNeedStuff": "无而且",
+		"userSubsidyFrequency": 0,
+		"loanShowType": 1,
+		"loanTrait": "请问请问企鹅企鹅去13213131",
+		"loanIcon": "http://10.0.3.14//yizhan/aizichan/37116bda-403d-417d-af10-792cec3e2ca9.jpg",
+		"turnApkUrl": "",
+		"loanSubsidyMax": ""
+	},
+	"resultCode": 200
+}
+)

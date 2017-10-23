@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payway.mapper.Payv2PayWayRateMapper">
+
+	<resultMap id="payv2paywayrate_result_map" type="com.pay.business.payway.entity.Payv2PayWayRate" >
+		<id column="id" property="id" />
+		<result column="pay_way_name" property="payWayName"/>
+		<result column="rate_name" property="rateName"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="pay_type" property="payType"/>
+		<result column="pay_view_type" property="payViewType"/>
+		<result column="dic_id" property="dicId"/>
+		<result column="company_name" property="companyName"/>
+		<result column="company_alias" property="companyAlias"/>
+		<result column="contacts_name" property="contactsName"/>
+		<result column="contacts_phone" property="contactsPhone"/>
+		<result column="account_bank" property="accountBank"/>
+		<result column="account_bank_son" property="accountBankSon"/>
+		<result column="account_type" property="accountType"/>
+		<result column="account_name" property="accountName"/>
+		<result column="account_card" property="accountCard"/>
+		<result column="pay_way_rate" property="payWayRate"/>
+		<result column="way_arrival_type" property="wayArrivalType"/>
+		<result column="way_arrival_value" property="wayArrivalValue"/>
+		<result column="one_max_money" property="oneMaxMoney"/>
+		<result column="max_money" property="maxMoney"/>
+		<result column="rate_key1" property="rateKey1"/>
+		<result column="rate_key2" property="rateKey2"/>
+		<result column="rate_key3" property="rateKey3"/>
+		<result column="rate_key4" property="rateKey4"/>
+		<result column="rate_key5" property="rateKey5"/>
+		<result column="rate_key6" property="rateKey6"/>
+		<result column="gzh_app_id" property="gzhAppId"/>
+		<result column="gzh_key" property="gzhKey"/>
+		<result column="gzh_str" property="gzhStr"/>
+		<result column="key_remark" property="keyRemark"/>
+		<result column="auto_record" property="autoRecord"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="status" property="status"/>
+		<result column="create_user_by" property="createUserBy"/>
+		<result column="update_user_by" property="updateUserBy"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+
+		<result column="company_rate" property="companyRate"/>
+		<result column="dict_name" property="dictName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(1) from payv2_pay_way_rate  
+		<where>
+			<if test="keyWord!=null and keyWord!=''">
+				and (rate_name like CONCAT('%',#{keyWord},'%') or company_name like CONCAT('%',#{keyWord},'%') 
+					or company_alias like CONCAT('%',#{keyWord},'%') or pay_way_name like CONCAT('%',#{keyWord},'%'))
+			</if>
+			
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="payWayName!=null and payWayName!=''">
+				and pay_way_name like CONCAT('%',#{payWayName},'%')
+			</if>
+			<if test="rateName!=null and rateName!=''">
+				and rate_name like CONCAT('%',#{rateName},'%')
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="payType!=null and payType!=''">
+				and pay_type = #{payType}
+			</if>
+			<if test="payViewType!=null and payViewType!=''">
+				and pay_view_type = #{payViewType}
+			</if>
+			<if test="dicId!=null and dicId!=''">
+				and dic_id = #{dicId}
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and company_name like CONCAT('%',#{companyName},'%')
+			</if>
+			<if test="companyAlias!=null and companyAlias!=''">
+				and company_alias like CONCAT('%',#{companyAlias},'%')
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="accountBank!=null and accountBank!=''">
+				and account_bank like CONCAT('%',#{accountBank},'%')
+			</if>
+			<if test="accountBankSon!=null and accountBankSon!=''">
+				and account_bank_son like CONCAT('%',#{accountBankSon},'%')
+			</if>
+			<if test="accountType!=null and accountType!=''">
+				and account_type = #{accountType}
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and account_name like CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountCard!=null and accountCard!=''">
+				and account_card like CONCAT('%',#{accountCard},'%')
+			</if>
+			<if test="payWayRate!=null and payWayRate!=''">
+				and pay_way_rate like CONCAT('%',#{payWayRate},'%')
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="oneMaxMoney!=null and oneMaxMoney!=''">
+				and one_max_money like CONCAT('%',#{oneMaxMoney},'%')
+			</if>
+			<if test="maxMoney!=null and maxMoney!=''">
+				and max_money like CONCAT('%',#{maxMoney},'%')
+			</if>
+			<if test="rateKey1!=null and rateKey1!=''">
+				and rate_key1 like CONCAT('%',#{rateKey1},'%')
+			</if>
+			<if test="rateKey2!=null and rateKey2!=''">
+				and rate_key2 like CONCAT('%',#{rateKey2},'%')
+			</if>
+			<if test="rateKey3!=null and rateKey3!=''">
+				and rate_key3 like CONCAT('%',#{rateKey3},'%')
+			</if>
+			<if test="rateKey4!=null and rateKey4!=''">
+				and rate_key4 like CONCAT('%',#{rateKey4},'%')
+			</if>
+			<if test="rateKey5!=null and rateKey5!=''">
+				and rate_key5 like CONCAT('%',#{rateKey5},'%')
+			</if>
+			<if test="rateKey6!=null and rateKey6!=''">
+				and rate_key6 like CONCAT('%',#{rateKey6},'%')
+			</if>
+			<if test="gzhAppId!=null and gzhAppId!=''">
+				and gzh_app_id like CONCAT('%',#{gzhAppId},'%')
+			</if>
+			<if test="gzhKey!=null and gzhKey!=''">
+				and gzh_key like CONCAT('%',#{gzhKey},'%')
+			</if>
+			<if test="gzhStr!=null and gzhStr!=''">
+				and gzh_str like CONCAT('%',#{gzhStr},'%')
+			</if>
+			<if test="keyRemark!=null and keyRemark!=''">
+				and key_remark like CONCAT('%',#{keyRemark},'%')
+			</if>
+			<if test="autoRecord!=null and autoRecord!=''">
+				and auto_record = #{autoRecord}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payway.entity.Payv2PayWayRate" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_pay_way_rate
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="payWayName!=null ">
+				pay_way_name,
+			</if>
+      		<if test="rateName!=null ">
+				rate_name,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="payType!=null ">
+				pay_type,
+			</if>
+      		<if test="payViewType!=null ">
+				pay_view_type,
+			</if>
+      		<if test="dicId!=null ">
+				dic_id,
+			</if>
+      		<if test="companyName!=null ">
+				company_name,
+			</if>
+      		<if test="companyAlias!=null ">
+				company_alias,
+			</if>
+      		<if test="contactsName!=null ">
+				contacts_name,
+			</if>
+      		<if test="contactsPhone!=null ">
+				contacts_phone,
+			</if>
+      		<if test="accountBank!=null ">
+				account_bank,
+			</if>
+      		<if test="accountBankSon!=null ">
+				account_bank_son,
+			</if>
+      		<if test="accountType!=null ">
+				account_type,
+			</if>
+      		<if test="accountName!=null ">
+				account_name,
+			</if>
+      		<if test="accountCard!=null ">
+				account_card,
+			</if>
+      		<if test="payWayRate!=null ">
+				pay_way_rate,
+			</if>
+      		<if test="wayArrivalType!=null ">
+				way_arrival_type,
+			</if>
+      		<if test="wayArrivalValue!=null ">
+				way_arrival_value,
+			</if>
+      		<if test="oneMaxMoney!=null ">
+				one_max_money,
+			</if>
+      		<if test="maxMoney!=null ">
+				max_money,
+			</if>
+      		<if test="rateKey1!=null ">
+				rate_key1,
+			</if>
+      		<if test="rateKey2!=null ">
+				rate_key2,
+			</if>
+      		<if test="rateKey3!=null ">
+				rate_key3,
+			</if>
+      		<if test="rateKey4!=null ">
+				rate_key4,
+			</if>
+      		<if test="rateKey5!=null ">
+				rate_key5,
+			</if>
+      		<if test="rateKey6!=null ">
+				rate_key6,
+			</if>
+      		<if test="gzhAppId!=null ">
+				gzh_app_id,
+			</if>
+      		<if test="gzhKey!=null ">
+				gzh_key,
+			</if>
+      		<if test="gzhStr!=null ">
+				gzh_str,
+			</if>
+      		<if test="keyRemark!=null ">
+				key_remark,
+			</if>
+      		<if test="autoRecord!=null ">
+				auto_record,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="status!=null ">
+				status,
+			</if>
+      		<if test="createUserBy!=null ">
+				create_user_by,
+			</if>
+      		<if test="updateUserBy!=null ">
+				update_user_by,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="payWayName!=null ">
+      			#{payWayName},
+			</if>
+      		<if test="rateName!=null ">
+      			#{rateName},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="payType!=null ">
+      			#{payType},
+			</if>
+      		<if test="payViewType!=null ">
+      			#{payViewType},
+			</if>
+      		<if test="dicId!=null ">
+      			#{dicId},
+			</if>
+      		<if test="companyName!=null ">
+      			#{companyName},
+			</if>
+      		<if test="companyAlias!=null ">
+      			#{companyAlias},
+			</if>
+      		<if test="contactsName!=null ">
+      			#{contactsName},
+			</if>
+      		<if test="contactsPhone!=null ">
+      			#{contactsPhone},
+			</if>
+      		<if test="accountBank!=null ">
+      			#{accountBank},
+			</if>
+      		<if test="accountBankSon!=null ">
+      			#{accountBankSon},
+			</if>
+      		<if test="accountType!=null ">
+      			#{accountType},
+			</if>
+      		<if test="accountName!=null ">
+      			#{accountName},
+			</if>
+      		<if test="accountCard!=null ">
+      			#{accountCard},
+			</if>
+      		<if test="payWayRate!=null ">
+      			#{payWayRate},
+			</if>
+      		<if test="wayArrivalType!=null ">
+      			#{wayArrivalType},
+			</if>
+      		<if test="wayArrivalValue!=null ">
+      			#{wayArrivalValue},
+			</if>
+      		<if test="oneMaxMoney!=null ">
+      			#{oneMaxMoney},
+			</if>
+      		<if test="maxMoney!=null ">
+      			#{maxMoney},
+			</if>
+      		<if test="rateKey1!=null ">
+      			#{rateKey1},
+			</if>
+      		<if test="rateKey2!=null ">
+      			#{rateKey2},
+			</if>
+      		<if test="rateKey3!=null ">
+      			#{rateKey3},
+			</if>
+      		<if test="rateKey4!=null ">
+      			#{rateKey4},
+			</if>
+      		<if test="rateKey5!=null ">
+      			#{rateKey5},
+			</if>
+      		<if test="rateKey6!=null ">
+      			#{rateKey6},
+			</if>
+      		<if test="gzhAppId!=null ">
+      			#{gzhAppId},
+			</if>
+      		<if test="gzhKey!=null ">
+      			#{gzhKey},
+			</if>
+      		<if test="gzhStr!=null ">
+      			#{gzhStr},
+			</if>
+      		<if test="keyRemark!=null ">
+      			#{keyRemark},
+			</if>
+      		<if test="autoRecord!=null ">
+      			#{autoRecord},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="status!=null ">
+      			#{status},
+			</if>
+      		<if test="createUserBy!=null ">
+      			#{createUserBy},
+			</if>
+      		<if test="updateUserBy!=null ">
+      			#{updateUserBy},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payway.entity.Payv2PayWayRate">
+		delete from payv2_pay_way_rate
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="payWayName!=null ">
+				and pay_way_name=#{payWayName}
+			</if>
+      		<if test="rateName!=null ">
+				and rate_name=#{rateName}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="payType!=null ">
+				and pay_type=#{payType}
+			</if>
+      		<if test="payViewType!=null ">
+				and pay_view_type=#{payViewType}
+			</if>
+      		<if test="dicId!=null ">
+				and dic_id=#{dicId}
+			</if>
+      		<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+      		<if test="companyAlias!=null ">
+				and company_alias=#{companyAlias}
+			</if>
+      		<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+      		<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+      		<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+      		<if test="accountBankSon!=null ">
+				and account_bank_son=#{accountBankSon}
+			</if>
+      		<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+      		<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+      		<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+      		<if test="payWayRate!=null ">
+				and pay_way_rate=#{payWayRate}
+			</if>
+      		<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+      		<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+      		<if test="oneMaxMoney!=null ">
+				and one_max_money=#{oneMaxMoney}
+			</if>
+      		<if test="maxMoney!=null ">
+				and max_money=#{maxMoney}
+			</if>
+      		<if test="rateKey1!=null ">
+				and rate_key1=#{rateKey1}
+			</if>
+      		<if test="rateKey2!=null ">
+				and rate_key2=#{rateKey2}
+			</if>
+      		<if test="rateKey3!=null ">
+				and rate_key3=#{rateKey3}
+			</if>
+      		<if test="rateKey4!=null ">
+				and rate_key4=#{rateKey4}
+			</if>
+      		<if test="rateKey5!=null ">
+				and rate_key5=#{rateKey5}
+			</if>
+      		<if test="rateKey6!=null ">
+				and rate_key6=#{rateKey6}
+			</if>
+      		<if test="gzhAppId!=null ">
+				and gzh_app_id=#{gzhAppId}
+			</if>
+      		<if test="gzhKey!=null ">
+				and gzh_key=#{gzhKey}
+			</if>
+      		<if test="gzhStr!=null ">
+				and gzh_str=#{gzhStr}
+			</if>
+      		<if test="keyRemark!=null ">
+				and key_remark=#{keyRemark}
+			</if>
+      		<if test="autoRecord!=null ">
+				and auto_record=#{autoRecord}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="status!=null ">
+				and status=#{status}
+			</if>
+      		<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+      		<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payway.entity.Payv2PayWayRate">
+		update payv2_pay_way_rate
+		<set>
+			<if test="payWayName!=null ">
+				pay_way_name=#{payWayName},
+			</if>
+			<if test="rateName!=null ">
+				rate_name=#{rateName},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="payType!=null ">
+				pay_type=#{payType},
+			</if>
+			<if test="payViewType!=null ">
+				pay_view_type=#{payViewType},
+			</if>
+			<if test="dicId!=null ">
+				dic_id=#{dicId},
+			</if>
+			<if test="companyName!=null ">
+				company_name=#{companyName},
+			</if>
+			<if test="companyAlias!=null ">
+				company_alias=#{companyAlias},
+			</if>
+			<if test="contactsName!=null ">
+				contacts_name=#{contactsName},
+			</if>
+			<if test="contactsPhone!=null ">
+				contacts_phone=#{contactsPhone},
+			</if>
+			<if test="accountBank!=null ">
+				account_bank=#{accountBank},
+			</if>
+			<if test="accountBankSon!=null ">
+				account_bank_son=#{accountBankSon},
+			</if>
+			<if test="accountType!=null ">
+				account_type=#{accountType},
+			</if>
+			<if test="accountName!=null ">
+				account_name=#{accountName},
+			</if>
+			<if test="accountCard!=null ">
+				account_card=#{accountCard},
+			</if>
+			<if test="payWayRate!=null ">
+				pay_way_rate=#{payWayRate},
+			</if>
+			<if test="wayArrivalType!=null ">
+				way_arrival_type=#{wayArrivalType},
+			</if>
+			<if test="wayArrivalValue!=null ">
+				way_arrival_value=#{wayArrivalValue},
+			</if>
+			<if test="oneMaxMoney!=null ">
+				one_max_money=#{oneMaxMoney},
+			</if>
+			<if test="maxMoney!=null ">
+				max_money=#{maxMoney},
+			</if>
+			<if test="rateKey1!=null ">
+				rate_key1=#{rateKey1},
+			</if>
+			<if test="rateKey2!=null ">
+				rate_key2=#{rateKey2},
+			</if>
+			<if test="rateKey3!=null ">
+				rate_key3=#{rateKey3},
+			</if>
+			<if test="rateKey4!=null ">
+				rate_key4=#{rateKey4},
+			</if>
+			<if test="rateKey5!=null ">
+				rate_key5=#{rateKey5},
+			</if>
+			<if test="rateKey6!=null ">
+				rate_key6=#{rateKey6},
+			</if>
+			<if test="gzhAppId!=null ">
+				gzh_app_id=#{gzhAppId},
+			</if>
+			<if test="gzhKey!=null ">
+				gzh_key=#{gzhKey},
+			</if>
+			<if test="gzhStr!=null ">
+				gzh_str=#{gzhStr},
+			</if>
+			<if test="keyRemark!=null ">
+				key_remark=#{keyRemark},
+			</if>
+			<if test="autoRecord!=null ">
+				auto_record=#{autoRecord},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payway.entity.Payv2PayWayRate" resultMap="payv2paywayrate_result_map">
+		select id,pay_way_name,rate_name,pay_way_id,pay_type,pay_view_type,dic_id,company_name,company_alias,contacts_name,contacts_phone,account_bank,account_bank_son,account_type,account_name,account_card,pay_way_rate,way_arrival_type,way_arrival_value,one_max_money,max_money,rate_key1,rate_key2,rate_key3,rate_key4,rate_key5,rate_key6,gzh_app_id,gzh_key,gzh_str,key_remark,auto_record,is_delete,status,create_user_by,update_user_by,create_time,update_time from payv2_pay_way_rate
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="payWayName!=null ">
+				and pay_way_name=#{payWayName}
+			</if>
+			<if test="rateName!=null ">
+				and rate_name=#{rateName}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="payType!=null ">
+				and pay_type=#{payType}
+			</if>
+			<if test="payViewType!=null ">
+				and pay_view_type=#{payViewType}
+			</if>
+			<if test="dicId!=null ">
+				and dic_id=#{dicId}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="companyAlias!=null ">
+				and company_alias=#{companyAlias}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+			<if test="accountBankSon!=null ">
+				and account_bank_son=#{accountBankSon}
+			</if>
+			<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+			<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+			<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+			<if test="payWayRate!=null ">
+				and pay_way_rate=#{payWayRate}
+			</if>
+			<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+			<if test="oneMaxMoney!=null ">
+				and one_max_money=#{oneMaxMoney}
+			</if>
+			<if test="maxMoney!=null ">
+				and max_money=#{maxMoney}
+			</if>
+			<if test="rateKey1!=null ">
+				and rate_key1=#{rateKey1}
+			</if>
+			<if test="rateKey2!=null ">
+				and rate_key2=#{rateKey2}
+			</if>
+			<if test="rateKey3!=null ">
+				and rate_key3=#{rateKey3}
+			</if>
+			<if test="rateKey4!=null ">
+				and rate_key4=#{rateKey4}
+			</if>
+			<if test="rateKey5!=null ">
+				and rate_key5=#{rateKey5}
+			</if>
+			<if test="rateKey6!=null ">
+				and rate_key6=#{rateKey6}
+			</if>
+			<if test="gzhAppId!=null ">
+				and gzh_app_id=#{gzhAppId}
+			</if>
+			<if test="gzhKey!=null ">
+				and gzh_key=#{gzhKey}
+			</if>
+			<if test="gzhStr!=null ">
+				and gzh_str=#{gzhStr}
+			</if>
+			<if test="keyRemark!=null ">
+				and key_remark=#{keyRemark}
+			</if>
+			<if test="autoRecord!=null ">
+				and auto_record=#{autoRecord}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2paywayrate_result_map" >
+		select id,pay_way_name,rate_name,pay_way_id,pay_type,pay_view_type,dic_id,company_name,company_alias,contacts_name,contacts_phone,account_bank,account_bank_son,account_type,account_name,account_card,pay_way_rate,way_arrival_type,way_arrival_value,one_max_money,max_money,rate_key1,rate_key2,rate_key3,rate_key4,rate_key5,rate_key6,gzh_app_id,gzh_key,gzh_str,key_remark,auto_record,is_delete,status,create_user_by,update_user_by,create_time,update_time from payv2_pay_way_rate
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="payWayName!=null ">
+				and pay_way_name=#{payWayName}
+			</if>
+			<if test="rateName!=null ">
+				and rate_name=#{rateName}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="payType!=null ">
+				and pay_type=#{payType}
+			</if>
+			<if test="payViewType!=null ">
+				and pay_view_type=#{payViewType}
+			</if>
+			<if test="dicId!=null ">
+				and dic_id=#{dicId}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="companyAlias!=null ">
+				and company_alias=#{companyAlias}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+			<if test="accountBankSon!=null ">
+				and account_bank_son=#{accountBankSon}
+			</if>
+			<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+			<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+			<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+			<if test="payWayRate!=null ">
+				and pay_way_rate=#{payWayRate}
+			</if>
+			<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+			<if test="oneMaxMoney!=null ">
+				and one_max_money=#{oneMaxMoney}
+			</if>
+			<if test="maxMoney!=null ">
+				and max_money=#{maxMoney}
+			</if>
+			<if test="rateKey1!=null ">
+				and rate_key1=#{rateKey1}
+			</if>
+			<if test="rateKey2!=null ">
+				and rate_key2=#{rateKey2}
+			</if>
+			<if test="rateKey3!=null ">
+				and rate_key3=#{rateKey3}
+			</if>
+			<if test="rateKey4!=null ">
+				and rate_key4=#{rateKey4}
+			</if>
+			<if test="rateKey5!=null ">
+				and rate_key5=#{rateKey5}
+			</if>
+			<if test="rateKey6!=null ">
+				and rate_key6=#{rateKey6}
+			</if>
+			<if test="gzhAppId!=null ">
+				and gzh_app_id=#{gzhAppId}
+			</if>
+			<if test="gzhKey!=null ">
+				and gzh_key=#{gzhKey}
+			</if>
+			<if test="gzhStr!=null ">
+				and gzh_str=#{gzhStr}
+			</if>
+			<if test="keyRemark!=null ">
+				and key_remark=#{keyRemark}
+			</if>
+			<if test="autoRecord!=null ">
+				and auto_record=#{autoRecord}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2paywayrate_result_map" >
+		
+		SELECT id,pay_way_name,rate_name,pay_way_id,pay_type,pay_view_type,dic_id,company_name,company_alias,contacts_name,contacts_phone,account_bank,account_bank_son,account_type,account_name,account_card,pay_way_rate,way_arrival_type,way_arrival_value,one_max_money,max_money,rate_key1,rate_key2,rate_key3,rate_key4,rate_key5,rate_key6,gzh_app_id,gzh_key,gzh_str,key_remark,auto_record,is_delete,status,create_user_by,update_user_by,create_time,update_time FROM payv2_pay_way_rate 
+		<where>
+			<if test="keyWord!=null and keyWord!=''">
+				and (rate_name like CONCAT('%',#{keyWord},'%') or company_name like CONCAT('%',#{keyWord},'%') 
+					or company_alias like CONCAT('%',#{keyWord},'%') or pay_way_name like CONCAT('%',#{keyWord},'%'))
+			</if>
+		
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="payWayName!=null and payWayName!=''">
+				and pay_way_name like  CONCAT('%',#{payWayName},'%')
+			</if>
+			<if test="rateName!=null and rateName!=''">
+				and rate_name like  CONCAT('%',#{rateName},'%')
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="payType!=null and payType!=''">
+				and pay_type = #{payType}
+			</if>
+			<if test="payViewType!=null and payViewType!=''">
+				and pay_view_type = #{payViewType}
+			</if>
+			<if test="dicId!=null and dicId!=''">
+				and dic_id = #{dicId}
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and company_name like  CONCAT('%',#{companyName},'%')
+			</if>
+			<if test="companyAlias!=null and companyAlias!=''">
+				and company_alias like  CONCAT('%',#{companyAlias},'%')
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like  CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like  CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="accountBank!=null and accountBank!=''">
+				and account_bank like  CONCAT('%',#{accountBank},'%')
+			</if>
+			<if test="accountBankSon!=null and accountBankSon!=''">
+				and account_bank_son like  CONCAT('%',#{accountBankSon},'%')
+			</if>
+			<if test="accountType!=null and accountType!=''">
+				and account_type = #{accountType}
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and account_name like  CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountCard!=null and accountCard!=''">
+				and account_card like  CONCAT('%',#{accountCard},'%')
+			</if>
+			<if test="payWayRate!=null and payWayRate!=''">
+				and pay_way_rate like  CONCAT('%',#{payWayRate},'%')
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="oneMaxMoney!=null and oneMaxMoney!=''">
+				and one_max_money like  CONCAT('%',#{oneMaxMoney},'%')
+			</if>
+			<if test="maxMoney!=null and maxMoney!=''">
+				and max_money like  CONCAT('%',#{maxMoney},'%')
+			</if>
+			<if test="rateKey1!=null and rateKey1!=''">
+				and rate_key1 like  CONCAT('%',#{rateKey1},'%')
+			</if>
+			<if test="rateKey2!=null and rateKey2!=''">
+				and rate_key2 like  CONCAT('%',#{rateKey2},'%')
+			</if>
+			<if test="rateKey3!=null and rateKey3!=''">
+				and rate_key3 like  CONCAT('%',#{rateKey3},'%')
+			</if>
+			<if test="rateKey4!=null and rateKey4!=''">
+				and rate_key4 like  CONCAT('%',#{rateKey4},'%')
+			</if>
+			<if test="rateKey5!=null and rateKey5!=''">
+				and rate_key5 like  CONCAT('%',#{rateKey5},'%')
+			</if>
+			<if test="rateKey6!=null and rateKey6!=''">
+				and rate_key6 like  CONCAT('%',#{rateKey6},'%')
+			</if>
+			<if test="gzhAppId!=null and gzhAppId!=''">
+				and gzh_app_id like  CONCAT('%',#{gzhAppId},'%')
+			</if>
+			<if test="gzhKey!=null and gzhKey!=''">
+				and gzh_key like  CONCAT('%',#{gzhKey},'%')
+			</if>
+			<if test="gzhStr!=null and gzhStr!=''">
+				and gzh_str like  CONCAT('%',#{gzhStr},'%')
+			</if>
+			<if test="keyRemark!=null and keyRemark!=''">
+				and key_remark like  CONCAT('%',#{keyRemark},'%')
+			</if>
+			<if test="autoRecord!=null and autoRecord!=''">
+				and auto_record = #{autoRecord}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="status!=null and status!=''">
+				and status = #{status}
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 根据对象查询单个 wap类型同时支持app支付和web支付-->
+	<select id="getRateByType" resultType="com.pay.business.payway.entity.Payv2PayWayRate" resultMap="payv2paywayrate_result_map">
+		SELECT id,pay_way_name,pay_way_id,pay_type,pay_view_type,dic_id,company_name,contacts_name,contacts_phone,pay_way_rate,way_arrival_type,way_arrival_value,is_delete,status,create_time,update_time FROM payv2_pay_way_rate 
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="payType!=null ">
+				<if test="payType!=3 and payType!=5">
+					and (pay_type=#{payType} or pay_type = 4)
+				</if>
+				<if test="payType==3 or payType==5">
+					and pay_type=#{payType}
+				</if>
+			</if>
+			<if test="payViewType!=null ">
+				and pay_view_type=#{payViewType}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="status!=null ">
+				and status=#{status}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据商户和支付方式查询通道-->
+	<select id="queryByCompany" resultMap="payv2paywayrate_result_map" >
+		select pbspw.pay_way_rate as company_rate,ppwr.id,ppwr.dic_id,ppwr.pay_way_id,ppwr.pay_way_rate,scd.dict_name
+		from payv2_buss_support_pay_way as pbspw
+		join payv2_pay_way_rate as ppwr on pbspw.rate_id = ppwr.id
+		join sys_config_dictionary as scd on ppwr.dic_id = scd.id
+		<where>
+			pbspw.parent_id=#{companyId} and pbspw.pay_way_status=#{payWayStatus} 
+			and pbspw.is_delete=#{isDelete} and ppwr.is_delete=#{isDelete} and ppwr.status=#{status} 
+			<if test="payViewType!=null ">
+				and ppwr.pay_view_type=#{payViewType}
+			</if>
+			<if test="payWayId!=null ">
+				and pbspw.pay_way_id=#{payWayId}
+			</if>
+			<if test="payType!=null ">
+				<if test="payType!=3 and payType!=5">
+					and (ppwr.pay_type=#{payType} or ppwr.pay_type=4)
+				</if>
+				<if test="payType==3 or payType==5">
+					and ppwr.pay_type=#{payType}
+				</if>
+			</if>
+		</where>
+		order by pbspw.sort_num
+	</select>
+	
+	<!-- 根据id查询通道-->
+	<select id="queryByid" resultMap="payv2paywayrate_result_map" >
+		select ppwr.*,scd.dict_name from payv2_pay_way_rate as ppwr
+		join sys_config_dictionary as scd on ppwr.dic_id = scd.id
+		where ppwr.id=#{id}
+	</select>
+	
+	<!-- 根据id查询通道-->
+	<select id="queryByChannelWayId" resultMap="payv2paywayrate_result_map" >
+		select ppwr.* from payv2_channel_way as pcw 
+		join payv2_channel_rate as pcr on pcr.channel_way_id = pcw.id
+		join payv2_pay_way_rate as ppwr on ppwr.id = pcr.rate_id
+		where ppwr.is_delete = 2 and ppwr.status =1 
+		<if test="channelId!=null and channelId!=''">
+			and pcw.channel_id=#{channelId} 
+		</if>
+		<if test="payWayId!=null and payWayId!=''">
+			and pcw.pay_way_id = #{payWayId}
+		</if>
+	</select>
+	
+	<!-- 根据支付方式查询通道-->
+	<select id="queryByDicRate" resultMap="payv2paywayrate_result_map" >
+		select ppwr.*,scd.dict_name
+		from payv2_pay_way_rate as ppwr 
+		join sys_config_dictionary as scd on ppwr.dic_id = scd.id
+		and ppwr.is_delete=2 and ppwr.status=1
+	</select>
+	
+	<!-- 根据companyID获取其支持的支付渠道-->
+	<select id="getPayWaysByCom" resultMap="payv2paywayrate_result_map" >
+		SELECT way.id,way.rate_name from payv2_pay_way_rate way 
+			LEFT JOIN payv2_buss_support_pay_way buss ON way.id  = buss.rate_id		
+		<where>
+			buss.is_delete=2  and status = 1	
+			<if test="companyId!=null and companyId!=''">
+				and buss.parent_id=#{companyId}
+			</if>
+			<if test="payType!=null and payType!=''">
+				and way.pay_type=#{payType}
+			</if>						
+		</where>
+			<if test="payType!=null and payType!=''">
+				GROUP BY way.pay_type
+			</if>
+	</select>
+	
+	<!-- 批量关闭开启删除 -->
+	<update id="batchUpdate" parameterType="com.pay.business.payway.entity.Payv2PayWayRate">
+		update payv2_pay_way_rate set ${optionName}=#{optionValue},update_user_by=#{updateUserBy},update_time=#{updateTime} where id in (${ids})
+	</update>
+	
+	<select id="getExport" resultType="com.pay.business.payway.entity.Payv2PayWayRateVO">
+		<!-- 支付通道,支付方式,上游通道,主体公司,录入人,备注,开户银行,账号类型,开户名称,开户账号,成本费率,单笔限额,每日限额,到期类型,到账日期,状态 -->
+		select 
+			rate.pay_way_name as payWayName,
+			rate.rate_name as rateName,
+			rate.pay_type as payType,
+			con.dict_value as upWayName,
+			rate.company_name as companyName,
+			admin.adm_display_name as adminName,
+			rate.key_remark as remark,
+			rate.account_bank as bank,
+			rate.account_type as bankType,
+			rate.account_name as bankName,
+			rate.account_card as bankCard,
+			rate.pay_way_rate as rate,
+			rate.one_max_money as max,
+			rate.max_money as dayMax,
+			rate.way_arrival_type as arrivalType,
+			rate.way_arrival_value as arrivalValue,
+			rate.status as status
+			
+			from payv2_pay_way_rate rate 
+			left join sys_config_dictionary con on rate.dic_id=con.id
+			left join sys_ucenter_admin admin on rate.create_user_by=admin.id
+		<where>
+			<if test="keyWord!=null and keyWord!=''">
+				and (rate.rate_name like CONCAT('%',#{keyWord},'%') or rate.company_name like CONCAT('%',#{keyWord},'%') 
+					or rate.company_alias like CONCAT('%',#{keyWord},'%') or rate.pay_way_name like CONCAT('%',#{keyWord},'%'))
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and rate.pay_way_id = #{payWayId}
+			</if>
+			<if test="payType!=null and payType!=''">
+				and rate.pay_type = #{payType}
+			</if>
+			<if test="payViewType!=null and payViewType!=''">
+				and rate.pay_view_type = #{payViewType}
+			</if>
+			<if test="dicId!=null and dicId!=''">
+				and rate.dic_id = #{dicId}
+			</if>
+			<if test="status!=null and status!=''">
+				and rate.status=#{status}
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and rate.way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and rate.account_name like  CONCAT('%',#{accountName},'%')
+			</if>
+				and rate.is_delete = 2 
+		</where>
+			ORDER BY rate.update_time desc
+	</select>
+	
+	<!-- 根据对象修改 -->
+	<update id="updatePayWayRate" parameterType="com.pay.business.payway.entity.Payv2PayWayRate">
+		update 
+			payv2_pay_way_rate
+		<set>
+				rate_key1=#{rateKey1},
+				rate_key2=#{rateKey2},
+				rate_key3=#{rateKey3},
+				rate_key4=#{rateKey4},
+				rate_key5=#{rateKey5},
+				rate_key6=#{rateKey6},
+				gzh_app_id=#{gzhAppId},
+				gzh_key=#{gzhKey},
+				gzh_str=#{gzhStr},
+				key_remark=#{keyRemark},
+			<if test="payWayName!=null ">
+				pay_way_name=#{payWayName},
+			</if>
+			<if test="rateName!=null ">
+				rate_name=#{rateName},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="payType!=null ">
+				pay_type=#{payType},
+			</if>
+			<if test="payViewType!=null ">
+				pay_view_type=#{payViewType},
+			</if>
+			<if test="dicId!=null ">
+				dic_id=#{dicId},
+			</if>
+			<if test="companyName!=null ">
+				company_name=#{companyName},
+			</if>
+			<if test="companyAlias!=null ">
+				company_alias=#{companyAlias},
+			</if>
+			<if test="contactsName!=null ">
+				contacts_name=#{contactsName},
+			</if>
+			<if test="contactsPhone!=null ">
+				contacts_phone=#{contactsPhone},
+			</if>
+			<if test="accountBank!=null ">
+				account_bank=#{accountBank},
+			</if>
+			<if test="accountBankSon!=null ">
+				account_bank_son=#{accountBankSon},
+			</if>
+			<if test="accountType!=null ">
+				account_type=#{accountType},
+			</if>
+			<if test="accountName!=null ">
+				account_name=#{accountName},
+			</if>
+			<if test="accountCard!=null ">
+				account_card=#{accountCard},
+			</if>
+			<if test="payWayRate!=null ">
+				pay_way_rate=#{payWayRate},
+			</if>
+			<if test="wayArrivalType!=null ">
+				way_arrival_type=#{wayArrivalType},
+			</if>
+			<if test="wayArrivalValue!=null ">
+				way_arrival_value=#{wayArrivalValue},
+			</if>
+			<if test="oneMaxMoney!=null ">
+				one_max_money=#{oneMaxMoney},
+			</if>
+			<if test="maxMoney!=null ">
+				max_money=#{maxMoney},
+			</if>
+			<if test="autoRecord!=null ">
+				auto_record=#{autoRecord},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="status!=null ">
+				status=#{status},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+</mapper>

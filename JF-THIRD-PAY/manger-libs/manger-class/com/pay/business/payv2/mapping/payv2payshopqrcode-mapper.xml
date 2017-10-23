@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2PayShopQrcodeMapper">
+
+	<resultMap id="payv2payshopqrcode_result_map" type="com.pay.business.payv2.entity.Payv2PayShopQrcode" >
+		<id column="id" property="id" />
+		<result column="shop_id" property="shopId"/>
+		<result column="alipay_qrcode" property="alipayQrcode"/>
+		<result column="wechat_mch_id" property="wechatMchId"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_shop_qrcode  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopId!=null and shopId!=''">
+				and shop_id = #{shopId}
+			</if>
+			<if test="alipayQrcode!=null and alipayQrcode!=''">
+				and alipay_qrcode like CONCAT('%',#{alipayQrcode},'%')
+			</if>
+			<if test="wechatMchId!=null and wechatMchId!=''">
+				and wechat_mch_id like CONCAT('%',#{wechatMchId},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2PayShopQrcode" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_pay_shop_qrcode
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="shopId!=null ">
+				shop_id,
+			</if>
+      		<if test="alipayQrcode!=null ">
+				alipay_qrcode,
+			</if>
+      		<if test="wechatMchId!=null ">
+				wechat_mch_id,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="shopId!=null ">
+      			#{shopId},
+			</if>
+      		<if test="alipayQrcode!=null ">
+      			#{alipayQrcode},
+			</if>
+      		<if test="wechatMchId!=null ">
+      			#{wechatMchId},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2PayShopQrcode">
+		delete from payv2_pay_shop_qrcode
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="shopId!=null ">
+				and shop_id=#{shopId}
+			</if>
+      		<if test="alipayQrcode!=null ">
+				and alipay_qrcode=#{alipayQrcode}
+			</if>
+      		<if test="wechatMchId!=null ">
+				and wechat_mch_id=#{wechatMchId}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2PayShopQrcode">
+		update payv2_pay_shop_qrcode
+		<set>
+			<if test="shopId!=null ">
+				shop_id=#{shopId},
+			</if>
+			<if test="alipayQrcode!=null ">
+				alipay_qrcode=#{alipayQrcode},
+			</if>
+			<if test="wechatMchId!=null ">
+				wechat_mch_id=#{wechatMchId},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2PayShopQrcode" resultMap="payv2payshopqrcode_result_map">
+		select id,shop_id,alipay_qrcode,wechat_mch_id,create_time from payv2_pay_shop_qrcode
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopId!=null ">
+				and shop_id=#{shopId}
+			</if>
+			<if test="alipayQrcode!=null ">
+				and alipay_qrcode=#{alipayQrcode}
+			</if>
+			<if test="wechatMchId!=null ">
+				and wechat_mch_id=#{wechatMchId}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2payshopqrcode_result_map" >
+		select id,shop_id,alipay_qrcode,wechat_mch_id,create_time from payv2_pay_shop_qrcode
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopId!=null ">
+				and shop_id=#{shopId}
+			</if>
+			<if test="alipayQrcode!=null ">
+				and alipay_qrcode=#{alipayQrcode}
+			</if>
+			<if test="wechatMchId!=null ">
+				and wechat_mch_id=#{wechatMchId}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2payshopqrcode_result_map" >
+		
+		SELECT id,shop_id,alipay_qrcode,wechat_mch_id,create_time FROM payv2_pay_shop_qrcode 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopId!=null and shopId!=''">
+				and shop_id = #{shopId}
+			</if>
+			<if test="alipayQrcode!=null and alipayQrcode!=''">
+				and alipay_qrcode like  CONCAT('%',#{alipayQrcode},'%')
+			</if>
+			<if test="wechatMchId!=null and wechatMchId!=''">
+				and wechat_mch_id like  CONCAT('%',#{wechatMchId},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

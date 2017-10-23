@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>账单清算列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		订单管理 <span class="c-gray en">&gt;</span> 订单列表
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/payv2PayOrderClear/getPayv2PayOrderClearList.do">
+				<input type="text" name="orderNum" id="orderNum" placeholder="请输入详细订单号查询" style="width: 250px" class="input-text" value="${map.orderNum!}">
+				        所属商户：<select class="select" id="companyId" name="companyId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if companyList?? && companyList?size gt 0>
+			           		<#list companyList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == map.companyId> selected="selected" </#if>>${dl.companyName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+	      			 所属APP：<select class="select" id="appId" name="appId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if appList?? && appList?size gt 0>
+			           		<#list appList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == map.appId> selected="selected" </#if>>${dl.appName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+	      			   支付渠道：<select class="select" id="payWayId" name="payWayId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if payList?? && payList?size gt 0>
+			           		<#list payList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == map.payWayId> selected="selected" </#if>>${dl.wayName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+				 订单状态：<select class="select" id="status" name="status" datatype="*" nullmsg="请选择！" style="width: 100px">
+		          		<option value="">全部</option>
+		       	 		<option value="1" <#if map.status==1> selected="selected" </#if>>支付成功</option>
+		       	 		<option value="2" <#if map.status==2> selected="selected" </#if>>支付失败</option>
+		       	 		<option value="3" <#if map.status==3> selected="selected" </#if>>扣款成功回调失败</option>
+      			</select>
+      			对账时间：
+	        	<input  name="clearTimeBegin"  type="text" value="${map.clearTimeBegin!}" onfocus="WdatePicker({startDate:'%y',dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'logmax\')}'})" id="logmin" class="input-text Wdate" style="width:120px;">
+				<span>--</span>
+				<input type="text" name="clearTimeEnd"   value="${map.clearTimeEnd!}"  onfocus="WdatePicker({startDate:'%y',dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'logmin\')}'})" id="logmax" class="input-text Wdate" style="width:120px;">	
+				<input id="resetButton" class="btn" type="button" value="清空"></input>
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe665;</i> 搜索
+				</button>
+			</form>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="10">ID</th>
+						<th width="60">支付集订单号 </th>
+						<th width="100">商户订单号</th>
+						<th width="100">商户 </th>
+						<th width="100">应用</th>
+						<th width="80">支付渠道</th>
+						<th width="120">订单名称 </th>
+						<th width="120">商户类型 </th>
+						<th width="120">交易类型 </th>
+						<th width="60">订单金额 </th>
+						<th width="80">优惠金额 </th>
+						<th width="100">订单状态</th>
+						<th width="80">对账时间</th>
+						<th width="80">创建时间</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.orderNum!}</td>
+							<td>${dl.merchantOrderNum!}</td>
+							<td>${dl.companyName!}</td>
+							<td>${dl.appName!}</td>
+							<td>${dl.wayName!}</td>
+							<td>${dl.orderName!}</td>
+							<td>
+								<#if dl.merchantType ==1>线上</#if>
+								<#if dl.merchantType ==2>线下</#if>
+							</td>
+							<td>
+								<#if dl.type ==1>交易</#if>
+								<#if dl.type ==2>退款</#if>
+							</td>
+							<td>${dl.orderMoney!}</td>
+							<td>${dl.discountMoney!}</td>
+							<td>
+								<#if dl.status ==1>正常</#if>
+								<#if dl.status ==2>异常</#if>
+								<#if dl.status ==3>回调失败</#if>
+							</td>
+							<td>
+								<#if dl.clearTime??>
+									${dl.clearTime?string('yyyy-MM-dd')}
+								</#if>
+							</td>
+							<td>
+								${dl.createTime?string('yyyy-MM-dd')}
+							</td>
+							<td class="td-manage">
+								<#if dl.status ==3>
+									<a title="发起回调" href="javascript:;" onclick="callbackOrder(this,${dl.orderNum!},'发起回调')" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">发起回调</i></a> 
+								</#if>
+							</td>	
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<#if list.dataList?? && list.dataList?size gt 0>
+				<div class="page_list">
+				
+				</div>
+			</#if>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+		$(function(){
+		 	$("#resetButton").bind("click", function(){
+		 		$("#orderNum").val("");
+		 		$("#companyId").val("");
+		 		$("#appId").val("");
+		 		$("#payWayId").val("");
+		 		$("#status").val("");
+		 		$("#logmin").val("");
+		 		$("#logmax").val("");
+		 	});
+		});
+	
+			$(function(){
+			 	laypage({
+			 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+				    pages: ${list.endPage! }, //总页数
+			 	    //skip: true, //是否开启跳页
+		// 	    	skin: 'molv',
+			 	    groups: 10, //连续显示分页数
+			 	    first: '首页', //若不显示，设置false即可
+			 	    last: '尾页', //若不显示，设置false即可
+			 	    curr:${list.curPage!},
+			 	   	hash: true, //开启hash
+			 	    skin: '#00AA91',
+			 	    jump: function(obj,first){ //触发分页后的回调
+			 	    	if(!first){
+			 	         	 window.location.href="${basePath}/payv2PayOrderClear/getPayv2PayOrderClearList.do?curPage="+obj.curr +"&pageData="+10
+			 	         	 +  "&orderNum=" + $("#orderNum").val()
+			 	         	 +  "&companyId=" + $("#companyId").val() 
+			 				 +  "&appId=" + $("#appId").val()
+			 				 +  "&clearTimeBegin=" + $("#logmin").val()
+			 				 +  "&clearTimeEnd=" + $("#logmax").val()
+			 				 +  "&payWayId=" + $("#payWayId").val()
+			 				 +  "&status=" + $("#status").val();
+			 	    	}
+			 	    }
+			 	});
+			 			
+			});
+
+		//发起回调
+		function callbackOrder(obj,id,str){
+			layer.confirm("确定"+str+"？", function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/Payv2PayOrder/callbackOrder.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已'+str+'!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						Huimodal_alert(str+"失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert(str+"失败,请重试!",1500);
+				});
+			});
+		}	
+	</script>
+</body>
+</html>

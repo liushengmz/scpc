@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>添加证劵机构</title>
+	<link rel="stylesheet" type="text/css" href="/public/css/popStyle.css">
+	<script type="text/javascript" src="/public/js/utils/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="/public/js/utils/popTable.js"></script>
+	<script type="text/javascript" src="/public/js/utils/jquery.cityselect.js"></script>
+	<script type="text/javascript" src="/public/js/utils/WdatePicker.js"></script>
+</head>
+<body>
+	<div class="pop_main">
+		<h3 class="header">添加证券机构</h3>
+		<dl>
+			<dt><label>机构类型：</label></dt>
+			<dd>
+				<select class="changeSelect3">
+					<option>证劵公司</option>
+					<option>证劵代理公司</option>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>机构名称：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>机构所在地：</label></dt>
+			<dd id="chooseCity">
+				<select class="prov width100"></select>
+				<select class="city width100"></select>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>合作方式：</label></dt>
+			<dd>
+				<select class="changeSelect2">
+					<option>CPA</option>
+					<option>CPS</option>
+					<option>数据对接</option>
+				</select>
+				<span class="remind_span">CPA：先注册开户后转化。CPS：只转化。数据对接：合作方返数据，不需上传截图。</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>联系人：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系方式：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl>
+			<dt><label>跳转类型：</label></dt>
+			<dd>
+				<select class="changeSelect">
+					<option>网页</option>
+					<option>APK</option>
+				</select>
+				<div class="changeCont" style="display:block;">
+					<dl>
+						<dt><label>网页地址：</label></dt>
+						<dd><input type="text" name=""></dd>
+					</dl>
+				</div>
+				<div class="changeCont">
+					<dl>
+						<dt><label>上传APK：</label></dt>
+						<dd><input type="file" name=""></dd>
+					</dl>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>上传icon图片：</label></dt>
+			<dd>
+				<input type="file" name="">
+				<span class="remind_span">尺寸：120*120像素(宽*高)，icon图片会显示在机构列表中</span>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>公司介绍：</label></dt>
+			<dd><textarea class="ddTextarea"></textarea></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>证劵公司一句话描述：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>官方交易手续费：</label></dt>
+			<dd><input type="text" name="" class="dd_input"></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>官方用户平均收益率：</label></dt>
+			<dd><input type="text" name="" class="dd_input"><b>％</b></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>平台用户平均收益率：</label></dt>
+			<dd><input type="text" name="" class="dd_input"><b>%</b></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>账户资产要求：</label></dt>
+			<dd><input type="text" name="" class="dd_input"><b>元</b></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>推广总数：</label></dt>
+			<dd>
+				<div class="productType rowLabel">
+					<div class="productTypeList">
+						<input type="radio" name="spread"  checked="checked" />
+						<label>金额</label>
+					</div>
+					<div class="productTypeList">
+						<input type="radio" name="spread" />
+						<label>份数</label>
+					</div>
+				</div>
+				<input type="text" name="" class="width100" />
+				<b>元或者份</b>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>推广有效期：</label></dt>
+			<dd><input type="text" id="dateStart" name="" onclick="WdatePicker()" class="width150"><b>至</b><input onclick="WdatePicker()" type="text" id="dateEnd" name="" class="width150"></dd>
+		</dl>
+		<h3 class="h3Company">平台优惠</h3>
+		<dl class="dlCompany">
+			<dt><label>开户补贴：</label></dt>
+			<dd><input type="text" name="" class="width150"><b>元</b></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>交易补贴：</label></dt>
+			<dd>
+				<select class="changeSelect">
+					<option>交易手续费打折</option>
+					<option>交易送现金</option>
+				</select>
+				<div class="changeCont" style="display:block;">
+					<dl>
+						<dt><label>交易手续费打折百分比：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>％</b></dd>
+					</dl>
+					<dl>
+						<dt><label>交易金额上限：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>元</b></dd>
+					</dl>
+					<dl>
+						<dt><label>补贴次数：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>次</b></dd>
+					</dl>
+				</div>
+				<div class="changeCont">
+					<dl>
+						<dt><label>补贴现金金额：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>元</b></dd>
+					</dl>
+					<dl>
+						<dt><label>补贴次数：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>次</b></dd>
+					</dl>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>是否送涨停板：</label></dt>
+			<dd>
+				<select class="changeSelect">
+					<option>是</option>
+					<option>否</option>
+				</select>
+				<div class="changeCont" style="display:block;">
+					<dl>
+						<dt><label>涨停板股价上限：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>％</b></dd>
+					</dl>
+					<dl>
+						<dt><label>涨停板手数上线：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>元</b></dd>
+					</dl>
+					<dl>
+						<dt><label>补贴次数：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>次</b></dd>
+					</dl>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>是否推荐黑马牛股：</label></dt>
+			<dd>
+				<select class="changeSelect">
+					<option>是</option>
+					<option>否</option>
+				</select>
+			</dd>
+		</dl>
+		<h3 class="h3Company">其他优惠</h3>
+		<dl class="dlCompany">
+			<dt><label>闲置资金是否收息：</label></dt>
+			<dd>
+				<select class="changeSelect">
+					<option>是</option>
+					<option>否</option>
+				</select>
+				<div class="changeCont" style="display:block;">
+					<dl>
+						<dt><label>七日年化利率：</label></dt>
+						<dd><input type="text" name="" class="width100"><b>％</b></dd>
+					</dl>
+				</div>
+			</dd>
+		</dl>
+		<h3 class="h3Company">运营标签设置</h3>
+		<dl class="dlCompany">
+			<dt><label>选择所需要的运营标签(可多选)：</label></dt>
+			<dd>
+				<div class="productType">
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>全局标签(如开户返现等)</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>根据旗下产品属性系统自动生成</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="">
+						<label>自定义标签</label>
+					</div>
+					<div class="producTypeCon rowLabel">
+						<div class="customLabel">
+							<!-- <p><i class="labelColor1">新</i><span>新用户购买理财享受额外补贴</span><a href="javascript:;" class="deleteLabel">删除</a></p> -->
+						</div>
+						<dl>
+							<dt><label>选择标签颜色：</label></dt>
+							<dd>
+								<div class="productType">
+									<div class="productTypeList">
+										<input type="radio" name="colorRadio"  checked="checked" class="colorRadio" />
+										<label class="labelColor1">红色</label>
+									</div>
+									<div class="productTypeList">
+										<input type="radio" name="colorRadio" class="colorRadio" />
+										<label class="labelColor2">橙色</label>
+									</div>
+									<div class="productTypeList">
+										<input type="radio" name="colorRadio" class="colorRadio" />
+										<label class="labelColor3">蓝色</label>
+									</div>
+									<div class="productTypeList">
+										<input type="radio" name="colorRadio" class="colorRadio" />
+										<label class="labelColor4">绿色</label>
+									</div>
+								</div>
+							</dd>
+						</dl>
+						<dl>
+							<dt><label>营销名称：</label></dt>
+							<dd>
+								<input type="text" name="" class="colorLable" placeholder="输入营销名称，仅限1个字" maxlength="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt><label>营销内容：</label></dt>
+							<dd>
+								<input type="text" name="" class="colorCon" placeholder="输入营销内容，15个字以内">
+							</dd>
+						</dl>
+						<dl>
+							<dt>&nbsp;</dt>
+							<dd>
+								<a href="javascript:;" class="addText addColorLable">确定添加</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>产品注意事项：</label></dt>
+			<dd><input type="text" name=""><a href="javascript:;" class="addText addRemindIndex">确定添加</a></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt>&nbsp;</dt>
+			<dd>
+				<div class="remindList"></div>
+			</dd>
+		</dl>
+		<dl class="dlCompany cpaDl">
+			<dt><label>上传开户示例截图：</label></dt>
+			<dd>
+				<input type="file" name="" />
+				<span class="remind_span">尺寸：20*40像素(宽*高)，可上传多张</span>
+				<div class="upLoadShots">
+					<p class="shotList"><img src="a.jpg" /><i class="imageOper"></i></p>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany cpaDl">
+			<dt><label>选择开户审核项（可多选）：</label></dt>
+			<dd>
+				<div class="productType rowLabel2 auditItemsList">
+					<div class="productTypeList">
+						<input type="checkbox" name="realName"  checked="checked" class="" />
+						<label class="">姓名</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="phoneNum" class="" />
+						<label class="">注册手机号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="idCard" class="" />
+						<label class="">身份证号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="bankId" class="" />
+						<label class="">资金交易账号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="customerId" class="" />
+						<label class="">客户号</label>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<dl>
+			<dt>&nbsp;</dt>
+			<dd>
+				<div class="auditItems">
+					<p><i>姓名</i><input type="hidden" name="realName" value="realName"><a href="javascript:;" class="auditDeleteBtn">删除</a></p>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany cpsDl">
+			<dt><label>上传购买成功示例截图：</label></dt>
+			<dd>
+				<input type="file" name="" />
+				<span class="remind_span">尺寸：20*40像素(宽*高)，可上传多张</span>
+				<div class="upLoadShots">
+					<p class="shotList"><img src="a.jpg" /><i class="imageOper"></i></p>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany cpsDl">
+			<dt><label>选择交易审核项（可多选）：</label></dt>
+			<dd>
+				<div class="productType rowLabel2 auditItemsList">
+					<div class="productTypeList">
+						<input type="checkbox" name="realName"  checked="checked" class="" />
+						<label class="">姓名</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="phoneNum" class="" />
+						<label class="">手机号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="idCard" class="" />
+						<label class="">身份证号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="transactionCount" class="" />
+						<label class="">交易股数(股)</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="buyAccount" class="" />
+						<label class="">买入金额(元)</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="saleAccount" class="" />
+						<label class="">卖出金额(元)</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="sharesCode" class="" />
+						<label class="">交易股票代码</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="operationTime" class="" />
+						<label class="">购买日期</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="applicationId" class="" />
+						<label class="">应用账号</label>
+					</div>
+					<div class="productTypeList">
+						<input type="checkbox" name="bankId" class="" />
+						<label class="">转入银行卡账号</label>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<dl>
+			<dt>&nbsp;</dt>
+			<dd>
+				<div class="auditItems">
+					<p><i>姓名</i><input type="hidden" name="realName" value="realName"><a href="javascript:;" class="auditDeleteBtn">删除</a></p>
+				</div>
+			</dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>平台补贴说明：</label></dt>
+			<dd><textarea class="ddTextarea"></textarea></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>平台免责声明：</label></dt>
+			<dd><textarea class="ddTextarea"></textarea></dd>
+		</dl>
+		<dl class="dlCompany">
+			<dt><label>推广邀请码：</label></dt>
+			<dd><input type="text" placeHolder="输入推广邀请码" name="" class="dd_input"></dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" name="" value="确定">
+		</div>
+	</div>
+</body>
+</html>

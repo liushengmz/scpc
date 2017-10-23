@@ -1,0 +1,119 @@
+*{ padding: 0px; margin: 0px; }
+b{ padding: 0 5px; }
+.fl{
+	float: left;
+}
+
+.remind_span{ font-size: 12px; color: #666; padding-left: 10px; }
+
+.pop_main{ width: 100%; height: auto; }
+.pop_main>h3{ height: 40px; line-height: 40px; background-color: #efefef; color: #333; padding-left: 20px;border-bottom: 1px solid #ccc; font-size: 18px; font-weight: 400 }
+.pop_main>h3.header{text-align:center;font-weight: 600;height: 50px;line-height: 50px;word-spacing: 17px;letter-spacing: 2px;font-size: 24px;}
+.pop_main>dl{ border-bottom: 1px solid #ccc; min-height: 32px; }
+.pop_main>dl>dt{  padding: 5px 0; float: left; display: inline-block; width: 43%;}
+.pop_main>dl>dd{ padding: 5px 0px 5px 10px;  display: inline-block; width: 55%;border-left: 1px solid #ccc; }
+.pop_main>dl>dt>label{float: right;height: 30px; line-height: 30px; font-size: 16px;}
+.pop_main>dl>dd>input,.special_input{  margin-top: 1px; width: 300px; height: 16px; line-height: 16px; padding: 5px; font-size: 12px; color: #333; border:1px solid #ccc; border-radius: 5px;}
+.pop_main>dl>dd input.width100,.pop_main>dl>dd select.width100{ width: 100px; }
+.pop_main>dl>dd input.width150,.pop_main>dl>dd select.width150{ width: 150px; }
+.pop_main>dl>dd input.width200,.pop_main>dl>dd select.width200{ width: 200px; }
+.pop_main>dl>dd>select{ height: 30px; width: 312px; border:1px solid #ccc; line-height: 30px; }
+.pop_main>dl>dd>.ddTextarea{ width: 300px; height: 60px; padding: 5px; border:1px solid #ccc; border-radius: 5px;}
+.producTypeCon>dl>dd>.ddTextarea{ width: 300px; height: 60px; padding: 5px; border:1px solid #ccc; border-radius: 5px;}
+.pop_main>dl>dd input.fileInputClass{width:60px;border:none;}
+
+.changeCont>dl{ min-height: 32px; display: block; overflow: hidden;}
+.changeCont>dl>dt{padding: 5px 0px;float: left; display: inline-block; width: 60px;}
+.changeCont>dl>dd{padding: 5px 0px 5px 10px; display: inline-block; }
+.changeCont>dl>dt>label{ float: right; height: 30px; line-height: 30px; font-size: 12px;}
+.changeCont>dl>dd>input{  margin-top: 1px; width: 300px; height: 16px; line-height: 16px; padding: 5px; font-size: 12px; color: #333; border:1px solid #ccc; border-radius: 5px;}
+
+.productType{ width: 100%; height: auto;}
+.productType .productTypeList{display: block; height: 30px; padding-bottom: 10px;}
+.productType .producTypeCon{ padding-left: 20px;}
+
+.productType .productTypeList>input{ width: 14px; height: 14px; float: left; margin-top: 8px; }
+.productType .productTypeList>label{ height: 30px; float: left; line-height: 30px; font-size: 16px; padding-left: 5px;}
+
+
+.producTypeCon>dl{ min-height: 32px; display: block; overflow: hidden;}
+.producTypeCon>dl>dt{padding: 5px 0px;float: left; display: inline-block; width: 180px;}
+.producTypeCon>dl>dd{padding: 5px 0px 5px 10px; display: inline-block; }
+.producTypeCon>dl>dt>label{ float: right; height: 30px; line-height: 30px; font-size: 12px;}
+.producTypeCon>dl>dd>input{  margin-top: 1px; width: 200px; height: 16px; line-height: 16px; padding: 5px; font-size: 12px; color: #333; border:1px solid #ccc; border-radius: 5px;}
+
+.producTypeCon .productTypeList>label{ font-size: 12px; }
+.customLabel{ height: auto; width: 100%;}
+.customLabel p{ height: 20px; padding: 5px 0; line-height: 20px; }
+.customLabel p i{ width: 20px; height: 20px; border-radius: 3px; background-color: #999; display: inline-block; color: #fff; font-size: 12px; text-align: center; font-style: normal;}
+.customLabel p span{ font-size: 12px; padding-left: 10px;}
+.deleteLabel,.auditDeleteBtn{ color: #f00; margin-left: 20px; text-decoration: none; font-size: 12px; }
+
+
+.rowLabel>dl>dt{ width: 85px; }
+.rowLabel>dl>dt>label{height: 30px; line-height: 30px; display: inline-block; font-size: 12px; }
+.rowLabel .productTypeList{ float: left; width: 60px; padding-top: 0px;}
+.rowLabel2 .productTypeList{ float: left; width: auto; display: inline-block; margin-right: 20px; padding-top: 0px;}
+
+.addText{ display: inline-block; border-radius: 5px; width: 80px; height: 28px; background-color: #5a99df; text-decoration: none; line-height: 28px; font-size: 14px; color: #fff; text-align: center; }
+
+.auditEntry,.remindList,.auditItems{ width: 400px; height: auto; min-height: 32px; }
+.auditEntry p,.remindList p,.auditItems p{max-height: 160px;word-break: break-all;max-width: 100%;display: inline-block; margin-bottom: 10px; float: left; min-height: 30px; line-height: 30px; margin-right: 20px; background-color: #f6f7ff; border:1px solid #bec7ff; padding: 0 10px; border-radius: 5px;overflow-y: auto;}
+.auditEntry p i,.remindList p i,.auditItems p i{ font-style: normal; float: left; display: inline-block; font-size: 12px; color: #5a99df;}
+.auditEntry .deleteLabel,.remindList .deleteLabel,.auditItems .auditDeleteBtn{ float: right; margin-left: 10px;}
+
+.labelColor1{color: #ffa028;}/*���޸ģ�֮ǰ��ֵΪ#ffbb34����ɫ,���޸�Ϊ#ffa028����ɫ*/
+.labelColor2{color: #ff5152;}/*û��*/
+.labelColor3{color: #66afff;}/*���޸ģ�֮ǰ��ֵΪ#ff62b5������ɫ,���޸�Ϊ#66afff,ǳ��ɫ*/
+.labelColor4{color: #c680d6;}/*û��*/
+.labelColor5{color: #71db00;}/*û��*/
+.labelColor6{color: #ff6e51;}/*û��*/
+
+.customLabel .labelColor1{background-color: #ffbb34;}/*���޸ģ�֮ǰ��ֵΪ#ffbb34����ɫ,���޸�Ϊ#ffa028����ɫ*/
+.customLabel .labelColor2{background-color: #ff5152;}/*û��*/
+.customLabel .labelColor3{background-color: #ff62b5;}/*���޸ģ�֮ǰ��ֵΪ#ff62b5������ɫ,���޸�Ϊ#66afff,ǳ��ɫ*/
+.customLabel .labelColor4{background-color: #c680d6;}/*û��*/
+.customLabel .labelColor5{background-color: #71db00;}/*û��*/
+.customLabel .labelColor6{background-color: #ff6e51;}/*û��*/
+
+
+.submit_btn{ height: 50px; padding: 20px; }
+.submit_btn>input{ margin: 0 auto; display: block; width: 100px; height: 40px; line-height: 40px;background-color: #5a99df; border:0px none; color: #fff; font-size: 16px; text-align: center; border-radius: 5px; cursor: pointer;}
+
+.producTypeCon,.changeCont{ display: none;}
+
+
+.auditEntryLable .productTypeList{ float: left; margin-right: 15px; }
+
+.bankIconUpdata{ display: none; }
+.addRemindIndex{ margin-left: 10px; }
+
+
+
+/************my************/
+.upLoadShots{padding:5px;}
+.shotList{padding: 6px 0px 0px 0px;}
+.shotList img{width: 216px;height: 32px;}
+.shotList .imageOper{cursor:pointer;top: -8px;position: relative;display:inline-block;width:20px;height: 18px;background: url(/public/images/acrossTab-close.png) no-repeat 4px -10px;}
+
+/************初始化密码************/
+.user,.name,.people,.pw{
+	height: 30px;
+	line-height: 30px;
+}
+.user{
+	margin-top: 30px;
+}
+.user1,.name1,.people1,.pw1{
+	width: 22%;
+	text-align: left;
+	margin-left: 32%;
+}
+input.sure,input.cancel{
+	width: 70px;
+	height: 30px;
+	margin-left: 30px;
+}
+input.sure{
+	margin-left: 100px;
+}

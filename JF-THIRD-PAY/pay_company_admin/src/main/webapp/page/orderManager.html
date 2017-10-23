@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台订单管理</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+		<link rel="stylesheet" href="../public/css/nav.css" />
+		<link rel="shortcut icon" href="../favico.ico" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<!-- <div class="tips fr">
+				<div class="red"></div>
+			</div> -->
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<!-- <div class="users fr line">
+				<span>线上应用</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change2">线下门店</div>
+				</div>
+			</div> -->
+		</header>
+		<nav>
+			<ul>
+				<li class="stair datali" style="cursor: pointer;"><img src="../public/img/sjtj2.png"><span class="c_33">数据统计</span></li>
+				<li class="stair"><img src="../public/img/dd.png"><span class="c_80">订单</span></li>
+				<li class="secondLevel">
+					<a href="orderManager.html" class="c_33 active">订单管理</a>
+					<a href="refund.html" class="c_33">退款订单</a>
+					<a href="accountManager.html" class="c_33">账单管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/yy.png"><span class="c_80">应用</span></li>
+				<li class="secondLevel">
+					<a href="appManager.html" class="c_33">应用管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/zh.png"><span class="c_80">账户</span></li>
+				<li class="secondLevel">
+					<a href="account.html" class="c_33">账户信息</a>
+				</li>
+			</ul>
+			<div class="dld"><img src="../public/img/dld.png"/><span>下载SDK</span></div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：订单管理</div>
+			<!--关键指标-->
+			<div class="index">
+				<div class="index-title">
+					<i></i>
+					<span>订单查询</span>					
+					<div class="fr dload">
+						<i class="fr"></i>
+						<span class="fr">导出数据</span>						
+					</div>
+				</div>
+				<div class="orderNumber">
+					<div class="numberInput fl">
+						<label>商户订单号:</label>
+						<input type="text" placeholder="请输入订单号" style='margin-left:40px;text-indent:10px;'/>
+					</div>
+					<div class="search fl">查询</div>
+					<div class="reset fl">重置</div>
+				</div>
+				<div class="tradeTime">
+					<label>交易时间：</label>
+					<ul class="timeLi TimeLi">
+						<li class="activess" dateType="1">
+							<i></i>
+							<span>今天</span>
+						</li>
+						<li dateType="2">
+							<i></i>
+							<span>昨天</span>
+						</li>
+						<li dateType="3">
+							<i></i>
+							<span>前7天</span>
+						</li>
+						<li dateType="4">
+							<i></i>
+							<span>前30天</span>
+						</li>
+					</ul>
+					<div class="data fl">
+						<label>选择日期：</label>
+						<input id="" class="condition-date data1" type="text" name="">
+						<span class="date-line">&nbsp;--&nbsp;</span>
+						<input id="" class="condition-date data2" type="text" name="">
+					</div>
+					<label class="ways">支付平台：</label>
+					<ul class="typeLi">
+						<li class="activess">
+							<i></i>
+							<span>全部</span>
+						</li>
+						<li>
+							<i></i>
+							<span>支付宝</span>
+						</li>
+						<li>
+							<i></i>
+							<span>微信</span>
+						</li>
+						<li>
+							<i></i>
+							<span>包行</span>
+						</li>
+					</ul>
+				</div>
+				<div class="tradeTime tradeState">
+					<label>订单状态：</label>
+					<ul class="timeLi stateLi">
+						<li class="activess" payStatus="">
+							<i></i>
+							<span>全部</span>
+						</li>
+						<li payStatus="1">
+							<i></i>
+							<span>支付成功</span>
+						</li>
+						<li payStatus="2">
+							<i></i>
+							<span>支付失败</span>
+						</li>
+						<li payStatus="3">
+							<i></i>
+							<span>未支付</span>
+						</li>
+						<li class="slctd">
+							<select autocomplete="off">
+								<option payStatus="">更多</option>
+								<option payStatus="4">超时</option>
+								<option payStatus="5">扣款成功回调失败</option>
+								<option payStatus="6">已部分退款</option>
+								<option payStatus="7">已全部退款</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+				<div class="tradeTime chooseRange">
+					<label>所属应用：</label>
+					<ul class="timeLi fwLi">
+						<li>
+							<select>
+							</select>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+			<!--表格-->
+			<div class="table">
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th class='first' width='16%'>交易时间</th>
+							<th width='16%'>商户订单号</th>
+							<th width='8%'>所属应用</th>
+							<th width='12%'>商品名称</th>
+							<th width='8%'>支付平台</th>
+						<!--	<th width='8%'>实收金额(元)</th> -->
+							<th width='8%' class='money' style="padding-right:20px;">订单金额(元)</th>
+							
+							<th width='8%'>订单状态</th>
+							<th class="last" width='8%'>操作</th>
+						</tr>
+					</thead>
+					<tbody style='width:100%;'>
+						
+					</tbody>
+				</table>
+				<div class="set-footer">
+					<div class="set fl">
+						共<span>4</span>条记录，每页显示<input autocomplete="off" type="text" value="10" />条
+					</div>
+					<div class="jump fr">
+						<div class="firstPage">首页</div>
+						<div class="left">
+							<i></i>
+						</div>
+						<input autocomplete="off" type="text" value="1" />
+						<div class="right">
+							<i></i>
+						</div>
+						<div class="lastPage">尾页</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bg">
+			<div class="window">
+				<div class="top">
+					<div class='closexCon'>
+						<div class="closex">
+							<i></i>
+						</div>
+					</div>
+					
+					<div class="state">
+						<i></i>
+						<span></span>
+					</div>
+					<div class="detail">所属应用：<span class="yy"></span>商品名称：<span class="name"></span></div>
+				</div>
+				<div class="bottom">
+					<div class="time">交易时间：<span></span></div>
+					<div class="order-number">商户订单号：<span></span></div>
+					<div class="payway">支付方式：<span></span></div>
+					<div class="c">
+						<div class="d1">会员权益：<span>￥0.00</span></div>
+						<div class="d2">会员余额：<span>￥0.00</span></div>
+						<div class="d3">优惠券：<span>￥0.00</span></div>
+						<div class="d4">渠道优惠：<span>￥0.00</span></div>
+						<div class="d5">积分抵扣优惠：<span>￥0.00</span></div>
+						<div class="xingzhuang"></div>
+					</div>
+					<div class="dian">
+						<div class="state1 fl"></div>
+						<div class="state2 fl"></div>
+						<div class="state3 fl"></div>
+						<div class="state4 fl"></div>
+						<div class="state5 fl"></div>
+						<div class="state6 fl"></div>
+						<div class="state7 fl"></div>
+						<div class="state8 fl"></div>
+						<div class="state9 fl"></div>
+						<div class="state10 fl"></div>
+						<div class="state11 fl"></div>
+					</div>
+					<div class="words">
+						<div class="w1 fl">
+							<div class="ws1 c_ccc">订单金额</div>
+							<div class="price1 c_ccc">￥<span></span></div>
+						</div>
+						<div class="w2 fl">
+							<div class="ws2 c_ccc">商家优惠</div>
+							<div class="price2 c_ccc">￥<span></span></div>
+						</div>
+						<div class="w3 fl">
+							<div class="ws3 c_ccc">实收金额</div>
+							<div class="price3 c_ccc">￥<span></span></div>
+						</div>
+						<div class="w4 fl">
+							<div class="ws4 c_ccc">退款金额</div>
+							<div class="price4 c_ccc">￥<span></span></div>
+						</div>
+						<div class="w5 fl">
+							<div class="ws5 c_ccc">手续费</div>
+							<div class="price5 c_ccc">￥<span></span></div>
+						</div>
+						<div class="w6 fl">
+							<div class="ws6 c_ccc">到账金额</div>
+							<div class="price6 c_ccc">￥<span></span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="window3">
+				<div class="top2">
+					修改密码
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+				</div>
+				<div class="bottom3">
+					<div class="oldpwd">
+						<label>原密码:</label>
+						<input type="password" placeholder="请输入原密码" />
+						<span style="color:red;font-size:14px;display:none">请输入原密码</span>
+					</div>
+					<div class="newpwd">
+						<label>新密码:</label>
+						<input type="password" placeholder="6-16位密码(数字、字母组成)" />
+						<span style="color:red;font-size:14px;display:none">请输入新密码</span>
+					</div>
+					<div class="newpwda">
+						<label>确认密码:</label>
+						<input type="password" placeholder="请再次输入新密码" />
+						<span style="color:red;font-size:14px;display:none">请再次输入新密码</span>
+					</div>
+					<div class="surebtn">确定</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript" src="../public/js/exit.js"></script>
+		<script id="trmode" type="text/plain">
+			<tr>
+				<td class='first'></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class='money' style="padding-right:20px;"></td>
+				
+				<td></td>
+				<td>
+					<a href="#" class="show">详情</a>
+				</td>
+			</tr>			
+		</script>
+		<script>
+			var param={
+					"appId":'',
+					"dateType":1,
+					"merchantOrderNum":"",
+					"payStatus":"",
+					"payWayId":"",
+					"curPage":1,
+					"pageData":10
+				},
+				totalpage=1,
+				totaldata=1,
+				stateArr=["","支付成功","支付失败","未支付","超时","扣款成功回调失败"];
+			var isSwitch = localStorage.isSwitch,
+				companyName = localStorage.companyname;
+			$("body").on("focus",".data1",function(){
+				if($(".data2").val()){
+					WdatePicker({"maxDate":$(".data2").val()});
+				}else{
+					WdatePicker({"maxDate":new Date()});
+				}
+			})
+			
+			$("body").on("focus",".data2",function(){
+					if($(".data1").val()){
+						WdatePicker({"minDate":$(".data1").val(),"maxDate":new Date()});
+					}else{
+						WdatePicker({"maxDate":new Date()});
+					}
+			})
+			$(".search,.reset,.dld").on("mousedown",function(){
+				$(this).css("background-color","#2ea1f9")
+			})
+			$(".search,.reset,.dld").on("mouseup",function(){
+				$(this).css("background-color","#2581f4")
+			})
+			$(".set input").on("change",function(){
+				
+				if($(this).val()>totaldata){
+					$(this).val(totaldata)
+				}
+				if($(this).val()<1){
+					$(this).val("1")
+				}
+				if(!/^[0-9]*$/.test($(this).val())){
+					alert("请输入正确的数字");
+					$(this).val(10);
+					param.pageData=10;
+					param.curPage=1
+					$(".jump input").val("1");
+					tabledata();
+					window.getSelection().removeAllRanges();
+			    }else{
+			    	$(this).val(parseInt($(this).val()))
+			    	param.pageData=$(this).val();
+			    	param.curPage=1
+					$(".jump input").val("1");
+					tabledata();
+			    }
+				
+			});
+			$(".user span").text(companyName);
+			if(isSwitch == 1) {
+				$(".changeline").remove();
+			}
+			$("body").on("click",".changeline .change2",function(){
+				$.ajax({
+					type:"get",
+					url:"/sys/tabSwitch.do",
+					async:false,
+					success:function(data){
+						//console.log(data);
+						if(!!data&&data.resultCode==200){
+							if(data.Data.isTabSwitch==2){
+								location.href="dataOffline.html";
+							}
+						}else{
+							if(!!data.message){
+								alert(data.message);
+								window.getSelection().removeAllRanges();
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+					}
+				})
+			})
+			$("body").on("click",".search",function(){
+				param.merchantOrderNum=$(".numberInput input").val();
+				$(".jump input").val("1");
+				param.curPage=1
+				tabledata();
+			})
+			$("body").on("click",".reset",function(){
+				$(".numberInput input").val("");
+			})
+			/*header 事件start*/
+			$("body").on("click",".changeline .change2",function(){
+				$.ajax({
+					type:"get",
+					url:"/sys/tabSwitch.do",
+					async:false,
+					success:function(data){
+						//console.log(data);
+						if(!!data&&data.resultCode==200){
+							if(data.isTabSwitch==2){
+								location.href="dataOffline.html";
+							}
+						}else{
+							if(!!data.message){
+								alert(data.message);
+								window.getSelection().removeAllRanges();
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+					}
+				})
+			})
+			$(".user i").on("click", function() {
+				$(".changeuser").show();
+			})
+			$(".user").on("mouseleave", function() {
+				$(".changeuser").hide();
+			})
+			
+			$(".user i").on("mouseenter", function() {
+				$(this).css("background-image","url(../public/img/down2.png)");
+			})
+			$(".user i").on("mouseleave", function() {
+				$(this).css("background-image","url(../public/img/down1.png)");
+			})
+			
+			$(".line").on("click mouseenter", function() {
+				$(".changeline").show();
+			})
+			$(".line").on("click mouseleave", function() {
+					$(".changeline").hide();
+				})
+			/*header 事件start*/
+			/*nav 事件start*/
+			$(".datali").on("click",function(){
+				window.location="data.html"
+			})
+			$(".dld").on("click",function(){
+				window.open("http://pay.aijinfu.cn/sdk-download.html")
+			})
+			/*nav 事件end*/
+			/*弹窗start*/
+			$("body").on("click",".show",function(){
+				$(".bg").show();
+				$(".window").show();
+				//console.log($(this).parent().parent().attr("thisid"))
+				detail($(this).parent().parent().attr("thisid"));
+			})
+			$("body").on("click",".closex",function(){
+				$(".bg").hide();
+			})
+			$("body").on("mouseenter",".closex",function(){
+				$(this).css("background","#fb6054")
+				$(this).find("i").css("background-image","url(../public/img/closeh.png)")
+			})
+			$("body").on("mouseleave",".closex",function(){
+				$(this).css("background","rgba(0,0,0,0)")
+				$(this).find("i").css("background-image","url(../public/img/close.png)")
+			})
+			/*弹窗start*/
+			$(".jump .left").on("click",function(){
+				if($(".jump input").val()>1){
+					$(".jump input").val(Number($(".jump input").val())-1);
+					param.curPage=$(".jump input").val()
+					tabledata()
+				}else{
+					
+				}
+			})
+			$(".jump .right").on("click",function(){
+				if($(".jump input").val()<totalpage){
+					$(".jump input").val(Number($(".jump input").val())+1);
+					param.curPage=$(".jump input").val()
+					tabledata()
+				}else{
+					
+				}
+			})
+			$(".jump .firstPage").on("click",function(){
+				$(".jump input").val("1")
+				param.curPage=1;
+				tabledata()
+				
+			})
+			$(".jump .lastPage").on("click",function(){
+				if(totalpage){
+					$(".jump input").val(totalpage)
+					param.curPage=totalpage;
+					tabledata()
+				}else{
+					$(".jump input").val(1)
+					param.curPage=1;
+					tabledata()
+				}
+				
+			})
+			$(".jump input").on("change",function(){
+				
+				if($(this).val()>totalpage){
+					$(this).val(totalpage)
+				}
+				if($(this).val()<1){
+					$(this).val("1")
+				}
+				if(!/^[0-9]*$/.test($(this).val())){
+					$(this).val("1");
+			    }else{
+			    	$(".jump input").val(parseInt($(".jump input").val()))
+			    }
+				param.curPage=$(".jump input").val()
+				tabledata()
+			})
+			
+			/*表格展示数据*/
+			tabledata();
+			getAppList();
+			function getAppList(){
+				$.ajax({
+					type:"get",
+					url:"/online/payv2BussCompanyApp/getAppList.do",
+					async:false,
+					success:function(data){
+						var appstr="<option appid=''>全部应用</option>";
+						if(!!data&&data.resultCode==200){
+							var data = data.Data.appList;
+							for(var i=0;i<data.length;i++){
+								appstr+="<option appid="+data[i].id+">"+data[i].appName+"</option>";						
+							}
+							$(".chooseRange select").html(appstr);
+						}else{
+							if(!!data.message){
+								alert(data.message);
+								window.getSelection().removeAllRanges();
+							}else{
+								
+								$("body").html(data);
+							}
+						}											
+					}
+				})
+			}
+			function tabledata(){
+				//console.log(param)
+				//console.log(new Date().getTime())
+				$.ajax({
+					type:"get",
+					url:"/online/payv2PayOrder/getPayv2PayOrderList.do",
+					async:false,
+					data:param,
+					success:function(data){
+						//console.log(data);
+						//console.log(new Date().getTime())
+						if(!!data&&data.resultCode==200){
+							iniTable(data.Data);
+							totalpage=data.Data.list.totalPage;
+							totaldata=data.Data.list.totalData;
+							$(".set span").text(data.Data.list.totalData)
+						}else{
+							if(!!data.message){
+								alert(data.message);
+								window.getSelection().removeAllRanges();
+							}else{
+								$("body").html(data);
+							}						}
+					}
+				})
+			}
+			
+			function iniTable(obj){
+				var str="",
+					list=obj.list.dataList;
+				//console.log(list)
+				if(list.length==0){
+					$(".dload").hide();
+					$(".table tbody").html("<div class='nodata' style='text-align:center;height:60px;line-height:60px;'>很抱歉,没有找到订单信息……</div>")
+					$(".nodata").css("width",$(".nodata").parent().eq(0).width()+'px')
+				}else{
+					$(".dload").show();
+					for(var i=0;i<list.length;i++){
+						str+=$("#trmode").html();
+					}
+					$(".table tbody").html(str);
+					for(var j=0;j<list.length;j++){
+						//console.log(obj.list.dataList[j]);
+						$(".table tbody tr").eq(j).attr("thisid",list[j].id)
+						if(list[j].createTime){
+							//console.log(new Date(list[j].createTime).getMonth())
+							$(".table tbody tr").eq(j).find("td").eq(0).html(gettime(list[j].createTime));
+						}else{
+							$(".table tbody tr").eq(j).find("td").eq(0).html("");
+						}
+						
+						$(".table tbody tr").eq(j).find("td").eq(1).html(list[j].merchantOrderNum);
+						$(".table tbody tr").eq(j).find("td").eq(2).html(list[j].appName);
+						$(".table tbody tr").eq(j).find("td").eq(3).html(list[j].goodsName);
+						$(".table tbody tr").eq(j).find("td").eq(4).html(list[j].wayName);
+						//$(".table tbody tr").eq(j).find("td").eq(5).html(list[j].actuallyPayMoney);
+						$(".table tbody tr").eq(j).find("td").eq(5).html((list[j].payMoney).toFixed(2));
+						
+						
+						$(".table tbody tr").eq(j).find("td").eq(6).html(stateArr[list[j].payStatus]);
+					}
+				}
+			}
+			/*交易渠道*/
+			var paywaystr='<li class="activess"><i></i><span>全部</span></li>';
+			$.ajax({
+					type:"post",
+					url:"/offline/bussCompanyOrder/getPayWayList.do",
+					async:false,
+					success:function(data){
+						if(!!data && data.resultCode == 200) {
+							for(var i=0;i<data.Data.length;i++){
+								paywaystr+='<li paywayId='+data.Data[i].payWayId+'><i></i><span>'+data.Data[i].payWayUserName+'</span></li>'
+							}
+							$(".typeLi").html(paywaystr);
+						}else{
+							if(!!data.message){
+								alert(data.message);
+								window.getSelection().removeAllRanges();
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+						
+					}
+				});
+			/*条件筛选事件*/
+			$("body").on("change",".stateLi select",function(){
+				$(".stateLi li").removeClass("activess")
+				param.payStatus=$(".stateLi option:selected").attr("paystatus");
+				//console.log(param.payStatus);
+				if($(this).val()=="更多"){
+					$(".stateLi li").first().addClass("activess");
+				}
+				$(".jump input").val("1");
+				param.curPage=1;
+				tabledata();
+			})
+			$("body").on("change",".fwLi select",function(){
+				param.appId=$(".fwLi option:selected").attr("appid");;
+				//console.log(param);
+				$(".jump input").val("1");
+				param.curPage=1;
+				tabledata();
+			})
+			$(".TimeLi li,.typeLi li,.stateLi li").not(".slctd").on("click",function(){
+				//console.log($(this).parent().children())
+				param.curPage=1;
+				$(".jump input").val("1")
+				$(this).addClass("activess").siblings().removeClass("activess");
+				if($(this).parent().hasClass("TimeLi")){
+					$(".data1,.data2").val("");
+					param.dateType=$(this).attr("datetype");
+					param.curPage=1
+					tabledata();
+				}
+				if($(this).parent().hasClass("stateLi")){ 
+					$(".stateLi select").val("更多")
+					param.payStatus=$(this).attr("paystatus");
+					tabledata();
+				}
+				if($(this).parent().hasClass("typeLi")){
+					param.payWayId=$(this).attr("paywayid");
+					tabledata();
+				}
+				//console.log(param.payWayId)				
+			});
+			$(".data1,.data2").on("blur",function(){
+				$(".TimeLi li").removeClass("activess");
+				if($(".data1").val()&& $(".data2").val()) {
+					param.dateType=5;
+					param.payTimeBegin=$(".data1").val();
+					param.payTimeEnd=$(".data2").val();
+					$(".jump input").val("1");
+					param.curPage=1;
+					tabledata();
+				}
+			})
+			
+			/*导出列表*/
+			$(".dload").on("click",function(){
+				
+				var dldurl = "/online/payv2PayOrder/exportExcelOrder.do?appId="+param.appId+"&dateType="+param.dateType+"&merchantOrderNum="+param.merchantOrderNum+"&payStatus="+param.payStatus+"&payWayId="+param.payWayId+"&payTimeBegin="+$(".data1").val()+"&payTimeEnd="+$(".data2").val();
+				//console.log(dldurl);
+				window.location.href=dldurl;
+			})
+			//window.location.href="/online/payv2PayOrder/exportExcelOrder.do?appId=&dateType=1&orderNum=&payStatus=&payWayId="
+			function detail(id){
+				//console.log(id)
+				$(".state1,.state5,.state11").addClass("bg3").removeClass("bg2").removeClass("bg1")
+				$(".state3,.state7,.state9").addClass("bg3").removeClass("bg1").removeClass("bg2");
+				$(".state2,.state4,.state6,.state8,.state10").addClass("bc1").removeClass("bc2");
+				$(".ws1,.ws2,.ws3,.ws4,.ws5,.ws6").removeClass("c_80").addClass("c_ccc")
+				$(".price1,.price2,.price3,.price4,.price5,.price6").removeClass("c_ef").addClass("c_ccc");
+				$.ajax({
+					type:"get",
+					url:"/online/payv2PayOrder/toEditPayv2PayOrder.do",
+					data:{"id":id},
+					async:false,
+					success:function(data){
+						console.log(data)
+						if(!!data&&data.resultCode==200){
+							data=data.Data;
+							var statesArr=["","支付成功","支付失败","未支付","超时","扣款成功回调失败","部分退款","全部退款"];
+							if(data.payStatus==1){
+								$(".window .state i").css("background","url(../public/img/success.png)")
+							}else if(data.payStatus==2){
+								$(".window .state i").css("background","url(../public/img/defeet.png)")								
+							}else{
+								$(".window .state i").css("background","url(../public/img/ing.png)")								
+							}
+							$(".window .state span").html(statesArr[data.payStatus]);
+							$(".window .yy").html(data.appName);
+							$(".window .name").html(data.goodsName);
+							$(".window .payway span").html(data.wayName);
+							if(data.createTime){
+								$(".window .time span").html(gettime(data.createTime));
+							}
+							$(".window .order-number span").html(data.merchantOrderNum);
+							$(".window .price1 span").html(data.payMoney);
+							$(".window .price2 span").html(data.discountMoney);
+							$(".window .price3 span").html(data.actuallyPayMoney);
+							$(".window .price4 span").html(data.returnMoney);
+							$(".window .price5 span").html(data.payWayMoney);
+							$(".window .price6 span").html(data.arrivalMoney);
+							if(data.payMoney){
+								$(".ws1").removeClass("c_ccc").addClass("c_80");
+								$(".price1").removeClass("c_ccc").addClass("c_ef");
+								$(".state1").removeClass("bg3").addClass("bg1");
+							}
+							if(data.discountMoney){
+								$(".ws2").removeClass("c_ccc").addClass("c_80");
+								$(".price2").removeClass("c_ccc").addClass("c_ef");
+								$(".state2").removeClass("bc1").addClass("bc2");
+								$(".state3").removeClass("bg3").addClass("bg1");
+							}
+							if(data.actuallyPayMoney){
+								$(".state5").removeClass("bg3").addClass("bg1");
+								$(".state2,.state4").removeClass("bc1").addClass("bc2");
+								$(".ws3").removeClass("c_ccc").addClass("c_80");
+								$(".price3").removeClass("c_ccc").addClass("c_ef");
+							}
+							if(data.returnMoney){
+								$(".state2,.state4,.state6").removeClass("bc1").addClass("bc2");
+								$(".state7").removeClass("bg3").addClass("bg1");
+								$(".ws4").removeClass("c_ccc").addClass("c_80");
+								$(".price4").removeClass("c_ccc").addClass("c_ef");
+							}
+							if(data.payWayMoney){
+								$(".state2,.state4,.state6,.state8").removeClass("bc1").addClass("bc2");
+								$(".state9").removeClass("bg3").addClass("bg1");
+								$(".ws5").removeClass("c_ccc").addClass("c_80");
+								$(".price5").removeClass("c_ccc").addClass("c_ef");
+							}
+							if(data.arrivalMoney){
+								$(".state2,.state4,.state6,.state8,.state10").removeClass("bc1").addClass("bc2");
+								$(".ws6").removeClass("c_ccc").addClass("c_80");
+								$(".price6").removeClass("c_ccc").addClass("c_ef");
+								$(".state11").removeClass("bg3").addClass("bg1");
+							}
+						}else{
+							if(!!data.message){
+								alert(data.message);
+								window.getSelection().removeAllRanges();
+							}else{
+								
+								$("body").html(data);
+							}
+						}
+					}
+					
+				})
+			}
+			function gettime(time){
+				time = new Date(time);
+				var timeStr='';
+				timeStr+=time.getFullYear();
+				if(time.getMonth()<9){
+					timeStr=timeStr+'-0'+(time.getMonth()+1);
+				}else{
+					timeStr=timeStr+'-'+(time.getMonth()+1);
+				}
+				if(time.getDate()<10){
+					timeStr=timeStr+'-0'+time.getDate();
+				}else{
+					timeStr=timeStr+'-'+time.getDate();
+				}
+				
+				if(time.getHours()<10){
+					timeStr=timeStr+' 0'+time.getHours();
+				}else{
+					timeStr=timeStr+' '+time.getHours();
+				}
+				
+				if(time.getMinutes()<10){
+					timeStr=timeStr+':0'+time.getMinutes();
+				}else{
+					timeStr=timeStr+':'+time.getMinutes();
+				}
+				
+				if(time.getSeconds()<10){
+					timeStr=timeStr+':0'+time.getSeconds();
+				}else{
+					timeStr=timeStr+':'+time.getSeconds();
+				}
+				return timeStr;
+			}
+			</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2BussTradeMapper">
+
+	<resultMap id="payv2busstrade_result_map" type="com.pay.business.payv2.entity.Payv2BussTrade" >
+		<id column="id" property="id" />
+		<result column="parent_id" property="parentId"/>
+		<result column="trade_name" property="tradeName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_trade  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="parentId!=null and parentId!=''">
+				and parent_id = #{parentId}
+			</if>
+			<if test="tradeName!=null and tradeName!=''">
+				and trade_name like CONCAT('%',#{tradeName},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2BussTrade" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_buss_trade
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="parentId!=null ">
+				parent_id,
+			</if>
+      		<if test="tradeName!=null ">
+				trade_name,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="parentId!=null ">
+      			#{parentId},
+			</if>
+      		<if test="tradeName!=null ">
+      			#{tradeName},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2BussTrade">
+		delete from payv2_buss_trade
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+      		<if test="tradeName!=null ">
+				and trade_name=#{tradeName}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2BussTrade">
+		update payv2_buss_trade
+		<set>
+			<if test="parentId!=null ">
+				parent_id=#{parentId},
+			</if>
+			<if test="tradeName!=null ">
+				trade_name=#{tradeName},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2BussTrade" resultMap="payv2busstrade_result_map">
+		select id,parent_id,trade_name from payv2_buss_trade
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+			<if test="tradeName!=null ">
+				and trade_name=#{tradeName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2busstrade_result_map" >
+		select id,parent_id,trade_name from payv2_buss_trade
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+			<if test="tradeName!=null ">
+				and trade_name=#{tradeName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectBySort" resultMap="payv2busstrade_result_map" >
+		select id,parent_id,trade_name from payv2_buss_trade
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+			<if test="tradeName!=null ">
+				and trade_name=#{tradeName}
+			</if>
+		</where>
+			ORDER BY parent_id
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2busstrade_result_map" >
+		
+		SELECT id,parent_id,trade_name FROM payv2_buss_trade 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="parentId!=null and parentId!=''">
+				and parent_id = #{parentId}
+			</if>
+			<if test="tradeName!=null and tradeName!=''">
+				and trade_name like  CONCAT('%',#{tradeName},'%')
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

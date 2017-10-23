@@ -1,0 +1,75 @@
+<html lang="en" style="font-size: 55.1389px;">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+		<meta name="theme-color" content="#000000">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="manifest" href="manifest.json">
+		<title>支付集</title>
+		<link href="../../public/css/return.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="title">
+			<div class="tlCon">
+				<div class="headline">支付结果</div>
+			</div>
+		</div>
+		<div class="main">
+			<div id="icon" class="icon" style="height:1.4rem;width:1.4rem;margin-top:1rem;"></div>
+			<div class="payStatus">支付成功</div>
+			
+		</div>
+		
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script>
+			/*汇付宝回调页面*/
+			var a=document.documentElement.clientWidth/7.2;
+			document.documentElement.style.fontSize=a+'px';
+			window.onresize=function(){
+				var a=document.documentElement.clientWidth/7.2;
+				document.documentElement.style.fontSize=a+'px';
+			}
+			var obj = transmit();
+			if(obj.result==0){
+				$("#icon").addClass("icon2").removeClass("icon");
+				$(".payStatus").html("取消支付");
+			}else if(obj.result==1){
+				$("#icon").addClass("icon").removeClass("icon2");
+				$(".payStatus").html("支付成功");
+			}else{
+				$("#icon").addClass("icon2").removeClass("icon");
+				$(".payStatus").html("支付失败");
+			}
+				
+				
+			function transmit(){
+				var str = window.location.search;
+				str=str.slice(1,str.length);
+				str=str.split("&");
+				var obj={};
+				for(var i=0;i<str.length;i++){
+					strs=str[i];
+					strs=strs.split("=");
+					obj[strs[0]]=strs[1];			
+				}
+				return obj;
+			}
+			/*if($("#icon").attr("status")==200){
+				$("#icon").addClass("icon").removeClass("icon2");
+				$(".payStatus").html("支付成功");
+			}else{
+				$("#icon").addClass("icon2").removeClass("icon");
+				$(".payStatus").html("支付失败");
+			}*/
+			/* if($(".return").attr("href")){
+				window.location.href = $(".return").attr("href")
+			} */
+			
+		</script>
+	</body>
+
+</html>

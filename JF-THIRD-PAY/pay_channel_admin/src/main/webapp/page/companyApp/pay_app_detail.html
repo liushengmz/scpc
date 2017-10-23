@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>编辑APP</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-APP-add">
+	<div class="pop_main">
+		<h3>基本信息</h3>
+		<dl  class="adddl">
+			<dt><label>所属公司：</label></dt>
+			<dd>
+				<label>${companyName!"&nbsp;"}</label>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>APP名称：</label>
+			</dt>
+			<dd><label>${obj.appName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>appKey：</label>
+			</dt>
+			<dd><label>${obj.appKey!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用秘钥：</label>
+			</dt>
+			<dd><label>********************************</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用图标：</label>
+			</dt>
+			<dd>
+				<img alt="" src="${obj.appIcon}" width="200" height="200">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用行业：</label>
+			</dt>
+			<dd><label>${typeName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用说明：</label>
+			</dt>
+			<dd><label>${obj.appDesc!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用截图：</label>
+			</dt>
+			<dd>
+				<img alt="" src="${obj.appImg}" width="200" height="200">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用说明文档：</label>
+			</dt>
+<!-- 			<dd>
+				<#if obj.appDescFile!>
+					<a href="${obj.appDescFile}">下载</a>
+				<#else>
+					<label>无</label>
+				</#if>
+			</dd> -->
+			<dd>
+				<img alt="" src="${obj.appDescFile}" width="200" height="200">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>已有安装包：</label>
+			</dt>
+			<dd>
+				<#if obj.androidApkUrl!>
+					<a href="${obj.androidApkUrl}">下载</a>
+				<#else>
+					<label>无</label>
+				</#if>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>著作权验证：</label>
+			</dt>
+			<dd>
+				<img alt="" src="${obj.appCopyright}" width="200" height="200">
+			</dd>
+		</dl>
+		<h3>平台信息</h3>
+		<dl  class="adddl">
+			<dt><label>应用官网：</label>
+			</dt>
+			<dd>
+				<#if obj.isIos==1>
+					<label>IOS平台</label><br/>
+					<#if obj.iosIpaUrl!>
+						<label>ipad appStore下载地址：${obj.iosIpaUrl}</label><br/>
+						<#if obj.iosIpaMd5!>
+							<label>ipad bundle ID：${obj.iosIpaMd5}</label><br/>
+						</#if>
+						<#if obj.iosIpaTestId!>
+							<label>ipad测试版本bundle ID：${obj.iosIpaTestId}</label><br/>
+						</#if>
+					</#if>
+					<#if obj.iosIphoneUrl!>
+						<label>iphone AppStore下载地址：${obj.iosIphoneUrl}</label><br/>
+						<#if obj.iosIphoneId!>
+							<label>iphone Bundle ID：${obj.iosIphoneId}</label><br/>
+						</#if>
+						<#if obj.iosIphoneTestId!>
+							<label>iphone测试版本Bundle ID：${obj.iosIphoneTestId}</label><br/>
+						</#if>
+					</#if>
+				</#if>
+				<#if obj.isAndroid==1>
+					<label>android平台</label><br/>
+					<#if obj.androidAppUrl!>
+						<label>android应用下载地址：${obj.androidAppUrl}</label><br/>
+					</#if>
+					<#if obj.androidAppMd5!>
+						<label>android应用签名：${obj.androidAppMd5}</label><br/>
+					</#if>
+					<#if obj.androidAppPackage!>
+						<label>android包名：${obj.androidAppPackage}</label><br/>
+					</#if>
+				</#if>
+				<#if obj.isWeb==1>
+					<#if obj.webUrl!>
+						<label>网页商品地址：${obj.webUrl}</label><br/>
+					</#if>
+				</#if>
+			</dd>
+		</dl>
+	</div>
+	<script type="text/javascript"src="${basePath}/public/js/mutilfile.js"></script>
+</body>
+</html>

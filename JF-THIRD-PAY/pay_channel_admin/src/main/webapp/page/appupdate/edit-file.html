@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>添加应用</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="" enctype="multipart/form-data" method="post" class="form form-horizontal" id="form-files-add">
+		<input type="hidden" name="infoId" value="${info.id!}" />
+		<input type="hidden" name="id" value="${fileInfo.id!}" />
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>文件信息名称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" readonly="readonly"  value="${info.filesName!}" />
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">AppType：</label>
+			<div class="formControls col-5">
+				<select class="select" id="appType" name="appType"  datatype="*" nullmsg="请选择！">
+					<option value="" ></option>
+					<option value="1" <#if fileInfo.appType==0> selected="selected" </#if>>android</option>
+					<option value="2" <#if fileInfo.appType==1> selected="selected" </#if>>ios</option>
+				</select>
+			</div>
+			<div class="col-4"> </div>
+		</div>	
+		<div class="row cl zlb-tab-contant" style="display:block">
+	      <label class="form-label col-3"><span class="c-red">*</span>附件：</label>
+	      <div class="formControls col-5"> 
+	      	<input type="file"  name="file" id="file" style="width: 200px;display: inline-block;">
+	      	 <a href="#" onclick="uploadFile('${basePath}/appUpdate/uploadFiles.do')" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 上传</a>
+	      </div>
+	      <div class="col-4"> </div>
+	    </div>	
+     	 <div class="row cl">
+			<label class="form-label col-3">文件路径：</label>
+			
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${fileInfo.filesUrl!''}" placeholder="文件路径" id="filesUrl" name="filesUrl" datatype="*3-500"  nullmsg="文件路径不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">Md5：</label>
+			
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${fileInfo.filesMd5!''}" placeholder="MD5" id="filesMd5" name="filesMd5"  datatype="*1-100"  nullmsg="MD5不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">文件大小(单位/B)：</label>
+			
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${fileInfo.filesSize!'0'}" id="filesSize" name="filesSize">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">包名：</label>
+			
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${fileInfo.appPackageName!''}" id="appPackageName" name="appPackageName">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">app主版本：</label>
+			
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${fileInfo.appVersion}" id="appVersion" name="appVersion" >
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">app子版本号：</label>
+			
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${fileInfo.appVersionCode}" id="appVersionCode" name="appVersionCode" >
+			</div>
+			<div class="col-4"> </div>
+		</div>	
+		
+		<div class="row cl">
+			<label class="form-label col-3">是否强制更新：</label>
+			<div class="formControls col-5">
+				<select class="select" id="isForceUpdate" name="isForceUpdate"  datatype="*" nullmsg="请选择！">
+					<option value="" ></option>
+					<option value="1" <#if fileInfo.isForceUpdate==1> selected="selected" </#if>>否</option>
+					<option value="2" <#if fileInfo.isForceUpdate==2> selected="selected" </#if>>是</option>
+				</select>
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">文件描述：</label>
+			
+			<div class="formControls col-5">
+				<textarea name="filesDesc" cols="" rows="" class="textarea"  placeholder="说点什么...128个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)">${fileInfo.filesDesc!}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<#if fileInfo.appType==2> 
+			<div class="row cl" id="downId">
+				<label class="form-label col-3">下载地址：</label>
+				
+				<div class="formControls col-5">
+					<textarea name="downloadUrl" id="downloadUrl" cols="" rows="" class="textarea" datatype="*"  placeholder="" dragonfly="true"  nullmsg="文件路径不能为空">${fileInfo.downloadUrl}</textarea>
+				</div>
+				<div class="col-4"> </div>
+			</div>
+		</#if>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit"  value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+
+$(function(){
+
+	$("#form-files-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		ignoreHidden: true,  //隐藏的表单元素不校验
+		callback:function(form){
+			//后台请求保存数据
+ 			$.axse_async("${basePath}/appUpdate/editFiles.do",  $("#form-files-add").serialize(), function(d){
+				if(d.resultCode == 200){
+					layer.msg('保存成功!', {
+						icon : 1,
+						time : 1000
+					});
+					parent.location.replace("${basePath}/appUpdate/fileList.do?infoId=${info.id}");
+					layer_close();
+				}else{
+					layer.msg('保存失败，请你检查数据!', {
+						icon : 1,
+						time : 1000
+					});
+				}
+			},
+			function(d){
+				$("#form-files-add")[0].reset();   
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}); 
+			
+		}
+	});
+});
+
+
+
+function uploadFile(url) {
+	if($("input[id='file']").val()==""){
+		alert("请选择上传文件");
+		return;
+	}
+	commonUp(url, $("input[id='file']"), function(data) {
+			$("#filesUrl").val(data.Data.filesUrl);
+			$("#filesMd5").val(data.Data.filesMd5);
+			$("#filesSize").val(data.Data.filesSize);
+			$("#appPackageName").val(data.Data.appPackageName);
+			$("#appVersion").val(data.Data.appVersion);
+			$("#appVersionCode").val(data.Data.appVersionCode);
+			$("#appType").val(data.Data.appType);
+			if(data.Data.appType==1){
+				$("#downId").show();
+			}else{
+				$("#downId").hide();
+				$("#downloadUrl").html();
+			}
+			$("#downloadUrl").html(data.Data.downloadUrl);
+	});
+
+}
+
+//无刷新上传文件
+function commonUp(url, e, callback) {
+	$.ajaxFileUpload({
+		url : url,
+		secureuri : false,
+		fileElement : e,
+		dataType : "JSON",//返回数据的类型
+		success : function(data,status) {
+			if (data.resultCode == 200) {
+				if (callback) {
+					callback(data);
+				}
+			} else {
+				//alert("上传失败！");
+				alert(data.Data);
+			}
+			
+		}
+	});
+}
+
+/* $(function(){
+	$("#form-files-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			$.Hidemsg()
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/appUpdate/fileList.do?infoId=${info.id}");
+				layer_close();
+			}else{
+				$("#form-files-add").resetForm();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		}
+	
+	});
+	
+}); */
+</script>
+</body>
+</html>

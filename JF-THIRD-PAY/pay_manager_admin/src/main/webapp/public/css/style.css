@@ -1,0 +1,207 @@
+@charset "utf-8";
+/*******tab样式*********/
+.myTabBar{padding-left: 20px;margin: 20px auto 10px auto;width: 100%;}
+.myTabBar span{padding:0px 15px;border-top: 1px solid #e8e8e8;border-bottom: 1px solid #e8e8e8;border-right: 1px solid #e8e8e8;line-height: 36px;cursor:pointer;display: block;float:left;font-weight:bold;height: 36px;line-height:30px;text-align: center;}
+.myTabBar span.current{background-color:#222;color:#fff;}
+.myTabBar span.first{border-left: 1px solid #e8e8e8;}
+
+.editInput{display:inline-block;border:none;width:40px;}
+
+/****借贷列表tab页******/
+.fl{float:left;}
+.tabback,.tabIndex{padding:8px 16px;border:1px solid #e8e8e8;cursor:pointer;}
+.tabIndex img{width:20px;height:20px;}
+.tabIndex_tips{display:inline-block;margin:0px 6px;}
+.tab_parents{margin: 8px 0px 16px 60px;}
+.tab_parents .back{display:inline-block;width: 23px;height: 17px;background: url(../images/popup_back.png) no-repeat -13px -14px;}
+.tabIndex.current{background-color:#e8e8e8;}
+
+/*******************/
+.right{width:300px; float:right; text-align:right; line-height:60px;padding-right:20px;}
+
+.mg-b{margin-bottom:10px;}
+
+/**********产品详情页面css****************/
+.details-tag-list{width:100%;height:auto;}
+.details-tag-list .details-tag{box-sizing:border-box;;padding:6px;display:inline-block;margin-right:10px;margin-bottom:6px;min-height:32px;line-height:22px;max-height:200px;overflow-y:auto;word-break:break-all;max-width:100%;background-color:#f6f7ff;border:1px solid #bec7ff;border-radius:5px;}
+.details-tag .details-tag-name{font-size:16px;}
+
+.labelColor1{color: #ff4e53;}
+.labelColor2{color: #ff6d53;}
+.labelColor3{color: #8b99ee;}
+.labelColor4{color: #6edd34;}
+
+/*********多选项提示域*********/
+.multiSelectTips{width:1px;height:1px;opacity:0;}
+/******************delog  插件css*****************************/
+.dialog_span{float: right; width: 16px; height: 16px; margin-right: 5px; margin-top: 6px; overflow: hidden; display: inline-block; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NTc3MiwgMjAxNC8wMS8xMy0xOTo0NDowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QTMyNUZCNzI3MUE2MTFFNjk1Q0JGRjAwNDVBRjFBOEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QTMyNUZCNzM3MUE2MTFFNjk1Q0JGRjAwNDVBRjFBOEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NTI1RTUwOTcxQTYxMUU2OTVDQkZGMDA0NUFGMUE4QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NTI1RTUwQTcxQTYxMUU2OTVDQkZGMDA0NUFGMUE4QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkVIa/QAAAFdSURBVHjalNPBK0RBHMDxfeOVkrSLnHbPyoGiRG2tm8vGhbyU9sqJP0BJcRUnpRR/hBu1u23LhaPLOpB1s5ZCDsJ36jf1a5o9mPrU9H6/33sz834TJ0mS8kYGeUxgQJ61cI0a2jo59uYFbGAa/Ygk9osXXGIfFXzbgFHFJZygKF+O1MsjeVaUnJL7uFvBDLaQVUUPuJP5sIplJdfGz43seR05VVzFMhawKPOqiuekJmPkwKZU8ANHuMUallDHMT5Vnq3JGzntQW+/s9jDJiZlq1/4UXm2ZjxWv8qNHqzI/Ay7GMEqer3coTjVebzhEO+y/EIgpzuWJgmNLsxjzi61Q86jkQ57DgRtxzXxhNdA3NbcGGnPq0BCAzuiEYjbmpqRLx3Y5XgJaYyKtL90qWm7Vi5jW5bsxpj0fEXmbjQlt6xb2V6MU9x7l6lPXaZW6DLp32gfXNiD+c91/hNgAO5tUSSuJIJ3AAAAAElFTkSuQmCC) no-repeat center center; cursor: pointer;}
+.blocker{display:none;margin:auto;position:fixed;top:0;right:0;bottom:0;left:0;background-color:rgba(51,51,51,.6);z-index:1040}
+.dialog{position:absolute;top:0;right:0;bottom:auto;left:0;margin:auto;text-align:center;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.35)}
+.dialog .msg{ padding: 30px 50px; }
+.dialog .msg p{font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif; color: #777; text-align: center;}
+.dialog .toolbar{ margin:0em 0em 1em 0em; border-top: 1px solid #ededed; padding-top: 1em;}
+.dialog .toolbar .btn{display:inline-block;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px;color:#fff;background-color:#428bca;border-color:#357ebd;padding:6px 0;text-shadow:none;min-width:120px;margin:0 10px}
+
+
+/*************添加基金页面---风险等级**************/
+.startBox{ padding:9px 0; height: 12px;   }
+.startBox span{ display: block; width: 12px; height: 12px; padding:0 2px; cursor: pointer; float: left; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAYCAMAAAD57OxYAAAAnFBMVEUAAADKz9/Kz9/2twbKz9/2twbKz9/Kz9/2twbKz9/Kz9/2twb2twb2twbKz9/Kz9/2twb2twb2twbKz9/2twb2twb2twbKz9/Kz9/2twbKz9/2twbKz9/2twbKz9/2twb2twb2twbKz9/2twbKz9/Kz9/2twbKz9/2twbKz9/2twb2twbKz9/Kz9/Kz9/2twb2twb2twbKz9/2twZne4RjAAAAMnRSTlMAc0pyaPf16+vPuLiOhoVtbWllU0xIQB8GBuTj4ODX19DOw8OQjXdjW1pVU0I9NzcgHuzEqNUAAACQSURBVBjTTYxXEoMwDAUFmJ6EktDSe6/S/e8WLNtj9mt3ni1g3BdY4r31KaJrvFkjxo00JwmRCZMMngFqgjfAzYTLD5U7+pYZ7CI4jrgU2RwnHKdLC9AKGUxdgeWwsz4juhv/bYk2X2l5GhETpWf4+KTxa/6guEKPp9wDSaXiwVEOlzEt8mJFIxVFB9CVffwBuJUYQmIRqY4AAAAASUVORK5CYII=) no-repeat center top;}
+.startBox span.active,.startBox span.hover{ background-position: center -12px; }
+
+@media (min-height: 440px) {
+  .dialog {
+    top: 100px;
+  }
+}
+
+@media (min-width: 525px) {
+  .dialog .btn {
+    margin: 0 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .dialog {
+    top: 100px;
+  }
+}
+
+@media (min-width: 768px) and (min-height: 768px) {
+  .dialog {
+    top: 140px;
+  }
+}
+.dialog{
+  width: 100%;
+}
+@media (min-width: 525px) {
+.dialog {
+    width: 525px;
+  }
+}
+
+
+/***************删除、编辑按钮*************/
+.delete-btn{color:#ff5152;}
+.edit-btn{color:#007aff;}
+
+/* 浏览图片样式 */
+body {
+	background-color: #fff;
+	font-family: arial, helvetica, sans-serif;
+	color: #000;
+}
+#main {
+	width: 800px;
+	margin: 0 auto;
+}
+/* a {
+	font-weight: bold;
+	color: #f00;
+} */
+#pbOverlay, #pbImage, #pbBottom, #pbCloseBtn {
+	position: fixed;
+	z-index: 9999;
+}
+#pbOverlay {
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	cursor: pointer;
+}
+#pbCloseBtn {
+	top: 0;
+	right: 0;
+	display: block;
+	width: 50px;
+	height: 50px;
+	background: url(../images/closebutton.png) no-repeat top left;
+}
+.pbLoading {
+	background: #000 url(../images/loading.gif) no-repeat center !important;
+}
+#pbImage {
+	border: none;
+	background: #000 no-repeat;
+	-moz-box-shadow: 0 0 40px #000;
+	-webkit-box-shadow: 0 0 40px #000;
+	box-shadow: 0 0 40px #000;
+	cursor: move;
+}
+#pbBottom {
+	font-family: Verdana, Arial, Geneva, Helvetica, sans-serif;
+	font-size: 10px;
+	text-align: center;
+	color: #EEE;
+	line-height: 1.4em;
+	left: 50%;
+	bottom: 10px;
+	width: 400px;
+	margin-left: -200px; /* half the width */
+}
+#pbCaption {
+	font-weight: bold;
+	padding: 4px;
+	display: inline-block;
+ *display: inline; /* IE 7 */
+	background-color: rgba(0, 0, 0, 0.7);
+ filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#B0000000, EndColorStr=#B0000000);
+	zoom: 1;
+}
+#pbNav {
+	display: block;
+	width: 282px;
+	height: 70px;
+	margin: auto;
+	margin-top: 5px;
+}
+#pbPrevBtn, #pbNextBtn, #pbZoomBtn, #pbLeftBtn, #pbRightBtn {
+	display: inline-block;
+	height: 70px;
+	outline: none;
+	text-indent: -9000px;
+	background: url(../images/navbtns.png) no-repeat;
+}
+#pbPrevBtn {
+	background-position: -223px 0;
+	width: 40px;
+	float: left;
+}
+#pbPrevBtn.pbgreyed {
+	background-position: -521px 0;
+}
+#pbNextBtn {
+	background-position: -337px 0;
+	width: 40px;
+	float: right;
+}
+#pbNextBtn.pbgreyed {
+	background-position: -560px;
+}
+#pbZoomBtn {
+	width: 74px;
+	background-position: -263px 0;
+	float: left;
+}
+#pbZoomBtn.pbgreyed {
+	background-position: -74px 0;
+}
+#pbZoomBtn.pbzoomed {
+	background-position: 0 0;
+}
+#pbLeftBtn {
+	background-position: -159px 0;
+	width: 64px;
+	float: left;
+}
+#pbRightBtn {
+	background-position: -377px 0;
+	width: 64px;
+	float: right;
+}
+
+/* www.jq22.com */
+
+

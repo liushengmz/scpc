@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<#include "lib/lib.html" />
+    <title>交易数据汇总</title>
+	
+  <meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-stand">
+	<meta name="force-rendering" content="webkit">
+	<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+	<link rel="stylesheet" href="../../public/css/normal.css" />
+	<link rel="stylesheet" href="../../public/css/sjtj.css" />
+  </head>
+  
+  <body>
+    <nav class="breadcrumb">
+        <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+        交易管理<span class="c-gray en">&gt;</span> 交易数据汇总 <a
+          class="btn btn-success radius r mr-20"
+          style="line-height: 1.6em; margin-top: 3px"
+          href="javascript:location.replace(location.href);" title="刷新"> <i
+          class="Hui-iconfont">&#xe68f;</i></a>
+    </nav>
+    <div style=" margin: 20px 40px 0 40px;">
+      <div class="main">
+        <!--title-->        
+        <div class="tabChange">
+          <ul>
+            <li class="actives today" day="1">今日统计</li>
+            <li class="yestoday" day="2">昨日统计</li>
+            <li class="last7" day="3">前七天统计</li>
+            <li class='last30' day="4">前30天统计</li>
+          </ul>          
+          <div class="data fr">
+            <label>选择日期：</label>
+            <!-- <input id="" class="condition-date data1" type="text" name="">
+            <select id="" class="time1"></select> -->
+            <input type="text" class="dateShow begin input-text size-M data1" data-required id="begin" placeholder="请选择开始时间" style="width:150px;" >
+            <span class="date-line">&nbsp;--&nbsp;</span>
+            <!-- <input id="" class="condition-date data2" type="text" name="">
+            <select id="" class="time2"></select> -->
+            <input type="text" class="dateShow end input-text size-M data2" data-required id="end" placeholder="请选择结束时间" style="width:150px;" >
+          </div>
+          <div class="allchose" style="">
+            <!-- 选择渠道商 -->
+            <div class="chooseChannel">
+              <label>来源渠道商:</label>
+              <select name="channelId" id="channelId" onchange="showCompany('channelId','companyId')">
+                <option value="">全部</option>
+                <#if payv2ChannelList?? && payv2ChannelList?size gt 0>
+                <#list payv2ChannelList as dl >
+                  <option value="${dl.id}">${dl.channelName}</option>
+                </#list>
+                </#if>
+              </select>
+            </div>
+            <!-- 选择商户 -->
+            <div class="chooseCompany">
+              <label>来源商户:</label>
+              <select name="companyId" id="companyId" onchange="getAppsPayWays('companyId','appId','payWay')">
+                <option value="">全部</option>
+              </select>
+            </div>
+            <!-- 选择应用 -->
+            <div class="choose">
+              <label>来源应用:</label>
+              <select name="appId" id="appId">
+                <option value="">全部</option>
+              </select>
+            </div>
+            <div class="chooseWay">
+              <label>支付通道</label>
+              <select name="payWay" id="payWay">
+               <option value="">全部</option>
+                <#if payWayList?? && payWayList?size gt 0>
+                <#list payWayList as dl >
+                  <option value="${dl.id}">${dl.rateName}</option>
+                </#list>
+                </#if>
+              </select>
+            </div>
+            <div class="surebtn2 fr" >确定</div>
+          </div>
+        </div>
+        <!--关键指标-->
+        <div class="index" style="margin: 20px 0 0 0 ;">
+          <div class="index-title">
+            <i></i>
+            <span>关键数据指标</span>
+          </div>
+          <div class="index-content">
+            <div class="index-1">
+              <div class="index-1-title">支付成功金额(元)/笔数</div>
+              <div class="index-1-data allmoney"></div>
+              <div class="index-1-data allcount"></div>
+            </div>
+            <div class="index-2">
+              <div class="index-1-title">未支付金额(元)/笔数</div>
+              <div class="index-1-data allmoney"></div>
+              <div class="index-1-data allcount"></div>
+            </div>
+            <div class="index-3">
+              <div class="index-1-title">退款金额(元)/笔数</div>
+              <div class="index-1-data allmoney"></div>
+              <div class="index-1-data allcount"></div>
+            </div>
+            <div class="index-4">
+              <div class="index-1-title">支付成功率(%)</div>
+              <div class="index-1-data"></div>
+            </div>
+            <div class="index-5">
+              <div class="index-1-title">交易净额(元)</div>
+              <div class="index-1-data"></div>
+            </div>
+            <div class="index-6">
+              <div class="index-1-title">商户交易手续费(元)</div>
+              <div class="index-1-data"></div>
+            </div>
+          </div>
+        </div>
+        <!--关键指标详解-->
+        <div class="index-detail" style="margin:20px 0 0 0 ;">
+          <div class="index-title">
+            <i></i>
+            <span>交易时刻趋势图</span>
+          </div>
+         
+          <div id="main" style="width: 100%;height:400px;"></div>
+        </div>      
+      </div>
+    </div>
+    <style type="text/css">
+      .tabChange {height:103px;}
+      .tabChange li {border-bottom: 1px solid #d9d9d9;}
+      .allchose {width: 100%; height: 43px; margin-top: 17px; float: left;}
+      .chooseChannel , .chooseCompany ,.choose,.chooseWay{width: 20%; line-height: 0px; float: left; margin: 0 15px;}
+      .data {width: 38%; margin-right: 45px;}
+      .index-1 .allcount , .index-2 .allcount , .index-3 .allcount {margin-top: -5px;font-size: 30px;}
+      .index-1 .allmoney , .index-2 .allmoney , .index-3 .allmoney {margin-top: 12px;font-size: 30px;}
+      .index-4 .index-1-data , .index-5 .index-1-data , .index-6 .index-1-data {margin-top: 8px;}
+    </style>	
+  </body>
+  
+<script type="text/javascript" src="../../public/js/echarts.min.js"></script>
+<script type="text/javascript" src="../../public/js/data.js"></script>
+<script type="text/javascript">
+  var isChange = 0; 
+  $(document).ready(function() {
+    $('select').searchableSelect();
+    isChange++;
+  })
+  // 查询渠道商的商户
+  function showCompany(channelId,companyId){  		
+      var channelId = $("#channelId").val();
+      if(channelId ==null || channelId == ""){
+        if(isChange == 0){
+          return;
+        }
+        $("#companyId").empty();
+        $("#companyId").append('<option value="">全部</option>');
+        $(".chooseCompany .searchable-select").remove();
+        $('#companyId').searchableSelect();
+        getPayWayByChannel(channelId);
+      }else{
+        $("#companyId").empty();
+        $("#appId").empty();
+        $("#appId").append('<option value="">全部</option>');
+        $("#payWay").empty();
+        $("#payWay").append('<option value="">全部</option>');
+        $.ajax({
+          type:"get",
+          url:"${basePath}/Payv2CompanyMoneyClear/showCompany.do?channelId="+channelId,
+          async:true,
+          success:function(data){           
+            if(!!data&&data.resultCode==200){
+              
+              var list = data.Data,
+              str='<option value="">全部</option>';
+              for(var i=0;i<list.length;i++){
+                str+='<option value="'+list[i].id+'">'+list[i].companyName+'</option>';
+              }
+              // console.log(str)
+              $("#companyId").append(str);
+              $(".chooseCompany .searchable-select").remove();
+              $('#companyId').searchableSelect();
+            }else{
+              alert(data.message);
+            }
+          }
+        });
+        //获取渠道商支持的支付渠道
+        getPayWayByChannel(channelId);
+      }
+       
+    };
+
+    
+  function getAppsPayWays(companyId,appId,payWay){
+      // 查询商户的APP
+      var companyId = $("#companyId").val();
+      if(companyId ==null || companyId == ""){
+        if(isChange == 0){
+          return;
+        }
+        $("#appId").empty();
+        $("#appId").append('<option value="">全部</option>');
+        $(".choose .searchable-select").remove();
+        $('#appId').searchableSelect();
+        var channelId = $("#channelId").val();
+        getPayWayByChannel(channelId);
+      }else{
+        $("#appId").empty();
+        $("#appId").append('<option value="">全部</option>');
+        $("#payWay").empty();
+        $("#payWay").append('<option value="">全部</option>');
+        $.ajax({
+          type:"get",
+          url:"${basePath}/Payv2BussiManagerAlldata/getApps.do?companyId="+companyId,
+          async:true,
+          success:function(data){
+            if(!!data&&data.resultCode==200){
+              var list = data.Data,
+                str="";
+                var length = list.length;
+              for(var i=0;i<length;i++){
+                str+='<option value="'+list[i].id+'">'+list[i].appName+'</option>';
+              }
+              $("#appId").append(str);
+              $(".choose .searchable-select").remove();
+              $('#appId').searchableSelect();
+            }else{
+              alert(data.message);
+            }
+          }
+        }); 
+      }
+       // 查询商户的支付渠道
+        if(companyId ==null || companyId == ""){
+          $("#payWay").empty();
+          $("#payWay").append('<option value="">全部</option>');
+        }else{
+          $("#payWay").empty();
+          $("#payWay").append('<option value="">全部</option>');
+          $.ajax({
+            type:"get",
+            url:"${basePath}/Payv2BussiManagerAlldata/getPayWays.do?companyId="+companyId,
+            async:true,
+            success:function(data){
+              if(!!data&&data.resultCode==200){
+                var list = data.Data,
+                  str="";
+                  var length = list.length;
+                for(var i=0;i<length;i++){
+                  str+='<option value="'+list[i].id+'">'+list[i].rateName+'</option>';
+                }
+                $("#payWay").append(str);
+                $(".chooseWay .searchable-select").remove();
+                $('#payWay').searchableSelect();
+              }else{
+                alert(data.message);
+              }
+            }
+          }); 
+        }    
+
+    };
+    //查询渠道商的支付渠道
+    function getPayWayByChannel(channelId){
+      $.ajax({
+            type:"get",
+            url:"${basePath}/Payv2BussiManagerAlldata/getPayWaysByChannel.do?channelId="+channelId,
+            async:true,
+            success:function(data){
+              if(!!data&&data.resultCode==200){
+                var list = data.Data,
+                  str="";
+                  var length = list.length;
+                for(var i=0;i<length;i++){
+                  str+='<option value="'+list[i].id+'">'+list[i].rateName+'</option>';
+                }
+                $("#payWay").append(str);
+                $(".chooseWay .searchable-select").remove();
+                $('#payWay').searchableSelect();
+              }else{
+                alert(data.message);
+              }
+            }
+          }); 
+    }
+
+</script>
+
+</html>

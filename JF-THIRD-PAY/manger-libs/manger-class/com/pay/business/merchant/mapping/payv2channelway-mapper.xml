@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.merchant.mapper.Payv2ChannelWayMapper">
+
+	<resultMap id="payv2channelway_result_map" type="com.pay.business.merchant.entity.Payv2ChannelWay" >
+		<id column="id" property="id" />
+		<result column="channel_id" property="channelId"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_channel_way  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.merchant.entity.Payv2ChannelWay" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_channel_way
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.merchant.entity.Payv2ChannelWay">
+		delete from payv2_channel_way
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.merchant.entity.Payv2ChannelWay">
+		update payv2_channel_way
+		<set>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.merchant.entity.Payv2ChannelWay" resultMap="payv2channelway_result_map">
+		select id,channel_id,pay_way_id,create_time from payv2_channel_way
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2channelway_result_map" >
+		select id,channel_id,pay_way_id,create_time from payv2_channel_way
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2channelway_result_map" >
+		
+		SELECT id,channel_id,pay_way_id,create_time FROM payv2_channel_way 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>代理平台管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 合作渠道商管理 <span class="c-gray en">&gt;</span> 代理平台管理
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+		        <form action="${basePath}/payv2AgentPlatform/payv2AgentPlatformList.do">
+	      		 所属渠道商：<select class="select" id="channelId" name="channelId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if payv2ChannelList?? && payv2ChannelList?size gt 0>
+			           		<#list payv2ChannelList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == map.channelId> selected="selected" </#if>>${dl.channelName!}</option>
+			           		</#list>
+			           		</#if>
+	      		</select>
+	      		平台状态：<select class="select" id="isOpen" name="isOpen" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<option value="1" <#if map.isOpen==1> selected="selected" </#if>>开启</option>
+			           		<option value="2" <#if map.isOpen==2> selected="selected" </#if>>关闭</option>
+	      			</select>
+				<input id="resetButton" class="btn" type="button" value="清空"></input>
+				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont"></i> 搜索 </button>
+			</form>	
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>  
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="10">编号</th>
+						<th width="100">所属渠道商</th>
+						<th width="100">平台ID</th>
+						<th width="100">平台名称</th>
+						<th width="100">平台佣金</th>
+						<th width="100">支持支付通道</th>
+						<th width="100">平台状态</th>
+						<th width="100">创建时间</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.channelName}</td>
+							<td>${dl.id}</td>
+							<td>${dl.platformName}</td>
+							<td>${dl.platformComm}</td>
+							<td>${dl.supportPayWayNumber!}</td>
+							<td>
+							<#if dl.isOpen==1><span class="label-success">开启</span></#if>
+							<#if dl.isOpen==2><span class="label-warning">关闭</span></#if>
+							<td>
+								<#if dl.createTime??>
+									${dl.createTime?string("yyyy-MM-dd")}
+								</#if>
+							</td>
+							<td class="td-manage">
+							<#if dl.isOpen==1>
+								<a title="关闭" href="javascript:;" onclick="platform_update(this,${dl.id!},'关闭','2')"  class="ml-5" style="text-decoration:none">关闭</a> 
+							</#if>
+							<#if dl.isOpen==2>
+								<a title="恢复" href="javascript:;" onclick="platform_update(this,${dl.id!},'启动','1')" class="ml-5" style="text-decoration:none">启动</a>
+							</#if>
+							<a title="线上商户" href="javascript:;" onclick="platform_app('${basePath}/payv2AgentPlatform/payv2AgentPlatformAppList.do?channelId=${dl.channelId}&platformId=${dl.id!}')"  class="ml-5" style="text-decoration:none">线上商户</a> 
+							<a title="线下商户" href="javascript:;" onclick="platform_shop('${basePath}/payv2AgentPlatform/payv2AgentPlatformShopList.do?platformId=${dl.id!}')"  class="ml-5" style="text-decoration:none">线下商户</a> 
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+		 	$("#resetButton").bind("click", function(){
+		 		$("#channelId").val("");
+		 		$("#isOpen").val("");
+		 	});
+		});
+	
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${list.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${list.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/payv2AgentPlatform/payv2AgentPlatformList.do?curPage="+obj.curr +"&pageData="+10
+				 				 +  "&channelId=" + $("#channelId").val()
+				 				 +	"&isOpen=" + $("#isOpen").val();
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+		
+		/* 启用停用 */
+		function platform_update(obj,id,tips,is_open){
+			layer.confirm("确认要"+ tips +"吗？", function(index) {
+				var data = {};
+				data.id = id;
+				data.isOpen = is_open;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2AgentPlatform/updatePayv2AgentPlatform.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已'+tips+'!', {
+							icon : 1,
+							time : 1000
+						});
+						window.location.href="${basePath}/payv2AgentPlatform/payv2AgentPlatformList.do";
+					}else{
+						Huimodal_alert(tips+"失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert(tips+"失败,请重试!",1500);
+				});
+			});
+		}
+		
+		//跳转平台APP页面
+		function platform_app(url){
+			window.location.href = url;
+		}
+		//跳转平台SHOP页面
+		function platform_shop(url){
+			window.location.href = url;
+		}
+	</script>
+</body>
+</html>

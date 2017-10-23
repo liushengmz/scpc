@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.order.mapper.Payv2PayGoodsMapper">
+
+	<resultMap id="payv2paygoods_result_map" type="com.pay.business.order.entity.Payv2PayGoods" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="type" property="type"/>
+		<result column="goods_name" property="goodsName"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_pay_goods  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="goodsName!=null and goodsName!=''">
+				and goods_name like CONCAT('%',#{goodsName},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.order.entity.Payv2PayGoods" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_pay_goods
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="type!=null ">
+				type,
+			</if>
+      		<if test="goodsName!=null ">
+				goods_name,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="type!=null ">
+      			#{type},
+			</if>
+      		<if test="goodsName!=null ">
+      			#{goodsName},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.order.entity.Payv2PayGoods">
+		delete from payv2_pay_goods
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="type!=null ">
+				and type=#{type}
+			</if>
+      		<if test="goodsName!=null ">
+				and goods_name=#{goodsName}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.order.entity.Payv2PayGoods">
+		update payv2_pay_goods
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="type!=null ">
+				type=#{type},
+			</if>
+			<if test="goodsName!=null ">
+				goods_name=#{goodsName},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.order.entity.Payv2PayGoods" resultMap="payv2paygoods_result_map">
+		select id,app_id,type,goods_name,create_time from payv2_pay_goods
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="goodsName!=null ">
+				and goods_name=#{goodsName}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2paygoods_result_map" >
+		select id,app_id,type,goods_name,create_time from payv2_pay_goods
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="goodsName!=null ">
+				and goods_name=#{goodsName}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2paygoods_result_map" >
+		
+		SELECT id,app_id,type,goods_name,create_time FROM payv2_pay_goods 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="goodsName!=null and goodsName!=''">
+				and goods_name like  CONCAT('%',#{goodsName},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertBySelect" parameterType="com.pay.business.order.entity.Payv2PayGoods" useGeneratedKeys="true" keyProperty="id">
+		insert ignore into payv2_pay_goods
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="type!=null ">
+				type,
+			</if>
+      		<if test="goodsName!=null ">
+				goods_name,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="type!=null ">
+      			#{type},
+			</if>
+      		<if test="goodsName!=null ">
+      			#{goodsName},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+</mapper>

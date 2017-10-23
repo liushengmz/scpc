@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>有氧支付商户管理平台账户信息</title>
+		<meta name="renderer" content="webkit|ie-stand">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+		<link rel="stylesheet" href="../public/css/nav.css" />
+		<link rel="shortcut icon" href="../favico.ico" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<!-- <div class="tips fr">
+				<div class="red"></div>
+			</div> -->
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<!-- <div class="users fr line">
+				<span>线上应用</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change2">线下门店</div>
+				</div>
+			</div> -->
+		</header>
+		<nav>
+			<ul>
+				<li class="stair datali" style="cursor: pointer;"><img src="../public/img/sjtj2.png"><span class="c_33">数据统计</span></li>
+				<li class="stair"><img src="../public/img/dd.png"><span class="c_80">订单</span></li>
+				<li class="secondLevel">
+					<a href="orderManager.html" class="c_33">订单管理</a>
+					<a href="refund.html" class="c_33">退款订单</a>
+					<a href="accountManager.html" class="c_33">账单管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/yy.png"><span class="c_80">应用</span></li>
+				<li class="secondLevel">
+					<a href="appManager.html" class="c_33">应用管理</a>
+				</li>
+				<li class="stair"><img src="../public/img/zh.png"><span class="c_80">账户</span></li>
+				<li class="secondLevel ">
+					<a href="account.html" class="c_33 active">账户信息</a>
+				</li>
+			</ul>
+			<div class="dld"><img src="../public/img/dld.png"/><span>下载SDK</span></div>
+		</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：账户信息</div>
+			<!--基础信息-->
+			<div class="ac-tips">
+				<div class="base fl"><i></i><span>基础信息</span></div>
+				<div class="edit fr"><i></i><span>编辑</span></div>
+			</div>
+			<div class="base-infor">
+				<ul>
+					<li class="companyName"><dl><dt class="fl">商户名称：</dt><dd class="fl"></dd></dl></li>
+					<li class="userName"><dl><dt class="fl">商户账号：</dt><dd class="fl"></dd></dl></li>
+					<li class="companyStatus"><dl><dt class="fl">商户状态：</dt><dd class="fl"></dd></dl></li>
+					<li class="companyTradeVar"><dl><dt class="fl">所属行业：</dt><dd class="fl"></dd></dl></li>
+				<!--	<li class="companyRangeCityName"><dl><dt class="fl">所在城市：</dt><dd class="fl"></dd></dl></li> -->
+					<li class="companyAddr"><dl><dt class="fl">联系地址：</dt><dd class="fl"></dd></dl></li>
+					<li class="contactsName"><dl><dt class="fl">管理员名称：</dt><dd class="fl"></dd></dl></li>
+					<li class="contactsPhone"><dl><dt class="fl">联系方式：</dt><dd class="fl"></dd></dl></li>
+					<li class="contactsMail"><dl><dt class="fl">联系邮箱：</dt><dd class="fl"></dd></dl></li>
+
+				</ul>
+			</div>
+			<div class="account-infor">
+				<div class="account-infor-title">
+					<i></i><span>账户信息</span>
+				</div>
+				<ul>
+					<li class="accountType"><dl><dt class="fl">账户类型：</dt><dd class="fl"></dd></dl></li>
+					<li class="accountName"><dl><dt class="fl">开户名称：</dt><dd class="fl"></dd></dl></li>
+					<li class="accountBank"><dl><dt class="fl">开户银行：</dt><dd class="fl"></dd></dl></li>
+					<li class="accountCard"><dl><dt class="fl">银行卡号：</dt><dd class="fl"></dd></dl></li>
+					
+				</ul>
+			</div>
+			<div class="table-account">
+				<div class="account-infor-title">
+					<i></i><span>支付通道及交易手续费</span>
+				</div>
+				<div class="table-c">
+					<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<th class='first'>支付通道</th>
+								<th>交易手续费</th>
+								<th>结算周期</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+				</div>
+				</div>
+			</div>
+			<div class="account-footer">
+				<div class="cancel fl">取消编辑</div>
+				<div class="save fl">保存</div>
+			</div>			
+		</div>
+		<div class="bg">
+			<div class="window3">
+				<div class="top2">
+					修改密码
+					<div style='float:right;width:36px;height:36px;border-radius:0 10px 0 0;'>
+						<i></i>
+					</div>
+				</div>
+				<div class="bottom3">
+					<div class="oldpwd">
+						<label>原密码:</label>
+						<input type="password" placeholder="请输入原密码" />
+						<span style="color:red;font-size:14px;display:none">请输入原密码</span>
+					</div>
+					<div class="newpwd">
+						<label>新密码:</label>
+						<input type="password" placeholder="6-16位密码(数字、字母组成)" />
+						<span style="color:red;font-size:14px;display:none">请输入新密码</span>
+					</div>
+					<div class="newpwda">
+						<label>确认密码:</label>
+						<input type="password" placeholder="请再次输入新密码" />
+						<span style="color:red;font-size:14px;display:none">请再次输入新密码</span>
+					</div>
+					<div class="surebtn">确定</div>
+				</div>
+			</div>
+		</div>
+			<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+			<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+			<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+			<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+			<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+			<script type="text/javascript" src="../public/js/md5.js"></script>
+			<script type="text/javascript" src="../public/js/exit.js"></script>
+			<script type="text/plain" id="trmode">
+				<tr>
+					<td class='first'></td>
+					<td></td>
+					<td></td>
+				</tr>
+            </script>
+			<script>
+				var isSwitch = localStorage.isSwitch,
+					companyName = localStorage.companyname;
+				var statusArr=['','未审核','通过(合作中)','未通过','终止合作'];
+				$(".user span").text(companyName);
+				if(isSwitch == 1) {
+					$(".changeline").remove();
+				}
+				
+				var cname,name,phone,id,param={},param2={};
+				$("body").on("click",".changeline .change2",function(){
+					$.ajax({
+						type:"get",
+						url:"/sys/tabSwitch.do",
+						async:false,
+						success:function(data){
+							console.log(data);
+							if(!!data&&data.resultCode==200){
+								if(data.Data.isTabSwitch==2){
+									location.href="dataOffline.html";
+								}
+							}else{
+								if(!!data.message){
+									alert(data.message);
+								}else{
+									$("body").html(data);
+								}
+							}
+						}
+					})
+				})
+				/*header 事件start*/
+				$(".user i").on("click", function() {
+					$(".changeuser").show();
+				})
+				$(".user").on("mouseleave", function() {
+					$(".changeuser").hide();
+				})
+				$(".user i").on("mouseenter", function() {
+					$(this).css("background-image","url(../public/img/down2.png)");
+				})
+				$(".user i").on("mouseleave", function() {
+					$(this).css("background-image","url(../public/img/down1.png)");
+				})
+				$(".line").on("click mouseenter", function() {
+					$(".changeline").show();
+				})
+				$(".line").on("click mouseleave", function() {
+						$(".changeline").hide();
+				})
+				$(".cancel,.save,.dld").on("mousedown",function(){
+					$(this).css("background-color","#2ea1f9")
+				})
+				$(".cancel,.save,.dld").on("mouseup",function(){
+					$(this).css("background-color","#2581f4")
+				})
+				/*header 事件start*/
+				/*nav 事件start*/
+				$(".datali").on("click",function(){
+					window.location="data.html"
+				})
+				$(".dld").on("click",function(){
+					window.open("http://pay.aijinfu.cn/sdk-download.html")
+				})
+				/*nav 事件end*/
+				/*弹窗start*/
+				$(".show").on("click", function() {
+					$(".bg").show();
+				})
+				$(".closex i").on("click", function() {
+						$(".bg").hide();
+					})
+				/*弹窗start*/
+				/*编辑*/
+				
+				$(".edit").on("click",function(){
+					//console.log()
+					if($(".account-footer").css("display")=='block'){
+						
+					}else{
+						$(this).hide();
+						$(this).addClass("sureclick");
+						$(".account-footer").show();
+						cname=$(".companyName dd").text(),
+						name=$(".contactsName dd").text(),
+						phone=$(".contactsPhone dd").text();
+						$(".companyName dd").html("<input maxlength='30' type='text' placeholder="+$(".companyName dd").text()+" />");
+						$(".contactsName dd").html("<input maxlength='10' type='text' placeholder="+$(".contactsName dd").text()+" />");
+						$(".contactsPhone dd").html("<input type='text' placeholder="+$(".contactsPhone dd").text()+" />");
+						$(".contactsMail dd").html("<input type='mail' placeholder="+$(".contactsMail dd").text()+" />");
+					}
+				})
+				$(".cancel").on("click",function(){
+					$(".companyName dd").html(cname);
+					$(".contactsName dd").html(name);
+					$(".contactsPhone dd").html(phone);
+					$(".account-footer").hide();
+					$(".edit").show()
+				})
+				$(".save").on("click",function(){
+					param.id=id;
+					if($(".contactsPhone dd input").val()){
+						if((/^1[3|4|5|7|8][0-9]\d{8}$/.test($(".contactsPhone dd input").val()))||(/^0\d{2,3}-?\d{7,8}$/.test($(".contactsPhone dd input").val()))){
+							param.companyName=$(".companyName dd input").val()||cname;
+							param.contactsName=$(".contactsName dd input").val()||name;
+							param.contactsPhone=$(".contactsPhone dd input").val()||phone;					
+							$.ajax({
+								type:"get",
+								url:" /online/payv2BussCompany/updatePayv2BussCompany.do",
+								data:param,
+								async:false,
+								success:function(data){
+									//console.log(data);
+									if(!!data&&data.resultCode==200){
+										alert("修改成功");
+										$(".account-footer").hide();
+										getdata();
+										$(".edit").show()
+									}else{
+										if(!!data.message){
+											alert(data.message);
+										}else{
+											$("body").html(data);
+										}
+									}
+								}
+							})
+						}else{
+							alert("号码格式不正确")
+						}
+					}else{
+						param.companyName=$(".companyName dd input").val()||cname;
+						param.contactsName=$(".contactsName dd input").val()||name;
+						param.contactsPhone=$(".contactsPhone dd input").val()||phone;					
+						$.ajax({
+							type:"get",
+							url:" /online/payv2BussCompany/updatePayv2BussCompany.do",
+							data:param,
+							async:false,
+							success:function(data){
+								//console.log(data);
+								if(!!data&&data.resultCode==200){
+									alert("修改成功");
+									$(".account-footer").hide();
+									getdata();
+									$(".edit").show()
+								}else{
+									if(!!data.message){
+										alert(data.message);
+									}else{
+										$("body").html(data);
+									}
+								}
+							}
+						})
+					}
+					
+					
+				})
+				getdata();
+				function getdata(){
+					param2.time=new Date();
+					//console.log(param2);
+					$.ajax({
+						type:"get",
+						url:"/online/payv2BussCompany/toViewPayv2BussCompany.do",
+						data:param2,
+						async:false,
+						success:function(data){
+							console.log(data);
+							if(!!data&&data.resultCode==200){
+								data=data.Data.obj;
+								id=data.id;
+								$(".companyName dd").html(data.companyName);
+								$(".userName dd").html(data.userName);
+								$(".companyStatus dd").html(statusArr[data.companyStatus]);
+								$(".companyTradeVar dd").html(data.companyTradeVar);
+								$(".companyRangeCityName dd").html(data.companyRangeCityName);
+								$(".companyAddr dd").html(data.licenseAddr);
+								$(".contactsName dd").html(data.contactsName);
+								$(".contactsPhone dd").html(data.contactsPhone);
+								$(".contactsMail dd").html(localStorage.mail);
+								if(data.accountType==1){
+									$(".accountType dd").html("对公账户");
+								}else if(data.accountType==2){
+									$(".accountType dd").html("对私账户");
+								}
+								$(".accountName dd").html(data.accountName);
+								$(".accountBank dd").html(data.accountBank);
+								$(".accountCard dd").html(data.accountCard);
+							}else{
+								if(!!data.message){
+									alert(data.message);
+								}else{
+									$("body").html(data);
+								}
+							}
+						}
+					})
+				}
+				gettable()
+				function gettable(){
+					$.ajax({
+						type:"get",
+						url:"/online/payv2BussCompany/getPaywayInfoList.do",
+						async:false,
+						success:function(data){
+							//console.log(data)
+							if(!!data&&data.resultCode==200){
+								inidata(data.Data.paywayList);
+							}else{
+								alert(data.message);
+							}
+							
+						}
+					})
+				}
+				function inidata(obj){
+					//console.log(obj)
+					var str="";
+					if(obj.length){
+						for(var i=0;i<obj.length;i++){
+							str+=$("#trmode").html();
+						}
+						$(".table-c tbody").html(str);
+						for(var i=0;i<obj.length;i++){
+							$(".table-c tbody tr").eq(i).find("td").eq(0).html(obj[i].wayName);
+							$(".table-c tbody tr").eq(i).find("td").eq(1).html(obj[i].payWayRate+"‰");
+							if(obj[i].weekType==1){
+								$(".table-c tbody tr").eq(i).find("td").eq(2).html("T+"+obj[i].wayArrivalValue+"(工作日)");
+							}else if(obj[i].weekType==3){
+								$(".table-c tbody tr").eq(i).find("td").eq(2).html("T+"+obj[i].wayArrivalValue);
+							}else if(obj[i].weekType==2){
+								$(".table-c tbody tr").eq(i).find("td").eq(2).html("实时到账");
+							}else{
+								$(".table-c tbody tr").eq(i).find("td").eq(2).html("");
+							}
+						}
+						$(".table-c tr").eq(obj.length).find("td").addClass("lasttd");
+					}else{
+						$(".table-c tbody").html("暂时没有数据")
+					}
+				}
+			</script>
+
+	</body>
+
+</html>

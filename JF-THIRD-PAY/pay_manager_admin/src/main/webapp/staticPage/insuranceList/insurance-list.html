@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link href="/public/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="/public/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="/public/skin/default/skin.css" rel="stylesheet" type="text/css" />
+<link href="/public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="/public/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/public/css/jPages.css" rel="stylesheet" type="text/css" />
+<link href="/public/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="/public/js/utils/jquery-1.10.2.min.js"></script> 
+<script type="text/javascript" src="/public/lib/bootstrap-modal/2.2.4/bootstrap-modal.js"></script>
+<script type="text/javascript" src="/public/lib/bootstrap-modal/2.2.4/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="/public/lib/layer/1.9.3/layer.js"></script>
+<script type="text/javascript" src="/public/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/public/lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="/public/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="/public/js/H-ui.js"></script> 
+<script type="text/javascript" src="/public/js/jPages.js"></script> 
+<script type="text/javascript" src="/public/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="/public/lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="/public/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script> 
+<script type="text/javascript" src="/public/js/jquery.form.js"></script> 
+<script type="text/javascript" src="/public/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/public/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/public/js/picbox.js"></script>
+<script type="text/javascript" src="/public/js/lightbox.js"></script>
+
+<script type="text/javascript" src="/public/js/utils/util.js"></script>
+<script type="text/javascript" src="/public/js/utils/jquery.cookie.js"></script>
+
+<title>保险列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>金融机构<span class="c-gray en">&gt;</span> 保险列表
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+		           合作方式：<select class="select" datatype="*" nullmsg="请选择！" style="width: 150px">
+		           		<option>全部</option>
+		       	 		<option>CPA</option>
+		       	 		<option>CPS</option>
+		       	 		<option>数据对接</option>
+      			</select>
+			上架状态：<select class="select" datatype="*" nullmsg="请选择！" style="width: 150px">
+						<option>全部</option>
+	        	 		<option>上架</option>
+	        	 		<option>下架</option>
+        			</select>
+        	产品状态：<select class="select" datatype="*" nullmsg="请选择！" style="width: 150px">
+        				<option>全部</option>
+	        	 		<option>已到期</option>
+	        	 		<option>抢购中</option>
+	        	 		<option>已售罄</option>
+        			</select>
+        	<input type="text" value="" placeholder="保险名称" style="width: 150px" class="input-text">
+			<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont"></i> 搜索 </button>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="checkInsuranceMobileList('','insurance-mobile-sortList.html','1600','800')" href="javascript:;">
+					<i class="Hui-iconfont"></i> 查看移动端列表排序
+				</a>
+			</span>
+		    <span class="r"> 
+		    	<button name="" id="exportExcel" class="btn btn-success" type="button" onclick="exportExcel()"> <i class="Hui-iconfont"></i>导出Excel</button>
+			</span>
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>
+			<table class="table table-border table-bordered table-hover table-bg ">
+				<thead>
+					<tr class="text-c">
+							<th width="100">ID</th>
+							<th width="100">保险名称</th>
+							<th width="100">合作方式</th>
+							<th width="100">所属机构</th>
+						    <th width="80">最低保费</th>
+							<th width="80">保费补贴</th>
+							<th width="30">推广总数</th>
+							<th width="30">已售总数</th>
+							<th width="80">上下架状态</th>
+							<th width="40">产品状态</th>
+							<th width="40">推荐状态</th>
+							<th width="100">推广有效期</th>
+							<th width="100">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr class="text-c">
+							<td>1</td>
+							<td>xxxxx</td>
+							<td>CPA</td>
+							<td>xxxxxxx</td>
+							<td>100元</td>
+							<td>0.22%</td>
+							<td>1234元</td>
+							<td>1234元</td>
+							<td>上架</td>
+							<td>已到期</td>
+							<td>推荐</td>
+							<td>Y年Y月Y日~Y年Y月Y日</td>
+							<td class="td-manage">
+								<a title="详情" href="javascript:;" onclick="checkInsuranceDetails('查看详情','insurance-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">详情</i></a>
+								<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+								<i class="Hui-iconfont">|</i>
+								<a title="取消推荐" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">取消推荐</i></a>
+								<a title="下架" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">下架</i></a> 
+								<i class="Hui-iconfont">|</i>
+								<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+							</td>
+						</tr>
+						<tr class="text-c">
+							<td>2</td>
+							<td>xxxxx</td>
+							<td>CPA</td>
+							<td>xxxxxxx</td>
+							<td>100元</td>
+							<td>0.22%</td>
+							<td>1234元</td>
+							<td>1234元</td>
+							<td>下架</td>
+							<td>已到期</td>
+							<td>---</td>
+							<td>Y年Y月Y日~Y年Y月Y日</td>
+							<td class="td-manage">
+								<a title="详情" href="javascript:;" onclick="checkInsuranceDetails('查看详情','insurance-list-details.html')" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">详情</i></a>
+								<a title="购买详情" href="javascript:;" class="btn btn-warning size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">购买详情</i></a> 
+								<i class="Hui-iconfont">|</i>
+								<a title="推荐" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">推荐</i></a>
+								<a title="上架" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">上架</i></a> 
+								<a title="挂起" href="javascript:;" class="btn btn-secondary  size-MINI radius" style="text-decoration:none"><i class="Hui-iconfont">挂起</i></a>
+								<i class="Hui-iconfont">|</i>
+								<a title="编辑" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+								<a title="删除" href="javascript:;" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="page_list">
+	
+		</div>	
+	</div>
+	<script type="text/javascript">
+		/*查看移动端列表排序*/
+		function checkInsuranceMobileList(title, url, w, h) {
+			layer_show(title, url, w, h);
+		}
+		/***查看理财产品详情**/
+		function checkInsuranceDetails(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+	</script>
+</body>
+</html>

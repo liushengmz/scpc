@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../public/css/tenPay.css" />
+	</head>
+	<body>
+		<div class="title">
+			<div class="tlCon">
+				<div class="return"></div>
+				<div class="headline">优惠买单</div>
+			</div>
+		</div>
+		
+		<div class="totalMoney">
+			<div class="address">
+				<i></i><span>郑州天旺广场餐厅</span>
+			</div>
+			<div class="tmCon">
+				<div class="tmUp">
+					<div class="ze fl">消费总额</div>
+					<div class="in fr">
+						<input type="text" class="inpu" placeholder="￥"/>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="tmDown">询问服务员后输入金额</div>
+			</div>
+		</div>
+		<div class="purse">
+			<div class="psPays">
+				<div class="purseIcon fl">
+					<img src="../public/img/btp.png">
+				</div>
+				<div class="purseIntro fl">
+					<div class="purseName">包投钱包</div>
+					<div class="purseOnsale">每日限量随机立减5-20元</div>
+				</div>
+				<div class="purseChoose fr">
+					<img src="../public/img/c1.png">
+				</div>
+				<div class="reduceMoney fr">-￥<span>6.80</span></div>	
+			</div>
+			<div class="download">
+				还没有<span class="name2purse">包投钱包</span>，<span class="downloadPurse">点击此处</span>即可享受支付优惠
+			</div>
+		</div>
+		<div class="btn">微信支付</div>
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script type="text/javascript" src="../public/js/rem.js" ></script>
+		<script>
+			var wx={},
+				choose=1;
+			$(".purseChoose img").on("click",function(){
+				choose++;
+				if(choose%2==0){
+					$(this).attr("src","../public/img/c.png");
+					$(".btn").html("钱包支付");
+				}else{
+					$(this).attr("src","../public/img/c1.png");
+					$(".btn").html("微信支付");
+				}
+				
+			})
+			$(".inpu").on("keyup",function(){
+				var number = String($(".inpu").val());
+				if(isNaN(Number($(".inpu").val()))){
+					$(".inpu").val("");
+					//console.log("请输入正确的数字")
+					alert("请输入正确的数字");
+				}else{
+					if(number.indexOf(".") != -1 && number.slice(number.indexOf("."),number.length).length>2){
+						$(this).val(Number(number).toFixed(2));
+					}
+					if(number < 0){
+						$(this).val(0);
+					}else if(number > 20000){
+						$(this).val(20000);
+					}
+				}
+				
+				//	if(!/^\d{1,4}(\.\d{2})?$/.test($(this).val())){
+				//	alert("请输入0-9999.99之间的数字(可以两位小数)");
+				//	$(this).val("");
+				//	}
+			});
+			//获取url传参
+			function transmit(){
+				var str = window.location.search;
+				str=str.slice(1,str.length);
+				str=str.split("&");
+				var obj={},obj2={};
+				for(var i=0;i<str.length;i++){
+					strs=str[i];
+					strs=strs.split("=");
+					obj[strs[0]]=strs[1];			
+				}
+				
+				for(var key in obj){
+					obj2[key]=decodeURIComponent(obj[key]);
+				}
+				return obj2;
+			}
+			var obj = transmit();
+			$.ajax({
+				type:"get",
+				url:"/payv2BussCompanyShop/getShopName.do",
+				async:true,
+				data:{"shop_key":obj.shop_key},
+				success:function(data){
+					data=JSON.parse(data);
+					if(data.resultCode==200){
+						$(".headline").html(data.Data.shopName);
+						$(".address span").html(data.Data.shopAddress);
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+			$(".btn").on("click",function(){
+				var money=$(".inpu").val();
+				if($(this).html()!="微信支付"){
+					alert("暂不支持钱包支付");
+				}else{
+					$.ajax({
+						type:"get",
+						url:"/payv2BussCompanyShop/wxJSapiServicePay.do",
+						async:false,
+						data:{"shop_key":obj.shop_key,"pay_money":money},
+						success:function(data){
+							data=JSON.parse(data);
+							if(data.resultCode==200){
+								wx=data.Data;
+								wxPay();
+							}else{
+								alert(data.message);
+							}
+						}
+					});
+				}
+			})
+			function wxPay(){
+				function onBridgeReady() {
+					 WeixinJSBridge.invoke(
+						'getBrandWCPayRequest', {
+							"appId":wx.appId, //公众号名称，由商户传入     
+							"timeStamp":wx.timeStamp, //时间戳，自1970年以来的秒数     
+							"nonceStr":wx.nonceStr, //随机串     
+							"package":wx.package,
+							"signType":wx.signType, //微信签名方式：     
+							"paySign":wx.paySign //微信签名  
+						},
+						function(res) {
+							if(res.err_msg == "get_brand_wcpay_request：ok") {} // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+						}
+					); 
+				}
+				 if(typeof WeixinJSBridge == "undefined") {
+					if(document.addEventListener) {
+						document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+					} else if(document.attachEvent) {
+						document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+						document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+					}
+				} else {
+					
+					onBridgeReady();
+				} 
+				 
+			}
+
+		</script>
+	</body>
+</html>

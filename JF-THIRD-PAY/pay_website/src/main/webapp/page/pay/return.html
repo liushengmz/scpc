@@ -1,0 +1,52 @@
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>支付集</title>
+		<link href="../public/css/return.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="title">
+			<div class="tlCon">
+				<div class="headline">支付结果</div>
+			</div>
+		</div>
+		<div class="main">
+			<div id="icon" class="icon" status="${map.result_code!}"></div>
+			<div class="payStatus">支付成功</div>
+			<#if map.payPrice??>
+				<div class="payPrice">${map.payPrice!}元</div>
+			</#if>
+		</div>
+		
+		<#if map.returnUrl??>
+			<a class="return" href="${map.returnUrl!}">回到商户</a>
+		</#if>
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script>
+			/*回调页面*/
+			var a=document.documentElement.clientWidth/7.2;
+			document.documentElement.style.fontSize=a+'px';
+			window.onresize=function(){
+				var a=document.documentElement.clientWidth/7.2;
+				document.documentElement.style.fontSize=a+'px';
+			}
+			if($("#icon").attr("status")==200){
+				$("#icon").addClass("icon").removeClass("icon2");
+				$(".payStatus").html("支付成功");
+			}else{
+				$("#icon").addClass("icon2").removeClass("icon");
+				$(".payStatus").html("支付失败");
+			}
+			/* if($(".return").attr("href")){
+				window.location.href = $(".return").attr("href")
+			} */
+			
+		</script>
+	</body>
+
+</html>

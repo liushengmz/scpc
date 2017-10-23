@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>订单详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-APP-add">
+	<div class="pop_main" style="padding-left:30px;width: 95%;">
+		<div class="panel panel-primary mt-20">
+			<div class="panel-header">订单详情</div>
+			<div class="panel-body mt-20">
+				<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+						<tr>
+							<td style="width:100px;"><strong>订单状态：</strong></td>
+							<td style="width:100px;">
+								<#if payv2PayOrder.payStatus==1>
+									<span class='label label-success radius'>支付成功</span>
+								</#if>
+								<#if payv2PayOrder.payStatus==2>
+									<span class='label label-danger radius'>支付失败</span>
+								</#if>
+								<#if payv2PayOrder.payStatus==3>
+									<span class='label label-danger radius'>未支付</span>
+								</#if>
+								<#if payv2PayOrder.payStatus==4>
+									<span class='label label-danger radius'>超时</span>
+								</#if>
+								<#if payv2PayOrder.payStatus==5>
+									<span class='label label-warning radius'>扣款成功回调失败</span>
+								</#if>
+							</td>
+							<td style="width:100px;"><strong>平台订单号：</strong></td><td style="width:100px;">${payv2PayOrder.orderNum!"&nbsp;"}</td>
+							<td style="width:100px;"><strong>商户订单号：</strong></td><td style="width:100px;">${payv2PayOrder.merchantOrderNum!"&nbsp;"}</td>
+						</tr>
+						<tr>
+							<td style="width:100px;"><strong>上游订单号：</strong></td><td style="width:100px;">${payv2PayOrder.bankTransaction!"&nbsp;"}</td>
+							<td style="width:100px;"><strong>商品名称：</strong></td><td style="width:100px;">${payv2PayOrder.goodsName!"&nbsp;"}</td>
+							<td style="width:100px;"><strong>订单描述：</strong></td><td style="width:100px;">${payv2PayOrder.orderDescribe!"&nbsp;"}</td>
+						</tr>
+						<tr>
+							<td style="width:100px;"><strong>所属渠道商：</strong></td><td style="width:100px;">${payv2PayOrder.channelName!"&nbsp;"}</td>
+							<td style="width:100px;"><strong>所属商户：</strong></td><td style="width:100px;">${payv2PayOrder.companyName!"&nbsp;"}</td>
+							<td style="width:100px;"><strong>所属应用：</strong></td><td style="width:100px;">${payv2PayOrder.appName!}</td>
+						</tr>
+						<tr>
+							<td style="width:100px;"><strong>支付方式：</strong></td><td style="width:100px;">${payv2PayOrder.wayName!"&nbsp;"}</td>
+							<td style="width:100px;"><strong>支付类型：</strong></td><td style="width:100px;"><#if payv2PayOrder.rateType==1>app支付</#if><#if payv2PayOrder.rateType==2>web</#if><#if payv2PayOrder.rateType==3>扫码</#if></td>
+							<td style="width:100px;"><strong>支付通道：</strong></td><td style="width:100px;">${payv2PayOrder.rateName!"&nbsp;"}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div class="panel panel-primary mt-20">
+			<div class="panel-header">交易详情</div>
+			<div class="panel-body mt-20">
+				<table class="table table-border table-bordered table-hover table-bg table-sort">
+					<tbody>
+						<tr>
+							<td style="width:50px;"><strong>交易时间：</strong></td><td style="width:100px;">${payv2PayOrder.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+							<td style="width:50px;"><strong>订单金额：</strong></td><td style="width:100px;">${payv2PayOrder.payMoney!} 元</td>
+							<td style="width:50px;"><strong>通道费：</strong></td><td style="width:100px;">${payv2PayOrder.payWayMoney!} 元</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

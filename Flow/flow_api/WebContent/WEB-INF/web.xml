@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>flow_api</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>CacheInit</servlet-name>
+		<servlet-class>com.system.servlet.LoadCacheServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	
+	<!-- TO CHANNEL USER 的订单请求URL -->
+	<servlet>
+		<servlet-name>UserOrderServlet</servlet-name>
+		<jsp-file>/userorder.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserOrderServlet</servlet-name>
+		<!-- 这里才是访问的URL -->
+		<url-pattern>/userOrder.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- TO BUSINESS CLIENT 订单请求URL -->
+	<servlet>
+		<servlet-name>ClientOrderServlet</servlet-name>
+		<jsp-file>/tobusiness.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClientOrderServlet</servlet-name>
+		<!-- 这里才是访问的URL -->
+		<url-pattern>/clientOrder.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 邓工工代码回调URL -->
+	<servlet>
+		<servlet-name>SpOrderReCallServlet</servlet-name>
+		<jsp-file>/recall.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpOrderReCallServlet</servlet-name>
+		<!-- 这里才是访问的URL -->
+		<url-pattern>/reCall.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- SingleUserOrderServerV1 访问URL -->
+	<servlet>
+		<servlet-name>SingleUserOrderServer</servlet-name>
+		<jsp-file>/scor.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SingleUserOrderServer</servlet-name>
+		<!-- 这里才是访问的URL -->
+		<url-pattern>/cpUserOrder.do</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

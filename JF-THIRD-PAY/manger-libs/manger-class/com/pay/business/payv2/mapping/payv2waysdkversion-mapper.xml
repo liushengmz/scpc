@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2WaySdkVersionMapper">
+
+	<resultMap id="payv2waysdkversion_result_map" type="com.pay.business.payv2.entity.Payv2WaySdkVersion" >
+		<id column="id" property="id" />
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="sdk_file_url" property="sdkFileUrl"/>
+		<result column="sdk_md5" property="sdkMd5"/>
+		<result column="file_size" property="fileSize"/>
+		<result column="sdk_type" property="sdkType"/>
+		<result column="sdk_version" property="sdkVersion"/>
+		<result column="sdk_version_code" property="sdkVersionCode"/>
+		<result column="is_online" property="isOnline"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_way_sdk_version  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="sdkFileUrl!=null and sdkFileUrl!=''">
+				and sdk_file_url like '%'||#{sdkFileUrl}||'%'
+			</if>
+			<if test="sdkMd5!=null and sdkMd5!=''">
+				and sdk_md5 like '%'||#{sdkMd5}||'%'
+			</if>
+			<if test="fileSize!=null and fileSize!=''">
+				and file_size = #{fileSize}
+			</if>
+			<if test="sdkType!=null and sdkType!=''">
+				and sdk_type = #{sdkType}
+			</if>
+			<if test="sdkVersion!=null and sdkVersion!=''">
+				and sdk_version like '%'||#{sdkVersion}||'%'
+			</if>
+			<if test="sdkVersionCode!=null and sdkVersionCode!=''">
+				and sdk_version_code = #{sdkVersionCode}
+			</if>
+			<if test="isOnline!=null and isOnline!=''">
+				and is_online = #{isOnline}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2WaySdkVersion" useGeneratedKeys="true" keyProperty="id" >
+		insert into payv2_way_sdk_version
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="sdkFileUrl!=null ">
+				sdk_file_url,
+			</if>
+      		<if test="sdkMd5!=null ">
+				sdk_md5,
+			</if>
+      		<if test="fileSize!=null ">
+				file_size,
+			</if>
+      		<if test="sdkType!=null ">
+				sdk_type,
+			</if>
+      		<if test="sdkVersion!=null ">
+				sdk_version,
+			</if>
+      		<if test="sdkVersionCode!=null ">
+				sdk_version_code,
+			</if>
+      		<if test="isOnline!=null ">
+				is_online,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="sdkFileUrl!=null ">
+      			#{sdkFileUrl},
+			</if>
+      		<if test="sdkMd5!=null ">
+      			#{sdkMd5},
+			</if>
+      		<if test="fileSize!=null ">
+      			#{fileSize},
+			</if>
+      		<if test="sdkType!=null ">
+      			#{sdkType},
+			</if>
+      		<if test="sdkVersion!=null ">
+      			#{sdkVersion},
+			</if>
+      		<if test="sdkVersionCode!=null ">
+      			#{sdkVersionCode},
+			</if>
+      		<if test="isOnline!=null ">
+      			#{isOnline},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2WaySdkVersion">
+		delete from payv2_way_sdk_version
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="sdkFileUrl!=null ">
+				and sdk_file_url=#{sdkFileUrl}
+			</if>
+      		<if test="sdkMd5!=null ">
+				and sdk_md5=#{sdkMd5}
+			</if>
+      		<if test="fileSize!=null ">
+				and file_size=#{fileSize}
+			</if>
+      		<if test="sdkType!=null ">
+				and sdk_type=#{sdkType}
+			</if>
+      		<if test="sdkVersion!=null ">
+				and sdk_version=#{sdkVersion}
+			</if>
+      		<if test="sdkVersionCode!=null ">
+				and sdk_version_code=#{sdkVersionCode}
+			</if>
+      		<if test="isOnline!=null ">
+				and is_online=#{isOnline}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2WaySdkVersion">
+		update payv2_way_sdk_version
+		<set>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="sdkFileUrl!=null ">
+				sdk_file_url=#{sdkFileUrl},
+			</if>
+			<if test="sdkMd5!=null ">
+				sdk_md5=#{sdkMd5},
+			</if>
+			<if test="fileSize!=null ">
+				file_size=#{fileSize},
+			</if>
+			<if test="sdkType!=null ">
+				sdk_type=#{sdkType},
+			</if>
+			<if test="sdkVersion!=null ">
+				sdk_version=#{sdkVersion},
+			</if>
+			<if test="sdkVersionCode!=null ">
+				sdk_version_code=#{sdkVersionCode},
+			</if>
+			<if test="isOnline!=null ">
+				is_online=#{isOnline},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2WaySdkVersion" resultMap="payv2waysdkversion_result_map">
+		select id,pay_way_id,sdk_file_url,sdk_md5,file_size,sdk_type,sdk_version,sdk_version_code,is_online,is_delete,create_time,update_time from payv2_way_sdk_version
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="sdkFileUrl!=null ">
+				and sdk_file_url=#{sdkFileUrl}
+			</if>
+			<if test="sdkMd5!=null ">
+				and sdk_md5=#{sdkMd5}
+			</if>
+			<if test="fileSize!=null ">
+				and file_size=#{fileSize}
+			</if>
+			<if test="sdkType!=null ">
+				and sdk_type=#{sdkType}
+			</if>
+			<if test="sdkVersion!=null ">
+				and sdk_version=#{sdkVersion}
+			</if>
+			<if test="sdkVersionCode!=null ">
+				and sdk_version_code=#{sdkVersionCode}
+			</if>
+			<if test="isOnline!=null ">
+				and is_online=#{isOnline}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2waysdkversion_result_map" >
+		select id,pay_way_id,sdk_file_url,sdk_md5,file_size,sdk_type,sdk_version,sdk_version_code,is_online,is_delete,create_time,update_time from payv2_way_sdk_version
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="sdkFileUrl!=null ">
+				and sdk_file_url=#{sdkFileUrl}
+			</if>
+			<if test="sdkMd5!=null ">
+				and sdk_md5=#{sdkMd5}
+			</if>
+			<if test="fileSize!=null ">
+				and file_size=#{fileSize}
+			</if>
+			<if test="sdkType!=null ">
+				and sdk_type=#{sdkType}
+			</if>
+			<if test="sdkVersion!=null ">
+				and sdk_version=#{sdkVersion}
+			</if>
+			<if test="sdkVersionCode!=null ">
+				and sdk_version_code=#{sdkVersionCode}
+			</if>
+			<if test="isOnline!=null ">
+				and is_online=#{isOnline}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2waysdkversion_result_map" >
+		
+		SELECT id,pay_way_id,sdk_file_url,sdk_md5,file_size,sdk_type,sdk_version,sdk_version_code,is_online,is_delete,create_time,update_time FROM payv2_way_sdk_version 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="sdkFileUrl!=null and sdkFileUrl!=''">
+				and sdk_file_url like '%'||#{sdkFileUrl}||'%'
+			</if>
+			<if test="sdkMd5!=null and sdkMd5!=''">
+				and sdk_md5 like '%'||#{sdkMd5}||'%'
+			</if>
+			<if test="fileSize!=null and fileSize!=''">
+				and file_size = #{fileSize}
+			</if>
+			<if test="sdkType!=null and sdkType!=''">
+				and sdk_type = #{sdkType}
+			</if>
+			<if test="sdkVersion!=null and sdkVersion!=''">
+				and sdk_version like '%'||#{sdkVersion}||'%'
+			</if>
+			<if test="sdkVersionCode!=null and sdkVersionCode!=''">
+				and sdk_version_code = #{sdkVersionCode}
+			</if>
+			<if test="isOnline!=null and isOnline!=''">
+				and is_online = #{isOnline}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+		<!-- 分页 -->
+	<select id="getLastVersion" resultMap="payv2waysdkversion_result_map" >
+		
+		SELECT id,pay_way_id,sdk_file_url,sdk_md5,file_size,sdk_type,sdk_version,sdk_version_code,is_online,is_delete,create_time,update_time FROM payv2_way_sdk_version 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="sdkFileUrl!=null and sdkFileUrl!=''">
+				and sdk_file_url like '%'||#{sdkFileUrl}||'%'
+			</if>
+			<if test="sdkMd5!=null and sdkMd5!=''">
+				and sdk_md5 like '%'||#{sdkMd5}||'%'
+			</if>
+			<if test="fileSize!=null and fileSize!=''">
+				and file_size = #{fileSize}
+			</if>
+			<if test="sdkType!=null and sdkType!=''">
+				and sdk_type = #{sdkType}
+			</if>
+			<if test="sdkVersion!=null and sdkVersion!=''">
+				and sdk_version like '%'||#{sdkVersion}||'%'
+			</if>
+			<if test="sdkVersionCode!=null and sdkVersionCode!=''">
+				and sdk_version_code = #{sdkVersionCode}
+			</if>
+			<if test="isOnline!=null and isOnline!=''">
+				and is_online = #{isOnline}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			ORDER BY sdk_version_code DESC limit 1
+	</select>
+	
+</mapper>

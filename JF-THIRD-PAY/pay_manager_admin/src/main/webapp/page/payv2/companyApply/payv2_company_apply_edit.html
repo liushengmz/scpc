@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>编辑客户信息</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<form action="" method="post" class="form form-horizontal" id="form-apply-update">
+	<input type="hidden" name="id" value="${obj.id}"/>
+	<div class="pop_main">
+		<h3>客户信息</h3>
+		<dl>
+			<dt><label>公司名字：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填写商户公司名称" name="companyName" class="dd_input" value="${obj.companyName}"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人：</label></dt>
+			<dd>
+			<input type="text" dataType="*" nullmsg="请填营业执照号码" name="contactsName" class="dd_input" value="${obj.contactsName}"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系电话：</label></dt>
+			<dd>
+			<input type="text" dataType="*" nullmsg="请填营业执照号码" name="contactsPhone" class="dd_input" value="${obj.contactsPhone}"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系邮箱：</label></dt>
+			<dd>
+			<input type="text" dataType="*" nullmsg="请填营业执照号码" name="email" class="dd_input" value="${obj.email}"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>信息类型：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司规模" name="sourceType" style="width:100px;">
+					<option value="1" <#if obj.sourceType==1>selected="selected"</#if>>商户app申请账号</option>
+					<option value="2" <#if obj.sourceType==2>selected="selected"</#if>>官网申请账号</option>
+					<option value="3" <#if obj.sourceType==3>selected="selected"</#if>>官网联系我们</option>
+				</select>
+			</dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" value="确定" onclick="submitButt()">
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+$(function(){
+	$("#form-apply-update").Validform({
+		tiptype:3,
+		showAllError:true,   //表单提交时显示所有提示信息
+		ignoreHidden: true,  //隐藏的表单元素不校验
+		ajaxPost:true,
+		callback:function(data){
+			//后台请求保存数据
+			$.Hidemsg()
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/payv2CompanyApply/applyList.do?curPage=1&pageData=10");
+				parent.layer.close();
+			}else{
+				layer.msg(data.message, {
+					icon : 1,
+					time : 1000
+				});
+			}
+			
+		}
+	});
+	
+});
+function submitButt(){
+	$("#form-apply-update").attr( "action","${basePath}/payv2CompanyApply/updateApplySubmit.do").submit(); 
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.record.mapper.PayDataRecordMapper">
+
+	<resultMap id="paydatarecord_result_map" type="com.pay.business.record.entity.PayDataRecord" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="channel_id" property="channelId"/>
+		<result column="rate_id" property="rateId"/>
+		<result column="way_id" property="wayId"/>
+		<result column="no_pay_amount" property="noPayAmount"/>
+		<result column="no_pay_count" property="noPayCount"/>
+		<result column="pay_amount" property="payAmount"/>
+		<result column="pay_count" property="payCount"/>
+		<result column="refund_amount" property="refundAmount"/>
+		<result column="refund_count" property="refundCount"/>
+		<result column="pay_net" property="payNet"/>
+		<result column="rate_amount" property="rateAmount"/>
+		<result column="rate_cost" property="rateCost"/>
+		<result column="rate_profit" property="rateProfit"/>
+		<result column="record_time" property="recordTime"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from pay_data_record  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="wayId!=null and wayId!=''">
+				and way_id = #{wayId}
+			</if>
+			<if test="noPayAmount!=null and noPayAmount!=''">
+				and no_pay_amount like CONCAT('%',#{noPayAmount},'%')
+			</if>
+			<if test="noPayCount!=null and noPayCount!=''">
+				and no_pay_count = #{noPayCount}
+			</if>
+			<if test="payAmount!=null and payAmount!=''">
+				and pay_amount like CONCAT('%',#{payAmount},'%')
+			</if>
+			<if test="payCount!=null and payCount!=''">
+				and pay_count = #{payCount}
+			</if>
+			<if test="refundAmount!=null and refundAmount!=''">
+				and refund_amount like CONCAT('%',#{refundAmount},'%')
+			</if>
+			<if test="refundCount!=null and refundCount!=''">
+				and refund_count = #{refundCount}
+			</if>
+			<if test="payNet!=null and payNet!=''">
+				and pay_net like CONCAT('%',#{payNet},'%')
+			</if>
+			<if test="rateAmount!=null and rateAmount!=''">
+				and rate_amount like CONCAT('%',#{rateAmount},'%')
+			</if>
+			<if test="rateCost!=null and rateCost!=''">
+				and rate_cost like CONCAT('%',#{rateCost},'%')
+			</if>
+			<if test="rateProfit!=null and rateProfit!=''">
+				and rate_profit like CONCAT('%',#{rateProfit},'%')
+			</if>
+			<if test="recordTimeBegin!=null and recordTimeBegin!=''">
+				and record_time <![CDATA[ >= ]]> str_to_date(#{recordTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="recordTimeEnd!=null and recordTimeEnd!=''">
+				and record_time <![CDATA[ <= ]]> str_to_date(#{recordTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.record.entity.PayDataRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into pay_data_record
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="rateId!=null ">
+				rate_id,
+			</if>
+      		<if test="wayId!=null ">
+				way_id,
+			</if>
+      		<if test="noPayAmount!=null ">
+				no_pay_amount,
+			</if>
+      		<if test="noPayCount!=null ">
+				no_pay_count,
+			</if>
+      		<if test="payAmount!=null ">
+				pay_amount,
+			</if>
+      		<if test="payCount!=null ">
+				pay_count,
+			</if>
+      		<if test="refundAmount!=null ">
+				refund_amount,
+			</if>
+      		<if test="refundCount!=null ">
+				refund_count,
+			</if>
+      		<if test="payNet!=null ">
+				pay_net,
+			</if>
+      		<if test="rateAmount!=null ">
+				rate_amount,
+			</if>
+      		<if test="rateCost!=null ">
+				rate_cost,
+			</if>
+      		<if test="rateProfit!=null ">
+				rate_profit,
+			</if>
+      		<if test="recordTime!=null ">
+				record_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="rateId!=null ">
+      			#{rateId},
+			</if>
+      		<if test="wayId!=null ">
+      			#{wayId},
+			</if>
+      		<if test="noPayAmount!=null ">
+      			#{noPayAmount},
+			</if>
+      		<if test="noPayCount!=null ">
+      			#{noPayCount},
+			</if>
+      		<if test="payAmount!=null ">
+      			#{payAmount},
+			</if>
+      		<if test="payCount!=null ">
+      			#{payCount},
+			</if>
+      		<if test="refundAmount!=null ">
+      			#{refundAmount},
+			</if>
+      		<if test="refundCount!=null ">
+      			#{refundCount},
+			</if>
+      		<if test="payNet!=null ">
+      			#{payNet},
+			</if>
+      		<if test="rateAmount!=null ">
+      			#{rateAmount},
+			</if>
+      		<if test="rateCost!=null ">
+      			#{rateCost},
+			</if>
+      		<if test="rateProfit!=null ">
+      			#{rateProfit},
+			</if>
+      		<if test="recordTime!=null ">
+      			#{recordTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.record.entity.PayDataRecord">
+		delete from pay_data_record
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+      		<if test="wayId!=null ">
+				and way_id=#{wayId}
+			</if>
+      		<if test="noPayAmount!=null ">
+				and no_pay_amount=#{noPayAmount}
+			</if>
+      		<if test="noPayCount!=null ">
+				and no_pay_count=#{noPayCount}
+			</if>
+      		<if test="payAmount!=null ">
+				and pay_amount=#{payAmount}
+			</if>
+      		<if test="payCount!=null ">
+				and pay_count=#{payCount}
+			</if>
+      		<if test="refundAmount!=null ">
+				and refund_amount=#{refundAmount}
+			</if>
+      		<if test="refundCount!=null ">
+				and refund_count=#{refundCount}
+			</if>
+      		<if test="payNet!=null ">
+				and pay_net=#{payNet}
+			</if>
+      		<if test="rateAmount!=null ">
+				and rate_amount=#{rateAmount}
+			</if>
+      		<if test="rateCost!=null ">
+				and rate_cost=#{rateCost}
+			</if>
+      		<if test="rateProfit!=null ">
+				and rate_profit=#{rateProfit}
+			</if>
+      		<if test="recordTime!=null ">
+				and record_time=#{recordTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.record.entity.PayDataRecord">
+		update pay_data_record
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="rateId!=null ">
+				rate_id=#{rateId},
+			</if>
+			<if test="wayId!=null ">
+				way_id=#{wayId},
+			</if>
+			<if test="noPayAmount!=null ">
+				no_pay_amount=#{noPayAmount},
+			</if>
+			<if test="noPayCount!=null ">
+				no_pay_count=#{noPayCount},
+			</if>
+			<if test="payAmount!=null ">
+				pay_amount=#{payAmount},
+			</if>
+			<if test="payCount!=null ">
+				pay_count=#{payCount},
+			</if>
+			<if test="refundAmount!=null ">
+				refund_amount=#{refundAmount},
+			</if>
+			<if test="refundCount!=null ">
+				refund_count=#{refundCount},
+			</if>
+			<if test="payNet!=null ">
+				pay_net=#{payNet},
+			</if>
+			<if test="rateAmount!=null ">
+				rate_amount=#{rateAmount},
+			</if>
+			<if test="rateCost!=null ">
+				rate_cost=#{rateCost},
+			</if>
+			<if test="rateProfit!=null ">
+				rate_profit=#{rateProfit},
+			</if>
+			<if test="recordTime!=null ">
+				record_time=#{recordTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.record.entity.PayDataRecord" resultMap="paydatarecord_result_map">
+		select id,app_id,company_id,channel_id,rate_id,way_id,no_pay_amount,no_pay_count,pay_amount,pay_count,refund_amount,refund_count,pay_net,rate_amount,rate_cost,rate_profit,record_time,create_time from pay_data_record
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="wayId!=null ">
+				and way_id=#{wayId}
+			</if>
+			<if test="noPayAmount!=null ">
+				and no_pay_amount=#{noPayAmount}
+			</if>
+			<if test="noPayCount!=null ">
+				and no_pay_count=#{noPayCount}
+			</if>
+			<if test="payAmount!=null ">
+				and pay_amount=#{payAmount}
+			</if>
+			<if test="payCount!=null ">
+				and pay_count=#{payCount}
+			</if>
+			<if test="refundAmount!=null ">
+				and refund_amount=#{refundAmount}
+			</if>
+			<if test="refundCount!=null ">
+				and refund_count=#{refundCount}
+			</if>
+			<if test="payNet!=null ">
+				and pay_net=#{payNet}
+			</if>
+			<if test="rateAmount!=null ">
+				and rate_amount=#{rateAmount}
+			</if>
+			<if test="rateCost!=null ">
+				and rate_cost=#{rateCost}
+			</if>
+			<if test="rateProfit!=null ">
+				and rate_profit=#{rateProfit}
+			</if>
+			<if test="recordTime!=null ">
+				and record_time=#{recordTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="paydatarecord_result_map" >
+		select id,app_id,company_id,channel_id,rate_id,way_id,no_pay_amount,no_pay_count,pay_amount,pay_count,refund_amount,refund_count,pay_net,rate_amount,rate_cost,rate_profit,record_time,create_time from pay_data_record
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="wayId!=null ">
+				and way_id=#{wayId}
+			</if>
+			<if test="noPayAmount!=null ">
+				and no_pay_amount=#{noPayAmount}
+			</if>
+			<if test="noPayCount!=null ">
+				and no_pay_count=#{noPayCount}
+			</if>
+			<if test="payAmount!=null ">
+				and pay_amount=#{payAmount}
+			</if>
+			<if test="payCount!=null ">
+				and pay_count=#{payCount}
+			</if>
+			<if test="refundAmount!=null ">
+				and refund_amount=#{refundAmount}
+			</if>
+			<if test="refundCount!=null ">
+				and refund_count=#{refundCount}
+			</if>
+			<if test="payNet!=null ">
+				and pay_net=#{payNet}
+			</if>
+			<if test="rateAmount!=null ">
+				and rate_amount=#{rateAmount}
+			</if>
+			<if test="rateCost!=null ">
+				and rate_cost=#{rateCost}
+			</if>
+			<if test="rateProfit!=null ">
+				and rate_profit=#{rateProfit}
+			</if>
+			<if test="recordTime!=null ">
+				and record_time=#{recordTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="paydatarecord_result_map" >
+		
+		SELECT id,app_id,company_id,channel_id,rate_id,way_id,no_pay_amount,no_pay_count,pay_amount,pay_count,refund_amount,refund_count,pay_net,rate_amount,rate_cost,rate_profit,record_time,create_time FROM pay_data_record 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="wayId!=null and wayId!=''">
+				and way_id = #{wayId}
+			</if>
+			<if test="noPayAmount!=null and noPayAmount!=''">
+				and no_pay_amount like  CONCAT('%',#{noPayAmount},'%')
+			</if>
+			<if test="noPayCount!=null and noPayCount!=''">
+				and no_pay_count = #{noPayCount}
+			</if>
+			<if test="payAmount!=null and payAmount!=''">
+				and pay_amount like  CONCAT('%',#{payAmount},'%')
+			</if>
+			<if test="payCount!=null and payCount!=''">
+				and pay_count = #{payCount}
+			</if>
+			<if test="refundAmount!=null and refundAmount!=''">
+				and refund_amount like  CONCAT('%',#{refundAmount},'%')
+			</if>
+			<if test="refundCount!=null and refundCount!=''">
+				and refund_count = #{refundCount}
+			</if>
+			<if test="payNet!=null and payNet!=''">
+				and pay_net like  CONCAT('%',#{payNet},'%')
+			</if>
+			<if test="rateAmount!=null and rateAmount!=''">
+				and rate_amount like  CONCAT('%',#{rateAmount},'%')
+			</if>
+			<if test="rateCost!=null and rateCost!=''">
+				and rate_cost like  CONCAT('%',#{rateCost},'%')
+			</if>
+			<if test="rateProfit!=null and rateProfit!=''">
+				and rate_profit like  CONCAT('%',#{rateProfit},'%')
+			</if>
+			<if test="recordTimeBegin!=null and recordTimeBegin!=''">
+				and record_time <![CDATA[ >= ]]> str_to_date(#{recordTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="recordTimeEnd!=null and recordTimeEnd!=''">
+				and record_time <![CDATA[ <= ]]> str_to_date(#{recordTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 关键数据获取-->
+	<select id="curxData" resultMap="paydatarecord_result_map" >
+		select 	sum(pay_amount) as pay_amount,
+				sum(pay_count) as pay_count,
+				IFNULL(sum(no_pay_amount), 0) AS noPayAmount,
+				IFNULL(count(no_pay_count), 0) AS noPayCount,
+				sum(refund_amount) as refund_amount,
+				sum(refund_count) as refund_count,
+				sum(pay_net) as pay_net,
+				sum(rate_amount) as rate_amount 
+		from pay_data_record
+		<where>
+			<if test="appId!=null and appId!=''">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id=#{companyId}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id=#{channelId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id=#{rateId}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and str_to_date(record_time,  '%Y-%m-%d %H') &lt;= str_to_date(#{endTime},  '%Y-%m-%d %H')
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and str_to_date(record_time,  '%Y-%m-%d %H') &gt;= str_to_date(#{startTime},  '%Y-%m-%d %H')
+			</if>			
+		</where>
+	</select>
+	
+	<!--以小时为单位查询趋势图数据 -->
+	<select id="groupByHour" resultMap="paydatarecord_result_map" >
+		select sum(pay_amount) as pay_amount,sum(pay_count) as pay_count,record_time from pay_data_record
+		<where>
+			<if test="appId!=null and appId!=''">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id=#{companyId}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id=#{channelId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id=#{rateId}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and str_to_date(record_time,  '%Y-%m-%d %H') &lt;= str_to_date(#{endTime},  '%Y-%m-%d %H')
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and str_to_date(record_time,  '%Y-%m-%d %H') &gt;= str_to_date(#{startTime},  '%Y-%m-%d %H')
+			</if>
+		</where>
+		group by str_to_date(record_time,  '%Y-%m-%d %H')
+	</select>
+	
+	<!--以天为单位查询趋势图数据 -->
+	<select id="groupByDay" resultMap="paydatarecord_result_map" >
+		select sum(pay_amount) as pay_amount ,sum(pay_count) as pay_count,record_time from pay_data_record
+		<where>
+			<if test="appId!=null and appId!=''">
+				and app_id=#{appId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id=#{companyId}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id=#{channelId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id=#{rateId}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and str_to_date(record_time,  '%Y-%m-%d %H') &lt;= str_to_date(#{endTime},  '%Y-%m-%d %H')
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and str_to_date(record_time,  '%Y-%m-%d %H') &gt;= str_to_date(#{startTime},  '%Y-%m-%d %H')
+			</if>
+		</where>
+		group by str_to_date(record_time,  '%Y-%m-%d')
+	</select>
+</mapper>

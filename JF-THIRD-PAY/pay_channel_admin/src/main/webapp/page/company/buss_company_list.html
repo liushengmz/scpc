@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>商户管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 商户管理
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+		        <form action="${basePath}/payv2BussCompany/companyList.do">
+		        <input type="text" id="companyName" name="companyName" value="${map.companyName}" placeholder="商户名称" style="width: 150px" class="input-text">
+				 商户规模：<select class="select" id="companyScale" name="companyScale" style="width: 150px">
+							<option value="">全部</option>
+		        	 		<option value="1" <#if map.companyScale==1> selected="selected" </#if>>大型</option>
+		        	 		<option value="2" <#if map.companyScale==2> selected="selected" </#if>>中型</option>
+		        	 		<option value="3" <#if map.companyScale==3> selected="selected" </#if>>小型</option>
+		        	 		<option value="4" <#if map.companyScale==4> selected="selected" </#if>>微型</option>
+		        	 		<option value="5" <#if map.companyScale==5> selected="selected" </#if>>个体户</option>
+	        			</select>
+				  营业范围：<select class="select" style="width: 150px" name="companyRangeProvince" id="companyRangeProvince" onchange="cityChange('companyRangeProvince','companyRangeCity')">
+							<option value="">全国</option>
+							<#if provincesList?? && provincesList?size gt 0>
+							<#list provincesList as dl >
+								<option value="${dl.id}" <#if dl.id==map.companyRangeProvince>selected="selected"</#if>>${dl.name}</option>
+							</#list>
+							</#if>
+						</select>
+						<select class="select" style="width: 150px" name="companyRangeCity" id="companyRangeCity">
+							<option value="">市</option>
+							<#if cityList?? && cityList?size gt 0>
+							<#list cityList as dl >
+								<option value="${dl.id}" <#if dl.id==map.companyRangeCity>selected="selected"</#if>>${dl.name}</option>
+							</#list>
+							</#if>
+						</select>
+	        	 状态：<select class="select" datatype="*" id="companyStatus" name="companyStatus" nullmsg="请选择！" style="width: 150px">
+							<option value="">全部</option>
+		        	 		<option value="1" <#if map.companyStatus==1> selected="selected" </#if>>未审核</option>
+		        	 		<option value="2" <#if map.companyStatus==2> selected="selected" </#if>>通过</option>
+		        	 		<option value="3" <#if map.companyStatus==3> selected="selected" </#if>>未通过</option>
+		        	 		<option value="4" <#if map.companyStatus==4> selected="selected" </#if>>终止合作</option>
+	        			</select>		
+				<input id="resetButton" class="btn" type="button" value="清空"></input>
+				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont"></i> 搜索 </button>
+			</form>	
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" href="javascript:;" onclick="bussCompany_add('新增商户','${basePath}/payv2BussCompany/toPayv2BussCompany.do',1250);">
+					<i class="Hui-iconfont">&#xe600;</i> 新增商户
+				</a>
+			</span> 
+			<span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>  
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="40">ID</th>
+						<!-- <th width="40">商户ID</th> -->
+						<th width="150">商户名称</th>
+						<th width="150">营业类型</th>
+						<th width="150">商户规模</th>
+						<th width="150">营业范围</th>
+						<th width="150">当前状态</th>
+						<th width="100">创建时间</th>
+						<th width="500">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<!-- <td>${dl.id!}</td> -->
+							<td>${dl.companyName!}</td>
+							<td>
+								<#if dl.licenseType==1>
+									线上（互联网）
+								</#if>
+								<#if dl.licenseType==2>
+									线下（实体店铺）
+								</#if>
+								<#if dl.licenseType==3>
+									线上+线下
+								</#if>
+							</td>
+							<td>
+								<#if dl.companyScale==1>
+									大型
+								</#if>
+								<#if dl.companyScale==2>
+									中型
+								</#if>
+								<#if dl.companyScale==3>
+									小型
+								</#if>
+								<#if dl.companyScale==4>
+									微型
+								</#if>
+								<#if dl.companyScale==5>
+									个体户
+								</#if>
+							</td>
+							
+							<td>${dl.bussRange!}</td>
+							<td>
+							<#if dl.companyStatus==1><span class="label-success radius">待审核</span></#if>
+							<#if dl.companyStatus==2><span class="badge-success radius">通过</span></#if>
+							<#if dl.companyStatus==3><span class="label-danger radius">未通过</span></#if>
+							<#if dl.companyStatus==4><span class="badge-danger radius">终止合作</span></#if>
+							</td>
+							<td>
+								<#if dl.createTime??>
+									${dl.createTime?string("yyyy-MM-dd")}
+								</#if>
+							</td>
+							<td class="td-manage">
+								<#if dl.companyStatus==1>
+									<a title="查看" href="javascript:;"  onclick="company_edit('查看商户','${basePath}/payv2BussCompany/viewDetail.do?type=1&id='+${dl.id!},1250);"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">查看</i></a>
+								</#if>
+								<#if dl.companyStatus==2>
+									<a title="编辑" href="javascript:;"  onclick="company_edit('编辑商户','${basePath}/payv2BussCompany/editDetail.do?id='+${dl.id!},1250);"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">编辑</i></a>
+									<a title="查看订单" href="${basePath}/Payv2PayOrder/getPayv2PayOrderList.do?companyId=${dl.id!}"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">查看订单</i></a>
+								<#if dl.licenseType==1>
+								<a title="APP列表" href="${basePath}/payv2BussCompanyApp/payv2BussCompanyAppList.do?companyId=${dl.id!}"   class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">APP列表</i></a>
+								</#if>
+								<#if dl.licenseType==2>
+								<a title="管理店铺" href="${basePath}/payv2BussCompanyShop/payv2BussCompanyShopList.do?companyId=${dl.id!}"   class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">管理店铺</i></a>
+								</#if>
+								<#if dl.licenseType==3>
+								<a title="APP列表" href="${basePath}/payv2BussCompanyApp/payv2BussCompanyAppList.do?companyId=${dl.id!}"   class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">APP列表</i></a>
+								<a title="管理店铺" href="${basePath}/payv2BussCompanyShop/payv2BussCompanyShopList.do?companyId=${dl.id!}"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">管理店铺</i></a>
+								</#if>
+								
+								</#if>
+								<#if dl.companyStatus==3>
+									<a title="查看原因" href="javascript:;"  onclick="company_view('查看原因','${basePath}/payv2BussCompany/toViewFailReason.do?id='+${dl.id!},1000);"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">查看原因</i></a>
+									<a title="编辑" href="javascript:;"  onclick="company_edit('编辑商户','${basePath}/payv2BussCompany/editDetail.do?id='+${dl.id!},1250);"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">编辑</i></a>
+								</#if>
+								<#if dl.companyStatus==4>
+									<a title="查看订单" href="${basePath}/Payv2PayOrder/getPayv2PayOrderList.do?companyId=${dl.id!}"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">查看订单</i></a>
+								</#if>
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<#if list.dataList?? && list.dataList?size gt 0>
+				<div class="page_list">
+				</div>
+			</#if>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+		 	$("#resetButton").bind("click", function(){
+		 		$("#companyName").val("");
+		 		$("#companyRangeProvince").val("");
+		 		$("#companyRangeCity").val("");
+		 		$("#companyStatus").val("");
+		 		$("#companyScale").val("");
+		 	});
+		});
+	
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${list.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${list.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/payv2BussCompany/companyList.do?curPage="+obj.curr +"&pageData="+10
+		 	         			 + "&companyName=" + $("#companyName").val()
+		 	    		 		 + "&companyRangeProvince=" + $("#companyRangeProvince").val()
+		 	    		 		 + "&companyRangeCity=" + $("#companyRangeCity").val()
+		 	    		 		 + "&companyStatus=" + $("#companyStatus").val()
+		 	    		 		 + "&companyScale=" + $("#companyScale").val();
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+		function cityChange(proId,cityId){
+			var pro = $("#"+proId).val();
+			$("#"+cityId).empty();
+			if(pro==""){
+				$("#"+cityId).append('<option value="">市</option>');
+			}else{
+				$.ajax({
+					type:"get",
+					url:"${basePath}/payv2BussCompany/proCity.do?parentId="+pro,
+					async:true,
+					success:function(data){
+						if(!!data&&data.resultCode==200){
+							var list = data.Data,
+								str="";
+							for(var i=0;i<list.length;i++){
+								str+='<option value="'+list[i].id+'">'+list[i].name+'</option>'
+							}
+							$("#"+cityId).append(str);
+						}else{
+							alert(data.message);
+						}
+					}
+				});
+			}
+		}
+		
+		/*增加*/
+		function bussCompany_add(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+		
+		//编辑
+		function company_edit(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+		//查看支付通道
+		function getSupportPayWayList(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+		//查看订单
+		function getPayv2PayOrderList(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+		/*查看原因*/
+		function company_view(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+		//管理商铺
+		function payv2BussCompanyShopList(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+		/*删除*/
+		function del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/lifeGoods/deleteGoods.do",  data, function(d){
+					if(d.resultCode == 200){
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						Huimodal_alert("删除失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("删除失败,请重试!",1500);
+				});
+			});
+		}
+		
+		//上架下架
+		function fund_update(obj,id,str,isShow){
+			layer.confirm("确定"+str+"？", function(index) {
+				var data = {};
+				data.id = id;
+				data.isShow = isShow;
+				//后台请求保存数据
+				$.axse("${basePath}/lifeGoods/updateIsShow.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已'+str+'!', {
+							icon : 1,
+							time : 1000
+						});
+						window.location.href="${basePath}/lifeGoods/lifeGoodsList.do";
+					}else{
+						Huimodal_alert(str+"失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert(str+"失败,请重试!",1500);
+				});
+			});
+		}
+		/* 终止合作 */
+		function handleOever(id,status,tips,url){
+			if(status==2){
+				layer.confirm("确认要"+ tips +"吗？", function(index) {
+					var data = {};
+					data.id = id;
+					data.companyStatus = 4;
+					//后台请求保存数据
+					$.axse("${basePath}/payv2BussCompany/updatePayv2BussCompany.do",  data, function(d){
+						console.info(d);
+						if(d.resultCode == 200){
+							layer.msg('已审核,其中不包含不在审核期的订单哦!', {
+								icon : 1,
+								time : 1000
+							});
+							location.replace(location.href);
+						}else{
+							Huimodal_alert("审核失败,请重试!",1500);
+						}
+					},
+					function(d){
+						Huimodal_alert("审核失败,服务器异常!",1500);
+					});
+				});
+			}else if(status==3){
+				layer_show("审核", url, 800, 500);
+			}
+		}
+		
+		/*恢復合作*/
+		function handle(id,status,tips,url){
+			if(status==2){
+				layer.confirm("确认要"+ tips +"吗？", function(index) {
+					var data = {};
+					data.id = id;
+					data.companyStatus = 2;
+					//后台请求保存数据
+					$.axse("${basePath}/payv2BussCompany/approveAgreePayv2BussCompany.do",  data, function(d){
+						console.info(d);
+						if(d.resultCode == 200){
+							layer.msg('已审核,其中不包含不在审核期的订单哦!', {
+								icon : 1,
+								time : 1000
+							});
+							location.replace(location.href);
+						}else{
+							Huimodal_alert("审核失败,请重试!",1500);
+						}
+					},
+					function(d){
+						Huimodal_alert("审核失败,服务器异常!",1500);
+					});
+				});
+			}else if(status==3){
+				layer_show("审核", url, 800, 500);
+			}
+		}
+		function goApp(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+	</script>
+</body>
+</html>

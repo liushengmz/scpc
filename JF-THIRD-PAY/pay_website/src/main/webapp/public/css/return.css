@@ -1,0 +1,81 @@
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #ededed
+}
+
+.title {
+	width: 100%;
+	border-bottom: 1px solid #dedede;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: #fff
+}
+
+.title,
+.tlCon {
+	height: .96rem
+}
+
+.tlCon {
+	width: 6.71rem;
+	margin: 0 auto;
+	position: relative
+}
+
+.headline {
+	height: .96rem;
+	line-height: .96rem;
+	text-align: center;
+	font-size: .36rem
+}
+.main{
+	height: 4.29rem;
+	width: 100%;
+	background-color: #fff;
+	overflow: hidden;
+	margin-top: .96rem;
+	border-bottom: 1px solid #dedede;
+}
+.icon{
+	width: 1.11rem;
+	height: 1.11rem;
+	background-image: url(../img/success.png);
+	background-size: 100% 100%;
+	margin: .8rem auto .3rem auto;
+}
+.icon2{
+	width: 1.11rem;
+	height: 1.11rem;
+	background-image: url(../img/error.png);
+	background-size: 100% 100%;
+	margin: .8rem auto .3rem auto;
+}
+.payStatus{
+	height: .3rem;
+	font-size: .32rem;
+	color: #333;
+	text-align: center;
+}
+.payPrice{
+	height: .5rem;
+	margin: .5rem 0 .8rem 0;
+	text-align: center;
+	font-size: .6rem;
+	color: #333;
+}
+.return{
+	display: block;
+	width: 6.64rem;
+	height: .88rem;
+	text-align: center;
+	line-height: .88rem;
+	color: #fff;
+	border-radius: 5px;
+	background-color: #2581f4;
+	margin: .4rem auto 0 auto;
+	font-size: .32rem;
+	text-decoration: none;
+}

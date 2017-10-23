@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.record.mapper.Payv2StatisticsDayCompanyClearMapper">
+
+	<resultMap id="payv2statisticsdaycompanyclear_result_map" type="com.pay.business.record.entity.Payv2StatisticsDayCompanyClear" >
+		<id column="id" property="id" />
+		<result column="company_id" property="companyId"/>
+		<result column="app_id" property="appId"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="type" property="type"/>
+		<result column="success_order_count" property="successOrderCount"/>
+		<result column="success_order_money" property="successOrderMoney"/>
+		<result column="refund_order_money" property="refundOrderMoney"/>
+		<result column="pay_way_money" property="payWayMoney"/>
+		<result column="statistics_time" property="statisticsTime"/>
+		<result column="create_time" property="createTime"/>
+		<result column="way_name" property="wayName"/>
+		
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_statistics_day_company_clear  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="successOrderCount!=null and successOrderCount!=''">
+				and success_order_count = #{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null and successOrderMoney!=''">
+				and success_order_money like CONCAT('%',#{successOrderMoney},'%')
+			</if>
+			<if test="refundOrderMoney!=null and refundOrderMoney!=''">
+				and refund_order_money like CONCAT('%',#{refundOrderMoney},'%')
+			</if>
+			<if test="payWayMoney!=null and payWayMoney!=''">
+				and pay_way_money like CONCAT('%',#{payWayMoney},'%')
+			</if>
+			<if test="statisticsTimeBegin!=null and statisticsTimeBegin!=''">
+				and statistics_time <![CDATA[ >= ]]> str_to_date(#{statisticsTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="statisticsTimeEnd!=null and statisticsTimeEnd!=''">
+				and statistics_time <![CDATA[ <= ]]> str_to_date(#{statisticsTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.record.entity.Payv2StatisticsDayCompanyClear" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_statistics_day_company_clear
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="type!=null ">
+				type,
+			</if>
+      		<if test="successOrderCount!=null ">
+				success_order_count,
+			</if>
+      		<if test="successOrderMoney!=null ">
+				success_order_money,
+			</if>
+      		<if test="refundOrderMoney!=null ">
+				refund_order_money,
+			</if>
+      		<if test="payWayMoney!=null ">
+				pay_way_money,
+			</if>
+      		<if test="statisticsTime!=null ">
+				statistics_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="type!=null ">
+      			#{type},
+			</if>
+      		<if test="successOrderCount!=null ">
+      			#{successOrderCount},
+			</if>
+      		<if test="successOrderMoney!=null ">
+      			#{successOrderMoney},
+			</if>
+      		<if test="refundOrderMoney!=null ">
+      			#{refundOrderMoney},
+			</if>
+      		<if test="payWayMoney!=null ">
+      			#{payWayMoney},
+			</if>
+      		<if test="statisticsTime!=null ">
+      			#{statisticsTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.record.entity.Payv2StatisticsDayCompanyClear">
+		delete from payv2_statistics_day_company_clear
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="type!=null ">
+				and type=#{type}
+			</if>
+      		<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+      		<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+      		<if test="refundOrderMoney!=null ">
+				and refund_order_money=#{refundOrderMoney}
+			</if>
+      		<if test="payWayMoney!=null ">
+				and pay_way_money=#{payWayMoney}
+			</if>
+      		<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.record.entity.Payv2StatisticsDayCompanyClear">
+		update payv2_statistics_day_company_clear
+		<set>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="type!=null ">
+				type=#{type},
+			</if>
+			<if test="successOrderCount!=null ">
+				success_order_count=#{successOrderCount},
+			</if>
+			<if test="successOrderMoney!=null ">
+				success_order_money=#{successOrderMoney},
+			</if>
+			<if test="refundOrderMoney!=null ">
+				refund_order_money=#{refundOrderMoney},
+			</if>
+			<if test="payWayMoney!=null ">
+				pay_way_money=#{payWayMoney},
+			</if>
+			<if test="statisticsTime!=null ">
+				statistics_time=#{statisticsTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.record.entity.Payv2StatisticsDayCompanyClear" resultMap="payv2statisticsdaycompanyclear_result_map">
+		select id,company_id,app_id,pay_way_id,type,success_order_count,success_order_money,refund_order_money,pay_way_money,statistics_time,create_time from payv2_statistics_day_company_clear
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="refundOrderMoney!=null ">
+				and refund_order_money=#{refundOrderMoney}
+			</if>
+			<if test="payWayMoney!=null ">
+				and pay_way_money=#{payWayMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2statisticsdaycompanyclear_result_map" >
+		select id,company_id,app_id,pay_way_id,type,success_order_count,success_order_money,refund_order_money,pay_way_money,statistics_time,create_time from payv2_statistics_day_company_clear
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="refundOrderMoney!=null ">
+				and refund_order_money=#{refundOrderMoney}
+			</if>
+			<if test="payWayMoney!=null ">
+				and pay_way_money=#{payWayMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2statisticsdaycompanyclear_result_map" >
+		
+		SELECT id,company_id,app_id,pay_way_id,type,success_order_count,success_order_money,refund_order_money,pay_way_money,statistics_time,create_time FROM payv2_statistics_day_company_clear 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="successOrderCount!=null and successOrderCount!=''">
+				and success_order_count = #{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null and successOrderMoney!=''">
+				and success_order_money like  CONCAT('%',#{successOrderMoney},'%')
+			</if>
+			<if test="refundOrderMoney!=null and refundOrderMoney!=''">
+				and refund_order_money like  CONCAT('%',#{refundOrderMoney},'%')
+			</if>
+			<if test="payWayMoney!=null and payWayMoney!=''">
+				and pay_way_money like  CONCAT('%',#{payWayMoney},'%')
+			</if>
+			<if test="statisticsTimeBegin!=null and statisticsTimeBegin!=''">
+				and statistics_time <![CDATA[ >= ]]> str_to_date(#{statisticsTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="statisticsTimeEnd!=null and statisticsTimeEnd!=''">
+				and statistics_time <![CDATA[ <= ]]> str_to_date(#{statisticsTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<insert id="insertBatchStatisticsDayCompanyClear" parameterType="java.util.List">
+		insert into payv2_statistics_day_company_clear 
+			(company_id,app_id,pay_way_id,type,success_order_count,success_order_money,refund_order_money,pay_way_money,statistics_time,create_time)
+		VALUES
+		<foreach collection="list" item="maps" index="index" separator=",">
+			(#{maps.companyId},#{maps.appId},#{maps.payWayId},#{maps.licenseType},#{maps.allSuccessCount},#{maps.allSuccessMoney},#{maps.allRefundMoney},#{maps.allPayWayMoney},date_sub(now(),interval 1 day),now())
+		</foreach>
+	</insert>
+	<!-- 统计：商户后台系统 基础数据：交易分布图数据 -->
+	<select id="getCurrentStatisticsDayCompanyClear" parameterType="Map" resultType="java.util.Map">
+		<!-- 交易金额 -->
+		<if test="queryType == 1">
+			select 
+				cc.company_id as companyId,
+				cc.id,
+				cc.app_id as appId,
+				cc.pay_way_id as payWayId,
+				cc.type as orderType,
+				sum(cc.success_order_money) as allMoney,
+				sum(cc.refund_order_money) as allRefundMoney,
+				pw.way_name as payWayName 
+			from 
+				payv2_statistics_day_company_clear as cc 
+			LEFT JOIN 
+				payv2_pay_way as pw on cc.pay_way_id = pw.id
+			where 
+			<![CDATA[
+				UNIX_TIMESTAMP(cc.statistics_time) >= UNIX_TIMESTAMP(#{startTime}) 
+			AND 
+				UNIX_TIMESTAMP(cc.statistics_time) <= UNIX_TIMESTAMP(#{endTime})
+			]]>
+			<if test="appId != null">
+				AND cc.app_id = #{appId}
+			</if>
+			<if test="companyId != null">
+				AND cc.company_id = #{companyId}
+			</if>
+			<if test="companyType != null">
+				AND cc.type = #{companyType}
+			</if>
+				GROUP BY 
+					cc.pay_way_id  
+				ORDER BY 
+					allMoney desc 
+				LIMIT 5
+		</if>
+		<!-- 统计：交易笔数 -->
+		<if test="queryType == 2">
+			select 
+				cc.company_id as companyId,
+				cc.id,cc.app_id as appId,
+				cc.pay_way_id as payWayId,
+				cc.type as orderType,
+				sum(cc.success_order_count) as allCount,
+				pw.way_name as payWayName
+			from
+				 payv2_statistics_day_company_clear as cc 
+			LEFT JOIN 
+				payv2_pay_way as pw on cc.pay_way_id = pw.id
+			where 
+			<![CDATA[
+				UNIX_TIMESTAMP(cc.statistics_time) >= UNIX_TIMESTAMP(#{startTime}) 
+			AND 
+				UNIX_TIMESTAMP(cc.statistics_time) <= UNIX_TIMESTAMP(#{endTime})
+			]]>  
+			<if test="appId != null">
+			AND cc.app_id = #{appId}
+			</if>
+			<if test="companyId != null">
+			AND cc.company_id = #{companyId}
+			</if>
+			<if test="companyType != null">
+			AND cc.type = #{companyType}
+			</if>
+			GROUP BY 
+				cc.pay_way_id  
+			ORDER BY 
+				allCount desc 
+			LIMIT 5
+		</if>
+	</select>
+	
+	<select id="getMonthAggregateCompanyClear" parameterType="Map" resultMap="payv2statisticsdaycompanyclear_result_map">
+		select id,company_id,app_id,pay_way_id,type,statistics_time,sum(success_order_count) as success_order_count,IFNULL(sum(success_order_money),0) as success_order_money,
+			IFNULL(sum(refund_order_money),0) as refund_order_money,IFNULL(sum(pay_way_money),0) as pay_way_money from payv2_statistics_day_company_clear
+		where 1=1
+		<if test="statisticsTimeBegin!=null and statisticsTimeBegin!='' and statisticsTimeEnd!=null and statisticsTimeEnd!=''">
+		<![CDATA[  
+			and UNIX_TIMESTAMP(statistics_time) >= UNIX_TIMESTAMP(#{statisticsTimeBegin}) AND UNIX_TIMESTAMP(statistics_time) <= UNIX_TIMESTAMP(#{statisticsTimeEnd})
+		]]> 
+		</if>
+		
+		<if test="createTimeBegin != null and createTimeBegin != '' and createTimeEnd!=null and createTimeEnd!=''">
+			<![CDATA[  
+			and UNIX_TIMESTAMP(create_time) >= UNIX_TIMESTAMP(#{createTimeBegin}) AND UNIX_TIMESTAMP(create_time) <= UNIX_TIMESTAMP(#{createTimeEnd})
+			]]> 
+		</if>
+		<if test="id!=null and id!=''">
+				and id = #{id}
+		</if>
+		<if test="companyId!=null and companyId!=''">
+			and company_id = #{companyId}
+		</if>
+		<if test="appId!=null and appId!=''">
+			and app_id = #{appId}
+		</if>
+		<if test="payWayId!=null and payWayId!=''">
+			and pay_way_id = #{payWayId}
+		</if>
+		<if test="type!=null and type!=''">
+			and type = #{type}
+		</if>
+		GROUP BY pay_way_id,app_id,company_id,type 
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<select id="getDayAggregateCompanyClear" parameterType="Map" resultMap="payv2statisticsdaycompanyclear_result_map">
+		SELECT id,company_id,app_id,pay_way_id,type,success_order_count,success_order_money,refund_order_money,pay_way_money,statistics_time,create_time FROM payv2_statistics_day_company_clear
+		where 1=1
+		<if test="id!=null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="companyId!=null and companyId!=''">
+			and company_id = #{companyId}
+		</if>
+		<if test="appId!=null and appId!=''">
+			and app_id = #{appId}
+		</if>
+		<if test="payWayId!=null and payWayId!=''">
+			and pay_way_id = #{payWayId}
+		</if>
+		<if test="type!=null and type!=''">
+			and type = #{type}
+		</if>
+		<if test="statisticsTimeBegin!=null and statisticsTimeBegin!='' and statisticsTimeEnd!=null and statisticsTimeEnd!=''">
+		<![CDATA[  
+			and UNIX_TIMESTAMP(statistics_time) >= UNIX_TIMESTAMP(#{statisticsTimeBegin}) AND UNIX_TIMESTAMP(statistics_time) <= UNIX_TIMESTAMP(#{statisticsTimeEnd})
+		]]> 
+		</if>
+		
+		<if test="createTimeBegin != null and createTimeBegin != '' and createTimeEnd!=null and createTimeEnd!=''">
+			<![CDATA[  
+			and UNIX_TIMESTAMP(create_time) >= UNIX_TIMESTAMP(#{createTimeBegin}) AND UNIX_TIMESTAMP(create_time) <= UNIX_TIMESTAMP(#{createTimeEnd})
+			]]> 
+		</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	
+	<!-- 日月 账单汇总总数 -->
+	<select id="getPageQueryByGroupByTimeCount" resultType="java.lang.Integer" >
+		select count(*) from
+		( select id	FROM payv2_statistics_day_company_clear 
+		<where>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and DATE_FORMAT(statistics_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and DATE_FORMAT(statistics_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="reqType!=null and reqType!=''">
+			    <!-- 日汇总 -->
+				<if test="reqType==1">
+					GROUP BY  DATE_FORMAT(statistics_time,'%Y-%m-%d') 
+				</if>
+				<!-- 月汇总 -->
+				<if test="reqType==2">
+					GROUP BY  DATE_FORMAT(statistics_time,'%Y-%m') 
+				</if>
+			</if>
+			<if test="reqType==null and reqType==''">
+			    <!-- 日汇总 -->
+				GROUP BY  DATE_FORMAT(statistics_time,'%Y-%m-%d') 
+			</if>
+		) t
+	</select>
+	
+	<!-- 日月 账单汇总分页 -->
+	<select id="getPageQueryByGroupByTime" resultMap="payv2statisticsdaycompanyclear_result_map" >
+		select  id,company_id,app_id,pay_way_id,type,
+				ROUND(SUM(success_order_count),2) as success_order_count,
+				ROUND(SUM(success_order_money),2) as success_order_money,
+			  	ROUND(SUM(refund_order_money),2) as refund_order_money,
+				ROUND(SUM(pay_way_money),2) as pay_way_money,
+				statistics_time,
+				create_time
+		FROM payv2_statistics_day_company_clear 
+		<where>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and DATE_FORMAT(statistics_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and DATE_FORMAT(statistics_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="reqType!=null and reqType!=''">
+			    <!-- 日汇总 -->
+				<if test="reqType==1">
+					GROUP BY  DATE_FORMAT(statistics_time,'%Y-%m-%d') 
+				</if>
+				<!-- 月汇总 -->
+				<if test="reqType==2">
+					GROUP BY  DATE_FORMAT(statistics_time,'%Y-%m') 
+				</if>
+			</if>
+			<if test="reqType==null and reqType==''">
+			    <!-- 日汇总 -->
+				GROUP BY  DATE_FORMAT(statistics_time,'%Y-%m-%d') 
+			</if>
+			ORDER BY
+			statistics_time DESC
+		<include refid="base_page_query_end"/>
+	</select>
+
+	
+	<!-- 根据渠道商分组获取数据 -->
+	<select id="getTimeZoneAggregateCompanyClear" resultMap="payv2statisticsdaycompanyclear_result_map" >
+		select  
+				id,
+				company_id,
+				app_id,
+				pay_way_id,
+				type,
+				SUM(success_order_count) as success_order_count,
+				ROUND(SUM(success_order_money),2) as success_order_money,
+			  	ROUND(SUM(refund_order_money),2) as refund_order_money,
+				ROUND(SUM(pay_way_money),2) as pay_way_money,
+				statistics_time,
+				(select way_name from payv2_pay_way ppw where ppw.id = psdcc.pay_way_id) as way_name,
+				create_time
+		FROM 
+			payv2_statistics_day_company_clear psdcc
+		<where>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="clearTimeBegin!=null and clearTimeBegin!=''">
+				and DATE_FORMAT(statistics_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{clearTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="clearTimeEnd!=null and clearTimeEnd!=''">
+				and DATE_FORMAT(statistics_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{clearTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="groupType!=null and groupType!=''">
+				<if test="groupType==1">
+					GROUP BY pay_way_id
+				</if>
+				<if test="groupType==2">
+					GROUP BY  app_id
+				</if>
+			</if>
+	</select>
+</mapper>

@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.business.admin.mapper.SysUcenterFunctionMapper">
+
+	<resultMap id="sysucenterfunction_result_map"
+		type="com.pay.business.admin.entity.SysUcenterFunction">
+		<id column="id" property="id" />
+		<result column="app_id" property="appId" />
+		<result column="fid" property="fid" />
+		<result column="fun_code" property="funCode" />
+		<result column="fun_name" property="funName" />
+		<result column="fun_status" property="funStatus" />
+		<result column="fun_path" property="funPath" />
+		<result column="fun_remark" property="funRemark" />
+		<result column="fun_icon" property="funIcon" />
+		<result column="create_time" property="createTime" />
+		<result column="create_user_by" property="createUserBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_user_by" property="updateUserBy" />
+		<result column="fun_sort" property="funSort" />
+	</resultMap>
+
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from sys_ucenter_function
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="fid!=null and fid!=''">
+				and fid = #{fid}
+			</if>
+			<if test="funCode!=null and funCode!=''">
+				and fun_code like '%'||#{funCode}||'%'
+			</if>
+			<if test="funName!=null and funName!=''">
+				and fun_name like CONCAT('%',#{funName},'%')
+			</if>
+			<if test="funStatus!=null and funStatus!=''">
+				and fun_status = #{funStatus}
+			</if>
+			<if test="funPath!=null and funPath!=''">
+				and fun_path like '%'||#{funPath}||'%'
+			</if>
+			<if test="funRemark!=null and funRemark!=''">
+				and fun_remark like '%'||#{funRemark}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]>
+				str_to_date(#{createTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]>
+				str_to_date(#{createTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]>
+				str_to_date(#{updateTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]>
+				str_to_date(#{updateTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+			<if test="funSort!=null and funSort!=''">
+				and fun_sort = #{funSort}
+			</if>
+		</where>
+	</select>
+
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id" -->
+	<insert id="insertByEntity" parameterType="com.pay.business.admin.entity.SysUcenterFunction" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_ucenter_function
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!=null ">
+				id,
+			</if>
+			<if test="appId!=null ">
+				app_id,
+			</if>
+			<if test="fid!=null ">
+				fid,
+			</if>
+			<if test="funCode!=null ">
+				fun_code,
+			</if>
+			<if test="funName!=null ">
+				fun_name,
+			</if>
+			<if test="funStatus!=null ">
+				fun_status,
+			</if>
+			<if test="funPath!=null ">
+				fun_path,
+			</if>
+			<if test="funRemark!=null ">
+				fun_remark,
+			</if>
+			<if test="funIcon!=null ">
+				fun_icon,
+			</if>
+			<if test="createTime!=null ">
+				create_time,
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by,
+			</if>
+			<if test="updateTime!=null ">
+				update_time,
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by,
+			</if>
+			<if test="funSort!=null ">
+				fun_sort,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!=null ">
+				#{id},
+			</if>
+			<if test="appId!=null ">
+				#{appId},
+			</if>
+			<if test="fid!=null ">
+				#{fid},
+			</if>
+			<if test="funCode!=null ">
+				#{funCode},
+			</if>
+			<if test="funName!=null ">
+				#{funName},
+			</if>
+			<if test="funStatus!=null ">
+				#{funStatus},
+			</if>
+			<if test="funPath!=null ">
+				#{funPath},
+			</if>
+			<if test="funRemark!=null ">
+				#{funRemark},
+			</if>
+			<if test="funIcon!=null ">
+				#{funIcon},
+			</if>
+			<if test="createTime!=null ">
+				#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				#{updateUserBy},
+			</if>
+			<if test="funSort!=null ">
+				#{funSort},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.admin.entity.SysUcenterFunction">
+		delete from sys_ucenter_function
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+			<if test="funCode!=null ">
+				and fun_code=#{funCode}
+			</if>
+			<if test="funName!=null ">
+				and fun_name=#{funName}
+			</if>
+			<if test="funStatus!=null ">
+				and fun_status=#{funStatus}
+			</if>
+			<if test="funPath!=null ">
+				and fun_path=#{funPath}
+			</if>
+			<if test="funRemark!=null ">
+				and fun_remark=#{funRemark}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+			<if test="funSort!=null ">
+				and fun_sort=#{funSort}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.admin.entity.SysUcenterFunction">
+		update sys_ucenter_function
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="fid!=null ">
+				fid=#{fid},
+			</if>
+			<if test="funCode!=null ">
+				fun_code=#{funCode},
+			</if>
+			<if test="funName!=null ">
+				fun_name=#{funName},
+			</if>
+			<if test="funStatus!=null ">
+				fun_status=#{funStatus},
+			</if>
+			<if test="funPath!=null ">
+				fun_path=#{funPath},
+			</if>
+			<if test="funRemark!=null ">
+				fun_remark=#{funRemark},
+			</if>
+			<if test="funIcon!=null ">
+				fun_icon=#{funIcon},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+			<if test="funSort!=null ">
+				fun_sort=#{funSort},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+
+		</where>
+	</update>
+
+	<!-- 根据对象修改 -->
+	<update id="updateFunction" parameterType="com.pay.business.admin.entity.SysUcenterFunction">
+		update sys_ucenter_function
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="fid!=null ">
+				fid=#{fid},
+			</if>
+			<if test="funCode!=null ">
+				fun_code=#{funCode},
+			</if>
+			<if test="funName!=null ">
+				fun_name=#{funName},
+			</if>
+			<if test="funStatus!=null ">
+				fun_status=#{funStatus},
+			</if>
+			<if test="funPath!=null ">
+				fun_path=#{funPath},
+			</if>
+			<if test="funRemark!=null ">
+				fun_remark=#{funRemark},
+			</if>
+			<if test="funIcon!=null ">
+				fun_icon=#{funIcon},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="createUserBy!=null ">
+				create_user_by=#{createUserBy},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateUserBy!=null ">
+				update_user_by=#{updateUserBy},
+			</if>
+			<if test="funSort!=null ">
+				fun_sort=#{funSort},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.admin.entity.SysUcenterFunction" resultMap="sysucenterfunction_result_map">
+		select
+			*
+		from sys_ucenter_function
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+			<if test="funCode!=null ">
+				and fun_code=#{funCode}
+			</if>
+			<if test="funName!=null ">
+				and fun_name=#{funName}
+			</if>
+			<if test="funStatus!=null ">
+				and fun_status=#{funStatus}
+			</if>
+			<if test="funPath!=null ">
+				and fun_path=#{funPath}
+			</if>
+			<if test="funRemark!=null ">
+				and fun_remark=#{funRemark}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+			<if test="funSort!=null ">
+				and fun_sort=#{funSort}
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据对象查询列表 -->
+	<select id="selectByObject" resultMap="sysucenterfunction_result_map">
+		select
+			*
+		from sys_ucenter_function
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+			<if test="funCode!=null ">
+				and fun_code=#{funCode}
+			</if>
+			<if test="funName!=null ">
+				and fun_name=#{funName}
+			</if>
+			<if test="funStatus!=null ">
+				and fun_status=#{funStatus}
+			</if>
+			<if test="funPath!=null ">
+				and fun_path=#{funPath}
+			</if>
+			<if test="funRemark!=null ">
+				and fun_remark=#{funRemark}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="createUserBy!=null ">
+				and create_user_by=#{createUserBy}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="updateUserBy!=null ">
+				and update_user_by=#{updateUserBy}
+			</if>
+			<if test="funSort!=null ">
+				and fun_sort=#{funSort}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="sysucenterfunction_result_map">
+
+		SELECT
+			*
+		FROM sys_ucenter_function
+		<where>
+			1=1
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="fid!=null and fid!=''">
+				and fid = #{fid}
+			</if>
+			<if test="funCode!=null and funCode!=''">
+				and fun_code like '%'||#{funCode}||'%'
+			</if>
+			<if test="funName!=null and funName!=''">
+				and fun_name like CONCAT('%',#{funName},'%')
+			</if>
+			<if test="funStatus!=null and funStatus!=''">
+				and fun_status = #{funStatus}
+			</if>
+			<if test="funPath!=null and funPath!=''">
+				and fun_path like '%'||#{funPath}||'%'
+			</if>
+			<if test="funRemark!=null and funRemark!=''">
+				and fun_remark like '%'||#{funRemark}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]>
+				str_to_date(#{createTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]>
+				str_to_date(#{createTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="createUserBy!=null and createUserBy!=''">
+				and create_user_by = #{createUserBy}
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]>
+				str_to_date(#{updateTimeBegin}, '%Y-%m-%d')
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]>
+				str_to_date(#{updateTimeEnd}, '%Y-%m-%d')
+			</if>
+			<if test="updateUserBy!=null and updateUserBy!=''">
+				and update_user_by = #{updateUserBy}
+			</if>
+			<if test="funSort!=null and funSort!=''">
+				and fun_sort = #{funSort}
+			</if>
+		</where>
+		<if test="sortName!=null and sortName!=''">
+			ORDER BY ${sortName} ${sortOrder}
+		</if>
+		<include refid="base_page_query_end" />
+	</select>
+
+	<!-- 查询所有的权限 -->
+	<select id="selectFunList" resultType="java.util.HashMap">
+		SELECT
+		suf.app_id,
+		suf.id,
+		suf.fid,
+		suf.fun_name
+		FROM sys_ucenter_function suf
+		WHERE suf.fun_status
+		= 0
+	</select>
+
+	<!-- 根据用户查询菜单 -->
+	<select id="selectFunByUser" resultType="java.util.HashMap">
+		SELECT DISTINCT
+		(suf.id) id,
+		suf.fun_name,
+		suf.fun_path,
+		suf.fun_icon,
+		suf.fid
+		FROM sys_ucenter_admin_role suar
+		LEFT JOIN sys_ucenter_permission sup
+		ON suar.rol_id = sup.rol_id
+		LEFT JOIN sys_ucenter_function suf
+		ON suf.id = sup.fun_id
+		LEFT JOIN sys_ucenter_apps sua
+		ON sua.id = suf.app_id
+		WHERE suf.fun_status = 0
+		AND suar.adm_id = #{id}
+		ORDER BY suf.fun_sort asc
+	</select>
+
+</mapper>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>老虎机</title>
+	<style type="text/css">
+	*{padding: 0;margin: 0;}
+	.container{width: 32rem;height: 32rem;border:1px solid #000;margin: 5rem auto 0;}
+	table{height: 100%;width: 100%;}
+	tr{width: 100%;height: 8rem;}
+	td{width: 25%;height: 8rem;}
+	img{width: 100%;height: 100%;display: block;}
+	.img1{background: #dedede ;}
+	.img2{background: blue ;}
+	.img3{background: green ;}
+	.img4{background: yellow ;}
+	.img5{background: gray ;}
+	.img6{background: red ;}
+	.focus{font-size: 68px;background: #000;font-weight: 700;text-align: center;line-height: 16rem;color: #fff;cursor: pointer;}
+	.move{background: #000;}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="img1" prize="感谢参与！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140301d179h2yuhu1b8bv7.png" />
+				</td>
+				<td class="img2" prize="恭喜获得ipad！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302ewusy5sshb5q1ezp.png" />
+				</td>
+				<td class="img3" prize="感谢获得耳机！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302w4afu6qwu6enet4j.png" />
+				</td>
+				<td class="img4" prize="感谢获得鞋子！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140301se0iw0rkr08eqef0.png"  />
+				</td>
+			</tr>
+			<tr>
+				<td class="img5"  prize="感谢获得手机！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302d059co578cboewy7.png" />
+				</td>
+				<td colspan="2" rowspan="2" class="focus" id="start">点我</td>
+				<td class="img6"  prize="感谢获得布娃娃！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302dkkda9uw2fd7i9d9.png" />
+				</td>
+			</tr>
+			<tr>
+				<td class="img4"  prize="感谢获得鞋子！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140301se0iw0rkr08eqef0.png" />
+				</td>
+				<td class="img3" prize="感谢获得耳机！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302w4afu6qwu6enet4j.png" />
+				</td>
+			</tr>
+			<tr>
+				<td class="img5"  prize="感谢获得手机！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302d059co578cboewy7.png" />
+				</td>
+				<td class="img2" prize="恭喜获得鞋子！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140301se0iw0rkr08eqef0.png" />
+				</td>
+				<td class="img6"  prize="感谢获得布娃娃！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140302dkkda9uw2fd7i9d9.png" />
+				</td>
+				<td class="img1" prize="感谢参与！">
+					<img src="http://cdn.attach.w3cfuns.com/notes/pics/201605/01/140301d179h2yuhu1b8bv7.png" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+	var startNum = 0;
+	var k = -1;
+	var runing = false;
+	document.querySelector('#start').onclick = function() {
+		running(4);
+	};
+	function running(rows) {
+		var arr = [];
+		var speedNum = 0 ,speed;
+		for(var x = 0; x < rows; x++) {
+			arr.push(x);
+		}
+		for(var x = 1; x <= (rows - 2);x++ ) {
+			var y = rows + x * 2;
+			arr.push(y);
+		}
+		for(var x = 4*rows - 4;x >= 3*rows -3; x-- ) {
+			arr.push(x);
+		}
+		for(var x = (rows - 3); x >= 0;x-- ) {
+			var y = rows;
+			if ( x > 1) {
+				y = rows + 3 + 2 * (x-1);
+			} else if( x === 1) {
+				y = rows + 3 ;
+			}
+			arr.push(y);
+		}
+		if ( runing === false ) {
+			console.log(arr);
+			runing = true;
+			var td = document.getElementsByTagName('td');
+			var length = td.length ;
+			randomLength = random( 2*length , 3*length );
+			speed = 100;
+			var flag = true;
+			var timer = setInterval(function ff() {
+				if( speed > randomLength * 10) {
+					clearInterval(timer);
+					flag = true;
+					runing = false;
+					alert(td[arr[k]].getAttribute('prize'));
+				} else {
+					if(speed > 0 && flag === true && speed !== 40) {
+					speed -= 10;
+					} else {
+						speedNum += 1;
+						speedNum > 100 ? (speed +=20  , flag = false) : speed = 40;
+					}
+					for(var i = 0; i < length ; i++ ) {
+						td[i].style.background = '';
+					}
+					k >= 4*rows - 5 ? k = 0 : k++;
+					td[arr[k]].style.background = '#000';
+					clearInterval(timer);
+					timer = setInterval(ff,speed);
+				}
+			},speed);
+		} else {
+			return false;
+		}
+		function random(min , max) {
+			return Math.floor(min + Math.random() * ( max - min));
+		}
+	}
+	</script>
+	
+</body>
+</html>

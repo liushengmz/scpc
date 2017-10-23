@@ -9,10 +9,11 @@ body{background-color: #F7F7F7; overflow:hidden;}
 	overflow: visible;
 	_overflow: visible;
 	position: absolute;
-	height: 100%;
 	left: 0;
 	top: 0;
 	width: 100%;
+	height:auto;
+	min-height:1000PX;
 	border-left: 1px solid #c3c3c3;
 	background-color: #F7F7F7;
 }
@@ -25,7 +26,7 @@ body{background-color: #F7F7F7; overflow:hidden;}
 .right_tit dl dd{font-size:12px;line-height:32px;border-left: 1px solid #c3c3c3;padding-left: 25px}
 
 /* .content{width:99%;min-height:30px; _height:30px; overflow:hidden; _overflow:visible; background:#f9f9f9; margin:0 6px 4px 6px; padding-top:12px;} */
-.content{width:99%;_overflow:visible; background:#f9f9f9; padding-top:0px;}
+.content{width:99%;_overflow:visible; background:#f9f9f9; padding-top:0px; } /* border-left: 1px solid #c3c3c3; */
 .content dl{width:100%; margin:0 0 20px 24px;}
 .content dl dt{width:132px; height:39px;text-align:center; line-height:39px; color:#fff; font-size:14px; font-weight:bold; margin-top:0px; margin-bottom:12px;}
 .content dl dd{float:left;}

@@ -139,6 +139,13 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>szlz</id>
+			<properties>
+				<runtime.env>config\szlz</runtime.env>
+				<final.name>credit</final.name>
+			</properties>
+		</profile>
+		<profile>
 			<id>shkk</id>
 			<properties>
 				<runtime.env>config\shkk</runtime.env>

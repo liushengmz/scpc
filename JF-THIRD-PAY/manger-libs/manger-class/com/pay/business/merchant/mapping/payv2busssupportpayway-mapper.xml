@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.merchant.mapper.Payv2BussSupportPayWayMapper">
+
+	<resultMap id="payv2busssupportpayway_result_map" type="com.pay.business.merchant.entity.Payv2BussSupportPayWay" >
+		<id column="id" property="id" />
+		<result column="parent_id" property="parentId"/>
+		<result column="pay_type" property="payType"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="rate_id" property="rateId"/>
+		<result column="receivables_id" property="receivablesId"/>
+		<result column="pay_way_user_name" property="payWayUserName"/>
+		<result column="pay_way_user_num" property="payWayUserNum"/>
+		<result column="pay_way_rate" property="payWayRate"/>
+		<result column="sort_num" property="sortNum"/>
+		<result column="one_min_money" property="oneMinMoney"/>
+		<result column="one_max_money" property="oneMaxMoney"/>
+		<result column="max_money" property="maxMoney"/>
+		<result column="pay_way_status" property="payWayStatus"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+
+		<result column="way_name" property="wayName"/>
+		<result column="way_icon" property="wayIcon"/>
+		<result column="dict_name" property="dictName"/>
+		<result column="rateOneMaxMoney" property="rateOneMaxMoney"/>
+		<result column="rateMaxMoney" property="rateMaxMoney"/>
+		<result column="rate_key1" property="rateKey1"/>
+		<result column="rate_key2" property="rateKey2"/>
+		<result column="rate_key3" property="rateKey3"/>
+		<result column="rate_key4" property="rateKey4"/>
+		<result column="rate_key5" property="rateKey5"/>
+		<result column="rate_key6" property="rateKey6"/>
+		<result column="gzh_app_id" property="gzhAppId"/>
+		<result column="gzh_key" property="gzhKey"/>
+		<result column="cost_rate" property="costRate"/>
+		<result column="rate_name" property="rateName"/>
+		<result column="pay_way_name" property="payWayName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_support_pay_way  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="parentId!=null and parentId!=''">
+				and parent_id = #{parentId}
+			</if>
+			<if test="payType!=null and payType!=''">
+				and pay_type = #{payType}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="receivablesId!=null and receivablesId!=''">
+				and receivables_id = #{receivablesId}
+			</if>
+			<if test="payWayUserName!=null and payWayUserName!=''">
+				and pay_way_user_name like CONCAT('%',#{payWayUserName},'%')
+			</if>
+			<if test="payWayUserNum!=null and payWayUserNum!=''">
+				and pay_way_user_num like CONCAT('%',#{payWayUserNum},'%')
+			</if>
+			<if test="payWayRate!=null and payWayRate!=''">
+				and pay_way_rate like CONCAT('%',#{payWayRate},'%')
+			</if>
+			<if test="sortNum!=null and sortNum!=''">
+				and sort_num = #{sortNum}
+			</if>
+			<if test="oneMinMoney!=null and oneMinMoney!=''">
+				and one_min_money like CONCAT('%',#{oneMinMoney},'%')
+			</if>
+			<if test="oneMaxMoney!=null and oneMaxMoney!=''">
+				and one_max_money like CONCAT('%',#{oneMaxMoney},'%')
+			</if>
+			<if test="maxMoney!=null and maxMoney!=''">
+				and max_money like CONCAT('%',#{maxMoney},'%')
+			</if>
+			<if test="payWayStatus!=null and payWayStatus!=''">
+				and pay_way_status = #{payWayStatus}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussSupportPayWay" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_buss_support_pay_way
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="parentId!=null ">
+				parent_id,
+			</if>
+      		<if test="payType!=null ">
+				pay_type,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="rateId!=null ">
+				rate_id,
+			</if>
+      		<if test="receivablesId!=null ">
+				receivables_id,
+			</if>
+      		<if test="payWayUserName!=null ">
+				pay_way_user_name,
+			</if>
+      		<if test="payWayUserNum!=null ">
+				pay_way_user_num,
+			</if>
+      		<if test="payWayRate!=null ">
+				pay_way_rate,
+			</if>
+      		<if test="sortNum!=null ">
+				sort_num,
+			</if>
+      		<if test="oneMinMoney!=null ">
+				one_min_money,
+			</if>
+      		<if test="oneMaxMoney!=null ">
+				one_max_money,
+			</if>
+      		<if test="maxMoney!=null ">
+				max_money,
+			</if>
+      		<if test="payWayStatus!=null ">
+				pay_way_status,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="parentId!=null ">
+      			#{parentId},
+			</if>
+      		<if test="payType!=null ">
+      			#{payType},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="rateId!=null ">
+      			#{rateId},
+			</if>
+      		<if test="receivablesId!=null ">
+      			#{receivablesId},
+			</if>
+      		<if test="payWayUserName!=null ">
+      			#{payWayUserName},
+			</if>
+      		<if test="payWayUserNum!=null ">
+      			#{payWayUserNum},
+			</if>
+      		<if test="payWayRate!=null ">
+      			#{payWayRate},
+			</if>
+      		<if test="sortNum!=null ">
+      			#{sortNum},
+			</if>
+      		<if test="oneMinMoney!=null ">
+      			#{oneMinMoney},
+			</if>
+      		<if test="oneMaxMoney!=null ">
+      			#{oneMaxMoney},
+			</if>
+      		<if test="maxMoney!=null ">
+      			#{maxMoney},
+			</if>
+      		<if test="payWayStatus!=null ">
+      			#{payWayStatus},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussSupportPayWay">
+		delete from payv2_buss_support_pay_way
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+      		<if test="payType!=null ">
+				and pay_type=#{payType}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+      		<if test="receivablesId!=null ">
+				and receivables_id=#{receivablesId}
+			</if>
+      		<if test="payWayUserName!=null ">
+				and pay_way_user_name=#{payWayUserName}
+			</if>
+      		<if test="payWayUserNum!=null ">
+				and pay_way_user_num=#{payWayUserNum}
+			</if>
+      		<if test="payWayRate!=null ">
+				and pay_way_rate=#{payWayRate}
+			</if>
+      		<if test="sortNum!=null ">
+				and sort_num=#{sortNum}
+			</if>
+      		<if test="oneMinMoney!=null ">
+				and one_min_money=#{oneMinMoney}
+			</if>
+      		<if test="oneMaxMoney!=null ">
+				and one_max_money=#{oneMaxMoney}
+			</if>
+      		<if test="maxMoney!=null ">
+				and max_money=#{maxMoney}
+			</if>
+      		<if test="payWayStatus!=null ">
+				and pay_way_status=#{payWayStatus}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussSupportPayWay">
+		update payv2_buss_support_pay_way
+		<set>
+			<if test="parentId!=null ">
+				parent_id=#{parentId},
+			</if>
+			<if test="payType!=null ">
+				pay_type=#{payType},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="rateId!=null ">
+				rate_id=#{rateId},
+			</if>
+			<if test="receivablesId!=null ">
+				receivables_id=#{receivablesId},
+			</if>
+			<if test="payWayUserName!=null ">
+				pay_way_user_name=#{payWayUserName},
+			</if>
+			<if test="payWayUserNum!=null ">
+				pay_way_user_num=#{payWayUserNum},
+			</if>
+			<if test="payWayRate!=null ">
+				pay_way_rate=#{payWayRate},
+			</if>
+			<if test="sortNum!=null ">
+				sort_num=#{sortNum},
+			</if>
+			<if test="oneMinMoney!=null ">
+				one_min_money=#{oneMinMoney},
+			</if>
+			<if test="oneMaxMoney!=null ">
+				one_max_money=#{oneMaxMoney},
+			</if>
+			<if test="maxMoney!=null ">
+				max_money=#{maxMoney},
+			</if>
+			<if test="payWayStatus!=null ">
+				pay_way_status=#{payWayStatus},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.merchant.entity.Payv2BussSupportPayWay" resultMap="payv2busssupportpayway_result_map">
+		select id,parent_id,pay_type,pay_way_id,rate_id,receivables_id,pay_way_user_name,pay_way_user_num,pay_way_rate,sort_num,one_min_money,one_max_money,max_money,pay_way_status,is_delete,create_time,update_time from payv2_buss_support_pay_way
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+			<if test="payType!=null ">
+				and pay_type=#{payType}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="receivablesId!=null ">
+				and receivables_id=#{receivablesId}
+			</if>
+			<if test="payWayUserName!=null ">
+				and pay_way_user_name=#{payWayUserName}
+			</if>
+			<if test="payWayUserNum!=null ">
+				and pay_way_user_num=#{payWayUserNum}
+			</if>
+			<if test="payWayRate!=null ">
+				and pay_way_rate=#{payWayRate}
+			</if>
+			<if test="sortNum!=null ">
+				and sort_num=#{sortNum}
+			</if>
+			<if test="oneMinMoney!=null ">
+				and one_min_money=#{oneMinMoney}
+			</if>
+			<if test="oneMaxMoney!=null ">
+				and one_max_money=#{oneMaxMoney}
+			</if>
+			<if test="maxMoney!=null ">
+				and max_money=#{maxMoney}
+			</if>
+			<if test="payWayStatus!=null ">
+				and pay_way_status=#{payWayStatus}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2busssupportpayway_result_map" >
+		select id,parent_id,pay_type,pay_way_id,rate_id,receivables_id,pay_way_user_name,pay_way_user_num,pay_way_rate,sort_num,one_min_money,one_max_money,max_money,pay_way_status,is_delete,create_time,update_time from payv2_buss_support_pay_way
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and parent_id=#{parentId}
+			</if>
+			<if test="payType!=null ">
+				and pay_type=#{payType}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="receivablesId!=null ">
+				and receivables_id=#{receivablesId}
+			</if>
+			<if test="payWayUserName!=null ">
+				and pay_way_user_name=#{payWayUserName}
+			</if>
+			<if test="payWayUserNum!=null ">
+				and pay_way_user_num=#{payWayUserNum}
+			</if>
+			<if test="payWayRate!=null ">
+				and pay_way_rate=#{payWayRate}
+			</if>
+			<if test="sortNum!=null ">
+				and sort_num=#{sortNum}
+			</if>
+			<if test="oneMinMoney!=null ">
+				and one_min_money=#{oneMinMoney}
+			</if>
+			<if test="oneMaxMoney!=null ">
+				and one_max_money=#{oneMaxMoney}
+			</if>
+			<if test="maxMoney!=null ">
+				and max_money=#{maxMoney}
+			</if>
+			<if test="payWayStatus!=null ">
+				and pay_way_status=#{payWayStatus}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2busssupportpayway_result_map" >
+		
+		SELECT id,parent_id,pay_type,pay_way_id,rate_id,receivables_id,pay_way_user_name,pay_way_user_num,pay_way_rate,sort_num,one_min_money,one_max_money,max_money,pay_way_status,is_delete,create_time,update_time FROM payv2_buss_support_pay_way 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="parentId!=null and parentId!=''">
+				and parent_id = #{parentId}
+			</if>
+			<if test="payType!=null and payType!=''">
+				and pay_type = #{payType}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="receivablesId!=null and receivablesId!=''">
+				and receivables_id = #{receivablesId}
+			</if>
+			<if test="payWayUserName!=null and payWayUserName!=''">
+				and pay_way_user_name like  CONCAT('%',#{payWayUserName},'%')
+			</if>
+			<if test="payWayUserNum!=null and payWayUserNum!=''">
+				and pay_way_user_num like  CONCAT('%',#{payWayUserNum},'%')
+			</if>
+			<if test="payWayRate!=null and payWayRate!=''">
+				and pay_way_rate like  CONCAT('%',#{payWayRate},'%')
+			</if>
+			<if test="sortNum!=null and sortNum!=''">
+				and sort_num = #{sortNum}
+			</if>
+			<if test="oneMinMoney!=null and oneMinMoney!=''">
+				and one_min_money like  CONCAT('%',#{oneMinMoney},'%')
+			</if>
+			<if test="oneMaxMoney!=null and oneMaxMoney!=''">
+				and one_max_money like  CONCAT('%',#{oneMaxMoney},'%')
+			</if>
+			<if test="maxMoney!=null and maxMoney!=''">
+				and max_money like  CONCAT('%',#{maxMoney},'%')
+			</if>
+			<if test="payWayStatus!=null and payWayStatus!=''">
+				and pay_way_status = #{payWayStatus}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObjectForCompany" resultMap="payv2busssupportpayway_result_map" >
+		select pw.id,pw.parent_id,pw.pay_type,pw.pay_way_id,
+		(select way_name from payv2_pay_way w where w.id=pw.pay_way_id) as wayName,
+		pw.receivables_id,pw.pay_way_user_name,pw.pay_way_user_num,pw.pay_way_rate,
+		pw.pay_way_status,pw.is_delete,pw.create_time,pw.update_time 
+		from payv2_buss_support_pay_way pw
+		<where>
+			<if test="id!=null ">
+				and pw.id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and pw.parent_id=#{parentId}
+			</if>
+			<if test="payType!=null ">
+				and pw.pay_type=#{payType}
+			</if>
+			<if test="payWayId!=null ">
+				and pw.pay_way_id=#{payWayId}
+			</if>
+			<if test="receivablesId!=null ">
+				and pw.receivables_id=#{receivablesId}
+			</if>
+			<if test="payWayUserName!=null ">
+				and pw.pay_way_user_name=#{payWayUserName}
+			</if>
+			<if test="payWayUserNum!=null ">
+				and pw.pay_way_user_num=#{payWayUserNum}
+			</if>
+			<if test="payWayRate!=null ">
+				and pw.pay_way_rate=#{payWayRate}
+			</if>
+			<if test="payWayStatus!=null ">
+				and pw.pay_way_status=#{payWayStatus}
+			</if>
+			<if test="isDelete!=null ">
+				and pw.is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and pw.create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and pw.update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryPayWayIdAndNameByCompanyId" parameterType="Long" resultType="java.util.Map">
+		select pw.way_name as payWayUserName,spw.pay_way_id as payWayId from payv2_buss_support_pay_way as spw join payv2_pay_way as pw on pw.id = spw.pay_way_id where spw.parent_id = #{companyId} group by spw.pay_way_id
+	</select>
+	
+	
+	<!-- 根据商户ID获取分组后的支付渠道-->
+	<select id="selectPayWayIdByGroup" resultMap="payv2busssupportpayway_result_map" >
+		select pw.*,
+		(select pw.way_name from payv2_pay_way pw where pw.pay_way_id=pw.id) as way_name,
+		(select pw.way_icon from payv2_pay_way pw where pw.pay_way_id=pw.id) as way_icon
+		from payv2_buss_support_pay_way pw
+		<where>
+			<if test="id!=null ">
+				and pw.id=#{id}
+			</if>
+			<if test="parentId!=null ">
+				and pw.parent_id=#{parentId}
+			</if>
+			<if test="payType!=null ">
+				and pw.pay_type=#{payType}
+			</if>
+			<if test="payWayId!=null ">
+				and pw.pay_way_id=#{payWayId}
+			</if>
+			<if test="receivablesId!=null ">
+				and pw.receivables_id=#{receivablesId}
+			</if>
+			<if test="payWayUserName!=null ">
+				and pw.pay_way_user_name=#{payWayUserName}
+			</if>
+			<if test="payWayUserNum!=null ">
+				and pw.pay_way_user_num=#{payWayUserNum}
+			</if>
+			<if test="payWayRate!=null ">
+				and pw.pay_way_rate=#{payWayRate}
+			</if>
+			<if test="payWayStatus!=null ">
+				and pw.pay_way_status=#{payWayStatus}
+			</if>
+			<if test="isDelete!=null ">
+				and pw.is_delete=#{isDelete}
+			</if>
+		</where>
+		group by pw.pay_way_id
+	</select>
+	
+	<!-- 根据商户和支付方式查询通道-->
+	<select id="queryByCompany" resultMap="payv2busssupportpayway_result_map" >
+		select pbspw.pay_way_rate,pbspw.pay_way_id,scd.dict_name,pbspw.rate_id,pbspw.one_max_money,pbspw.one_min_money
+		,pbspw.max_money,ppwr.one_max_money as rateOneMaxMoney,ppwr.max_money as rateMaxMoney,ppwr.rate_key1
+		,ppwr.rate_key2,ppwr.rate_key3,ppwr.rate_key4,ppwr.rate_key5,ppwr.rate_key6
+		,ppwr.gzh_app_id,ppwr.gzh_key,ppwr.pay_way_rate as cost_rate,ppwr.rate_name
+		,ppwr.pay_way_name
+		from payv2_buss_support_pay_way as pbspw
+		join payv2_pay_way_rate as ppwr on pbspw.rate_id = ppwr.id
+		join sys_config_dictionary as scd on ppwr.dic_id = scd.id
+		<where>
+			pbspw.parent_id=#{companyId} and pbspw.pay_way_status=#{payWayStatus} 
+			and pbspw.is_delete=#{isDelete} and ppwr.is_delete=#{isDelete} and ppwr.status=#{status} 
+			<if test="payViewType!=null ">
+				and ppwr.pay_view_type=#{payViewType}
+			</if>
+			<if test="payWayId!=null ">
+				and pbspw.pay_way_id=#{payWayId}
+			</if>
+			<if test="payType!=null ">
+				<if test="payType!=3 and payType!=5">
+					and (ppwr.pay_type=#{payType} or ppwr.pay_type=4)
+				</if>
+				<if test="payType==3 or payType==5">
+					and ppwr.pay_type=#{payType}
+				</if>
+			</if>
+			<if test="payType==null ">
+				and ppwr.pay_type !=1
+			</if>
+			<if test="payMoney!=null ">
+				and (
+					(pbspw.one_max_money != 0
+					and pbspw.one_min_money <![CDATA[ < ]]> #{payMoney}
+					and pbspw.one_max_money <![CDATA[ >= ]]> #{payMoney}
+					)
+					or 
+					(pbspw.one_max_money = 0 and pbspw.one_min_money=0)
+				)
+			</if>
+		</where>
+		order by pbspw.sort_num
+	</select>
+</mapper>

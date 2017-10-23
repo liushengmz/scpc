@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2BankAppKeyMapper">
+
+	<resultMap id="payv2bankappkey_result_map" type="com.pay.business.payv2.entity.Payv2BankAppKey" >
+		<id column="id" property="id" />
+		<result column="app_id" property="appId"/>
+		<result column="rate_id" property="rateId"/>
+		<result column="bank_key" property="bankKey"/>
+		<result column="bank_key1" property="bankKey1"/>
+		<result column="bank_key2" property="bankKey2"/>
+		<result column="bank_key3" property="bankKey3"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_bank_app_key  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="bankKey!=null and bankKey!=''">
+				and bank_key like CONCAT('%',#{bankKey},'%')
+			</if>
+			<if test="bankKey1!=null and bankKey1!=''">
+				and bank_key1 like CONCAT('%',#{bankKey1},'%')
+			</if>
+			<if test="bankKey2!=null and bankKey2!=''">
+				and bank_key2 like CONCAT('%',#{bankKey2},'%')
+			</if>
+			<if test="bankKey3!=null and bankKey3!=''">
+				and bank_key3 like CONCAT('%',#{bankKey3},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2BankAppKey" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_bank_app_key
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="rateId!=null ">
+				rate_id,
+			</if>
+      		<if test="bankKey!=null ">
+				bank_key,
+			</if>
+      		<if test="bankKey1!=null ">
+				bank_key1,
+			</if>
+      		<if test="bankKey2!=null ">
+				bank_key2,
+			</if>
+      		<if test="bankKey3!=null ">
+				bank_key3,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="rateId!=null ">
+      			#{rateId},
+			</if>
+      		<if test="bankKey!=null ">
+      			#{bankKey},
+			</if>
+      		<if test="bankKey1!=null ">
+      			#{bankKey1},
+			</if>
+      		<if test="bankKey2!=null ">
+      			#{bankKey2},
+			</if>
+      		<if test="bankKey3!=null ">
+      			#{bankKey3},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2BankAppKey">
+		delete from payv2_bank_app_key
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+      		<if test="bankKey!=null ">
+				and bank_key=#{bankKey}
+			</if>
+      		<if test="bankKey1!=null ">
+				and bank_key1=#{bankKey1}
+			</if>
+      		<if test="bankKey2!=null ">
+				and bank_key2=#{bankKey2}
+			</if>
+      		<if test="bankKey3!=null ">
+				and bank_key3=#{bankKey3}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2BankAppKey">
+		update payv2_bank_app_key
+		<set>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="rateId!=null ">
+				rate_id=#{rateId},
+			</if>
+			<if test="bankKey!=null ">
+				bank_key=#{bankKey},
+			</if>
+			<if test="bankKey1!=null ">
+				bank_key1=#{bankKey1},
+			</if>
+			<if test="bankKey2!=null ">
+				bank_key2=#{bankKey2},
+			</if>
+			<if test="bankKey3!=null ">
+				bank_key3=#{bankKey3},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2BankAppKey" resultMap="payv2bankappkey_result_map">
+		select id,app_id,rate_id,bank_key,bank_key1,bank_key2,bank_key3,create_time from payv2_bank_app_key
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="bankKey!=null ">
+				and bank_key=#{bankKey}
+			</if>
+			<if test="bankKey1!=null ">
+				and bank_key1=#{bankKey1}
+			</if>
+			<if test="bankKey2!=null ">
+				and bank_key2=#{bankKey2}
+			</if>
+			<if test="bankKey3!=null ">
+				and bank_key3=#{bankKey3}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2bankappkey_result_map" >
+		select id,app_id,rate_id,bank_key,bank_key1,bank_key2,bank_key3,create_time from payv2_bank_app_key
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="rateId!=null ">
+				and rate_id=#{rateId}
+			</if>
+			<if test="bankKey!=null ">
+				and bank_key=#{bankKey}
+			</if>
+			<if test="bankKey1!=null ">
+				and bank_key1=#{bankKey1}
+			</if>
+			<if test="bankKey2!=null ">
+				and bank_key2=#{bankKey2}
+			</if>
+			<if test="bankKey3!=null ">
+				and bank_key3=#{bankKey3}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2bankappkey_result_map" >
+		
+		SELECT id,app_id,rate_id,bank_key,bank_key1,bank_key2,bank_key3,create_time FROM payv2_bank_app_key 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id = #{appId}
+			</if>
+			<if test="rateId!=null and rateId!=''">
+				and rate_id = #{rateId}
+			</if>
+			<if test="bankKey!=null and bankKey!=''">
+				and bank_key like  CONCAT('%',#{bankKey},'%')
+			</if>
+			<if test="bankKey1!=null and bankKey1!=''">
+				and bank_key1 like  CONCAT('%',#{bankKey1},'%')
+			</if>
+			<if test="bankKey2!=null and bankKey2!=''">
+				and bank_key2 like  CONCAT('%',#{bankKey2},'%')
+			</if>
+			<if test="bankKey3!=null and bankKey3!=''">
+				and bank_key3 like  CONCAT('%',#{bankKey3},'%')
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

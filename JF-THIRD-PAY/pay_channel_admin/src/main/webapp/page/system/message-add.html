@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>发送系统消息</title>
+</head>
+<body>
+<div class="pd-20">
+	<input  type="hidden" id="appId" value="${(bussSponsorInfo.appId)!''}"/>
+	<form action="" method="post" class="form form-horizontal" id="form-adm-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>系统消息标题：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${(msgInfo.msgTitle)!''}" placeholder="" id="msgTitle" name="msgTitle" datatype="*5-60">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+	      <label class="form-label col-3">消息内容：</label>
+	      <div class="formControls col-5">
+	        <textarea id="msgContent" name="msgContent" value="" cols="" rows="" class="textarea"  placeholder="" datatype="*" dragonfly="true" nullmsg="app介绍不能为空！" onKeyUp="textarealength(this,100)">${(msgInfo.msgContent)!''}</textarea>
+	        <p class="textarea-numberbar"><em class="textarea-length"></em>/100字以内</p>
+	      </div>
+	      <div class="col-4"> </div>
+	    </div>
+		<div class="row cl">
+			<div class="formControls col-5">
+				<input type="hidden" class="input-text" value="${(msgInfo.id)!''}" placeholder="" id="id" name="id" datatype="*2-60" />
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="formControls col-5">
+				<#if msg??>
+					<h4 style="color: red;">${msg}</h4>
+				</#if>
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;发送&nbsp;&nbsp;" onclick="_save()">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+//提交数据
+function _save(){
+	var id=$("#id").val();
+	if(id==0||id==""){
+		$("#form-adm-add").attr("action","${basePath}/message/addMessageOk.do");
+	}else{
+		$("#form-adm-add").attr("action","${basePath}/message/updateMessagerOk.do");
+	}
+	$("#form-adm-add").ajaxSubmit({
+		dataType : "json",
+		success:function(data){
+			if(data.status=="success"){
+				window.parent.location.replace("${basePath}/message/msgList.do?curPage=1&pageData=10");
+				layer_close();
+			}else if(data.status==-2){
+				alert("获取appCode失败，是否配置文件没有配置，请检查");
+			}else if(data.status==-3){
+				alert("目前爱资产无注册人；发送系统消息失败");
+			}else if(data.status==-1){
+				alert("程序发送错误");
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>

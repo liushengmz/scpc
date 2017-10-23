@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>查看商户</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<form action="" method="post" class="form form-horizontal" id="form-company-add">
+	<input type="hidden" name="id" value="${obj.id}"/>
+	<div class="pop_main">
+		<h3>公司信息</h3>
+		<dl>
+			<dt><label>合作商户公司名称：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填写商户公司名称" name="companyName" class="dd_input" value="${obj.companyName}"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>公司行业：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司行业" name="companyTrade" style="width:100px;">
+					<#if tradeList?? && tradeList?size gt 0>
+					<#list tradeList as dl >
+						<option value="${dl.id}" <#if dl.id==obj.companyTrade>selected="selected"</#if>>${dl.tradeName}</option>
+					</#list>
+					</#if>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>公司规模：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择公司规模" name="companyScale" style="width:100px;">
+					<option value="1" <#if obj.companyScale==1>selected="selected"</#if>>大型</option>
+					<option value="2" <#if obj.companyScale==2>selected="selected"</#if>>中型</option>
+					<option value="3" <#if obj.companyScale==3>selected="selected"</#if>>小型</option>
+					<option value="4" <#if obj.companyScale==4>selected="selected"</#if>>微型</option>
+					<option value="5" <#if obj.companyScale==5>selected="selected"</#if>>个体户</option>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>营业范围：</label>
+			</dt>
+			<dd>
+				<select name="companyRangeProvince" id="companyRangeProvince" style="width:100px;" >
+					<option value="">全国</option>
+					<#if provincesList?? && provincesList?size gt 0>
+					<#list provincesList as dl >
+						<option value="${dl.id}" <#if dl.id==obj.companyRangeProvince>selected="selected"</#if>>${dl.name}</option>
+					</#list>
+					</#if>
+				</select>
+				<select name="companyRangeCity" id="companyRangeCity" style="width:100px;">
+					<option value="">市</option>
+					<#if cityList?? && cityList?size gt 0>
+					<#list cityList as dl >
+						<option value="${dl.id}" <#if dl.id==obj.companyRangeCity>selected="selected"</#if>>${dl.name}</option>
+					</#list>
+					</#if>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>营业执照号码：</label></dt>
+			<dd><input type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseNum" class="dd_input" value="${obj.licenseNum}"></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>注册地址：</label>
+			</dt>
+			<dd><input type="text" dataType="*" nullmsg="请填营业执照号码" name="licenseAddr" class="dd_input" value="${obj.licenseAddr}"></dd>
+		</dl>
+		<dl>
+			<dt><label>上传营业执照：</label></dt>
+			<dd>
+				<input type="text" class="width200"  dataType="*" nullmsg="请上传营业执照" name="licensePic" id="licensePic" value="${obj.licensePic}"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="licensePicFile"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>营业类型：</label>
+			</dt>
+			<dd>
+				<select dataType="*" nullmsg="请选择营业类型" name="licenseType" style="width:150px;">
+					<option value="1" <#if obj.licenseType==1>selected="selected"</#if>>线上（互联网）</option>
+					<option value="2" <#if obj.licenseType==2>selected="selected"</#if>>线下（实体店铺）</option>
+					<option value="3" <#if obj.licenseType==3>selected="selected"</#if>>线上+线下</option>
+				</select>
+			</dd>
+		</dl>
+		<h3>其他信息</h3>
+		<dl>
+			<dt><label>联系人姓名：</label></dt>
+			<dd><input dataType="*" nullmsg="输入联系人姓名" type="text" name="contactsName" value="${obj.contactsName}"></dd>
+		</dl>
+		<dl>
+			<dt><label>联系人电话：</label></dt>
+			<dd><input dataType="*" nullmsg="输入联系人电话" type="text" name="contactsPhone" value="${obj.contactsPhone}"></dd>
+		</dl>
+	</div>
+	</form>
+</body>
+</html>

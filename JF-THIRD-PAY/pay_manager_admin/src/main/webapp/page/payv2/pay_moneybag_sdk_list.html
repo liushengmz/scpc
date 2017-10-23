@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>包头钱包管理-SDK管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 钱包管理 <span class="c-gray en">&gt;</span> SDK管理
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+		        <form action="${basePath}/payv2WaySdkVersion/payv2WaySdkVersionList.do">
+			         类型：<select class="select" id="sdkType" name="sdkType" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<option value="1" <#if map.sdkType == 1> selected="selected" </#if>>Android</option>
+			           		<option value="2" <#if map.sdkType == 2> selected="selected" </#if>>IOS</option>
+	      			</select>
+	      		状态：<select class="select" id="isOnline" name="isOnline" datatype="*" nullmsg="请选择！" style="width: 150px">
+		           		<option value="">全部</option>
+		           		<option value="1" <#if map.isOnline == 1> selected="selected" </#if>>使用中</option>
+		           		<option value="2" <#if map.isOnline == 2> selected="selected" </#if>>已下线</option>
+      			</select>
+      			<input type="hidden" name="payWayId" id="payWayId" value="${map.payWayId}">
+				<input id="resetButton" class="btn" type="button" value="清空"></input>
+				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont"></i> 搜索 </button>
+			</form>	
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:sdk_add('${map.payWayId}');">
+				<i class="Hui-iconfont">&#xe600;</i> 上传版本</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>  
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="10">编号</th>
+						<th width="100">所属钱包</th>
+						<th width="100">类型</th>
+						<th width="100">版本号</th>
+						<th width="100">子版本号</th>
+						<th width="100">当前状态</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.payWayName}</td>
+							<td>
+							<#if dl.sdkType==1>安卓</#if>
+							<#if dl.sdkType==2>ios</#if>
+							</td>
+							<td>${dl.sdkVersion}</td>
+							<td>${dl.sdkVersionCode}</td>
+							<td>
+							<#if dl.isOnline==1>使用中</#if>
+							<#if dl.isOnline==2>已下线</#if>
+							</td>
+							<td class="td-manage">
+							
+							<#if dl.isOnline==1>
+							<a style="text-decoration:none" onClick="handle('${dl.id!}','2','下架','')" href="javascript:;" title="下线"><i class="Hui-iconfont">下架</i></a> 
+							</#if>
+							<#if dl.isOnline==2>
+							<a style="text-decoration:none" onClick="handle('${dl.id!}','1','上架','')" href="javascript:;" title="上线"><i class="Hui-iconfont">上架</i></a> 
+							</#if>
+							<a href="${dl.sdkFileUrl}" class="tablea">下载</a>
+							<a title="删除" href="javascript:;" onclick="sdk_del(${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn"></i></a>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+		 	$("#resetButton").bind("click", function(){
+		 		$("#sdkType").val("");
+		 		$("#isOnline").val("");
+		 	});
+		});
+	
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${list.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${list.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/payv2WaySdkVersion/payv2WaySdkVersionList.do?curPage="+obj.curr +"&pageData="+10
+				 				 +  "&payWayId=" + $("#payWayId").val();
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+
+		/*新增*/
+		function sdk_add(payWayId){
+			var url = '${basePath}/payv2WaySdkVersion/addPayv2WaySdkVersionTc.do?payWayId='+payWayId;
+			layer_show('上传新版本', url, 1200, 800);
+		}
+		
+		
+
+
+		/**
+		*上下线
+		*/
+		function handle(id,status,tips,url){
+			layer.confirm("确认要"+ tips +"吗？", function(index) {
+				var data = {};
+				data.id = id;
+				data.payWayId=$("#payWayId").val();
+				data.isOnline = status;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2WaySdkVersion/updatePayv2WaySdkVersion.do",  data, function(d){
+					console.info(d);
+					if(d.resultCode == 200){
+						layer.msg('已审核,其中不包含不在审核期的订单哦!', {
+							icon : 1,
+							time : 1000
+						});
+						$("#payWayId").val(d.payWayId);
+						location.replace(location.href);
+					}else{
+						Huimodal_alert(tips +"失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert(tips+"失败,服务器异常!",1500);
+				});
+			});
+		}
+		
+		function sdk_del(id){
+			layer.confirm("确认要删除吗？", function(index) {
+				var data = {};
+				data.id = id;
+				data.isDelete = 1;
+				data.payWayId=$("#payWayId").val();
+				//后台请求保存数据
+				$.axse("${basePath}/payv2WaySdkVersion/updatePayv2WaySdkVersion.do",  data, function(d){
+					console.info(d);
+					if(d.resultCode == 200){
+						layer.msg('已审核,其中不包含不在审核期的订单哦!', {
+							icon : 1,
+							time : 1000
+						});
+						$("#payWayId").val(d.payWayId);
+						location.replace(location.href);
+					}else{
+						Huimodal_alert("删除失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("删除失败,服务器异常!",1500);
+				});
+			});
+		}
+
+	</script>
+</body>
+</html>

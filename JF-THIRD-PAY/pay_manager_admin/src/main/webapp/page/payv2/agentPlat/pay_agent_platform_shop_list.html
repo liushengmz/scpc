@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>店铺管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 代理平台 <span class="c-gray en">&gt;</span> 线下店铺
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+		        <form action="${basePath}/payv2AgentPlatform/payv2AgentPlatformShopList.do">
+		         <input type="text" id="shopName" name="shopName" value="${map.shopName}" placeholder="输入店铺名称" style="width: 150px" class="input-text">
+				 <input type="hidden" id="platformId" name="platformId" value="${map.platformId}" >
+				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont"></i> 搜索 </button>
+			</form>	
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>  
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="10">编号</th>
+						<th width="100">所属商户</th>
+						<th width="100">店铺名称</th>
+						<th width="100">店铺地址</th>
+						<th width="100">支付通道</th>
+						<th width="100">店铺状态</th>
+						<th width="100">创建时间</th>
+						<th width="200">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.companyName}</td>
+							<td>${dl.shopName}</td>
+							<td>${dl.shopAddress}</td>
+							<td>${dl.payWay}</td>
+							<td>
+							<#if dl.shopStatus==1><span class="label-warning">未审核</span></#if>
+							<#if dl.shopStatus==2><span class="label-success">通过</span></#if>
+							<#if dl.shopStatus==3><span class="label-danger">未通过</span></#if>
+							<#if dl.shopStatus==4><span class="label-secondary">终止合作</span></#if>
+							</td>
+							<td>
+								<#if dl.createTime??>
+									${dl.createTime?string("yyyy-MM-dd")}
+								</#if>
+							</td>
+							<td class="td-manage">
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${list.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${list.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/payv2AgentPlatform/payv2AgentPlatformShopList.do?curPage="+obj.curr +"&pageData="+10
+				 				 +  "&shopName=" + $("#shopName").val()
+				 				 +  "&platformId=" + $("#platformId").val();
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+
+	</script>
+</body>
+</html>

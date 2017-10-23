@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.pay</groupId>
+    <artifactId>pay_project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>pay_component</artifactId>
+  <groupId>com.pay.pay_cpmponent</groupId>
+  <version>0.0.1</version>
+
+	<dependencies>
+  		<dependency>
+			<artifactId>pay_cpmponent_entity</artifactId>
+			<groupId>com.pay.pay_cpmponent_entity</groupId>
+			<version>0.0.1</version>
+		</dependency>
+		<!-- 二维码 -->
+	  	<dependency>  
+            <groupId>com.google.zxing</groupId>  
+            <artifactId>core</artifactId>  
+            <version>3.2.0</version>  
+        </dependency>
+        <!-- csv读取 -->
+        <dependency> 
+	        <groupId>net.sourceforge.javacsv</groupId>
+			<artifactId>javacsv</artifactId>
+			<version>2.0</version>
+		 </dependency>  
+        <dependency>  
+            <groupId>com.google.zxing</groupId>  
+            <artifactId>javase</artifactId>  
+            <version>3.2.0</version>  
+        </dependency> 
+        <dependency>
+		    <groupId>org.jdom</groupId>
+		    <artifactId>jdom</artifactId>
+		    <version>1.1.3</version>
+		</dependency>
+  </dependencies>
+  <distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://192.168.1.10:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://192.168.1.10:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>

@@ -1,0 +1,93 @@
+jsonp1(
+	{
+		"data": {
+			"18": {
+			    	"backName": "小草银行",
+					"productRate": "3.5,6",
+					"subsidy": "按投资额20000计算",
+					"annual":"2.00",
+					"redo": "2.2",
+					"deadline":"0-36个月",
+					"investAmount": "1",
+					"productAmount": "充足",
+					"trusteeAgency": "晋城直销银行",
+					"attention": "已通过其他渠道购买本产品的用户，将不可获得本平台提供的利息补贴",
+					"guaranteeAgency": "中原银行",
+					"period": "2016/9/30  23:59:00",
+					"method": ""
+			},"19": {
+			    	"backName": "民生直销银行",
+		      		"productRate": "2.2,5.1",
+					"subsidy": "按投资额20000计算",
+					"annual":"1.50",
+					"redo": "",
+					"deadline":"0-36个月",
+					"investAmount": "1",
+					"productAmount": "充足",
+					"trusteeAgency": "民生直销银行",
+					"attention": "已通过其他渠道购买本产品的用户，将不可获得本平台提供的利息补贴",
+					"guaranteeAgency": "中原银行",
+					"period": "2016/9/30  23:59:00",
+					"method": ""
+		  },"20": {
+		      		"backName": "华润直销银行",
+		      		"productRate": "2.45,4.16",
+					"subsidy": "按投资额20000计算",
+					"annual":"1.20",
+					"redo": "",
+					"deadline":"0-36个月",
+					"investAmount": "1",
+					"productAmount": "充足",
+					"trusteeAgency": "华润直销银行",
+					"attention": "已通过其他渠道购买本产品的用户，将不可获得本平台提供的利息补贴",
+					"guaranteeAgency": "中原银行",
+					"period": "2016/9/30  23:59:00",
+					"method": ""
+		  },"21": {
+		  		   	"backName": "中原银行",
+		  		    "productRate": "3.3,4.25",
+					"subsidy": "按投资额20000计算",
+					"annual":"1.20",
+					"redo": "",
+					"deadline":"0-36个月",
+					"investAmount": "1",
+					"productAmount": "充足",
+					"trusteeAgency": "中原银行",
+					"attention": "已通过其他渠道购买本产品的用户，将不可获得本平台提供的利息补贴",
+					"guaranteeAgency": "中原银行",
+					"period": "2016/9/30  23:59:00",
+					"method": ""
+		  },"22": {
+		      		"backName": "江苏直销银行",
+		  		    "productRate": "2.1,6",
+					"subsidy": "按投资额20000计算",
+					"annual":"1.20",
+					"redo": "",
+					"deadline":"0-36个月",
+					"investAmount": "1",
+					"productAmount": "充足",
+					"trusteeAgency": "江苏直销银行",
+					"attention": "已通过其他渠道购买本产品的用户，将不可获得本平台提供的利息补贴",
+					"guaranteeAgency": "中原银行",
+					"period": "2016/9/30  23:59:00",
+					"method": ""
+		  }
+		}
+	}
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -190,6 +190,13 @@
 				<final.name>HtProject</final.name>
 			</properties>
 		</profile>
+		<profile>
+			<id>bjyh</id>
+			<properties>
+				<runtime.env>config\bjyh</runtime.env>
+				<final.name>HtProject</final.name>
+			</properties>
+		</profile>
 	</profiles>
 	<dependencies>
 		<dependency>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <#include "lib/lib.html" />
+    <title>退款订单查询</title>
+	
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit|ie-stand">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="x-ua-compatible" content="IE=11,10,9" >
+  <link rel="stylesheet" href="../../public/css/normal.css" />
+  </head>
+  
+  <body>
+    <nav class="breadcrumb">
+        <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+        交易管理<span class="c-gray en">&gt;</span> 退款订单查询 <a
+          class="btn btn-success radius r mr-20"
+          style="line-height: 1.6em; margin-top: 3px"
+          href="javascript:location.replace(location.href);" title="刷新"> <i
+          class="Hui-iconfont">&#xe68f;</i></a>
+    </nav>
+
+    <div style=" margin: 20px 40px 0 40px;">
+      <div class="query">        
+            <div class="line1">
+              <!-- 支付集订单号 -->
+              <div class="chooseOrderNum clearfix querychild">
+                <label>支付集订单号:</label>
+                <input type="text" name="orderNum" class="orderNum">
+              </div>
+              <!-- 退款订单号 -->
+              <div class="chooseRefundNum clearfix querychild">
+                <label>退款订单号:</label>
+                <input type="text" name="refundNum" class="refundNum">
+              </div>
+              <div class="search">
+                 <button name="" id="" class="btn btn-success" type="button" onclick="query()">
+                  <i class="Hui-iconfont">&#xe665;</i> 搜索
+                </button>
+              </div>             
+            </div>
+            <div class="line2">
+                <div class="data">
+                  <label>退款时间：</label>
+                 <!-- <input id="" class="condition-date data1" type="text" name="">
+                  <select id="" class="time1"></select> -->
+                  <input type="text" class="dateShow begin input-text size-M data1" data-required id="begin" placeholder="请选择开始时间" style="width:150px;" >
+                  <span class="date-line">&nbsp;--&nbsp;</span>
+                  <!-- <input id="" class="condition-date data2" type="text" name="">
+                  <select id="" class="time2"></select> -->
+                  <input type="text" class="dateShow end input-text size-M data2" data-required id="end" placeholder="请选择结束时间" style="width:150px;" >
+                </div>
+            </div>
+            <div class="line3">
+              <!-- 选择渠道商 -->
+              <div class="chooseChannel clearfix querychild">
+                <label>来源渠道商:</label>
+                <select name="channelId" id="channelId" onchange="showCompany()">
+                  <option value="">全部</option>
+                  <#if payv2ChannelList?? && payv2ChannelList?size gt 0>
+                  <#list payv2ChannelList as dl >
+                    <option value="${dl.id}">${dl.channelName}</option>
+                  </#list>
+                  </#if>
+                </select>
+              </div>
+              <!-- 选择商户 -->
+              <div class="chooseCompany clearfix querychild">
+                <label>来源商户:</label>
+                <select name="companyId" id="companyId" onchange="getAppsPayWays()">
+                  <option value="">全部</option>
+                </select>
+              </div>
+              <!-- 选择应用 -->
+              <div class="chooseApp clearfix querychild">
+                <label>来源应用:</label>
+                <select name="appId" id="appId">
+                  <option value="">全部</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="line4">
+              <div class="chooseChannel clearfix querychild">
+                <label>支付平台:</label>
+                <select name="payWayId" id="payWayId" onchange="getPayWayList()">
+                  <option value="">全部</option>
+                  <#if payList?? && payList?size gt 0>
+                  <#list payList as dl >
+                    <option value="${dl.id}">${dl.wayName}</option>
+                  </#list>
+                  </#if>
+                </select>
+              </div>              
+              <div class="choosePayType clearfix querychild">
+                <label>支付方式:</label>
+                <select name="payType" id="payType" onchange="getPayWayList()">
+                  <option value="">全部</option>
+                  <option value="1">app支付</option>
+                  <option value="2">web</option>
+                  <option value="3">扫码</option>
+                  <option value="4">wap</option>
+                  <option value="5">微信公众号</option>
+                </select>
+              </div>    
+              <div class="chooseWay querychild">
+                <label>支付通道:</label>
+                <select name="payWay" id="payWay">
+                 <option value="">全部</option>
+                  <#if payWayList?? && payWayList?size gt 0>
+                  <#list payWayList as dl >
+                    <option value="${dl.id}">${dl.rateName}</option>
+                  </#list>
+                  </#if>
+                </select>
+              </div>
+              <!-- <div class="choose clearfix querychild">
+                <label>订单状态:</label>
+                <select name="appId" id="appId">
+                  <option value="">全部</option>
+                  <option value="1">全部退款</option>
+                  <option value="2">部分退款</option>
+                  <option value="3">退款失败</option>                  
+                </select>
+              </div> --> 
+              <div class="export fr">
+                <button name="" id="exportExcel" class="btn btn-success" type="button" onclick="exportExcel()"> <i class="Hui-iconfont">&#xe640;</i>导出Excel</button>
+              </div>    
+            </div>
+      </div>
+      <div class="dataTable" style="margin-top: 20px;">
+        <table class="table table-border table-bordered table-hover" style="font-weight: bolder;">
+          <thead>
+            <tr class="text-c">             
+              <td>退款时间</td>
+              <td>
+                <p>支付集订单号</p>
+                <p>退款订单号</p>
+              </td>
+              <td>来源渠道</td>
+              <td>来源商户</td>
+              <td>来源应用</td>
+              <td>支付通道名称</td>
+              <td>支付通道编号</td>
+              <td>订单金额</td>
+              <td>退款金额</td>
+              <td>状态</td>
+              <td>操作</td>
+            </tr>
+          </thead>
+          <tbody id="dataRefund">
+          </tbody>
+        </table>
+        <div class="page_list" style="margin: 20px auto ; text-align: center;"></div>
+      </div>
+    </div>
+    <style type="text/css">
+      .query , .dataTable {background: #f2f2f2; border-bottom: 1px solid #d9d9d9; }
+      .line1 , .line2 ,.line3 ,.line4{ height: 50px; }
+
+      .querychild {width: 20%; line-height: 26px; float: left; margin: 5px 15px;}
+
+      .chooseOrderNum,.chooseRefundNum {width: 25%;}
+
+      input, select{height: 26px; width: 60%;border-radius: 5px;}
+
+      .chooseOrderNum input,.chooseRefundNum input { border: 1px solid #d9d9d9;}
+      .data select {width: 6%;}
+
+      .search button {border-radius: 5px; margin-top: 5px; margin-left: 75px; width: 92px;}
+      .export button {border-radius: 5px; margin: 5px 10px;}
+
+      .data {  margin: 5px 15px; }
+      .condition-date {width: 10%; min-width: 90px; height: 26px; line-height: 24px; border-radius: 5px; border: 1px solid #d9d9d9;
+        }
+    </style>
+  </body>
+
+<script type="text/javascript">
+  var isChange = 0; 
+  $(document).ready(function() {
+    $('select').searchableSelect();
+    isChange++;
+  })
+
+  $.datetimepicker.setLocale('ch');
+  $(".data1 , .data2").datetimepicker({
+    format:"Y-m-d H:i",
+    step:60,
+    defaultTime:'00:00',
+    timepickerScrollbar:false
+  })
+  $("body").on("focus", ".data1", function() {
+    if($(".data2").val()) {
+      $(".data1").datetimepicker({
+        "minDate": 2016-01-01,
+        "maxDate": $(".data2").val()
+        // startDate : new Date()
+        
+      });
+    } else {
+      $(".data1").datetimepicker({
+        "minDate": 2016-01-01,
+        "maxDate": new Date()
+        // startDate : new Date()
+      });
+    }
+  })
+  $("body").on("focus", ".data2", function() {
+    if($(".data1").val()) {
+      $(".data2").datetimepicker({
+        "minDate": $(".data1").val(),
+        "maxDate": new Date()
+      });
+    } else {
+      $(".data2").datetimepicker({
+        "maxDate": new Date()
+      });
+    }
+  })
+
+  // 查询渠道商的商户
+  function showCompany(){
+      var channelId = $("#channelId").val();
+      if(channelId ==null || channelId == ""){       
+        if(isChange == 0){
+          return;
+        }
+        $("#companyId").empty();
+        $("#companyId").append('<option value="">全部</option>');
+        $(".chooseCompany .searchable-select").remove();
+        $('#companyId').searchableSelect();
+      }else{
+        $("#companyId").empty();
+        $("#companyId").append('<option value="">全部</option>');
+        $("#appId").empty();
+        $("#appId").append('<option value="">全部</option>');
+        
+        $.ajax({
+          type:"get",
+          url:"${basePath}/Payv2CompanyMoneyClear/showCompany.do?channelId="+channelId,
+          async:true,
+          success:function(data){           
+            if(!!data&&data.resultCode==200){
+              var list = data.Data,
+                str="";
+              for(var i=0;i<list.length;i++){
+                str+='<option value="'+list[i].id+'">'+list[i].companyName+'</option>';
+              }
+              $("#companyId").append(str);
+              $(".chooseCompany .searchable-select").remove();
+              $('#companyId').searchableSelect();
+            }else{
+              alert(data.message);
+            }
+          }
+        });        
+      }     
+    };
+
+     function getAppsPayWays(){
+      // 查询商户的APP
+      var companyId = $("#companyId").val();
+      var payWay = $("#payWay").val();
+      if(companyId ==null || companyId == ""){      
+        if(isChange == 0){
+          return;
+        }
+        $("#appId").empty();
+        $("#appId").append('<option value="">全部</option>');
+        $(".chooseApp .searchable-select").remove();
+        $('#appId').searchableSelect();
+      }else{
+        $("#appId").empty();
+        $("#appId").append('<option value="">全部</option>');
+        
+        $.ajax({
+          type:"get",
+          url:"${basePath}/Payv2BussiManagerAlldata/getApps.do?companyId="+companyId,
+          async:true,
+          success:function(data){
+            if(!!data&&data.resultCode==200){
+              var list = data.Data,
+                str="";
+                var length = list.length;
+              for(var i=0;i<length;i++){
+                str+='<option value="'+list[i].id+'">'+list[i].appName+'</option>';
+              }
+              $("#appId").append(str);
+              $(".chooseApp .searchable-select").remove();
+              $('#appId').searchableSelect();
+            }else{
+              alert(data.message);
+            }
+          }
+        }); 
+      }       
+    }
+
+      function getPayWayList(){
+        var payWayId = $("#payWayId").val();
+        var payType = $("#payType").val();
+        $("#payWay").empty();
+        $("#payWay").append('<option value="">全部</option>');
+        $.ajax({
+              type:"get",
+              url:"${basePath}/Payv2PayOrder/getRateList.do?payWayId="+payWayId+"&payType="+payType,
+              async:true,
+              success:function(data){
+                if(!!data&&data.resultCode==200){
+                  var list = data.Data,
+                    str="";
+                    var length = list.length;
+                  for(var i=0;i<length;i++){
+                    str+='<option value="'+list[i].id+'">'+list[i].rateName+'</option>';
+                  }
+                  $("#payWay").append(str);
+                  $(".chooseWay .searchable-select").remove();
+                  $('#payWay').searchableSelect();
+
+                }else{
+                  alert(data.message);
+                }
+              }
+        }); 
+      }
+
+
+      var param = {};
+      param.orderNum = "";
+      param.refundNum = "";
+      param.startTime = "";
+      param.endTime = "";
+      param.channelId = "";
+      param.companyId = "";
+      param.appId = "";
+      param.payWayId = "";
+      param.rateType = "";
+      param.rateId = "";
+      param.curPage = 0;
+      param.pageData = 7;
+      var totalPage = 0;
+      var rateTypeName = "";
+      function query(){
+        $("#dataRefund").empty();
+        param.orderNum = $(".orderNum").val();
+        param.refundNum = $(".refundNum").val();
+        param.startTime = $(".data1").val();
+        param.endTime = $(".data2").val();
+        param.channelId = $("#channelId").val();
+        param.companyId = $("#companyId").val();
+        param.appId = $("#appId").val();
+        param.payWayId = $("#payWayId").val();
+        param.rateType = $("#payType").val();
+        param.rateId = $("#payWay").val();
+        if($(".data1").val() == null || $(".data1").val() == ""){
+          param.startTime = null;
+        }
+        if($(".data2").val() == null || $(".data2").val() == ""){
+          param.endTime = null;
+        }
+        $.ajax({
+          type:"get",
+          data:param,
+          url:"${basePath}/Payv2PayOrderRefund/queryRefunds.do",         
+          async:true,
+          success:function(data){
+            if(!!data&&data.resultCode==200){
+              totalPage = data.Data.payOrderRefundVOList.totalPage;
+              param.curPage = data.Data.payOrderRefundVOList.curPage;
+              var list=data.Data.payOrderRefundVOList.dataList,
+              str="";
+              for(var i=0;i<list.length;i++){
+                if(list[i].rateType == 1){
+                  rateTypeName = "app支付";
+                }else if (list[i].rateType == 2){
+                  rateTypeName = "web";
+                }else if (list[i].rateType == 3){
+                  rateTypeName = "扫码";
+                }else if (list[i].rateType == 4){
+                  rateTypeName = "wap";
+                }else if (list[i].rateType == 5){
+                  rateTypeName = "微信公众号";
+                }else{
+                  rateTypeName = "未查询到支付方式";
+                }
+                str=""
+                  str += "<tr class='text-c'><td>"+FormatDate(list[i].refundTime)+"</td><td><p>"+list[i].orderNum+"</p><p>"+list[i].refundNum+"</P></td><td>"+list[i].channelName+"</td><td>"+list[i].companyName+"</td><td>"+list[i].appName+"</td><td>"+list[i].rateName+"</td><td>"+list[i].payWayName+"</td><td>"+list[i].payMoney+"</td><td>"+list[i].refundMoney+"</td><td>退款成功</td><td><input class='  btn btn-primary radius size-MINI' type='button' value='订单详情'onclick=detail('订单详情','${basePath}/Payv2PayOrderRefund/refundDetail.do?orderNum="+list[i].orderNum+"&merchantOrderNum="+list[i].merchantOrderNum+"&refundNum="+list[i].refundNum+"&bankTransaction="+list[i].bankTransaction+"&channelName="+list[i].channelName+"&companyName="+list[i].companyName+"&appName="+list[i].appName+"&rateTypeName="+rateTypeName+"&rateName="+list[i].rateName+"&payTime="+list[i].payTime+"&refundTime="+list[i].refundTime+"&payMoney="+list[i].payMoney+"&payDiscountMoney="+list[i].payDiscountMoney+"&refundMoney="+list[i].refundMoney+"&payWayMoney="+list[i].payWayMoney+"',1000)></td></tr>"
+                $("#dataRefund").append(str);
+              }
+              if($("#dataRefund").find("tr").length <= 0){
+                layer.msg('未找到数据', {icon: 7});
+                $(".page_list").css("display","none");
+              }else{
+                $(".page_list").css("display","block");
+              }
+              
+              print(param.curPage);
+            }else{
+              alert(data.message);
+            }
+          }
+        });
+    }
+    function print(curr){
+      laypage({
+            cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+            pages: totalPage, //总页数
+            first: '首页',
+            last: '尾页',
+            curr:curr,
+            hash: true, //开启hash
+            skin: '#00AA91',
+            jump: function(obj,first){ //触发分页后的回调
+                if(!first){
+                  param.curPage = obj.curr;
+                  query();
+                }
+              }
+        });
+    }
+    function FormatDate (strTime) {
+        if(strTime == null || strTime == ""){
+          return "未查询到退款时间";
+        }
+        var date = new Date(strTime);
+        // return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+ " "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+    }
+    function detail(title,url,w,h){
+      layer_show(title, url, w, h);
+    }
+    //导出Excel
+    function exportExcel(){
+      if($("#dataRefund").find("tr").length > 0){
+        param.orderNum = $(".orderNum").val();
+        param.refundNum = $(".refundNum").val();
+        param.startTime = $(".data1").val();
+        param.endTime = $(".data2").val();
+        param.channelId = $("#channelId").val();
+        param.companyId = $("#companyId").val();
+        param.appId = $("#appId").val();
+        param.payWayId = $("#payWayId").val();
+        param.rateType = $("#payType").val();
+        param.rateId = $("#payWay").val();        
+        if($(".data1").val() == null || $(".data1").val() == ""){
+          param.startTime = "";
+        }
+        if($(".data2").val() == null || $(".data2").val() == ""){
+          param.endTime = "";
+        }
+        // $.ajax({
+        //   type:"get",
+        //   data:param,
+        //   url:"${basePath}/Payv2PayOrderRefund/refundsExport.do",         
+        //   async:true,
+        // }); 
+        window.location.href="${basePath}/Payv2PayOrderRefund/refundsExport.do?orderNum=" + param.orderNum 
+                                             +  "&refundNum=" + param.refundNum
+                                             +  "&startTime=" + param.startTime
+                                             +  "&endTime=" + param.endTime
+                                             +  "&channelId=" + param.channelId
+                                             +  "&companyId=" + param.companyId
+                                             +  "&appId=" + param.appId
+                                             +  "&payWayId=" + param.payWayId
+                                             +  "&rateType=" + param.rateType
+                                             +  "&rateId=" + param.rateId
+      }else{
+        layer.msg('没有数据可导出', {icon: 7});
+      }
+    }
+</script>
+</html>

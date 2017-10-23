@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>编辑APP</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-APP-add">
+	<div class="pop_main">
+		<h3>APP信息</h3>
+		<dl  class="adddl">
+			<dt><label>所属公司：</label></dt>
+			<dd>
+					<select class="select" id="companyId" name="companyId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if companyList?? && companyList?size gt 0>
+			           		<#list companyList as dl>
+			           			<option value="${dl.id!}" <#if dl.id == payv2BussCompanyApp.companyId> selected="selected" </#if>>${dl.companyName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>APP名称：</label>
+					<input type="hidden" value="${payv2BussCompanyApp.id}" name="id">
+					<input type="hidden" value="${payv2BussCompanyApp.isAndroid}" name="isAndroid" id="isAndroid">
+					<input type="hidden" value="${payv2BussCompanyApp.isIos}" name="isIos" id="isIos">
+					<input type="hidden" value="${payv2BussCompanyApp.isWeb}" name="isWeb" id="isWeb">
+			</dt>
+			<dd><input type="text" name="appName" value="${payv2BussCompanyApp.appName}" placeHolder="请输入APP名称" class="dd_input" datatype="*" nullmsg="APP名称不能为空"></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用类型：</label></dt>
+			<dd>
+					<select class="select" id="appTypeId" name="appTypeId" datatype="*" nullmsg="请选择！" style="width: 150px">
+			           		<option value="">全部</option>
+			           		<#if appTypeList?? && appTypeList?size gt 0>
+			           		<#list appTypeList as dl>
+			           			<option value="${dl.id!}" <#if dl.id ==payv2BussCompanyApp.appTypeId> selected="selected" </#if>>${dl.typeName!}</option>
+			           		</#list>
+			           		</#if>
+	      			</select>
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt class="spic"><label>应用图标：</label></dt>
+			<dd>
+				<input type="text" class="dd_input width200"  dataType="*" nullmsg="请上传icon图片" name="appIcon" id="appIcon" value="${payv2BussCompanyApp.appIcon!}"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="appIconFile" onchange="uploadFile('${basePath}/upload/addFiles.do','appIcon','File',this)"/>
+				<span class="remind_span">尺寸：120*120像素(宽*高)</span>
+				<div class="upLoadShots">
+					<p class="shotList"><img src="${payv2BussCompanyApp.appIcon!}" id="serviceIconImgappIcon"/><i class="imageOper"></i></p>
+				</div>
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt class="spic"><label>应用截图：</label></dt>
+			<dd>
+				<div class="formControls col-7" id="bondOpenAccountPicExampleImg">
+					<input type="hidden" name="appImg" id="bondOpenAccountPicExample" value="${payv2BussCompanyApp.appImg!}"/>
+			        <input type="file"  multiple="multiple" name="Imgs" id="Imgs" style="width: 200px;display: inline-block;">
+			        <a href="javascript:;" onclick="uploadImg('${basePath}/upload/uploadImgs.do','input[id=\'Imgs\']','form [name=\'appImg\']')" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 上传</a>
+					<span class="remind_span">可上传5张 2M以内,支持：JPG,PNG</span>
+					<div id="imgscontent" style="width:200px"></div>
+			    </div>
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt class="spic"><label>应用说明：</label></dt>
+			<dd>
+				<textarea name="appDesc" cols="" rows="" class="textarea" dataType="*" nullmsg="应用说明" placeholder="说点什么...128个字符以内" dragonfly="true">${payv2BussCompanyApp.appDesc!}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/128</p>
+			</dd>
+		</dl>
+		<dl class="adddl">
+					<dt class="spic"><label>应用说明文档：</label></dt>
+					<dd>
+						<input type="hidden" name="sdkDocumentName" class="width200" id="sdkDocumentName"/>
+						<input type="text" dataType="*" name="appDescFile" class="dd_input uploadPackgeMd5 width200" readonly="readonly" nullMsg="SDK集成文档" id="sdkDocumentUrl" value="${payv2BussCompanyApp.appDescFile!}"/>
+						<input type="file" name="file" class="installUploadPackge width150 fileInputClass" class="upload-btn" id="sdkDocumentUrlFile" />
+					</dd>
+		</dl>
+		<dl class="adddl">
+			<dt class="spic"><label>著作权验证：</label></dt>
+			<dd>
+				<input type="text" class="dd_input width200"  dataType="*" nullmsg="请上传图片" name="appCopyright" id="appCopyright" value="${payv2BussCompanyApp.appCopyright!}"/>
+				<input type="file" class="width150 fileInputClass" name="file" id="appCopyrightFile" onchange="uploadFile('${basePath}/upload/addFiles.do','appCopyright','File',this)"/>
+				<span class="remind_span">2M以内,支持：JPG,PNG</span>
+				<div class="upLoadShots">
+					<p class="shotList"><img src="${payv2BussCompanyApp.appCopyright!}" id="serviceIconImgappCopyright"/><i class="imageOper"></i></p>
+				</div>
+			</dd>
+		</dl>
+ 		<!-- <dl class="adddl" id="android_show" <#if payv2BussCompanyApp.isAndroid == 1> style="display:block" <#else> style="display:none" </#if>>
+			<dt><label>安卓包：</label></dt>
+			<dd>
+				<input type="text" dataType="*" value="${payv2BussCompanyApp.androidApkUrl}" nullmsg="请上传APK" class="width200" name="androidApkUrl" id="androidApkUrl"/>
+				<input type="file" name="file" class="width150 fileInputClass" id="androidApkUrlFile" onchange="uploadFile1('${basePath}/upload/addFiles.do','androidApkUrl','File',this)">
+			</dd>
+		</dl>
+		<dl  class="adddl" id="ios_show" <#if payv2BussCompanyApp.isIos == 1> style="display:block" <#else> style="display:none" </#if>>
+			<dt><label>ios：</label></dt>
+			<dd>
+				<input type="text" dataType="*" value="${payv2BussCompanyApp.iosIpaUrl}" placeholder="请输入appstore地址"  nullmsg="请输入appstore地址" class="width200" name="iosIpaUrl" id="iosIpaUrl"/>
+			</dd>
+		</dl>
+		<dl  class="adddl" id="network_show" <#if payv2BussCompanyApp.isWeb == 1> style="display:block" <#else> style="display:none" </#if>>
+			<dt><label>网页商品：</label></dt>
+			<dd>
+				<input type="text" dataType="*" value="${payv2BussCompanyApp.webUrl}" placeholder="请输入网页商品链接"  nullmsg="请输入网页链接" class="width200" name="webUrl" id="webUrl"/>
+			</dd>
+		</dl> -->
+		
+		<div class="submit_btn">
+			<input type="button" value="确定" onclick="submitButt()">
+		</div>
+	</div>
+	<script type="text/javascript"src="${basePath}/public/js/mutilfile.js"></script>
+	<script type="text/javascript">
+	
+		$(function(){
+			
+			$("#form-APP-add").Validform({
+				tiptype:3,
+				showAllError:true,   //表单提交时显示所有提示信息
+				ignoreHidden: true,  //隐藏的表单元素不校验
+				ajaxPost:true,
+				callback:function(data){
+					//后台请求保存数据
+					$.Hidemsg()
+					if(data.resultCode==200){
+						layer.msg('保存成功!', {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2BussCompanyApp/payv2BussCompanyAppList.do");
+						parent.layer.close();
+					}else{
+						layer.msg(data.message, {
+							icon : 1,
+							time : 1000
+						});
+					}
+					
+				}
+			});
+			
+		});
+		
+		
+		function checkAndroid(){
+		 	var androidChk = document.getElementById("android");
+			if(androidChk.checked){
+				$("#isAndroid").val("1");
+				$("#android_show").show();
+			}else{
+				$("#isAndroid").val("2");
+				$("#android_show").hide();
+			}
+		}
+		
+		function checkIOS(){
+			var iosChk = document.getElementById("ios");
+			if(iosChk.checked){
+				$("#isIos").val("1");
+				$("#ios_show").show();
+			}else{
+				$("#isIos").val("2");
+				$("#ios_show").hide();
+			}
+		}
+
+		function checkNetwork(){
+			var netChk = document.getElementById("network");
+			if(netChk.checked){
+				$("#isWeb").val("1");
+				$("#network_show").show();
+			}else{
+				$("#isWeb").val("2");
+				$("#network_show").hide();
+			}
+		}
+		
+		function submitButt(){
+			$("#form-APP-add").attr(
+					"action",
+					"${basePath}/payv2BussCompanyApp/updatePayv2BussCompanyApp.do").submit(); 
+		}
+
+		
+	
+		//上传APK
+		function uploadFile1(url, idstr, filestr,obj) {
+			if ($("input[id='" + idstr + filestr + "']").val() == "") {
+				alert("请选择上传文件");
+				return;
+			}
+			commonUp(url, $("input[id='" + idstr + filestr + "']"), function(
+					data) {
+				$("#" + idstr).val(data.Data.url);
+			});
+		}
+		
+		function commonUp(url, e, callback) {
+			$.ajaxFileUpload({
+				url : url,
+				secureuri : false,
+				fileElement : e,
+				dataType : "JSON",//返回数据的类型
+				success : function(data, status) {
+					if (data.resultCode == 200) {
+						if (callback) {
+							callback(data);
+						}
+					} else {
+						//alert("上传失败！");
+						alert(data.Data);
+					}
+
+				}
+			});
+		}
+		//上传图片
+		function uploadFile(url,idstr,filestr,obj) {
+			var _this = $(obj);
+			if($("input[id='"+idstr+filestr+"']").val()==""){
+				alert("请选择上传文件");
+				return;
+			}
+			var len = _this.parent("dd").find(".upLoadShots").find(".shotList").length;
+			if (len == 0) {
+				_this.parent("dd")
+					.find(".upLoadShots")
+					.append(
+							"<p class='shotList'><img src='' id='insuIconImg'/><i class='imageOper'></i></p>");
+			}
+			commonUp(url, $("input[id='"+idstr+filestr+"']"), function(data) {
+					$("#"+idstr).val(data.Data.url);
+					$("#serviceIconImg" + idstr).attr("src", data.Data.url);
+			});
+
+		}
+		
+		//应用文档上传
+		$("input.installUploadPackge").h5upload({
+			//上传的格式
+			'fileTypeExts': '',
+			'fileObjName': 'file',
+			//上传处理程序
+			'url': '${basePath}/upload/addFiles.do',
+			//上传文件的大小限制
+			'fileSizeLimit': 50000 * 1024 * 1024,
+			//上传到服务器，服务器返回相应信息到data里
+			'onUploadSuccess': function(file, data) {
+				var result = JSON.parse(data);
+				if(!!result && result.resultCode == 200) {
+					var data = result.Data;
+					$(".uploadPackgeMd5").val(data.url);
+					$("#sdkDocumentName").val(data.fileName);
+				} else {
+					alert(result.message);
+				}
+			},
+			//上传失败
+			'onUploadError': function(file) {
+				alert("上传失败!");
+			}
+		});
+	</script>
+</body>
+</html>

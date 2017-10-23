@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>手机验证码管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+	 	 <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>消息管理 <span class="c-gray en">&gt;</span> 手机验证码列表
+		 <a  class="btn btn-success radius r mr-20"  style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		 <i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/message/pageQuerySysConfigSms.do" method="post">
+				搜索条件：<input type="text" name="phoneNumber" id="phoneNumber" value="${phoneNumber!}" placeholder="手机号码" style="width: 250px" class="input-text">
+				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont">&#xe665;</i> 搜索 </button>
+				<input type="hidden" name="appId" value="${appId!}"/>
+			</form>
+		</div>
+		<!-- 
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a href="javascript:;" onclick="datadel()"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> 
+				<a class="btn btn-primary radius" onclick="adm_add('添加银行产品信息','${basePath}/BussZCProduct/toAdd.do')" href="javascript:;">
+					<i class="Hui-iconfont">&#xe600;</i> 添加银行产品信息
+				</a>
+				</span> <span class="r"> 
+			</span>
+		</div> -->
+		<div class="mt-20">
+			<div id="page" class="holder"></div>
+			<table class="table table-border table-bordered table-hover table-bg ">
+				<thead>
+					<tr class="text-c">
+						<th width="10">ID</th>
+						<th width="100">手机号</th>
+						<!-- <th width="100">内容</th> -->
+						<th width="100">验证码</th>
+						<th width="100">时间</th>
+						<!-- <th width="100">操作</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					<#if pageList?? && pageList?size gt 0>
+					<#list pageList.dataList as dl >
+						<tr class="text-c">
+							<td>${pageIndex+(dl_index+1)}</td>
+							<td>${dl.phoneNumber}</td>
+<!-- 							<td>${dl.smsContents}</td> -->
+							<td>${dl.smsCode}</td>
+							<td>
+							<#if dl.createTime??>
+								${dl.createTime?string("yyyy-MM-dd HH:mm:ss")}
+							</#if>
+							</td>
+<!-- 							<td class="td-manage">
+								-
+							</td> -->
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+		</div>
+	<div class="page_list">
+	
+	</div>	
+	</div>
+	<script type="text/javascript">
+	
+		//分页
+		$(function(){
+ 	laypage({
+ 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+	    pages: ${pageList.totalPage! }, //总页数
+ 	    //skip: true, //是否开启跳页
+    //skin: 'molv',
+ 	    groups: 10, //连续显示分页数
+ 	    first: '首页', //若不显示，设置false即可
+ 	    last: '尾页', //若不显示，设置false即可
+ 	    curr:${pageList.curPage!},
+ 	   //prev: '<', //若不显示，设置false即可
+ 	   //next: '>', //若不显示，设置false即可
+ 	   // hash: true, //开启hash
+ 	    jump: function(obj,first){ //触发分页后的回调
+ 	       // $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+ 	    	if( !first){
+
+ 	         	 window.location.href="${basePath}/message/pageQuerySysConfigSms.do?curPage="+obj.curr +"&pageData=10"+"&phoneNumber="+$("#phoneNumber").val();
+ 	    	}
+ 	    }
+ 	});
+			$('.table-sort').dataTable({
+				"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+				"bStateSave": true,//状态保存
+				"aoColumnDefs": [
+                  {sDefaultContent: '',aTargets: [ '_all' ]
+                      }]/* ,
+				"aoColumnDefs": [
+				  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+				  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+				] */
+			});
+			$('.table-sort tbody').on( 'click', 'tr', function () {
+				if ( $(this).hasClass('selected') ) {
+					$(this).removeClass('selected');
+				}
+				else {
+					//table.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+		});
+		
+		
+		function parseInput(v){
+			 return v.toFixed(2);
+		}
+		
+	</script>
+</body>
+</html>

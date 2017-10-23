@@ -18,6 +18,8 @@ public class DetailDataVo
 	private String troneNum;
 	private String linkId;
 	private String configOrder;
+	private String status;
+	
 	public String getConfigOrder()
 	{
 		return configOrder;
@@ -156,6 +158,14 @@ public class DetailDataVo
 	public void setLinkId(String linkId)
 	{
 		this.linkId = linkId;
+	}
+	public String getStatus()
+	{
+		return status;
+	}
+	public void setStatus(String status)
+	{
+		this.status = status;
 	}
 	
 	

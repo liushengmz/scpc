@@ -1,0 +1,117 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<script type="text/javascript" src="${basePath}/public/lib/html5.js"></script>
+<script type="text/javascript" src="${basePath}/public/lib/respond.min.js"></script>
+<script type="text/javascript" src="${basePath}/public/lib/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="${basePath}/public/js/H-ui.js"></script>
+<script type="text/javascript" src="${basePath}/public/js/utils/util.js"></script>
+<script type="text/javascript" src="${basePath}/public/js/md5/md5.js"></script>
+<link href="${basePath}/public/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="${basePath}/public/css/H-ui.login.css" rel="stylesheet" type="text/css" />
+<link href="${basePath}/public/css/style.css" rel="stylesheet" type="text/css" />
+<link href="${basePath}/public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+
+<title>支付集(官方)后台管理系统</title>
+</head>
+<body>
+	<input type="hidden" id="TenantId" name="TenantId" value="" />
+	<div class="header"></div>
+	<div class="loginWraper">
+		<div id="loginform" class="loginBox">
+			<form class="form form-horizontal" id="loginForm" action="#"
+				method="post">
+				<div class="row cl">
+					<label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+					<div class="formControls col-8">
+						<input id="userName" name="userName" type="text" placeholder="账户"
+							class="input-text size-L" />
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+					<div class="formControls col-8">
+						<input id="password" name="password" type="password"
+							placeholder="密码" class="input-text size-L" />
+					</div>
+				</div>
+				<div class="row cl">
+					<div class="formControls col-8 col-offset-3">
+						<input class="input-text size-L" type="text" placeholder="验证码"
+							name="code" id="codes" value="" style="width: 150px;" /> <img
+							src="${basePath}/static/PictureCheckCode.jpeg" /> <a id="kanbuq"
+							href="javascript:;">看不清，换一张</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="formControls col-8 col-offset-3">
+						<input name="" type="button" id="subLogin"
+							class="btn btn-success radius size-L"
+							value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;" /> <input name=""
+							type="reset" class="btn btn-default radius size-L"
+							value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+    /* alert('${basePath}'); */
+	$(function(){
+		//图片验证码刷新
+		$("#kanbuq").click(function (){
+			$(this).parent().find("img").attr("src","${basePath}/static/PictureCheckCode.jpeg?d="+new Date());
+		});
+		//回车登录
+		document.onkeydown = function(evt){
+			var evt = window.event?window.event:evt;
+			if (evt.keyCode==13) {
+			  $("#subLogin").click();
+		    }
+		}
+		$("#subLogin").click(function(){
+			var data = {};   //登录入参
+			data.userName=$("#userName").val();
+			var tmp = hex_md5($("#password").val());  
+            $("#password").val(tmp);
+            data.password=tmp;
+            data.code=$("#codes").val();
+			//var t = $(".form").serializeArray();
+			//$.each(t, function() {
+				//data[this.name] = this.value;
+			//});
+			/*调用登录接口*/
+			ajaxFunction("${basePath}/admin/login.do",data,"JSON",false,function(result){
+				if(result.resultCode == 200){
+					window.location.href='${basePath}' + "/" + result.Data;
+				}else{
+					Huimodal_alert(result.Data,1500);
+				}
+			},function(){
+				Huimodal_alert("登录失败,请重新登录!",1500);
+				window.location.reload();
+			});
+			
+	/* 		$.axse("${basePath}/admin/login.do", data, function(d){
+				if(d.resultCode == 200){
+					window.location.href='${basePath}' + "/" + d.Data;
+				}else{
+					Huimodal_alert(d.Data,1500);
+				}
+			},
+			function(d){
+				Huimodal_alert("登录失败,请重新登录!",1500);
+				window.location.reload();
+			}); */
+		});
+	});
+</script>

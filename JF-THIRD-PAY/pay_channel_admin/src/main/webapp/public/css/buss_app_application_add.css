@@ -1,0 +1,205 @@
+dl.adddl{
+	border-bottom:1px solid #ccc;
+}
+
+.title{
+	height: 48px;
+	line-height: 48px;
+	text-align: center;
+	color: #333;
+	background-color: #ccc;
+	font-size: 28px;
+}
+dl.adddl:after{
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+dl.adddl dt.spic{
+	height: 106px;
+}
+dl.adddl dt.h128{
+	height: 80px;
+}
+dl.adddl dt{
+	width: 39%;
+	height:40px;
+	line-height: 40px;
+	text-align: right;
+	float: left;
+}
+dl.adddl dd{
+	width: 58%;
+	line-height: 40px;
+	padding-left: 20px;
+	border-left: 1px solid #ccc;
+	float: left;
+}
+dl.adddl dd select{
+	width: 300px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 12px;
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid #ccc;
+}
+dl.adddl dd input[type=text]{
+	width: 300px;
+	height: 16px;
+	line-height: 16px;
+	padding: 5px;
+	font-size: 12px;
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid #ccc;
+}
+.mlj dl.adddl dd input[type=text]{
+	width: 100px;
+}
+dl.adddl dd input[type=radio]{
+	margin-left: 2%;
+}
+.title2{
+	height: 40px;
+	line-height: 40px;
+	color: #333;
+	background-color: #ddd;
+	font-size: 18px;
+	padding-left: 20px;
+}
+.background-image {
+    background: url(${basePath}/public/images/bg_upload_file_add.png) no-repeat 11px;
+    background-size: 40% 40%;
+    position: relative;
+    border: 1px solid #cdcdcd;
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+    margin-top: 12px;
+}
+input.promoterBack-input {
+    opacity: 0;
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    width: 78px !important;
+}
+.background-image2 {
+    background: url(${basePath}/public/images/bg_upload_file_add.png) no-repeat 11px;
+    background-size: 50% 50%;
+    position: relative;
+    border: 1px solid #cdcdcd;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    margin-top: 12px;
+}
+input.promoterBack-input2 {
+    opacity: 0;
+    position: absolute;
+    top: 20px;
+    left: -10px;
+    width: 78px !important;
+}
+.tags dd{
+	line-height: 32px;
+}
+.upimg .imgs2 img {
+    margin-left: 24px;
+}
+.imgs2 img {
+    width: 50px;
+    height: 40px;
+}
+.spebg img {
+    background: #ededed;
+}
+.delete_icron {
+    top: 77px;
+    width: 19px;
+    height: 16px;
+    background: url(${basePath}/public/images/delete_operater.png) no-repeat;
+    position: absolute;
+    left: 80px;
+    cursor: pointer;
+}
+.ppTransitionEffect{
+	position: relative;
+}
+.progress_img{
+	display: none;
+}
+.item-tips{
+	font-size: 12px;
+}
+.subbtnc{
+	width: 100%;
+	height: 30px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+.subm{
+	width: 100px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	margin: 0 auto;
+	color: #fff;
+	background: #5A99DF;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.reduce{}
+.m113,.m513,.m1013,.d00,.d11,.d51{
+	height: 40px;
+	width: 100px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	padding: 0 10px;
+	margin-left: 20px;
+}
+.reduce .d00,.reduce .d11,.reduce .d51{
+	line-height: 20px;
+	margin-top: 5px;
+}
+.m113,.m513,.m1013{
+	margin-bottom: 5px;
+}
+.m113,.d11,.useradd .um113{
+	margin-left: 0;
+}
+.um113,.um513,.um1013{
+	height: 40px;
+	width: 100px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	padding: 0 10px;
+	margin-left: 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.activechoise{
+	border: 1px solid deepskyblue;
+}
+dl.reduce dd{
+	line-height:57px
+}
+dl.reduce dt.amReduce{
+	height: 104px;
+}
+dl.useradd dt.amAdd{
+	height: 52px;
+}
+dl.adddl dt.addpic{
+	height: 82px;
+}
+dl.adddl .productType dd{
+	border: 0;
+}

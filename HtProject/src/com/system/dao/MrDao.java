@@ -172,6 +172,11 @@ public class MrDao
 			query+= " and h.is_unhold_data = " + params.getIsUnHoldData() + " and b.is_unhold_data = " + params.getIsUnHoldData();
 		}
 		
+		if(params.getCompanyId()>0)
+		{
+			query += " and p.id = " + params.getCompanyId();
+		}
+		
 		String[] result = getSortType(params.getShowType());
 		String queryParams = result[0];
 		String joinId = result[1];
@@ -192,6 +197,7 @@ public class MrDao
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_product_1 m on l.product_1_id = m.id";
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_operator n on m.operator_id = n.id";
 		//sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_js_type o on h.js_type = o.type_id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_company p on d.co_id = p.id";
 		
 		sql += " where a.mr_date >= '" + params.getStartDate() + "' and a.mr_date <= '" + params.getEndDate() + "' " + query;
 		sql += " group by join_id order by show_title asc )a";
@@ -211,6 +217,7 @@ public class MrDao
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_product_1 m on l.product_1_id = m.id";
 		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_operator n on m.operator_id = n.id";
 		//sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_js_type o on h.js_type = o.type_id";
+		sql += " LEFT JOIN " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_company p on d.co_id = p.id";
 		
 		sql += " where a.mr_date >= '" + params.getStartDate() + "' and a.mr_date <= '" + params.getEndDate() + "' " + query;
 		sql += " group by join_id order by show_title asc";

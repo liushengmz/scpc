@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.payv2.mapper.Payv2AppTypeMapper">
+
+	<resultMap id="payv2apptype_result_map" type="com.pay.business.payv2.entity.Payv2AppType" >
+		<id column="id" property="id" />
+		<result column="type_name" property="typeName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_app_type  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="typeName!=null and typeName!=''">
+				and type_name like '%'||#{typeName}||'%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.payv2.entity.Payv2AppType" useGeneratedKeys="true" keyProperty="id" >
+		insert into payv2_app_type
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="typeName!=null ">
+				type_name,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="typeName!=null ">
+      			#{typeName},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.payv2.entity.Payv2AppType">
+		delete from payv2_app_type
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="typeName!=null ">
+				and type_name=#{typeName}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.payv2.entity.Payv2AppType">
+		update payv2_app_type
+		<set>
+			<if test="typeName!=null ">
+				type_name=#{typeName},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.payv2.entity.Payv2AppType" resultMap="payv2apptype_result_map">
+		select id,type_name from payv2_app_type
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="typeName!=null ">
+				and type_name=#{typeName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2apptype_result_map" >
+		select id,type_name from payv2_app_type
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="typeName!=null ">
+				and type_name=#{typeName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2apptype_result_map" >
+		
+		SELECT id,type_name FROM payv2_app_type 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="typeName!=null and typeName!=''">
+				and type_name like '%'||#{typeName}||'%'
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

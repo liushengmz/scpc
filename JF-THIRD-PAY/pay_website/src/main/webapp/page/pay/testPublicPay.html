@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	</head>
+	<body>
+   		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+   		<script>
+   			$.ajax({
+   				type:"get",
+   				url:"/demo/testPublicPay.do",
+   				async:true,
+   				success:function(data){
+   					data = JSON.parse(data);
+   					console.log(data);
+   					if(!!data&&data.resultCode==200){
+   						var result = data.Data.result
+   	   					window.location.href = result;
+   					}else{
+   						alert(data.message)
+   					}
+   				}
+   			})
+   		</script>
+  	</body>
+</html>

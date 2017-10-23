@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>
+	</head>
+
+	<body>
+		<input type="hidden" id="data" jumpType="${map.type}" address="${map.address}" 
+			appid="${map.jsapi_appid}" timeStamp="${map.jsapi_timestamp}"
+			nonceStr="${map.jsapi_noncestr}" package="${map.jsapi_package}"
+			signType="${map.jsapi_signtype}" paySign="${map.jsapi_paysign}" 
+			orderNum="${map.orderNum}" 
+		 />
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script>
+			var wx={};
+			if($("#data").prop("jumpType")==1||$("#data").attr("jumpType")==1){
+				location.href=$("#data").prop("address")||$("#data").attr("address");
+			}else if($("#data").prop("jumpType")==2||$("#data").attr("jumpType")==2){
+				wx.jsapi_appid=$("#data").prop("appid")||$("#data").attr("appid");
+				wx.jsapi_timestamp=$("#data").prop("timeStamp")||$("#data").attr("timeStamp");
+				wx.jsapi_noncestr=$("#data").prop("nonceStr")||$("#data").attr("nonceStr");
+				wx.jsapi_package=$("#data").prop("package")||$("#data").attr("package");
+				wx.jsapi_signtype=$("#data").prop("signType")||$("#data").attr("signType");
+				wx.jsapi_paysign=$("#data").prop("paySign")||$("#data").attr("paySign");
+				wx.orderNum=$("#data").prop("orderNum")||$("#data").attr("orderNum");
+				wxPay(wx);
+			}
+			function wxPay(wx){
+				function onBridgeReady() {
+					 WeixinJSBridge.invoke(
+						'getBrandWCPayRequest', {
+							"appId":wx.jsapi_appid, //公众号名称，由商户传入     
+							"timeStamp":wx.jsapi_timestamp, //时间戳，自1970年以来的秒数     
+							"nonceStr":wx.jsapi_noncestr, //随机串     
+							"package":wx.jsapi_package,
+							"signType":wx.jsapi_signtype, //微信签名方式：     
+							"paySign":wx.jsapi_paysign //微信签名  
+						},
+						function(res) {
+							if(res.err_msg == "get_brand_wcpay_request:ok") {
+								location.href="http://payapi.aijinfu.cn/page/pay/re.html?num="+wx.orderNum;
+							}else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+								location.href="http://payapi.aijinfu.cn/page/pay/re.html?num="+wx.orderNum;
+							}else if(res.err_msg == "get_brand_wcpay_request:fail"){
+								location.href="http://payapi.aijinfu.cn/page/pay/re.html?num="+wx.orderNum;
+							} 
+						// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+						}
+					); 
+				}
+				if(typeof WeixinJSBridge == "undefined") {
+					if(document.addEventListener) {
+						document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+					} else if(document.attachEvent) {
+						document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+						document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+					}
+				} else {
+					onBridgeReady();
+				} 
+				 
+			}
+		</script>
+	</body>
+
+</html>

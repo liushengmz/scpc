@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>新增门店(线下)</title>
+		<link rel="stylesheet" href="../public/css/normal.css" />
+		<link rel="stylesheet" href="../public/css/order.css" />
+	</head>
+
+	<body>
+		<header>
+			<div class="logo fl">
+				<img src="../public/img/logo.png" />
+			</div>
+			<div class="tips fr">
+				<div class="red"></div>
+			</div>
+			<div class="users fr user">
+				<span>全民金服</span>
+				<i></i>
+				<div class="change changeuser">
+					<div class="change1 changepwd">修改密码</div>
+					<div class="change2 exitlogin">退出登录</div>
+				</div>
+			</div>
+			<div class="users fr line">
+				<span>线下门店</span>
+				<i></i>
+				<div class="change changeline">
+					<div class="change1">线上应用</div>
+				</div>
+			</div>
+		</header>
+		<nav>
+		<ul class="clearfix">
+			<li class="li shuj active">
+				<div class="icon fl">
+					<i></i>
+				</div>
+				<div class="nav-content fl">
+					<span><a href="dataOffline.html">数据</a></span>
+					<i class="img"></i>
+				</div>
+			</li>
+			<li class="sd11">
+				<div class="fl shu">
+
+				</div>
+				<div class="sh-content fl">
+					<ul>
+						<li class="co">
+							<a href="dataOffline.html">收款数据</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="sh li">
+				<div class="icon fl">
+					<i></i>
+				</div>
+				<div class="nav-content fl">
+					<span>订单</span>
+					<i class="img"></i>
+				</div>
+			</li>
+			<li class="sd">
+				<div class="fl shu">
+
+				</div>
+				<div class="sh-content fl">
+					<ul>
+						<li>
+							<a href="orderOffline.html">订单管理</a>
+						</li>
+						<li >
+							<a href="accountOffline.html">账单管理</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="daili li">
+				<div class="icon fl">
+					<i></i>
+				</div>
+				<div class="nav-content fl">
+					<span><a href="shopManager.html">门店</a></span>
+					<i class="img"></i>
+				</div>
+			</li>
+			<li class="dl">
+				<div class="fl dli">
+				</div>
+				<div class="dl-content fl">
+					<ul>
+						<li class="dlc"><a href="shopManager.html">门店管理</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="daili li">
+				<div class="icon fl">
+					<i></i>
+				</div>
+				<div class="nav-content fl">
+					<span><a href="gatheringCode.html">收款码</a></span>
+					<i class="img"></i>
+				</div>
+			</li>
+			<li class="dl">
+				<div class="fl dli">
+				</div>
+				<div class="dl-content fl">
+					<ul>
+						<li class="dlc"><a href="gatheringCode.html">收款码管理</a></li>
+					</ul>
+				</div>
+			</li>
+			<li class="dd li">
+				<div class="icon fl">
+					<i></i>
+				</div>
+				<div class="nav-content fl">
+					<span><a href="accountOffline.html">账户</a></span>
+					<i class="img"></i>
+				</div>
+			</li>
+			<li class="cx">
+				<div class="fl dli">
+				</div>
+				<div class="dl-content fl">
+					<ul>
+						<li class="ddc"><a href="accountOffline.html">账户信息</a></li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		<div class="dld">
+			<i></i>
+			<span>下载SDK</span>
+		</div>
+	</nav>
+		<div class="main">
+			<!--title-->
+			<div class="title">当前位置：门店管理>新增门店</div>
+			<!--基础信息-->
+			<div class="ac-tips">
+				<div class="base fl"><i></i><span>基础信息</span></div>
+			</div>
+			<div class="base-infor add-shop">
+				<ul>
+					<li><dl><dt class="fl">门店名称：</dt><dd class="fl"><input type="text" /><span>不得超过20个字符</span></dd></dl></li>
+					<li><dl><dt class="fl">商户门店号：</dt><dd class="fl"><input type="text" /><span></span></dd></dl></li>
+					<li class="clearfix special"><dl><dt class="fl">门店地址：</dt><dd class="fl"><div>省市区</div><input type="text" placeholder="详细地址"/></dd></dl></li>
+					<li><dl><dt class="fl">联系人：</dt><dd class="fl"><input type="text" /><span>不得超过12个字符</span></dd></dl></li>
+					<li><dl><dt class="fl">手机号：</dt><dd class="fl"><input type="text" /><span>手机号格式不正确</span></dd></dl></li>
+					<li><dl><dt class="fl">邮箱：</dt><dd class="fl"><input type="text" /><span>邮箱格式不正确</span></dd></dl></li>
+					<li><dl><dt class="fl">营业时间：</dt><dd class="fl">马化腾</dd></dl></li>
+					<li><dl><dt class="fl">备注：</dt><dd class="fl"><input type="text" /><span></span></dd></dl></li>
+					<li class="imgheight"><dl><dt class="fl">门店logo：</dt><dd class="fl">
+						<div>
+							<img src="../public/img/add.png"/>
+							<input type="file" class="upfile" />
+						</div>
+					</dd></dl></li>
+					<li><dl><dt class="fl">门店说明：</dt><dd class="fl"><textarea placeholder="20-120字简要说明"></textarea></dd></dl></li>
+				</ul>
+			</div>
+			<div class="submit">提交</div>
+		</div>
+		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/js/echarts.min.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript" src="../public/js/My97DatePicker/WdatePicker.js"></script>
+		<script>
+			/*header 事件start*/
+			$(".user").on("click mouseenter", function() {
+				$(".changeuser").show();
+			})
+			$(".user").on("click mouseleave", function() {
+				$(".changeuser").hide();
+			})
+			$(".line").on("click mouseenter", function() {
+				$(".changeline").show();
+			})
+			$(".line").on("click mouseleave", function() {
+					$(".changeline").hide();
+				})
+				/*header 事件start*/
+				/*nav 事件start*/
+			var sh = 1,
+				x = 1,
+				y = 1;
+
+			$(".sh .img").on("click", function() {
+				sh++;
+				if(sh % 2 == 0) {
+					$(this).addClass("trans1").removeClass("trans2");
+					$(".sd").animate({
+						"height": '0px'
+					}, 1000);
+				} else {
+					$(this).addClass("trans2").removeClass("trans1")
+					$(".sd").animate({
+						"height": '110px'
+					}, 1000);
+				}
+				return false;
+			})
+			$(".daili .img").on("click", function() {
+				x++;
+				if(x % 2 == 0) {
+					$(this).addClass("trans1").removeClass("trans2");
+					$(".dl").animate({
+						"height": '0px'
+					}, 1000);
+				} else {
+					$(this).addClass("trans2").removeClass("trans1")
+					$(".dl").animate({
+						"height": '55px'
+					}, 1000);
+				}
+				return false;
+			})
+			$(".dd .img").on("click", function() {
+					y++;
+					if(y % 2 == 0) {
+						$(this).addClass("trans1").removeClass("trans2");
+						$(".cx").animate({
+							"height": '0px'
+						}, 1000);
+					} else {
+						$(this).addClass("trans2").removeClass("trans1")
+						$(".cx").animate({
+							"height": '55px'
+						}, 1000);
+					}
+					return false;
+				})
+				/*nav 事件end*/
+				/*弹窗start*/
+			$(".show").on("click", function() {
+				$(".bg").show();
+			})
+			$(".closex i").on("click", function() {
+					$(".bg").hide();
+				})
+				/*弹窗start*/
+		</script>
+
+	</body>
+
+</html>

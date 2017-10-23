@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	</head>
+	<body>
+		<script>
+			/*错误提示页面*/
+			var str = window.location.href.split("?")[1];
+			var index = str.indexOf("&");
+			var code = str.slice("11",index);
+			if(code==100){
+				alert("商户签名错误")
+			}else if(code==101){
+				alert("缺少参数或者参数格式错误，请检查传递的必要参数")
+			}else if(code==501){
+				alert("appKey无效")
+			}else if(code==2014){
+				alert("支付已完成")
+			}else if(code==1013){
+				alert("已超过限额,请检查支付通道单笔额度和每日额度")
+			}else if(code==1018){
+				alert("未配置支付通道或支付类型不支持")
+			}else if(code==500){
+				alert("服务器异常,请稍后再试")
+			}else if(code==2013){
+				alert("参数不能为空或者有误")
+			}else if(code==201){
+				alert("失败,请稍后再试")
+			}else if(code==2017){
+				alert("订单号重复提交，请重新发起支付")
+			}else if(code==2016){
+				alert("包名错误或不匹配")
+			}else if(code==2016){
+				alert("包名错误或不匹配")
+			}else if(code==1019){
+				alert("支付通道下单出错")
+			}else if(code==1020){
+				alert("支付金额错误")
+			}
+			
+		</script>
+	</body>
+</html>

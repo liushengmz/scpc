@@ -128,7 +128,7 @@ public class RightServer
 			if(tmp.getId()==model.getId())
 			{
 				if(updatePwd)
-					tmp.setPassword(StringUtil.getMd5String(model.getPassword(),32));
+					tmp.setPassword(model.getPassword());
 				
 				tmp.setNickName(model.getNickName());
 				tmp.setPhone(model.getPhone());

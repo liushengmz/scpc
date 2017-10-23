@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>白拿</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">	    
+	    <link rel="stylesheet" href="css/normal.css" />
+	    <link rel="stylesheet" href="css/baina.css" />	   
+	</head>
+	<body>
+		<div class="pro">理财产品</div>
+		<div class="con">
+			<div class="container">
+				<div class="lhb1 fl cl">
+					<div class="bgtwt a fl">
+						<div class="bgtit fl"><img src="img/g.png" />润银优选</div>						
+					</div>
+					<div class="clf"></div>
+					<div class="bgb">由华润直销银行提供</div>
+				</div>
+				<div class="lhb2 fl cl">
+					<div class="bgtwt aa fl">
+						<div class="bgtit fl"><img src="img/gn.png" />润鑫优选</div>						
+					</div>
+					<div class="clf"></div>
+					<div class="bgb">由华润直销银行提供</div>
+				</div>
+				<div class="lhb3 fl cl">
+					<div class="bgtwt aa fl">
+						<div class="bgtit fl"><img src="img/gn.png" />安邦盛世2号第九期</div>						
+					</div>
+					<div class="clf"></div>
+					<div class="bgb">由民生直销银行提供</div>
+				</div>
+				<div class="lhb4 fl cl">					
+					<div class="bgtwt aa fl">
+						<div class="bgtit fl"><img src="img/gn.png" />建信双月安心理财A</div>						
+					</div>
+					<div class="clf"></div>
+					<div class="bgb">由民生直销银行提供</div>					
+				</div>
+			</div>
+		</div>
+		<div class="pro">购买期限</div>
+		<div class="con2">
+			<div class="container">
+				<div class="lhb5 fl cl">
+					<div class="bg">
+						<div class="bgt">
+							<div class="bgti fl">
+								<img src="img/g.png" />
+							</div>
+							<div class="bgtw fl">180天</div>
+						</div>						
+					</div>
+				</div>
+				<div class="lhb6 fl cl">
+					<div class="bg">
+						<div class="bgt">
+							<div class="bgti fl">
+								<img src="img/gn.png" />
+							</div>
+							<div class="bgtw fl">360天</div>
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pro">
+			<div class="left fl">购买金额</div>
+			<div class="right fr">￥20000</div>
+		</div>
+		<div class="suc">
+			<div class="suc_co">支付成功后，可从理财记录中查看产品</div>
+		</div>
+		<div class="ff">
+			<div class="fc">
+				<div class="kh">
+					<div class="left fl">支付卡号</div>
+					<div class="right fr">62220********9432</div>
+				</div>
+				<div class="mm">
+					<div class="left fl">支付密码</div>
+					<div class="right fr">******</div>
+				</div>
+			</div>
+		</div>		
+		<a href="javascript:;" id="payButton" class="button button-big">确认支付</a>
+		<div class="mc hide"></div>
+		<div class="mcm hide">
+			<div class="tit">支付中</div>
+			<div class="preloader"></div>
+		</div>
+		<div class="su hide">
+			<div class="succ">支付成功</div>
+			<div class="sure">确定</div>
+		</div>
+		<script type="text/javascript" src="js/zepto.min.js" ></script>
+		<script type="text/javascript" src="js/rem.js" ></script>
+		<script type="text/javascript" src="js/sm.min.js" ></script>
+		<script type="text/javascript" src="js/baina.js" ></script>
+		
+		<script>
+			$("#payButton").click(function(){
+				$(".mc").show();
+				$(".mcm").show();
+				setTimeout(function(){
+					$(".mcm").hide();
+					$(".su").show();
+				},2000)
+			});
+			$(".sure").click(function(){
+				$(".mc").hide();
+				$(".mcm").hide();
+				$(".su").hide();				
+			})
+		</script>
+	</body>
+</html>
+

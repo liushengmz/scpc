@@ -1,0 +1,36 @@
+jsonp1({
+	"message": "成功",
+	"Data": {
+		"turnType": 1,
+		"bondTransactionSubsidyValue": 0,
+		"bondDisclaimer": "请严格按照流程操作，如不按流程，出现任何问题由用户本人负责！",
+		"bondTotalAmount": 1000,
+		"bondTotalAmountType": 2,
+		"turnUrl": "http://focus.tianya.cn/",
+		"id": 8,
+		"bondGuaranteeCompany": "",
+		"bondCompanyIntroduce": "发送到艾弗森",
+		"monthCount": 1,
+		"bondEndTime": "2016-09-30 00:00:00",
+		"openAnAccount": 3,
+		"bondOpenAccountSubsidy": 15,
+		"createCompanyId": 52,
+		"turnApkUrl": "",
+		"bondOpenAccountPicExample": "http://10.0.3.14//yizhan/aizichan/83c352ee-afc5-44b4-8d8b-920de5632ef6.jpg",
+		"cumulativeCount": 1,
+		"bondInviteCode": "00",
+		"bondBuySuccPicExample": "http://10.0.3.14//yizhan/aizichan/726e925b-d1e8-4fb3-a52b-cc0589ee4553.jpg",
+		"bondTransactionSubsidyType": 1,
+		"bondTips": "",
+		"bondOfficialIncomeRate": 5,
+		"bondSubsidyDescribe": "来我们平台，我们会为您争取更好的利益",
+		"bondTransactionAmountMax": 10,
+		"bondOpenAccountNorm": "[{\"key\":\"realName\",\"seq\":1,\"tips\":\"请输入姓名\",\"value\":\"姓名\"},{\"key\":\"phoneNum\",\"seq\":2,\"tips\":\"请输入注册手机号\",\"value\":\"注册手机号\"},{\"key\":\"idCard\",\"seq\":3,\"tips\":\"请输入身份证号\",\"value\":\"身份证号\"}]",
+		"bondBuySuccNorm": "[{\"key\":\"sharesCode\",\"seq\":1,\"tips\":\"请输入交易股票代码\",\"value\":\"交易股票代码\"},{\"key\":\"applicationId\",\"seq\":2,\"tips\":\"请输入第三方账号\",\"value\":\"应用账号\"}]",
+		"bondCustomTags": "{\"autoTags\":[],\"customTags\":[],\"publicTags\":[]}",
+		"bondPlatIncomeRate": 2,
+		"companyName": "国金证券"
+	},
+	"resultCode": 200
+}
+)

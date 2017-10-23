@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>APP详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-APP-add">
+	<div class="pop_main">
+		<h3>基本信息</h3>
+		<dl  class="adddl">
+			<dt><label>所属公司：</label></dt>
+			<dd>
+				<label>${companyName!}</label>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>APP名称：</label>
+			</dt>
+			<dd><label>${obj.appName!}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>appKey：</label>
+			</dt>
+			<dd><label>${obj.appKey!}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用秘钥：</label>
+			</dt>
+			<dd><label>********************************</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用图标：</label>
+			</dt>
+			<dd>
+				<img alt="" src="${obj.appIcon}" width="200" height="200">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用行业：</label>
+			</dt>
+			<dd><label>${typeName!}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用说明：</label>
+			</dt>
+			<dd><label>${obj.appDesc!}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用截图：</label>
+			</dt>
+			<dd>
+				<img alt="" src="${obj.appImg}" width="200" height="200">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用说明文档：</label>
+			</dt>
+			<dd>
+				<#if obj.appDescFile!>
+					<a href="${obj.appDescFile}">下载</a>
+				<#else>
+					<label>无</label>
+				</#if>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>已有安装包：</label>
+			</dt>
+			<dd>
+				<#if obj.androidApkUrl!>
+					<a href="${obj.androidApkUrl}">下载</a>
+				<#else>
+					<label>无</label>
+				</#if>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>著作权验证：</label>
+			</dt>
+			<dd>
+				<img alt="" src="${obj.appCopyright}" width="200" height="200">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>应用官网：</label>
+			</dt>
+			<dd>
+				<label>${obj.webUrl!}</label>
+			</dd>
+		</dl>
+		<h3>平台信息</h3>
+		<dl  class="adddl">
+			<dt><label>应用平台：</label>
+			</dt>
+			<dd>
+				<#if obj.isIos!>
+					<label>IOS平台</label><br/>
+					<#if obj.iosIpaUrl!>
+						<label>ipad appStore下载地址：${obj.iosIpaUrl}</label><br/>
+						<#if obj.iosIpaMd5!>
+							<label>ipad bundle ID：${obj.iosIpaMd5}</label><br/>
+						</#if>
+						<#if obj.iosIpaTestId!>
+							<label>ipad测试版本bundle ID：${obj.iosIpaTestId}</label><br/>
+						</#if>
+					</#if>
+					<#if obj.iosIphoneUrl!>
+						<label>iphone AppStore下载地址：${obj.iosIphoneUrl}</label><br/>
+						<#if obj.iosIphoneId!>
+							<label>iphone Bundle ID：${obj.iosIphoneId}</label><br/>
+						</#if>
+						<#if obj.iosIphoneTestId!>
+							<label>iphone测试版本Bundle ID：${obj.iosIphoneTestId}</label><br/>
+						</#if>
+					</#if>
+				</#if>
+				<#if obj.isAndroid!>
+					<label>android</label><br/>
+					<#if obj.androidAppUrl!>
+						<label>应用下载地址：${obj.androidAppUrl}</label><br/>
+					</#if>
+					<#if obj.androidAppMd5!>
+						<label>应用签名：${obj.androidAppMd5}</label><br/>
+					</#if>
+					<#if obj.androidAppPackage!>
+						<label>包名：${obj.androidAppPackage}</label><br/>
+					</#if>
+				</#if>
+			</dd>
+		</dl>
+		<#if obj.appStatus==1>
+		<div style="text-align:center;height:50px;line-height:50px;">
+			<button style="vertical-align:middle;" onclick="approveAgreePayv2BussCompanyApp(${obj.id},2,'${basePath}/payv2BussCompanyApp/approveAgreePayv2BussCompanyApp.do')">通过</button>
+			<button style="vertical-align:middle;" onclick="approveAgreePayv2BussCompanyApp(${obj.id},3,'${basePath}/payv2BussCompanyApp/updatePayv2BussCompanyApp.do')">拒绝</button>
+		</div>
+		</#if>
+	</div>
+	<script type="text/javascript">
+	function approveAgreePayv2BussCompanyApp(id,status,url){
+		var datas = {};
+		datas.id = id;
+		datas.appStatus = status;
+		if(status==2){
+			//审核通过
+			$.ajax({
+				type:"get",
+				url:url+"?id="+id+"&appStatus="+status,
+				async:false,
+				success:function(data){
+					console.log(data)
+					if(data.resultCode == 200){
+						layer.msg(data.message, {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2BussCompanyApp/payv2BussCompanyAppList.do");
+						parent.layer.close();
+					}else{
+						Huimodal_alert(data.message,1500);
+					}
+				}
+			});
+		}else{
+			//拒绝
+		 	$.ajax({
+				type:"post",
+				url:url,
+				data:datas,
+				async:false,
+				success:function(d){
+					console.log(d)
+					if(d.resultCode == 200){
+						layer.msg(d.message, {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2BussCompanyApp/payv2BussCompanyAppList.do");
+						parent.layer.close();
+					}else{
+						Huimodal_alert(d.message,1500);
+					}
+				}
+			});
+			/* 
+			layer_show("审核", "${basePath}/payv2BussCompanyApp/toApprove.do?id="+id, 800, 500); */
+		}
+	}
+	</script>
+	<script type="text/javascript"src="${basePath}/public/js/mutilfile.js"></script>
+</body>
+</html>

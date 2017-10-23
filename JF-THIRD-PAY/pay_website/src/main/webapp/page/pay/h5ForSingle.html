@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<style type="text/css">
+			.bg2 {
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.8);
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.bg2 img {
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--
+			TO DO
+			单支付通道页面  //未完成，缺接口
+		 -->
+		<div class="bg2">
+			<img src="../public/img/choose.png" />
+		</div>
+		<script type="text/javascript" src="../public/js/zepto.min.js"></script>
+		<script>
+			var id = 0,
+				paramStr = "",
+				param={},
+				parameter = location.href.split("?")[1];
+			var browser = {
+				versions: function() {
+					var u = navigator.userAgent,
+						app = navigator.appVersion;
+					return { //移动终端浏览器版本信息
+						trident: u.indexOf('Trident') > -1, //IE内核
+						presto: u.indexOf('Presto') > -1, //opera内核
+						webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+						gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+						mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+						ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+						android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+						iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+						iPad: u.indexOf('iPad') > -1, //是否iPad
+						webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+					};
+				}(),
+				language: (navigator.browserLanguage || navigator.language).toLowerCase()
+			}
+			if(browser.versions.mobile) {
+				if(browser.versions.ios) {
+					param.appType = "2";
+				}
+				if(browser.versions.android) {
+					param.appType = "1";
+				}
+			}
+			if(parameter.indexOf("payWayId") == 0) {
+				id = parameter.slice(9, 10);
+				paramStr = parameter.slice(11, parameter.length);
+				paramStr = paramStr.split("paramStr=")[1]
+			} else {
+				var index = parameter.lastIndexOf("&")
+				paramStr = parameter.slice(0, index)
+				paramStr = paramStr.split("paramStr=")[1]
+				id = parameter.slice(index + 10, parameter.length)
+			}
+			param.payWayId = id;
+			if(navigator.userAgent.indexOf("MicroMessenger") != -1 && id == 1) {
+				$(".bg2").show();
+			} else {
+				newstr = decodeURIComponent(paramStr);
+				$.ajax({
+					type: "get",
+					url: "/pay/payOrderH5Detail.do",
+					data: {
+						"paramStr": newstr
+					},
+					async: fasle,
+					success: function(data) {
+						data = JSON.parse(data);
+						console.log(data);
+						if(!!data && data.resultCode == 200) {
+							data = data.Data;
+							param.orderNum = data.orderNum;
+						} else {
+							alert(data.message);
+							window.history.go(-1);
+						}
+					}
+				});
+				$.ajax({
+					type:"get",
+					url:"/payDetail/payH5Alipay.do",
+					async:false,
+					data:param,
+					success:function(data){
+						data = JSON.parse(data)
+						//console.log(data);
+						if(data.resultCode==200){
+							$("body").html(data.Data.alipayStr);
+						}else{
+							alert(data.message);	
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,1324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.merchant.mapper.Payv2BussCompanyShopMapper">
+
+	<resultMap id="payv2busscompanyshop_result_map" type="com.pay.business.merchant.entity.Payv2BussCompanyShop" >
+		<id column="id" property="id" />
+		<result column="shop_key" property="shopKey"/>
+		<result column="company_id" property="companyId"/>
+		<result column="shop_name" property="shopName"/>
+		<result column="shop_card" property="shopCard"/>
+		<result column="shop_range_province" property="shopRangeProvince"/>
+		<result column="shop_range_city" property="shopRangeCity"/>
+		<result column="lat" property="lat"/>
+		<result column="lon" property="lon"/>
+		<result column="shop_address" property="shopAddress"/>
+		<result column="shop_icon" property="shopIcon"/>
+		<result column="shop_background" property="shopBackground"/>
+		<result column="shop_desc" property="shopDesc"/>
+		<result column="shop_week_time" property="shopWeekTime"/>
+		<result column="shop_day_start_time" property="shopDayStartTime"/>
+		<result column="shop_day_end_time" property="shopDayEndTime"/>
+		<result column="shop_remarks" property="shopRemarks"/>
+		<result column="shop_per_ave_money" property="shopPerAveMoney"/>
+		<result column="shop_contacts" property="shopContacts"/>
+		<result column="shop_contacts_phone" property="shopContactsPhone"/>
+		<result column="shop_email" property="shopEmail"/>
+		<result column="pay_way_id" property="payWayId"/>
+		<result column="code_way_id" property="codeWayId"/>
+		<result column="shop_status" property="shopStatus"/>
+		<result column="shop_pass_reason" property="shopPassReason"/>
+		<result column="shop_two_code_url" property="shopTwoCodeUrl"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_company_shop  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopKey!=null and shopKey!=''">
+				and shop_key like CONCAT('%',#{shopKey},'%')
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop_name like CONCAT('%',#{shopName},'%')
+			</if>
+			<if test="shopCard!=null and shopCard!=''">
+				and shop_card like CONCAT('%',#{shopCard},'%')
+			</if>
+			<if test="shopRangeProvince!=null and shopRangeProvince!=''">
+				and shop_range_province = #{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null and shopRangeCity!=''">
+				and shop_range_city = #{shopRangeCity}
+			</if>
+			<if test="lat!=null and lat!=''">
+				and lat = #{lat}
+			</if>
+			<if test="lon!=null and lon!=''">
+				and lon = #{lon}
+			</if>
+			<if test="shopAddress!=null and shopAddress!=''">
+				and shop_address like CONCAT('%',#{shopAddress},'%')
+			</if>
+			<if test="shopIcon!=null and shopIcon!=''">
+				and shop_icon like CONCAT('%',#{shopIcon},'%')
+			</if>
+			<if test="shopBackground!=null and shopBackground!=''">
+				and shop_background like CONCAT('%',#{shopBackground},'%')
+			</if>
+			<if test="shopDesc!=null and shopDesc!=''">
+				and shop_desc like CONCAT('%',#{shopDesc},'%')
+			</if>
+			<if test="shopWeekTime!=null and shopWeekTime!=''">
+				and shop_week_time like CONCAT('%',#{shopWeekTime},'%')
+			</if>
+			<if test="shopDayStartTime!=null and shopDayStartTime!=''">
+				and shop_day_start_time like CONCAT('%',#{shopDayStartTime},'%')
+			</if>
+			<if test="shopDayEndTime!=null and shopDayEndTime!=''">
+				and shop_day_end_time like CONCAT('%',#{shopDayEndTime},'%')
+			</if>
+			<if test="shopRemarks!=null and shopRemarks!=''">
+				and shop_remarks like CONCAT('%',#{shopRemarks},'%')
+			</if>
+			<if test="shopPerAveMoney!=null and shopPerAveMoney!=''">
+				and shop_per_ave_money like CONCAT('%',#{shopPerAveMoney},'%')
+			</if>
+			<if test="shopContacts!=null and shopContacts!=''">
+				and shop_contacts like CONCAT('%',#{shopContacts},'%')
+			</if>
+			<if test="shopContactsPhone!=null and shopContactsPhone!=''">
+				and shop_contacts_phone like CONCAT('%',#{shopContactsPhone},'%')
+			</if>
+			<if test="shopEmail!=null and shopEmail!=''">
+				and shop_email like CONCAT('%',#{shopEmail},'%')
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="codeWayId!=null and codeWayId!=''">
+				and code_way_id like CONCAT('%',#{codeWayId},'%')
+			</if>
+			<if test="shopStatus!=null and shopStatus!=''">
+				and shop_status = #{shopStatus}
+			</if>
+			<if test="shopPassReason!=null and shopPassReason!=''">
+				and shop_pass_reason like CONCAT('%',#{shopPassReason},'%')
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop_two_code_url like CONCAT('%',#{shopTwoCodeUrl},'%')
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyShop" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_buss_company_shop
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="shopKey!=null ">
+				shop_key,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="shopName!=null ">
+				shop_name,
+			</if>
+      		<if test="shopCard!=null ">
+				shop_card,
+			</if>
+      		<if test="shopRangeProvince!=null ">
+				shop_range_province,
+			</if>
+      		<if test="shopRangeCity!=null ">
+				shop_range_city,
+			</if>
+      		<if test="lat!=null ">
+				lat,
+			</if>
+      		<if test="lon!=null ">
+				lon,
+			</if>
+      		<if test="shopAddress!=null ">
+				shop_address,
+			</if>
+      		<if test="shopIcon!=null ">
+				shop_icon,
+			</if>
+      		<if test="shopBackground!=null ">
+				shop_background,
+			</if>
+      		<if test="shopDesc!=null ">
+				shop_desc,
+			</if>
+      		<if test="shopWeekTime!=null ">
+				shop_week_time,
+			</if>
+      		<if test="shopDayStartTime!=null ">
+				shop_day_start_time,
+			</if>
+      		<if test="shopDayEndTime!=null ">
+				shop_day_end_time,
+			</if>
+      		<if test="shopRemarks!=null ">
+				shop_remarks,
+			</if>
+      		<if test="shopPerAveMoney!=null ">
+				shop_per_ave_money,
+			</if>
+      		<if test="shopContacts!=null ">
+				shop_contacts,
+			</if>
+      		<if test="shopContactsPhone!=null ">
+				shop_contacts_phone,
+			</if>
+      		<if test="shopEmail!=null ">
+				shop_email,
+			</if>
+      		<if test="payWayId!=null ">
+				pay_way_id,
+			</if>
+      		<if test="codeWayId!=null ">
+				code_way_id,
+			</if>
+      		<if test="shopStatus!=null ">
+				shop_status,
+			</if>
+      		<if test="shopPassReason!=null ">
+				shop_pass_reason,
+			</if>
+      		<if test="shopTwoCodeUrl!=null ">
+				shop_two_code_url,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="shopKey!=null ">
+      			#{shopKey},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="shopName!=null ">
+      			#{shopName},
+			</if>
+      		<if test="shopCard!=null ">
+      			#{shopCard},
+			</if>
+      		<if test="shopRangeProvince!=null ">
+      			#{shopRangeProvince},
+			</if>
+      		<if test="shopRangeCity!=null ">
+      			#{shopRangeCity},
+			</if>
+      		<if test="lat!=null ">
+      			#{lat},
+			</if>
+      		<if test="lon!=null ">
+      			#{lon},
+			</if>
+      		<if test="shopAddress!=null ">
+      			#{shopAddress},
+			</if>
+      		<if test="shopIcon!=null ">
+      			#{shopIcon},
+			</if>
+      		<if test="shopBackground!=null ">
+      			#{shopBackground},
+			</if>
+      		<if test="shopDesc!=null ">
+      			#{shopDesc},
+			</if>
+      		<if test="shopWeekTime!=null ">
+      			#{shopWeekTime},
+			</if>
+      		<if test="shopDayStartTime!=null ">
+      			#{shopDayStartTime},
+			</if>
+      		<if test="shopDayEndTime!=null ">
+      			#{shopDayEndTime},
+			</if>
+      		<if test="shopRemarks!=null ">
+      			#{shopRemarks},
+			</if>
+      		<if test="shopPerAveMoney!=null ">
+      			#{shopPerAveMoney},
+			</if>
+      		<if test="shopContacts!=null ">
+      			#{shopContacts},
+			</if>
+      		<if test="shopContactsPhone!=null ">
+      			#{shopContactsPhone},
+			</if>
+      		<if test="shopEmail!=null ">
+      			#{shopEmail},
+			</if>
+      		<if test="payWayId!=null ">
+      			#{payWayId},
+			</if>
+      		<if test="codeWayId!=null ">
+      			#{codeWayId},
+			</if>
+      		<if test="shopStatus!=null ">
+      			#{shopStatus},
+			</if>
+      		<if test="shopPassReason!=null ">
+      			#{shopPassReason},
+			</if>
+      		<if test="shopTwoCodeUrl!=null ">
+      			#{shopTwoCodeUrl},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyShop">
+		delete from payv2_buss_company_shop
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="shopKey!=null ">
+				and shop_key=#{shopKey}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="shopName!=null ">
+				and shop_name=#{shopName}
+			</if>
+      		<if test="shopCard!=null ">
+				and shop_card=#{shopCard}
+			</if>
+      		<if test="shopRangeProvince!=null ">
+				and shop_range_province=#{shopRangeProvince}
+			</if>
+      		<if test="shopRangeCity!=null ">
+				and shop_range_city=#{shopRangeCity}
+			</if>
+      		<if test="lat!=null ">
+				and lat=#{lat}
+			</if>
+      		<if test="lon!=null ">
+				and lon=#{lon}
+			</if>
+      		<if test="shopAddress!=null ">
+				and shop_address=#{shopAddress}
+			</if>
+      		<if test="shopIcon!=null ">
+				and shop_icon=#{shopIcon}
+			</if>
+      		<if test="shopBackground!=null ">
+				and shop_background=#{shopBackground}
+			</if>
+      		<if test="shopDesc!=null ">
+				and shop_desc=#{shopDesc}
+			</if>
+      		<if test="shopWeekTime!=null ">
+				and shop_week_time=#{shopWeekTime}
+			</if>
+      		<if test="shopDayStartTime!=null ">
+				and shop_day_start_time=#{shopDayStartTime}
+			</if>
+      		<if test="shopDayEndTime!=null ">
+				and shop_day_end_time=#{shopDayEndTime}
+			</if>
+      		<if test="shopRemarks!=null ">
+				and shop_remarks=#{shopRemarks}
+			</if>
+      		<if test="shopPerAveMoney!=null ">
+				and shop_per_ave_money=#{shopPerAveMoney}
+			</if>
+      		<if test="shopContacts!=null ">
+				and shop_contacts=#{shopContacts}
+			</if>
+      		<if test="shopContactsPhone!=null ">
+				and shop_contacts_phone=#{shopContactsPhone}
+			</if>
+      		<if test="shopEmail!=null ">
+				and shop_email=#{shopEmail}
+			</if>
+      		<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+      		<if test="codeWayId!=null ">
+				and code_way_id=#{codeWayId}
+			</if>
+      		<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+      		<if test="shopPassReason!=null ">
+				and shop_pass_reason=#{shopPassReason}
+			</if>
+      		<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyShop">
+		update payv2_buss_company_shop
+		<set>
+			<if test="shopKey!=null ">
+				shop_key=#{shopKey},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="shopName!=null ">
+				shop_name=#{shopName},
+			</if>
+			<if test="shopCard!=null ">
+				shop_card=#{shopCard},
+			</if>
+			<if test="shopRangeProvince!=null ">
+				shop_range_province=#{shopRangeProvince},
+			</if>
+			<if test="shopRangeCity!=null ">
+				shop_range_city=#{shopRangeCity},
+			</if>
+			<if test="lat!=null ">
+				lat=#{lat},
+			</if>
+			<if test="lon!=null ">
+				lon=#{lon},
+			</if>
+			<if test="shopAddress!=null ">
+				shop_address=#{shopAddress},
+			</if>
+			<if test="shopIcon!=null ">
+				shop_icon=#{shopIcon},
+			</if>
+			<if test="shopBackground!=null ">
+				shop_background=#{shopBackground},
+			</if>
+			<if test="shopDesc!=null ">
+				shop_desc=#{shopDesc},
+			</if>
+			<if test="shopWeekTime!=null ">
+				shop_week_time=#{shopWeekTime},
+			</if>
+			<if test="shopDayStartTime!=null ">
+				shop_day_start_time=#{shopDayStartTime},
+			</if>
+			<if test="shopDayEndTime!=null ">
+				shop_day_end_time=#{shopDayEndTime},
+			</if>
+			<if test="shopRemarks!=null ">
+				shop_remarks=#{shopRemarks},
+			</if>
+			<if test="shopPerAveMoney!=null ">
+				shop_per_ave_money=#{shopPerAveMoney},
+			</if>
+			<if test="shopContacts!=null ">
+				shop_contacts=#{shopContacts},
+			</if>
+			<if test="shopContactsPhone!=null ">
+				shop_contacts_phone=#{shopContactsPhone},
+			</if>
+			<if test="shopEmail!=null ">
+				shop_email=#{shopEmail},
+			</if>
+			<if test="payWayId!=null ">
+				pay_way_id=#{payWayId},
+			</if>
+			<if test="codeWayId!=null ">
+				code_way_id=#{codeWayId},
+			</if>
+			<if test="shopStatus!=null ">
+				shop_status=#{shopStatus},
+			</if>
+			<if test="shopPassReason!=null ">
+				shop_pass_reason=#{shopPassReason},
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				shop_two_code_url=#{shopTwoCodeUrl},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.merchant.entity.Payv2BussCompanyShop" resultMap="payv2busscompanyshop_result_map">
+		select id,shop_key,company_id,shop_name,shop_card,shop_range_province,shop_range_city,lat,lon,shop_address,shop_icon,shop_background,shop_desc,shop_week_time,shop_day_start_time,shop_day_end_time,shop_remarks,shop_per_ave_money,shop_contacts,shop_contacts_phone,shop_email,pay_way_id,code_way_id,shop_status,shop_pass_reason,shop_two_code_url,is_delete,create_time,update_time from payv2_buss_company_shop
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopKey!=null ">
+				and shop_key=#{shopKey}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="shopName!=null ">
+				and shop_name=#{shopName}
+			</if>
+			<if test="shopCard!=null ">
+				and shop_card=#{shopCard}
+			</if>
+			<if test="shopRangeProvince!=null ">
+				and shop_range_province=#{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null ">
+				and shop_range_city=#{shopRangeCity}
+			</if>
+			<if test="lat!=null ">
+				and lat=#{lat}
+			</if>
+			<if test="lon!=null ">
+				and lon=#{lon}
+			</if>
+			<if test="shopAddress!=null ">
+				and shop_address=#{shopAddress}
+			</if>
+			<if test="shopIcon!=null ">
+				and shop_icon=#{shopIcon}
+			</if>
+			<if test="shopBackground!=null ">
+				and shop_background=#{shopBackground}
+			</if>
+			<if test="shopDesc!=null ">
+				and shop_desc=#{shopDesc}
+			</if>
+			<if test="shopWeekTime!=null ">
+				and shop_week_time=#{shopWeekTime}
+			</if>
+			<if test="shopDayStartTime!=null ">
+				and shop_day_start_time=#{shopDayStartTime}
+			</if>
+			<if test="shopDayEndTime!=null ">
+				and shop_day_end_time=#{shopDayEndTime}
+			</if>
+			<if test="shopRemarks!=null ">
+				and shop_remarks=#{shopRemarks}
+			</if>
+			<if test="shopPerAveMoney!=null ">
+				and shop_per_ave_money=#{shopPerAveMoney}
+			</if>
+			<if test="shopContacts!=null ">
+				and shop_contacts=#{shopContacts}
+			</if>
+			<if test="shopContactsPhone!=null ">
+				and shop_contacts_phone=#{shopContactsPhone}
+			</if>
+			<if test="shopEmail!=null ">
+				and shop_email=#{shopEmail}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="codeWayId!=null ">
+				and code_way_id=#{codeWayId}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="shopPassReason!=null ">
+				and shop_pass_reason=#{shopPassReason}
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2busscompanyshop_result_map" >
+		select id,shop_key,company_id,shop_name,shop_card,shop_range_province,shop_range_city,lat,lon,shop_address,shop_icon,shop_background,shop_desc,shop_week_time,shop_day_start_time,shop_day_end_time,shop_remarks,shop_per_ave_money,shop_contacts,shop_contacts_phone,shop_email,pay_way_id,code_way_id,shop_status,shop_pass_reason,shop_two_code_url,is_delete,create_time,update_time from payv2_buss_company_shop
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopKey!=null ">
+				and shop_key=#{shopKey}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="shopName!=null ">
+				and shop_name=#{shopName}
+			</if>
+			<if test="shopCard!=null ">
+				and shop_card=#{shopCard}
+			</if>
+			<if test="shopRangeProvince!=null ">
+				and shop_range_province=#{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null ">
+				and shop_range_city=#{shopRangeCity}
+			</if>
+			<if test="lat!=null ">
+				and lat=#{lat}
+			</if>
+			<if test="lon!=null ">
+				and lon=#{lon}
+			</if>
+			<if test="shopAddress!=null ">
+				and shop_address=#{shopAddress}
+			</if>
+			<if test="shopIcon!=null ">
+				and shop_icon=#{shopIcon}
+			</if>
+			<if test="shopBackground!=null ">
+				and shop_background=#{shopBackground}
+			</if>
+			<if test="shopDesc!=null ">
+				and shop_desc=#{shopDesc}
+			</if>
+			<if test="shopWeekTime!=null ">
+				and shop_week_time=#{shopWeekTime}
+			</if>
+			<if test="shopDayStartTime!=null ">
+				and shop_day_start_time=#{shopDayStartTime}
+			</if>
+			<if test="shopDayEndTime!=null ">
+				and shop_day_end_time=#{shopDayEndTime}
+			</if>
+			<if test="shopRemarks!=null ">
+				and shop_remarks=#{shopRemarks}
+			</if>
+			<if test="shopPerAveMoney!=null ">
+				and shop_per_ave_money=#{shopPerAveMoney}
+			</if>
+			<if test="shopContacts!=null ">
+				and shop_contacts=#{shopContacts}
+			</if>
+			<if test="shopContactsPhone!=null ">
+				and shop_contacts_phone=#{shopContactsPhone}
+			</if>
+			<if test="shopEmail!=null ">
+				and shop_email=#{shopEmail}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="codeWayId!=null ">
+				and code_way_id=#{codeWayId}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="shopPassReason!=null ">
+				and shop_pass_reason=#{shopPassReason}
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2busscompanyshop_result_map" >
+		
+		SELECT id,shop_key,company_id,shop_name,shop_card,shop_range_province,shop_range_city,lat,lon,shop_address,shop_icon,shop_background,shop_desc,shop_week_time,shop_day_start_time,shop_day_end_time,shop_remarks,shop_per_ave_money,shop_contacts,shop_contacts_phone,shop_email,pay_way_id,code_way_id,shop_status,shop_pass_reason,shop_two_code_url,is_delete,create_time,update_time FROM payv2_buss_company_shop 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopKey!=null and shopKey!=''">
+				and shop_key like  CONCAT('%',#{shopKey},'%')
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop_name like  CONCAT('%',#{shopName},'%')
+			</if>
+			<if test="shopCard!=null and shopCard!=''">
+				and shop_card like  CONCAT('%',#{shopCard},'%')
+			</if>
+			<if test="shopRangeProvince!=null and shopRangeProvince!=''">
+				and shop_range_province = #{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null and shopRangeCity!=''">
+				and shop_range_city = #{shopRangeCity}
+			</if>
+			<if test="lat!=null and lat!=''">
+				and lat = #{lat}
+			</if>
+			<if test="lon!=null and lon!=''">
+				and lon = #{lon}
+			</if>
+			<if test="shopAddress!=null and shopAddress!=''">
+				and shop_address like  CONCAT('%',#{shopAddress},'%')
+			</if>
+			<if test="shopIcon!=null and shopIcon!=''">
+				and shop_icon like  CONCAT('%',#{shopIcon},'%')
+			</if>
+			<if test="shopBackground!=null and shopBackground!=''">
+				and shop_background like  CONCAT('%',#{shopBackground},'%')
+			</if>
+			<if test="shopDesc!=null and shopDesc!=''">
+				and shop_desc like  CONCAT('%',#{shopDesc},'%')
+			</if>
+			<if test="shopWeekTime!=null and shopWeekTime!=''">
+				and shop_week_time like  CONCAT('%',#{shopWeekTime},'%')
+			</if>
+			<if test="shopDayStartTime!=null and shopDayStartTime!=''">
+				and shop_day_start_time like  CONCAT('%',#{shopDayStartTime},'%')
+			</if>
+			<if test="shopDayEndTime!=null and shopDayEndTime!=''">
+				and shop_day_end_time like  CONCAT('%',#{shopDayEndTime},'%')
+			</if>
+			<if test="shopRemarks!=null and shopRemarks!=''">
+				and shop_remarks like  CONCAT('%',#{shopRemarks},'%')
+			</if>
+			<if test="shopPerAveMoney!=null and shopPerAveMoney!=''">
+				and shop_per_ave_money like  CONCAT('%',#{shopPerAveMoney},'%')
+			</if>
+			<if test="shopContacts!=null and shopContacts!=''">
+				and shop_contacts like  CONCAT('%',#{shopContacts},'%')
+			</if>
+			<if test="shopContactsPhone!=null and shopContactsPhone!=''">
+				and shop_contacts_phone like  CONCAT('%',#{shopContactsPhone},'%')
+			</if>
+			<if test="shopEmail!=null and shopEmail!=''">
+				and shop_email like  CONCAT('%',#{shopEmail},'%')
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="codeWayId!=null and codeWayId!=''">
+				and code_way_id like  CONCAT('%',#{codeWayId},'%')
+			</if>
+			<if test="shopStatus!=null and shopStatus!=''">
+				and shop_status = #{shopStatus}
+			</if>
+			<if test="shopPassReason!=null and shopPassReason!=''">
+				and shop_pass_reason like  CONCAT('%',#{shopPassReason},'%')
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop_two_code_url like  CONCAT('%',#{shopTwoCodeUrl},'%')
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 获取总数 -->
+	<select id="getLinkCount" resultType="java.lang.Integer">
+		select count(*)
+		from payv2_buss_company_shop shop
+		left join payv2_buss_company comp on shop.company_id=comp.id
+		<where>
+			shop.company_id is not null
+			<if test="channelId!=null and channelId!=''">
+				and comp.channel_id = #{channelId}
+			</if>
+			<if test="id!=null and id!=''">
+				and shop.id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and shop.company_id = #{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop.shop_name like '%'||#{shopName}||'%'
+			</if>
+			<if test="shopRangeProvince!=null and shopRangeProvince!=''">
+				and shop.shop_range_province = #{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null and shopRangeCity!=''">
+				and shop.shop_range_city = #{shopRangeCity}
+			</if>
+			<if test="lat!=null and lat!=''">
+				and shop.lat = #{lat}
+			</if>
+			<if test="lon!=null and lon!=''">
+				and shop.lon = #{lon}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and shop.is_delete = #{isDelete}
+			</if>
+			<if test="shopAddress!=null and shopAddress!=''">
+				and shop.shop_address like '%'||#{shopAddress}||'%'
+			</if>
+			<if test="shopContacts!=null and shopContacts!=''">
+				and shop.shop_contacts like '%'||#{shopContacts}||'%'
+			</if>
+			<if test="shopContactsPhone!=null and shopContactsPhone!=''">
+				and shop.shop_contacts_phone like '%'||#{shopContactsPhone}||'%'
+			</if>
+			<if test="shopStatus!=null and shopStatus!=''">
+				and shop.shop_status = #{shopStatus}
+			</if>
+			<if test="shopPassReason!=null and shopPassReason!=''">
+				and shop.shop_pass_reason like '%'||#{shopPassReason}||'%'
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop.shop_two_code_url like '%'||#{shopTwoCodeUrl}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and shop.create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and shop.create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and shop.update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and shop.update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+		<!-- 分页 -->
+	<select id="pageLinkQueryByObject" resultMap="payv2busscompanyshop_result_map" >
+		
+		SELECT shop.*
+		from payv2_buss_company_shop shop
+		left join payv2_buss_company comp on shop.company_id=comp.id
+		<where>
+			shop.company_id is not null
+			<if test="channelId!=null and channelId!=''">
+				and comp.channel_id = #{channelId}
+			</if>
+			<if test="id!=null and id!=''">
+				and shop.id = #{id}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and shop.company_id = #{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop.shop_name like '%'||#{shopName}||'%'
+			</if>
+			<if test="shopRangeProvince!=null and shopRangeProvince!=''">
+				and shop.shop_range_province = #{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null and shopRangeCity!=''">
+				and shop.shop_range_city = #{shopRangeCity}
+			</if>
+			<if test="lat!=null and lat!=''">
+				and shop.lat = #{lat}
+			</if>
+			<if test="lon!=null and lon!=''">
+				and shop.lon = #{lon}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and shop.is_delete = #{isDelete}
+			</if>
+			<if test="shopAddress!=null and shopAddress!=''">
+				and shop.shop_address like '%'||#{shopAddress}||'%'
+			</if>
+			<if test="shopContacts!=null and shopContacts!=''">
+				and shop.shop_contacts like '%'||#{shopContacts}||'%'
+			</if>
+			<if test="shopContactsPhone!=null and shopContactsPhone!=''">
+				and shop.shop_contacts_phone like '%'||#{shopContactsPhone}||'%'
+			</if>
+			<if test="shopStatus!=null and shopStatus!=''">
+				and shop.shop_status = #{shopStatus}
+			</if>
+			<if test="shopPassReason!=null and shopPassReason!=''">
+				and shop.shop_pass_reason like '%'||#{shopPassReason}||'%'
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop.shop_two_code_url like '%'||#{shopTwoCodeUrl}||'%'
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and shop.create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and shop.create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and shop.update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and shop.update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+			<if test="sortName!=null or sortName!=''">
+				ORDER BY create_time desc
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	
+	<!-- 获取代理平台下面的线下店铺 -->
+	<select id="getLineShopList" resultMap="payv2busscompanyshop_result_map" >
+		SELECT
+			pbcs.id,
+			pbcs.pay_way_id,
+			pbcs.shop_name,
+			pbcs.company_id,
+			pbcs.shop_status,
+			pbcs.create_time,
+			pbcs.shop_address,
+			pbc.company_name,
+			ppw.way_name
+		FROM
+			payv2_buss_company_shop pbcs
+		LEFT JOIN payv2_buss_company pbc ON pbc.id = pbcs.company_id
+		LEFT JOIN payv2_pay_way ppw ON ppw.id = pbcs.pay_way_id
+		<where>
+				1=1
+			<if test="shopName!=null and shopName!=''">
+				and pbcs.shop_name=#{shopName}
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id=#{payWayId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and pbc.id=#{companyId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象渠道商ID查询APP总数-->
+	<select id="selectCountsByPayWayIds"  resultType="java.lang.Integer"  >
+		select count(1) from payv2_buss_company_shop
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopKey!=null ">
+				and shop_key=#{shopKey}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop_name=#{shopName}
+			</if>
+			<if test="shopRangeProvince!=null ">
+				and shop_range_province=#{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null ">
+				and shop_range_city=#{shopRangeCity}
+			</if>
+			<if test="lat!=null ">
+				and lat=#{lat}
+			</if>
+			<if test="lon!=null ">
+				and lon=#{lon}
+			</if>
+			<if test="shopAddress!=null ">
+				and shop_address=#{shopAddress}
+			</if>
+			<if test="shopIcon!=null ">
+				and shop_icon=#{shopIcon}
+			</if>
+			<if test="shopBackground!=null ">
+				and shop_background=#{shopBackground}
+			</if>
+			<if test="shopDesc!=null ">
+				and shop_desc=#{shopDesc}
+			</if>
+			<if test="shopWeekTime!=null ">
+				and shop_week_time=#{shopWeekTime}
+			</if>
+			<if test="shopDayStartTime!=null ">
+				and shop_day_start_time=#{shopDayStartTime}
+			</if>
+			<if test="shopDayEndTime!=null ">
+				and shop_day_end_time=#{shopDayEndTime}
+			</if>
+			<if test="shopPerAveMoney!=null ">
+				and shop_per_ave_money=#{shopPerAveMoney}
+			</if>
+			<if test="shopContacts!=null ">
+				and shop_contacts=#{shopContacts}
+			</if>
+			<if test="shopContactsPhone!=null ">
+				and shop_contacts_phone=#{shopContactsPhone}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id in
+					<foreach item="item" index="index" collection="payWayIds" open="(" separator="," close=")">  
+				     #{item}  
+				    </foreach> 
+			</if>
+			<if test="codeWayId!=null ">
+				and code_way_id=#{codeWayId}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="shopPassReason!=null ">
+				and shop_pass_reason=#{shopPassReason}
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象渠道商ID查询列表-->
+	<select id="selectByPayWayIds" resultMap="payv2busscompanyshop_result_map" >
+		select id,shop_key,company_id,shop_name,shop_range_province,shop_range_city,lat,lon,shop_address,shop_icon,shop_background,shop_desc,shop_week_time,shop_day_start_time,shop_day_end_time,shop_per_ave_money,shop_contacts,shop_contacts_phone,pay_way_id,code_way_id,shop_status,shop_pass_reason,shop_two_code_url,is_delete,create_time,update_time from payv2_buss_company_shop
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="shopKey!=null ">
+				and shop_key=#{shopKey}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop_name=#{shopName}
+			</if>
+			<if test="shopRangeProvince!=null ">
+				and shop_range_province=#{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null ">
+				and shop_range_city=#{shopRangeCity}
+			</if>
+			<if test="lat!=null ">
+				and lat=#{lat}
+			</if>
+			<if test="lon!=null ">
+				and lon=#{lon}
+			</if>
+			<if test="shopAddress!=null ">
+				and shop_address=#{shopAddress}
+			</if>
+			<if test="shopIcon!=null ">
+				and shop_icon=#{shopIcon}
+			</if>
+			<if test="shopBackground!=null ">
+				and shop_background=#{shopBackground}
+			</if>
+			<if test="shopDesc!=null ">
+				and shop_desc=#{shopDesc}
+			</if>
+			<if test="shopWeekTime!=null ">
+				and shop_week_time=#{shopWeekTime}
+			</if>
+			<if test="shopDayStartTime!=null ">
+				and shop_day_start_time=#{shopDayStartTime}
+			</if>
+			<if test="shopDayEndTime!=null ">
+				and shop_day_end_time=#{shopDayEndTime}
+			</if>
+			<if test="shopPerAveMoney!=null ">
+				and shop_per_ave_money=#{shopPerAveMoney}
+			</if>
+			<if test="shopContacts!=null ">
+				and shop_contacts=#{shopContacts}
+			</if>
+			<if test="shopContactsPhone!=null ">
+				and shop_contacts_phone=#{shopContactsPhone}
+			</if>
+			<if test="payWayId!=null ">
+				and pay_way_id in
+					<foreach item="item" index="index" collection="payWayIds" open="(" separator="," close=")">  
+				     #{item}  
+				    </foreach> 
+			</if>
+			<if test="codeWayId!=null ">
+				and code_way_id=#{codeWayId}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="shopPassReason!=null ">
+				and shop_pass_reason=#{shopPassReason}
+			</if>
+			<if test="shopTwoCodeUrl!=null ">
+				and shop_two_code_url=#{shopTwoCodeUrl}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 获取总数 -->
+	<select id="qrcodeListCount" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_company_shop  
+		<where>
+			shop_name is null
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 分页 -->
+	<select id="qrcodeList" resultMap="payv2busscompanyshop_result_map" >
+		
+		SELECT id,shop_key,company_id,shop_name,shop_range_province,shop_range_city,lat,lon,shop_address,shop_icon,shop_background,shop_desc,shop_week_time,shop_day_start_time,shop_day_end_time,shop_per_ave_money,shop_contacts,shop_contacts_phone,pay_way_id,code_way_id,shop_status,shop_pass_reason,shop_two_code_url,is_delete,create_time,update_time FROM payv2_buss_company_shop 
+		<where>
+			shop_name is null
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+			<if test="sortName!=null or sortName!=''">
+				ORDER BY create_time desc
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="allQrcodeList" resultMap="payv2busscompanyshop_result_map" >
+		
+		SELECT id,shop_key,company_id,shop_name,shop_range_province,shop_range_city,lat,lon,shop_address,shop_icon,shop_background,shop_desc,shop_week_time,shop_day_start_time,shop_day_end_time,shop_per_ave_money,shop_contacts,shop_contacts_phone,pay_way_id,code_way_id,shop_status,shop_pass_reason,shop_two_code_url,is_delete,create_time,update_time FROM payv2_buss_company_shop 
+		<where>
+			shop_name is null
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="shopStatus!=null ">
+				and shop_status=#{shopStatus}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+			<if test="sortName!=null or sortName!=''">
+				ORDER BY create_time desc
+			</if>
+	</select>
+	
+	<select id="getshopIdNameList" parameterType="com.pay.business.merchant.entity.Payv2BussCompanyShop" resultType="java.util.Map">
+		SELECT id,shop_key,company_id,shop_name,shop_card FROM payv2_buss_company_shop
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="shopKey!=null and shopKey!=''">
+				and shop_key like  CONCAT('%',#{shopKey},'%')
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="shopName!=null and shopName!=''">
+				and shop_name like  CONCAT('%',#{shopName},'%')
+			</if>
+			<if test="shopCard!=null and shopCard!=''">
+				and shop_card like  CONCAT('%',#{shopCard},'%')
+			</if>
+			<if test="shopRangeProvince!=null and shopRangeProvince!=''">
+				and shop_range_province = #{shopRangeProvince}
+			</if>
+			<if test="shopRangeCity!=null and shopRangeCity!=''">
+				and shop_range_city = #{shopRangeCity}
+			</if>
+			<if test="lat!=null and lat!=''">
+				and lat = #{lat}
+			</if>
+			<if test="lon!=null and lon!=''">
+				and lon = #{lon}
+			</if>
+			<if test="shopAddress!=null and shopAddress!=''">
+				and shop_address like  CONCAT('%',#{shopAddress},'%')
+			</if>
+			<if test="shopIcon!=null and shopIcon!=''">
+				and shop_icon like  CONCAT('%',#{shopIcon},'%')
+			</if>
+			<if test="shopBackground!=null and shopBackground!=''">
+				and shop_background like  CONCAT('%',#{shopBackground},'%')
+			</if>
+			<if test="shopDesc!=null and shopDesc!=''">
+				and shop_desc like  CONCAT('%',#{shopDesc},'%')
+			</if>
+			<if test="shopWeekTime!=null and shopWeekTime!=''">
+				and shop_week_time like  CONCAT('%',#{shopWeekTime},'%')
+			</if>
+			<if test="shopDayStartTime!=null and shopDayStartTime!=''">
+				and shop_day_start_time like  CONCAT('%',#{shopDayStartTime},'%')
+			</if>
+			<if test="shopDayEndTime!=null and shopDayEndTime!=''">
+				and shop_day_end_time like  CONCAT('%',#{shopDayEndTime},'%')
+			</if>
+			<if test="shopRemarks!=null and shopRemarks!=''">
+				and shop_remarks like  CONCAT('%',#{shopRemarks},'%')
+			</if>
+			<if test="shopPerAveMoney!=null and shopPerAveMoney!=''">
+				and shop_per_ave_money like  CONCAT('%',#{shopPerAveMoney},'%')
+			</if>
+			<if test="shopContacts!=null and shopContacts!=''">
+				and shop_contacts like  CONCAT('%',#{shopContacts},'%')
+			</if>
+			<if test="shopContactsPhone!=null and shopContactsPhone!=''">
+				and shop_contacts_phone like  CONCAT('%',#{shopContactsPhone},'%')
+			</if>
+			<if test="shopEmail!=null and shopEmail!=''">
+				and shop_email like  CONCAT('%',#{shopEmail},'%')
+			</if>
+			<if test="payWayId!=null and payWayId!=''">
+				and pay_way_id = #{payWayId}
+			</if>
+			<if test="codeWayId!=null and codeWayId!=''">
+				and code_way_id like  CONCAT('%',#{codeWayId},'%')
+			</if>
+			<if test="shopStatus!=null and shopStatus!=''">
+				and shop_status = #{shopStatus}
+			</if>
+			<if test="shopPassReason!=null and shopPassReason!=''">
+				and shop_pass_reason like  CONCAT('%',#{shopPassReason},'%')
+			</if>
+			<if test="shopTwoCodeUrl!=null and shopTwoCodeUrl!=''">
+				and shop_two_code_url like  CONCAT('%',#{shopTwoCodeUrl},'%')
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+		</where>
+	</select>
+</mapper>

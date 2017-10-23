@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>APP版本审核</title>
+</head>
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>上架</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		html,body{
+			font-family: "微软雅黑" "microsoft yahei";
+		}
+		.fl{
+			float:left;
+		}
+		.fr{
+			float:right;
+		}
+		.title {
+		    background: #dcdcdc;
+		    height: 30px;
+		    line-height: 30px;
+		}
+		.infor {
+		    margin-left: 20px;
+		    font-size: 20px;
+		    color: #333;
+		}
+		.closed {
+		    font-size: 30px;
+		    color: #333;
+		}
+		.sure{
+			height: 100px;
+		}
+		.now{
+			margin-top: 20px;
+		}
+		.now,.future{
+			font-size: 18px;
+			text-align: center;
+			height: 40px;
+			line-height: 40px;
+		}
+		.now span,.future span{
+			font-size: 24px;
+			font-weight: bold;
+		}
+		.suresave{
+			height: 32px;
+			width: 100%;
+		}
+		.dlt_sure, .dlt_cancel {
+		    padding: 0 15px;
+		    height: 30px;
+		    line-height: 30px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    margin-top: 10px;
+		}
+		.dlt_sure {
+		    background: #5FBFE7;
+		    margin-left: 35%;
+		}
+		.dlt_cancel{
+			margin-left: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class="title">
+		<div class="infor fl">上架</div>
+		<div class="closed fr">
+		<input type="hidden" value="${payv2AppVersion.id}" id="id">
+		<input type="hidden" value="${payv2AppVersion.appId}" id="appId">
+		</div>
+	</div>
+	<div class="sure">
+		<div class="now">当前上架版本 <span>${payv2AppVersion.currentVersion}</span></div>
+		<div class="future">即将上架版本 <span>${payv2AppVersion.appVersion}</span></div>
+	</div>
+	<div class="dlt_btn suresave" style="text-align:center">
+		<a><div class="dlt_sure fl" style="text-align:center">确定</div></a>
+		<a><div class="dlt_cancel fl" style="text-align:center">取消</div></a>
+	</div>
+	
+	<script type="text/javascript">
+	
+	$(function(){
+		
+	 	$(".dlt_sure").bind("click", function(){
+
+			var data = {};
+			data.id = $("#id").val();
+			data.appId = $("#appId").val();
+			//后台请求保存数据
+			$.axse("${basePath}/payv2AppVersion/upOnSale.do",  data, function(d){
+				if(d.resultCode == 200){
+					layer.msg('已上架!', {
+						icon : 1,
+						time : 1000
+					});
+					//layer_close();
+					window.parent.location.href = "${basePath}/payv2AppVersion/payv2AppVersionList.do?appId=" + d.appId;
+				}else{
+					Huimodal_alert("上架失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert("上架失败,服务器异常!",1500);
+			});
+	 	});
+	 	
+	 	$(".dlt_cancel").bind("click", function(){
+	 		layer_close();
+	 	});
+	});
+	</script>
+</body>
+</html>

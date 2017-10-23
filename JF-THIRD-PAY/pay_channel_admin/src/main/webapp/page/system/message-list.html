@@ -1,0 +1,159 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>产品管理管理</title>
+</head>
+<body>
+	<!-- 赞助商ID -->
+	<input type="hidden" value="${sponsorId!}" id="sponsorId" name="sponsorId"/>
+	<!-- appid -->
+	<input type="hidden" name="appId" id="appId" value="${appId!}"/>
+	<#if msg??>
+		<h4 style="color: red;">${msg}</h4>
+	</#if>
+	<div class="pd-20">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l"> 
+			<a href="javascript:;" onclick="msg_add('添加系统消息','${basePath}/message/addOrUpdate.do','','510')" class="btn btn-primary radius">
+				<i class="Hui-iconfont">&#xe600;</i> 添加系统消息
+			</a>
+			</span>
+		</div>
+		<div class="mt-20">
+					<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr class="text-c">
+						<th width="10">ID</th>
+						<th width="60">消息类型</th>
+						<th width="100">消息标题</th>
+						<th width="300">消息内容</th>
+						<th width="120">发送人</th>
+						<th width="60">接收人id</th>
+						<th width="130">消息发送时间</th>
+						<th width="140">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if pageList??&&pageList?size gt 0> 
+					<#list pageList.dataList as ls>
+					<tr class="text-c">
+						<td>${ls_index+1}</td>
+						<td>
+						<#if ls.msgType==1>
+							系统消息
+						<#elseif ls.msgType==2>
+							理财产品到期通知
+						<#elseif ls.msgType==3>
+							上传图片通知	
+						<#elseif ls.msgType==4>		
+							资产提现通知
+						</#if>	
+						</td>
+						<td>&nbsp;&nbsp;${ls.msgTitle!}</td>
+						<td>${ls.msgContent!}</td>
+						<td>
+							<#if ls.msgSendUserid==1>
+								<span class="label label-success radius">系统</span>
+							</#if>
+						</td>
+						<td>${ls.msgAcceptUserid!}</td>
+						<td>
+						<#if ls.msgSendDate??>
+							${ls.msgSendDate?string("yyyy-MM-dd HH:mm:ss")}
+						</#if>
+						</td>
+						<td class="td-manage">
+							<a title="编辑" href="javascript:;" onclick="member_edit('修改产品','${basePath}/message/addOrUpdate.do?id=${ls.id}','${ls.id}','','510')" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont">&#xe6df;</i></a> 	
+							<a title="删除" href="javascript:;" onclick="delMessage('${ls.id}')" class="ml-5" style="text-decoration: none"><i class="Hui-iconfont delete-btn">&#xe6e2;</i></a>
+						</td>
+					</tr>
+					</#list> 
+					</#if>
+				</tbody>
+			</table>
+	<div class="page_list"></div>
+		</div>
+	</div>
+<script type="text/javascript">
+$(function(){
+ 	laypage({
+ 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+	    pages: ${pageList.totalPage! }, //总页数
+ 	    //skip: true, //是否开启跳页
+    //skin: 'molv',
+ 	    groups: 10, //连续显示分页数
+ 	    first: '首页', //若不显示，设置false即可
+ 	    last: '尾页', //若不显示，设置false即可
+ 	    curr:${pageList.curPage!},
+ 	   //prev: '<', //若不显示，设置false即可
+ 	   //next: '>', //若不显示，设置false即可
+ 	   // hash: true, //开启hash
+ 	    jump: function(obj,first){ //触发分页后的回调
+ 	       // $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+ 	    	if( !first){
+ 	         	 window.location.href="${basePath}/message/msgList.do?curPage="+obj.curr +"&pageData=10";
+ 	    	}
+ 	    }
+ 	});
+			$('.table-sort').dataTable({
+				"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+				"bStateSave": true,//状态保存
+				"aoColumnDefs": [
+                  {sDefaultContent: '',aTargets: [ '_all' ]
+                      }]/* ,
+				"aoColumnDefs": [
+				  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+				  {"orderable":false,"aTargets":[0,8,9]}// 制定列不参与排序
+				] */
+			});
+			$('.table-sort tbody').on( 'click', 'tr', function () {
+				if ( $(this).hasClass('selected') ) {
+					$(this).removeClass('selected');
+				}
+				else {
+					//table.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+		});
+		/*添加-消息*/
+		function msg_add(title,url,w,h){
+			layer_show(title,url,w,h);
+		}
+		/*产品-编辑*/
+		function member_edit(title,url,id,w,h){
+			layer_show(title,url,w,h);
+		}
+		
+		//删除消息
+		function delMessage(id){
+			$.ajax({
+				type:"GET",
+				url:"${basePath}/message/delMessage.do",
+				data:{id:id},
+				dataType:"json",
+				success:function(data){
+					if(data.status=="success"){
+						window.location.href="${basePath}/message/msgList.do?curPage=1&pageData=10";
+						layer_close();
+					}else if(data.status==-2){
+						alert("获取ID不能为空");
+					}else if(data.status==-1){
+						alert("服务器异常错误");
+					}				
+				}
+			});
+		}
+		window.onload = function(){
+			$(".dataTables_paginate,.dataTables_info,.dataTables_length").remove();
+		}
+	</script>
+</body>
+</html>

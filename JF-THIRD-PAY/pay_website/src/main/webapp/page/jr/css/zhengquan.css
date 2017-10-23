@@ -1,0 +1,347 @@
+.banner {
+	width: 100%;
+	height: 2.38rem;
+	background: url(../img/b2.png);
+	background-size: 100% 100%;
+	font-size: 0.24rem;
+	color: #fff;
+	position: relative;
+}
+
+.two h2 {
+	font-size: 0.32rem;
+}
+
+.two h1 {
+	font-size: 0.24rem;
+	color: #ccd0f7;
+}
+
+.left span {
+	font-size: 0.54rem;
+}
+
+.right span {
+	font-size: 0.44rem;
+}
+
+.left {
+	margin: 1rem 0 0 0.8rem;
+}
+
+.right {
+	margin: 1.1rem 0 0 2.2rem;
+}
+
+.stick {
+	width: 1px;
+	height: 0.66rem;
+	background: url(../img/stick.png);
+	background-size: 100% 100%;
+	position: absolute;
+	top: 1.1rem;
+	left: 50%;
+}
+
+.create {
+	width: 100%;
+	height: 1.8rem;
+	background: #fff;
+	border-bottom: 1px solid #DEDEDE;
+}
+
+.c_l {
+	margin: 0.3rem 0 0 1.1rem;
+}
+
+.c_r {
+	margin: 0.3rem 0 0 3rem;
+}
+
+.c_l_t,
+.c_r_t {
+	font-size: 0.24rem;
+	color: #808080;
+}
+
+.c_l_n,
+.c_r_n {
+	font-size: 0.46rem;
+	color: #666;
+	margin-top: 0.2rem;
+}
+.comp{
+	width: 100%;
+	overflow: hidden;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+}
+.about {
+	height: 0.88rem;
+	line-height: 0.88rem;
+	background: #fff;
+
+	color: #333;
+	font-size: 0.32rem;
+	margin-left: 0.25rem;
+}
+
+.comintro{
+	width: 100%;
+	background: #fff;
+	overflow: hidden;
+		border-bottom: 1px solid #dedede;
+}
+.nr {
+	line-height: 0.48rem;
+	background: #fff;
+	color: #666;
+	font-size: 0.28rem;
+	margin: 0.2rem 0.32rem 0.2rem 0.25rem;
+
+}
+
+.info {
+	width: 100%;
+	min-height: 0.51rem;
+	background: #f1f7fd;
+	overflow: hidden;
+	color: #666;
+	border-bottom: 1px solid #dedede;
+}
+
+.cu {
+	width: 6.84rem;
+	height: 0.48rem;
+	margin-left: 0.15rem;
+	font-size: 0.24rem;
+	margin-top: 0.12rem;
+}
+
+.cu_cu {
+	width: 0.4rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	border-radius: 5px;
+	color: #fff;
+	background: #8b9bf1;
+	background-size: 100% 100%;
+	margin-left: 0.12rem;
+}
+
+.cu_word {
+	width: 6.25rem;
+	line-height: 0.44rem;
+	color: #666;
+	margin-left: 0.06rem;
+}
+
+.atten {
+	width: 6.84rem;
+	margin-left: 0.15rem;
+	font-size: 0.24rem;
+	margin-top: 0.12rem;
+	height: 0.54rem;
+}
+
+.atten_cu {
+	width: 0.4rem;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	border-radius: 5px;
+	color: #fff;
+	background: #007AFF;
+	background-size: 100% 100%;
+	margin-left: 0.12rem;
+}
+
+.atten_word {
+	width: 6.25rem;
+	line-height: 0.44rem;
+	color: #333;
+	margin-left: 0.06rem;
+}
+
+.introduce {
+	width: 100%;
+	height: 0.88rem;
+	color: #333;
+	font-size: 0.32rem;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+}
+
+.w {
+	padding-left: 0.24rem;
+	height: 0.88rem;
+	line-height: 0.88rem;
+}
+
+.infor {
+	background: #fff;
+	width: 100%;
+	font-size: 0.28rem;
+	border-bottom: 1px solid #dedede;
+}
+
+.infor_container {
+	width: 93.0555555555555555%;
+	margin: 0 auto;
+}
+
+.name,
+.time,
+.first,
+.max,
+.tuoguan,
+.amount,
+.qixian {
+	height: 0.8rem;
+	line-height: 0.8rem;
+	border-bottom: 1px solid #dedede;
+	background: #fff;
+}
+.qixian{
+	border: 0;
+}
+.first span {
+	color: #ff6d6e;
+}
+
+.left2 {
+	color: #808080;
+}
+
+.right2 {
+	color: #333;
+	width: 5rem;
+	text-align: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.shuoming {
+	width: 100%;
+	height: 0.88rem;
+	background: #fff;
+	margin-top: 0.2rem;
+	color: #a5a5a5;
+	border-bottom: 1px solid #ededed;
+}
+
+.container {
+	height: 0.88rem;
+	line-height: 0.88rem;
+	font-size: 0.32rem;
+	padding-left: 0.24rem;
+	color: #333;
+}
+
+.neirong {
+	width: 100%;
+	background: #fff;
+	padding-top: 0.2rem;
+	border-bottom: 1px solid #DEDEDE;
+}
+
+.neirongcontainer {
+	font-size: 0.28rem;
+	line-height: 0.48rem;
+	padding-left: 0.24rem;
+	color: #666;
+	margin-bottom: 0.1rem;
+}
+
+.footer {
+	width: 100%;
+	height: 0.45rem;
+	background: #ededed;
+}
+
+.eg {
+	width: 100%;
+	height: 0.9rem;
+	background: #fff;
+	margin-top: 0.2rem;
+	border-bottom: 1px solid #dedede;
+}
+
+.egw {
+	font-size: 0.32rem;
+	color: #333;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	margin-left: 0.24rem;
+}
+
+.egi {
+	height: 0.9rem;
+	margin-right: 0.24rem;
+}
+
+.egi img {
+	margin-bottom: 0.2rem;
+}
+
+.egt {
+	width: 100%;
+	height: 0.9rem;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+}
+
+.egwt {
+	font-size: 0.32rem;
+	color: #333;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	margin-left: 0.24rem;
+}
+
+.egit {
+	height: 0.9rem;
+	margin-right: 0.24rem;
+}
+
+.egit img {
+	margin-bottom: 0.2rem;
+}
+.way .right2{
+	white-space: normal;
+	line-height: 0.5rem;
+	margin-top: 0.2rem;
+	text-align: left;
+}
+
+.pro{
+	width: 100%;
+	height: 2.33rem;
+	background: -webkit-linear-gradient(top ,#4867f5,#6070e5);
+	overflow: hidden;
+	display: none;
+}
+.prosev{
+	width: 100%;
+	font-size: 0.24rem;
+	color: #fff;
+	text-align: center;
+	margin-top: 0.4rem;
+}
+.proval{
+	width: 100%;
+	color: #fff;
+	text-align: center;
+}
+.num{
+	font-size: 0.8rem;
+	font-family: "微软雅黑";
+}
+.per{
+	font-size: 0.28rem;
+}
+.platform,.official{
+	font-family: arial;
+}

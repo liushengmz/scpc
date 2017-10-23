@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>添加支付渠道</title>
+</head>
+<body>
+	<form action="${basePath}/payv2PayWayRate/addPayv2PayWayRate.do" method="post" class="form form-horizontal" id="form-payway-add">
+		<input type="hidden" id="payWayId" name="payWayId" value="${map.payWayId}"/>
+		<div class="pop_main">
+		<dl  class="adddl">
+			<dt></span>支付通道名称：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="支付通道名称" id="payWayName" name="payWayName"  datatype="*"  nullmsg="请输入支付通道名称" >
+			</dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt></span>支付类型：</label>
+			</dt>
+			<dd>
+				<select class="select" id="payType" name="payType" size="1">
+					<option value="1">app支付</option>
+					<option value="2">web</option>
+					<option value="3">扫码</option>
+					<option value="4">app+web</option>
+					<option value="5">微信公众号</option>
+				</select>
+			</dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt></span>（用于客户端无界面支付策略）支付方式：</label>
+			</dt>
+			<dd>
+				<select class="select" id="payViewType" name="payViewType" size="1">
+					<option value="1">支付宝</option>
+					<option value="2">微信</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl  class="adddl">
+			<dt></span>所属合作机构：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="所属合作机构" id="companyName" name="companyName" datatype="*"  nullmsg="请输入合作机构" >
+			</dd>
+		</dl>
+		
+		<dl  class="adddl">
+			<dt></span>联系人：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="联系人" id="contactsName" name="contactsName"  datatype="*"  nullmsg="请输入联系人" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>联系方式：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="联系方式" id="contactsPhone" name="contactsPhone" onblur="ValidateNumber($(this),value)" datatype="*"  nullmsg="请输入联系方式" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>支付通道费：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="支付通道费" id="payWayRate" name="payWayRate"  onblur="ValidateFloat($(this),value)" datatype="*"  nullmsg="请输入支付通道费" >‰
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>单笔限额：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="单笔限额" id="oneMaxMoney" name="oneMaxMoney"  datatype="*"  nullmsg="请输入单笔限额" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>每日限额：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="每日限额" id="maxMoney" name="maxMoney"  datatype="*"  nullmsg="请输入每日限额" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>第三方通道字段1：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="第三方通道字段1" id="rateKey1" name="rateKey1"  datatype="*"  nullmsg="请输入第三方通道字段1" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>第三方通道字段2：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="第三方通道字段2" id="rateKey2" name="rateKey2"  datatype="*"  nullmsg="请输入第三方通道字段2" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>第三方通道字段3：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="第三方通道字段3" id="rateKey3" name="rateKey3" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>第三方通道字段4：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="第三方通道字段4" id="rateKey4" name="rateKey4">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>第三方通道字段5：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="第三方通道字段5" id="rateKey5" name="rateKey5" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>第三方通道字段6：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="第三方通道字段6" id="rateKey6" name="rateKey6">
+			</dd>
+		</dl>
+		<dl class="adddl">
+			<dt></span>公众号app_id：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="公众app_id" id="gzhAppId" name="gzhAppId" >
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>公众号key：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="公众号key" id="gzhKey" name="gzhKey">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>公众号预留字段：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="公众号预留字段" id="gzhStr" name="gzhStr">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>通道参数备注：</label>
+			</dt>
+			<dd>
+				<input type="text" class="dd_input" value="" placeholder="通道参数备注" id="keyRemark" name="keyRemark">
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt></span>到期类型：</label>
+			</dt>
+			<dd>
+				<select class="select" id="wayArrivalType" name="wayArrivalType" size="1" onchange="show_Type()">
+					<option value="1">T+日期(工作日)</option>
+					<option value="2">实时到账</option>
+					<option value="3">T+日期</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl  class="adddl" id="sssssss">
+			<dt></span>到账日期：</label>
+			</dt>
+			<dd>
+			<input type="text" class="dd_input" value="" placeholder="到账日期" id="wayArrivalValue" name="wayArrivalValue" datatype="*"  nullmsg="请输入到账日期" onblur="ValidateFloat($(this),value)"> 天
+			</dd>
+		</dl>
+		<dl>
+			<dt><label>选择支付类型：</label></dt>
+			<dd>
+				<select class="select" id="dicId" name="dicId" size="1" datatype="*"  nullmsg="请选择支付类型" >
+	           		<option value="">全部</option>
+	           		<#if dicList?? && dicList?size gt 0>
+	           		<#list dicList as dl>
+	           			<option value="${dl.id!}">${dl.dictValue!}</option>
+	           		</#list>
+	           		</#if>
+				</select>
+			</dd>
+		</dl>
+		<div class="submit_btn">
+			<input type="button" value="确定" onclick="submitButt()">
+		</div>
+		</div>
+	</form>
+<script type="text/javascript">
+		$(function(){
+			$("#form-payway-add").Validform({
+				tiptype:3,
+				showAllError:true,   //表单提交时显示所有提示信息
+				ignoreHidden: true,  //隐藏的表单元素不校验
+				ajaxPost:true,
+				callback:function(data){
+					$.Hidemsg()
+					if(data.resultCode==200){
+						layer.msg('保存成功!', {
+							icon : 1,
+							time : 1000
+						});
+						parent.location.replace("${basePath}/payv2PayWayRate/payv2PayWayRateList.do?payWayId="+$("#payWayId").val());
+						layer_close();
+					}else if(data.resultCode==201){
+						alert("你已经添加过了！也许您已关闭，可以再次开启，请查看商户支付通道");
+						return false;
+					}else{
+						$("#form-app-add").resetForm();
+						layer.msg('保存失败，请你检查数据!', {
+							icon : 1,
+							time : 1000
+						});
+					}
+				}
+			});
+		});
+
+		function submitButt(){
+			$("#form-payway-add").attr(
+					"action",
+					"${basePath}/payv2PayWayRate/addPayv2PayWayRate.do").submit(); 
+		}
+/**
+ * 异步获取支付通道列表
+ */
+function changeSponsoIdValue_zlb(wayType){
+	var wayType =wayType;
+	if(wayType == ""){
+		alert("请先选择支付方式");
+		return;
+	}else{
+		$.ajax({
+			url:'${basePath}/Payv2BussSupportPayWay/getPayv2PayWayList.do?wayType='+wayType,
+			dataType:'json',
+			success:function(data){
+				var lists = data.payv2PayWayList;
+				$("#payWayId").find("option").remove();
+				 $.each(lists,function(n,value) {
+			           	var trs = "<option value=\"" + value.id + "\" >" + value.wayName + "</option> ";  
+						$("#payWayId").append(trs);			               
+			        });  
+			 	 }  
+		});
+	}
+ }
+ 
+function uploadFile(url,idstr,filestr,obj) {
+	var _this = $(obj);
+	if($("input[id='"+idstr+filestr+"']").val()==""){
+		alert("请选择上传文件");
+		return;
+	}
+	var len = _this.parent("dd").find(".upLoadShots").find(".shotList").length;
+	if (len == 0) {
+		_this.parent("dd")
+			.find(".upLoadShots")
+			.append(
+					"<p class='shotList'><img src='' id='insuIconImg'/><i class='imageOper'></i></p>");
+	}
+	commonUp(url, $("input[id='"+idstr+filestr+"']"), function(data) {
+			$("#"+idstr).val(data.Data.url);
+			$("#serviceIconImg" + idstr).attr("src", data.Data.url);
+	});
+
+}
+//无刷新上传文件
+function commonUp(url, e, callback) {
+	$.ajaxFileUpload({
+		url : url,
+		secureuri : false,
+		fileElement : e,
+		dataType : "JSON",//返回数据的类型
+		success : function(data,status) {
+			if (data.resultCode == 200) {
+				if (callback) {
+					callback(data);
+				}
+			} else {
+				//alert("上传失败！");
+				alert(data.Data);
+			}
+			
+		}
+	});
+}
+
+function ValidateNumber(e, pnumber){ 
+	if (!(/^1[34578]\d{9}$/.test(pnumber)||/^0\d{2,3}-?\d{7,8}$/.test(pnumber))){ 
+		$(e).val("")
+	}
+	return false; 
+}
+
+//验证输入的数字合法性
+function ValidateFloat(e, pnumber){ 
+	if (!/^\d+[.]?\d*$/.test(pnumber)){ 
+		$(e).val(/^\d+[.]?\d*/.exec($(e).val())); 
+	}
+	return false; 
+}
+//隐藏
+function show_Type(){
+	var a=$("#wayArrivalType").val();
+	 if(a==2){
+		document.getElementById("sssssss").style.display="none";//隐藏
+	}else{
+		document.getElementById("sssssss").style.display="";//隐藏
+	} 
+}
+</script>
+</body>
+</html>

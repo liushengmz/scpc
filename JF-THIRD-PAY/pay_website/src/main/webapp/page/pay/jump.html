@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../public/css/style.css" />
+	</head>
+	<body>
+		<script type="text/javascript" src="../public/js/zepto.min.js" ></script>
+		<script>
+			var str=window.location.search;
+			var index=str.indexOf("out_trade_no=");
+			var number="";
+			str=str.slice(index,str.length);
+			var index2=str.indexOf("&");
+			if(index2==-1){
+				number=str.slice(13,str.length);
+			}else{
+				number=str.slice(13,index2);
+			}
+			$.ajax({
+				type:"get",
+				url:"/payDetail/queryOrderNum.do",
+				data:{"orderNum":number},
+				async:true,
+				success:function(data){
+					data=JSON.parse(data)
+					if(data.Data.payOrder.returnUrl){
+						window.location.href=data.Data.payOrder.returnUrl;
+					}else{
+						window.history.go(-5);
+					}
+					
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -11,6 +11,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 
 public class StringUtil 
 {
@@ -197,6 +200,7 @@ public class StringUtil
 	private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMM");
 	private static SimpleDateFormat sdf3 = new SimpleDateFormat("yyMMdd");
 	private static SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy-MM");
+	private static SimpleDateFormat sdf5 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	//传入 yyyy-MM-dd 的格式 传回 yyyyMM 的格式
 	public static String getMonthFormat(String date)
@@ -219,6 +223,11 @@ public class StringUtil
 		catch(Exception ex){}
 		
 		return null;
+	}
+	
+	public static String getNowFormat()
+	{
+		return sdf5.format(new Date());
 	}
 	
 	
@@ -465,6 +474,32 @@ public class StringUtil
         cale.set(Calendar.DAY_OF_MONTH,0);//设置为1号,当前日期既为本月第一天 
         return sdf1.format(cale.getTime());
     	
+    }
+    
+    public static String getJsonFormObject(Object obj)
+	{
+		try
+		{
+			return JSONObject.fromObject(obj).toString();
+		}
+		catch(Exception ex)
+		{
+			System.out.println("getJsonFormObject Error:" + ex.getMessage());
+		}
+		return "";
+	}
+    
+    public static String getJsonArrayFromObject(Object obj)
+    {
+    	try
+		{
+			return JSONArray.fromObject(obj).toString();
+		}
+		catch(Exception ex)
+		{
+			System.out.println("getJsonArrayFromObject Error:" + ex.getMessage());
+		}
+		return "";
     }
 	
 	public static void main(String[] args)

@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+
+<title>应用管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		系统管理 <span class="c-gray en">&gt;</span><a href="${basePath}/appUpdate/updateInfoList.do"> app更新管理  </a><span class="c-gray en">&gt;</span>${info.filesName!}
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/appUpdate/fileList.do">
+				<input type="hidden" name="infoId" id="infoId" value="${info.id!}" />
+				<input type="text" name="filesVersion" id="filesVersion" placeholder="版本号" style="width: 250px" class="input-text">
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe665;</i> 搜索
+				</button>
+			</form>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				
+				<a class="btn btn-primary radius" onclick="toAddFiles('添加文件','${basePath}/appUpdate/toAddFiles.do?infoId=${info.id!}')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加应用</a></span> <span class="r">
+				
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="3%"></th>
+						<th >文件URL</th>
+						<th width="20%">下载地址</th>
+						<th width="8%">文件大小</th>
+						<th width="10%">文件版本</th>
+						<th width="15%">文件md5</th>
+						<th width="5%">更新类型</th>
+						<th width="7%">应用版本</th>
+						<!-- <th>文件描述</th> -->
+						<th width="7%">创建时间</th>
+						<th width="5%">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if fileList.dataList?? && fileList.dataList?size gt 0>
+					<#list fileList.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td title="${dl.filesUrl!}">
+								<#if dl.filesUrl?length gt 30>
+									${dl.filesUrl?substring(0,30)}...
+								<#else>
+									${dl.filesUrl!}
+								</#if>
+							</td>
+							<td title="${dl.downloadUrl!}">
+								<#if dl.downloadUrl?length gt 30>
+									${dl.downloadUrl?substring(0,30)}...
+								<#else>
+									${dl.downloadUrl!}
+								</#if>
+							</td>
+							<td>
+							<#if dl.filesSize??>
+								#{dl.filesSize/1024/1024 ;m2M2}M
+							<#else>
+								0M	
+							</#if>	
+							</td>
+							<td>${dl.filesVersion!}</td>
+							<td>${dl.filesMd5!}</td>
+							<td>
+								<#if dl.appType==2>
+									ios
+								<#else>
+									android	
+								</#if>	
+							</td>
+							<td>${dl.appVersion!}</td>
+							<!-- <td>${dl.filesDesc!}</td> -->
+							<td>${dl.createTime?string('yyyy-MM-dd')}</td>
+							<td class="td-manage">
+								<a title="删除" href="javascript:;" onclick="file_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+								<a title="编辑" href="javascript:;" onclick="file_edit('编辑应用','${basePath}/appUpdate/toEditFiles.do?infoId=${info.id!}&id=${dl.id!}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+								</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${fileList.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${fileList.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+	// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/appUpdate/fileList.do?infoId=${info.id!}&curPage="+obj.curr +"&pageData="+10;
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+		/*系统-文件-添加*/
+		function toAddFiles(title, url, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*系统-应用-编辑*/
+		function file_edit(title, url, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*系统-文件-删除*/
+		function file_del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				var data = {};
+				data.id = id;
+				//后台请求保存数据
+				$.axse("${basePath}/appUpdate/delFile.do",  data, function(d){
+					if(d.resultCode == 200){
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						Huimodal_alert("删除失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("删除失败,请重试!",1500);
+				});
+			});
+		}
+	</script>
+</body>
+</html>

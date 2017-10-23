@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<#include "lib/lib.html" />
+<title>银行钱包管理</title>
+<style>
+	
+</style>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		支付渠道管理 <span class="c-gray en">&gt;</span> 钱包通道列表
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:cooperationBank_add();">
+				<i class="Hui-iconfont">&#xe600;</i> 新增钱包</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="25">ID</th>
+						<th width="150">钱包名称</th>
+						<th width="150">icon</th>
+						<th width="150">钱包银行</th>
+						<th width="150">支付推荐地区</th>
+						<th width="150">收单机构</th>
+						<th width="100">联系人</th>
+						<th width="100">联系电话</th>
+						<th width="100">资金托管银行</th>
+						<th width="80">通道费率</th>
+						<th width="100">结算类型</th>
+						<th width="50">使用状态</th>
+						<th width="300">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.wayName!}</td>
+							<td><a href="${dl.wayIcon!}" rel="lightbox" title=""><img src="${dl.wayIcon!}" width="240" height="50"/></a></td>
+							<td>${dl.wayCompanyName!}</td>
+							<td>
+							 <#if dl.jsonArray?? && dl.jsonArray?size gt 0>
+								<#list dl.jsonArray as dd >
+									<#if provincesList?? && provincesList?size gt 0>
+										<#list provincesList as dl >
+<!-- 											<#if dd.pro == dl.id> 
+												<option value="${dl.id}" selected="selected" >${dl.name}</option>
+											</#if> -->
+											<#if dd.city == dl.id> 
+												<option value="${dl.id}" selected="selected" >${dl.name}</option>
+											</#if>
+										</#list>
+									</#if>
+								</#list>
+							 </#if>
+							</td>
+							<td>
+								<#if dl.incomeType==1>本行</#if>
+								<#if dl.incomeType==2>
+									<#if payv2PayWayList?? && payv2PayWayList?size gt 0>
+										<#list payv2PayWayList as dl >
+											<#if dl.incomeLine ?length gt 4>
+												<option value="${dl.id}" <#if payv2PayWay.wayId == dl.id> selected="selected"</#if>>${dl.wayName}</option>
+											</#if>
+										</#list>
+									</#if>
+								</#if>
+							</td>
+							<td>${dl.wayContacts!}</td>
+							<td>${dl.wayPhone!}</td>
+							<td>
+							<#if dl.isTrustBank==1>是</#if>
+							<#if dl.isTrustBank==2>否</#if>
+							</td>
+							<td>${dl.wayRate!}‰</td>
+							<td>
+								<#if dl.wayArrivalType ==1>T+日期（工作日）
+								<#elseif dl.wayArrivalType ==2>实时到账
+								<#elseif dl.wayArrivalType ==3>T+日期
+								<#else>其他</#if>
+							</td>
+							<td>
+								<#if dl.status ==1>启用
+								<#elseif dl.status ==2>停用
+								<#else>其他</#if>
+							</td>
+							<td class="td-manage">
+								<#if dl.status==1>
+									<a title="停用" href="javascript:;" onclick="fund_update(this,${dl.id!},'终止','2')"  class="ml-5" style="text-decoration:none">停用</a> 
+									<a title="配置优惠" href="javascript:;"  onclick="getPayv2AppDiscountList('配置优惠','${basePath}/Payv2AppDiscount/getPayv2AppDiscountList.do?appId='+${dl.id!},1400);"  class="ml-5" style="text-decoration:none">配置优惠</a>
+								<#else>
+									<a title="启用" href="javascript:;" onclick="fund_update(this,${dl.id!},'启用','1')"  class="ml-5" style="text-decoration:none">启用</a> 
+									<a title="编辑" href="javascript:;" onclick="payv2payway_edit(${dl.id!})"  class="ml-5" style="text-decoration:none">编辑</a>
+									<a title="删除" href="javascript:;" onclick="payv2payway_del(this,${dl.id!})" class="ml-5" style="text-decoration:none">删除</a>
+								</#if>
+								<a title="SDK管理" href="javascript:;"  onclick="getPayv2PayOrderList('SDK管理','${basePath}/payv2WaySdkVersion/payv2WaySdkVersionList.do?payWayId='+${dl.id!},1540);"  class="ml-5" style="text-decoration:none">SDK管理</a>
+								<a title="商户列表" href="javascript:;"  onclick="companyList('商户列表','${basePath}/payv2PaywayMoneyBag/getCompanyList.do?payType=1&payWayId='+${dl.id!},1540);"  class="ml-5" style="text-decoration:none">商户列表</a>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<#if list.dataList?? && list.dataList?size gt 0>
+			<div class="page_list"></div>
+			</#if>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+	 	laypage({
+	 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: ${list.endPage! }, //总页数
+	 	    //skip: true, //是否开启跳页
+// 	    	skin: 'molv',
+	 	    groups: 10, //连续显示分页数
+	 	    first: '首页', //若不显示，设置false即可
+	 	    last: '尾页', //若不显示，设置false即可
+	 	    curr:${list.curPage!},
+	 	   	hash: true, //开启hash
+	 	    skin: '#00AA91',
+	 	    jump: function(obj,first){ //触发分页后的回调
+	 	    	if(!first){
+	 	         	 window.location.href="${basePath}/payv2PaywayMoneyBag/getPayv2PayWayMoneyBagList.do?curPage="+obj.curr +"&pageData="+10;
+	 	    	}
+	 	    }
+	 	});
+	 			
+	});
+		//添加钱包
+		function cooperationBank_add(title, url, w, h){
+			var url = '${basePath}/payv2PaywayMoneyBag/addPayv2PayWayMoneyBagTc.do';
+			//layer_show('新增钱包', url, 1200, 800);
+			var windowWidth=document.body.clientWidth||document.documentElement.clientWidth
+			if(windowWidth<1367){
+				//console.log(windowWidth)
+				console.log(windowWidth+"**")
+				layer_show('新增钱包', url, 800,800);
+			}else{
+				layer_show('新增钱包', url, 1200,800);
+			}
+			
+		}
+		//编辑钱包
+		function payv2payway_edit(id){
+			var url = '${basePath}/payv2PaywayMoneyBag/editPayv2PayWayMoneyBag.do?id='+id;
+			
+			layer_show('编辑钱包', url, 1200,800);
+		}
+		/*设置优惠*/
+		function getPayv2AppDiscountList(title,url,w,h){
+			layer_show(title, url, w, h);
+		}
+		/*系统-应用-删除*/
+		function payv2payway_del(obj, id) {
+			layer.confirm('确认要删除吗？', function(index) {
+				var data = {};
+				data.id = id;
+				data.isDelete =1;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2PaywayMoneyBag/updatePayv2PayWayMoneyBag.do",  data, function(d){
+					if(d.resultCode == 200){
+						$(obj).parents("tr").remove();
+						layer.msg('已删除!', {
+							icon : 1,
+							time : 1000
+						});
+					}else{
+						Huimodal_alert("删除失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("删除失败,请重试!",1500);
+				});
+			});
+		}
+		//终止、恢复
+		function fund_update(obj,id,str,status){
+			layer.confirm("确定"+str+"？", function(index) {
+				var data = {};
+				data.id = id;
+				data.status = status;
+				//后台请求保存数据
+				$.axse("${basePath}/payv2PaywayMoneyBag/updatePayv2PayWayMoneyBag.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已'+str+'!', {
+							icon : 1,
+							time : 1000
+						});
+						window.location.href="${basePath}/payv2PaywayMoneyBag/getPayv2PayWayMoneyBagList.do";
+					}else{
+						Huimodal_alert(str+"失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert(str+"失败,请重试!",1500);
+				});
+			});
+		}
+		
+		//查看订单
+		function getPayv2PayOrderList(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+		//管理商铺
+		function payv2BussCompanyShopList(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+		
+		//商户列表
+		function companyList(title,url,w,h){
+				layer_show(title, url, w, h);
+		}
+	</script>
+</body>
+</html>

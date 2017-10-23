@@ -166,7 +166,6 @@ $(function()
 			alert("请选择省份");
 			return;
 		}
-		
 
 		document.getElementById("addform").submit();
 	}

@@ -1,0 +1,1778 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.merchant.mapper.Payv2BussCompanyMapper">
+
+	<resultMap id="payv2busscompany_result_map" type="com.pay.business.merchant.entity.Payv2BussCompany" >
+		<id column="id" property="id" />
+		<result column="channel_id" property="channelId"/>
+		<result column="user_name" property="userName"/>
+		<result column="pass_word" property="passWord"/>
+		<result column="pay_pass_word" property="payPassWord"/>
+		<result column="company_key" property="companyKey"/>
+		<result column="company_secret" property="companySecret"/>
+		<result column="company_name" property="companyName"/>
+		<result column="company_photo" property="companyPhoto"/>
+		<result column="company_scale" property="companyScale"/>
+		<result column="company_type" property="companyType"/>
+		<result column="company_trade" property="companyTrade"/>
+		<result column="company_trade_var" property="companyTradeVar"/>
+		<result column="company_range_province" property="companyRangeProvince"/>
+		<result column="company_range_city" property="companyRangeCity"/>
+		<result column="company_addr" property="companyAddr"/>
+		<result column="license_num" property="licenseNum"/>
+		<result column="license_addr" property="licenseAddr"/>
+		<result column="license_pic" property="licensePic"/>
+		<result column="organization_code" property="organizationCode"/>
+		<result column="organization_code_url" property="organizationCodeUrl"/>
+		<result column="other_information" property="otherInformation"/>
+		<result column="legal_name" property="legalName"/>
+		<result column="legal_id_card" property="legalIdCard"/>
+		<result column="account_type" property="accountType"/>
+		<result column="account_bank" property="accountBank"/>
+		<result column="account_name" property="accountName"/>
+		<result column="account_card" property="accountCard"/>
+		<result column="way_arrival_type" property="wayArrivalType"/>
+		<result column="way_arrival_value" property="wayArrivalValue"/>
+		<result column="wechat_account_card" property="wechatAccountCard"/>
+		<result column="alipay_account_card" property="alipayAccountCard"/>
+		<result column="license_type" property="licenseType"/>
+		<result column="contacts_name" property="contactsName"/>
+		<result column="contacts_phone" property="contactsPhone"/>
+		<result column="contacts_mail" property="contactsMail"/>
+		<result column="company_status" property="companyStatus"/>
+		<result column="company_pass_reason" property="companyPassReason"/>
+		<result column="is_random" property="isRandom"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_company  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like CONCAT('%',#{userName},'%')
+			</if>
+			<if test="passWord!=null and passWord!=''">
+				and pass_word like CONCAT('%',#{passWord},'%')
+			</if>
+			<if test="payPassWord!=null and payPassWord!=''">
+				and pay_pass_word like CONCAT('%',#{payPassWord},'%')
+			</if>
+			<if test="companyKey!=null and companyKey!=''">
+				and company_key like CONCAT('%',#{companyKey},'%')
+			</if>
+			<if test="companySecret!=null and companySecret!=''">
+				and company_secret like CONCAT('%',#{companySecret},'%')
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and company_name like CONCAT('%',#{companyName},'%')
+			</if>
+			<if test="companyPhoto!=null and companyPhoto!=''">
+				and company_photo like CONCAT('%',#{companyPhoto},'%')
+			</if>
+			<if test="companyScale!=null and companyScale!=''">
+				and company_scale = #{companyScale}
+			</if>
+			<if test="companyType!=null and companyType!=''">
+				and company_type = #{companyType}
+			</if>
+			<if test="companyTrade!=null and companyTrade!=''">
+				and company_trade = #{companyTrade}
+			</if>
+			<if test="companyTradeVar!=null and companyTradeVar!=''">
+				and company_trade_var like CONCAT('%',#{companyTradeVar},'%')
+			</if>
+			<if test="companyRangeProvince!=null and companyRangeProvince!=''">
+				and company_range_province = #{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null and companyRangeCity!=''">
+				and company_range_city = #{companyRangeCity}
+			</if>
+			<if test="companyAddr!=null and companyAddr!=''">
+				and company_addr like CONCAT('%',#{companyAddr},'%')
+			</if>
+			<if test="licenseNum!=null and licenseNum!=''">
+				and license_num like CONCAT('%',#{licenseNum},'%')
+			</if>
+			<if test="licenseAddr!=null and licenseAddr!=''">
+				and license_addr like CONCAT('%',#{licenseAddr},'%')
+			</if>
+			<if test="licensePic!=null and licensePic!=''">
+				and license_pic like CONCAT('%',#{licensePic},'%')
+			</if>
+			<if test="organizationCode!=null and organizationCode!=''">
+				and organization_code like CONCAT('%',#{organizationCode},'%')
+			</if>
+			<if test="organizationCodeUrl!=null and organizationCodeUrl!=''">
+				and organization_code_url like CONCAT('%',#{organizationCodeUrl},'%')
+			</if>
+			<if test="otherInformation!=null and otherInformation!=''">
+				and other_information like CONCAT('%',#{otherInformation},'%')
+			</if>
+			<if test="legalName!=null and legalName!=''">
+				and legal_name like CONCAT('%',#{legalName},'%')
+			</if>
+			<if test="legalIdCard!=null and legalIdCard!=''">
+				and legal_id_card like CONCAT('%',#{legalIdCard},'%')
+			</if>
+			<if test="accountType!=null and accountType!=''">
+				and account_type = #{accountType}
+			</if>
+			<if test="accountBank!=null and accountBank!=''">
+				and account_bank like CONCAT('%',#{accountBank},'%')
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and account_name like CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountCard!=null and accountCard!=''">
+				and account_card like CONCAT('%',#{accountCard},'%')
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="wechatAccountCard!=null and wechatAccountCard!=''">
+				and wechat_account_card like CONCAT('%',#{wechatAccountCard},'%')
+			</if>
+			<if test="alipayAccountCard!=null and alipayAccountCard!=''">
+				and alipay_account_card like CONCAT('%',#{alipayAccountCard},'%')
+			</if>
+			<if test="licenseType!=null and licenseType!=''">
+				and license_type = #{licenseType}
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="contactsMail!=null and contactsMail!=''">
+				and contacts_mail like CONCAT('%',#{contactsMail},'%')
+			</if>
+			<if test="companyStatus!=null and companyStatus!=''">
+				and company_status = #{companyStatus}
+			</if>
+			<if test="companyPassReason!=null and companyPassReason!=''">
+				and company_pass_reason like CONCAT('%',#{companyPassReason},'%')
+			</if>
+			<if test="isRandom!=null and isRandom!=''">
+				and is_random = #{isRandom}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompany" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_buss_company
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="userName!=null ">
+				user_name,
+			</if>
+      		<if test="passWord!=null ">
+				pass_word,
+			</if>
+      		<if test="payPassWord!=null ">
+				pay_pass_word,
+			</if>
+      		<if test="companyKey!=null ">
+				company_key,
+			</if>
+      		<if test="companySecret!=null ">
+				company_secret,
+			</if>
+      		<if test="companyName!=null ">
+				company_name,
+			</if>
+      		<if test="companyPhoto!=null ">
+				company_photo,
+			</if>
+      		<if test="companyScale!=null ">
+				company_scale,
+			</if>
+      		<if test="companyType!=null ">
+				company_type,
+			</if>
+      		<if test="companyTrade!=null ">
+				company_trade,
+			</if>
+      		<if test="companyTradeVar!=null ">
+				company_trade_var,
+			</if>
+      		<if test="companyRangeProvince!=null ">
+				company_range_province,
+			</if>
+      		<if test="companyRangeCity!=null ">
+				company_range_city,
+			</if>
+      		<if test="companyAddr!=null ">
+				company_addr,
+			</if>
+      		<if test="licenseNum!=null ">
+				license_num,
+			</if>
+      		<if test="licenseAddr!=null ">
+				license_addr,
+			</if>
+      		<if test="licensePic!=null ">
+				license_pic,
+			</if>
+      		<if test="organizationCode!=null ">
+				organization_code,
+			</if>
+      		<if test="organizationCodeUrl!=null ">
+				organization_code_url,
+			</if>
+      		<if test="otherInformation!=null ">
+				other_information,
+			</if>
+      		<if test="legalName!=null ">
+				legal_name,
+			</if>
+      		<if test="legalIdCard!=null ">
+				legal_id_card,
+			</if>
+      		<if test="accountType!=null ">
+				account_type,
+			</if>
+      		<if test="accountBank!=null ">
+				account_bank,
+			</if>
+      		<if test="accountName!=null ">
+				account_name,
+			</if>
+      		<if test="accountCard!=null ">
+				account_card,
+			</if>
+      		<if test="wayArrivalType!=null ">
+				way_arrival_type,
+			</if>
+      		<if test="wayArrivalValue!=null ">
+				way_arrival_value,
+			</if>
+      		<if test="wechatAccountCard!=null ">
+				wechat_account_card,
+			</if>
+      		<if test="alipayAccountCard!=null ">
+				alipay_account_card,
+			</if>
+      		<if test="licenseType!=null ">
+				license_type,
+			</if>
+      		<if test="contactsName!=null ">
+				contacts_name,
+			</if>
+      		<if test="contactsPhone!=null ">
+				contacts_phone,
+			</if>
+      		<if test="contactsMail!=null ">
+				contacts_mail,
+			</if>
+      		<if test="companyStatus!=null ">
+				company_status,
+			</if>
+      		<if test="companyPassReason!=null ">
+				company_pass_reason,
+			</if>
+      		<if test="isRandom!=null ">
+				is_random,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="userName!=null ">
+      			#{userName},
+			</if>
+      		<if test="passWord!=null ">
+      			#{passWord},
+			</if>
+      		<if test="payPassWord!=null ">
+      			#{payPassWord},
+			</if>
+      		<if test="companyKey!=null ">
+      			#{companyKey},
+			</if>
+      		<if test="companySecret!=null ">
+      			#{companySecret},
+			</if>
+      		<if test="companyName!=null ">
+      			#{companyName},
+			</if>
+      		<if test="companyPhoto!=null ">
+      			#{companyPhoto},
+			</if>
+      		<if test="companyScale!=null ">
+      			#{companyScale},
+			</if>
+      		<if test="companyType!=null ">
+      			#{companyType},
+			</if>
+      		<if test="companyTrade!=null ">
+      			#{companyTrade},
+			</if>
+      		<if test="companyTradeVar!=null ">
+      			#{companyTradeVar},
+			</if>
+      		<if test="companyRangeProvince!=null ">
+      			#{companyRangeProvince},
+			</if>
+      		<if test="companyRangeCity!=null ">
+      			#{companyRangeCity},
+			</if>
+      		<if test="companyAddr!=null ">
+      			#{companyAddr},
+			</if>
+      		<if test="licenseNum!=null ">
+      			#{licenseNum},
+			</if>
+      		<if test="licenseAddr!=null ">
+      			#{licenseAddr},
+			</if>
+      		<if test="licensePic!=null ">
+      			#{licensePic},
+			</if>
+      		<if test="organizationCode!=null ">
+      			#{organizationCode},
+			</if>
+      		<if test="organizationCodeUrl!=null ">
+      			#{organizationCodeUrl},
+			</if>
+      		<if test="otherInformation!=null ">
+      			#{otherInformation},
+			</if>
+      		<if test="legalName!=null ">
+      			#{legalName},
+			</if>
+      		<if test="legalIdCard!=null ">
+      			#{legalIdCard},
+			</if>
+      		<if test="accountType!=null ">
+      			#{accountType},
+			</if>
+      		<if test="accountBank!=null ">
+      			#{accountBank},
+			</if>
+      		<if test="accountName!=null ">
+      			#{accountName},
+			</if>
+      		<if test="accountCard!=null ">
+      			#{accountCard},
+			</if>
+      		<if test="wayArrivalType!=null ">
+      			#{wayArrivalType},
+			</if>
+      		<if test="wayArrivalValue!=null ">
+      			#{wayArrivalValue},
+			</if>
+      		<if test="wechatAccountCard!=null ">
+      			#{wechatAccountCard},
+			</if>
+      		<if test="alipayAccountCard!=null ">
+      			#{alipayAccountCard},
+			</if>
+      		<if test="licenseType!=null ">
+      			#{licenseType},
+			</if>
+      		<if test="contactsName!=null ">
+      			#{contactsName},
+			</if>
+      		<if test="contactsPhone!=null ">
+      			#{contactsPhone},
+			</if>
+      		<if test="contactsMail!=null ">
+      			#{contactsMail},
+			</if>
+      		<if test="companyStatus!=null ">
+      			#{companyStatus},
+			</if>
+      		<if test="companyPassReason!=null ">
+      			#{companyPassReason},
+			</if>
+      		<if test="isRandom!=null ">
+      			#{isRandom},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompany">
+		delete from payv2_buss_company
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+      		<if test="passWord!=null ">
+				and pass_word=#{passWord}
+			</if>
+      		<if test="payPassWord!=null ">
+				and pay_pass_word=#{payPassWord}
+			</if>
+      		<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+      		<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+      		<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+      		<if test="companyPhoto!=null ">
+				and company_photo=#{companyPhoto}
+			</if>
+      		<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+      		<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+      		<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+      		<if test="companyTradeVar!=null ">
+				and company_trade_var=#{companyTradeVar}
+			</if>
+      		<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+      		<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+      		<if test="companyAddr!=null ">
+				and company_addr=#{companyAddr}
+			</if>
+      		<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+      		<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+      		<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+      		<if test="organizationCode!=null ">
+				and organization_code=#{organizationCode}
+			</if>
+      		<if test="organizationCodeUrl!=null ">
+				and organization_code_url=#{organizationCodeUrl}
+			</if>
+      		<if test="otherInformation!=null ">
+				and other_information=#{otherInformation}
+			</if>
+      		<if test="legalName!=null ">
+				and legal_name=#{legalName}
+			</if>
+      		<if test="legalIdCard!=null ">
+				and legal_id_card=#{legalIdCard}
+			</if>
+      		<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+      		<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+      		<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+      		<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+      		<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+      		<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+      		<if test="wechatAccountCard!=null ">
+				and wechat_account_card=#{wechatAccountCard}
+			</if>
+      		<if test="alipayAccountCard!=null ">
+				and alipay_account_card=#{alipayAccountCard}
+			</if>
+      		<if test="licenseType!=null ">
+				and license_type=#{licenseType}
+			</if>
+      		<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+      		<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+      		<if test="contactsMail!=null ">
+				and contacts_mail=#{contactsMail}
+			</if>
+      		<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+      		<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+      		<if test="isRandom!=null ">
+				and is_random=#{isRandom}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.merchant.entity.Payv2BussCompany">
+		update payv2_buss_company
+		<set>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="userName!=null ">
+				user_name=#{userName},
+			</if>
+			<if test="passWord!=null ">
+				pass_word=#{passWord},
+			</if>
+			<if test="payPassWord!=null ">
+				pay_pass_word=#{payPassWord},
+			</if>
+			<if test="companyKey!=null ">
+				company_key=#{companyKey},
+			</if>
+			<if test="companySecret!=null ">
+				company_secret=#{companySecret},
+			</if>
+			<if test="companyName!=null ">
+				company_name=#{companyName},
+			</if>
+			<if test="companyPhoto!=null ">
+				company_photo=#{companyPhoto},
+			</if>
+			<if test="companyScale!=null ">
+				company_scale=#{companyScale},
+			</if>
+			<if test="companyType!=null ">
+				company_type=#{companyType},
+			</if>
+			<if test="companyTrade!=null ">
+				company_trade=#{companyTrade},
+			</if>
+			<if test="companyTradeVar!=null ">
+				company_trade_var=#{companyTradeVar},
+			</if>
+			<if test="companyRangeProvince!=null ">
+				company_range_province=#{companyRangeProvince},
+			</if>
+			<if test="companyRangeCity!=null ">
+				company_range_city=#{companyRangeCity},
+			</if>
+			<if test="companyAddr!=null ">
+				company_addr=#{companyAddr},
+			</if>
+			<if test="licenseNum!=null ">
+				license_num=#{licenseNum},
+			</if>
+			<if test="licenseAddr!=null ">
+				license_addr=#{licenseAddr},
+			</if>
+			<if test="licensePic!=null ">
+				license_pic=#{licensePic},
+			</if>
+			<if test="organizationCode!=null ">
+				organization_code=#{organizationCode},
+			</if>
+			<if test="organizationCodeUrl!=null ">
+				organization_code_url=#{organizationCodeUrl},
+			</if>
+			<if test="otherInformation!=null ">
+				other_information=#{otherInformation},
+			</if>
+			<if test="legalName!=null ">
+				legal_name=#{legalName},
+			</if>
+			<if test="legalIdCard!=null ">
+				legal_id_card=#{legalIdCard},
+			</if>
+			<if test="accountType!=null ">
+				account_type=#{accountType},
+			</if>
+			<if test="accountBank!=null ">
+				account_bank=#{accountBank},
+			</if>
+			<if test="accountName!=null ">
+				account_name=#{accountName},
+			</if>
+			<if test="accountCard!=null ">
+				account_card=#{accountCard},
+			</if>
+			<if test="wayArrivalType!=null ">
+				way_arrival_type=#{wayArrivalType},
+			</if>
+			<if test="wayArrivalValue!=null ">
+				way_arrival_value=#{wayArrivalValue},
+			</if>
+			<if test="wechatAccountCard!=null ">
+				wechat_account_card=#{wechatAccountCard},
+			</if>
+			<if test="alipayAccountCard!=null ">
+				alipay_account_card=#{alipayAccountCard},
+			</if>
+			<if test="licenseType!=null ">
+				license_type=#{licenseType},
+			</if>
+			<if test="contactsName!=null ">
+				contacts_name=#{contactsName},
+			</if>
+			<if test="contactsPhone!=null ">
+				contacts_phone=#{contactsPhone},
+			</if>
+			<if test="contactsMail!=null ">
+				contacts_mail=#{contactsMail},
+			</if>
+			<if test="companyStatus!=null ">
+				company_status=#{companyStatus},
+			</if>
+			<if test="companyPassReason!=null ">
+				company_pass_reason=#{companyPassReason},
+			</if>
+			<if test="isRandom!=null ">
+				is_random=#{isRandom},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+		</set>
+		<where>
+				id=#{id}
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.merchant.entity.Payv2BussCompany" resultMap="payv2busscompany_result_map">
+		select id,channel_id,user_name,pass_word,pay_pass_word,company_key,company_secret,company_name,company_photo,company_scale,company_type,company_trade,company_trade_var,company_range_province,company_range_city,company_addr,license_num,license_addr,license_pic,organization_code,organization_code_url,other_information,legal_name,legal_id_card,account_type,account_bank,account_name,account_card,way_arrival_type,way_arrival_value,wechat_account_card,alipay_account_card,license_type,contacts_name,contacts_phone,contacts_mail,company_status,company_pass_reason,is_random,is_delete,create_time,update_time from payv2_buss_company
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="passWord!=null ">
+				and pass_word=#{passWord}
+			</if>
+			<if test="payPassWord!=null ">
+				and pay_pass_word=#{payPassWord}
+			</if>
+			<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+			<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="companyPhoto!=null ">
+				and company_photo=#{companyPhoto}
+			</if>
+			<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+			<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+			<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+			<if test="companyTradeVar!=null ">
+				and company_trade_var=#{companyTradeVar}
+			</if>
+			<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+			<if test="companyAddr!=null ">
+				and company_addr=#{companyAddr}
+			</if>
+			<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+			<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+			<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+			<if test="organizationCode!=null ">
+				and organization_code=#{organizationCode}
+			</if>
+			<if test="organizationCodeUrl!=null ">
+				and organization_code_url=#{organizationCodeUrl}
+			</if>
+			<if test="otherInformation!=null ">
+				and other_information=#{otherInformation}
+			</if>
+			<if test="legalName!=null ">
+				and legal_name=#{legalName}
+			</if>
+			<if test="legalIdCard!=null ">
+				and legal_id_card=#{legalIdCard}
+			</if>
+			<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+			<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+			<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+			<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+			<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+			<if test="wechatAccountCard!=null ">
+				and wechat_account_card=#{wechatAccountCard}
+			</if>
+			<if test="alipayAccountCard!=null ">
+				and alipay_account_card=#{alipayAccountCard}
+			</if>
+			<if test="licenseType!=null ">
+				and license_type=#{licenseType}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="contactsMail!=null ">
+				and contacts_mail=#{contactsMail}
+			</if>
+			<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+			<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+			<if test="isRandom!=null ">
+				and is_random=#{isRandom}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2busscompany_result_map" >
+		select id,channel_id,user_name,pass_word,pay_pass_word,company_key,company_secret,company_name,company_photo,company_scale,company_type,company_trade,company_trade_var,company_range_province,company_range_city,company_addr,license_num,license_addr,license_pic,organization_code,organization_code_url,other_information,legal_name,legal_id_card,account_type,account_bank,account_name,account_card,way_arrival_type,way_arrival_value,wechat_account_card,alipay_account_card,license_type,contacts_name,contacts_phone,contacts_mail,company_status,company_pass_reason,is_random,is_delete,create_time,update_time from payv2_buss_company
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="passWord!=null ">
+				and pass_word=#{passWord}
+			</if>
+			<if test="payPassWord!=null ">
+				and pay_pass_word=#{payPassWord}
+			</if>
+			<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+			<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="companyPhoto!=null ">
+				and company_photo=#{companyPhoto}
+			</if>
+			<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+			<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+			<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+			<if test="companyTradeVar!=null ">
+				and company_trade_var=#{companyTradeVar}
+			</if>
+			<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+			<if test="companyAddr!=null ">
+				and company_addr=#{companyAddr}
+			</if>
+			<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+			<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+			<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+			<if test="organizationCode!=null ">
+				and organization_code=#{organizationCode}
+			</if>
+			<if test="organizationCodeUrl!=null ">
+				and organization_code_url=#{organizationCodeUrl}
+			</if>
+			<if test="otherInformation!=null ">
+				and other_information=#{otherInformation}
+			</if>
+			<if test="legalName!=null ">
+				and legal_name=#{legalName}
+			</if>
+			<if test="legalIdCard!=null ">
+				and legal_id_card=#{legalIdCard}
+			</if>
+			<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+			<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+			<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+			<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+			<if test="wayArrivalType!=null ">
+				and way_arrival_type=#{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null ">
+				and way_arrival_value=#{wayArrivalValue}
+			</if>
+			<if test="wechatAccountCard!=null ">
+				and wechat_account_card=#{wechatAccountCard}
+			</if>
+			<if test="alipayAccountCard!=null ">
+				and alipay_account_card=#{alipayAccountCard}
+			</if>
+			<if test="licenseType!=null ">
+				and license_type=#{licenseType}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="contactsMail!=null ">
+				and contacts_mail=#{contactsMail}
+			</if>
+			<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+			<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+			<if test="isRandom!=null ">
+				and is_random=#{isRandom}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2busscompany_result_map" >
+		
+		SELECT id,channel_id,user_name,pass_word,pay_pass_word,company_key,company_secret,company_name,company_photo,company_scale,company_type,company_trade,company_trade_var,company_range_province,company_range_city,company_addr,license_num,license_addr,license_pic,organization_code,organization_code_url,other_information,legal_name,legal_id_card,account_type,account_bank,account_name,account_card,way_arrival_type,way_arrival_value,wechat_account_card,alipay_account_card,license_type,contacts_name,contacts_phone,contacts_mail,company_status,company_pass_reason,is_random,is_delete,create_time,update_time FROM payv2_buss_company 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like  CONCAT('%',#{userName},'%')
+			</if>
+			<if test="passWord!=null and passWord!=''">
+				and pass_word like  CONCAT('%',#{passWord},'%')
+			</if>
+			<if test="payPassWord!=null and payPassWord!=''">
+				and pay_pass_word like  CONCAT('%',#{payPassWord},'%')
+			</if>
+			<if test="companyKey!=null and companyKey!=''">
+				and company_key like  CONCAT('%',#{companyKey},'%')
+			</if>
+			<if test="companySecret!=null and companySecret!=''">
+				and company_secret like  CONCAT('%',#{companySecret},'%')
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and company_name like  CONCAT('%',#{companyName},'%')
+			</if>
+			<if test="companyPhoto!=null and companyPhoto!=''">
+				and company_photo like  CONCAT('%',#{companyPhoto},'%')
+			</if>
+			<if test="companyScale!=null and companyScale!=''">
+				and company_scale = #{companyScale}
+			</if>
+			<if test="companyType!=null and companyType!=''">
+				and company_type = #{companyType}
+			</if>
+			<if test="companyTrade!=null and companyTrade!=''">
+				and company_trade = #{companyTrade}
+			</if>
+			<if test="companyTradeVar!=null and companyTradeVar!=''">
+				and company_trade_var like  CONCAT('%',#{companyTradeVar},'%')
+			</if>
+			<if test="companyRangeProvince!=null and companyRangeProvince!=''">
+				and company_range_province = #{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null and companyRangeCity!=''">
+				and company_range_city = #{companyRangeCity}
+			</if>
+			<if test="companyAddr!=null and companyAddr!=''">
+				and company_addr like  CONCAT('%',#{companyAddr},'%')
+			</if>
+			<if test="licenseNum!=null and licenseNum!=''">
+				and license_num like  CONCAT('%',#{licenseNum},'%')
+			</if>
+			<if test="licenseAddr!=null and licenseAddr!=''">
+				and license_addr like  CONCAT('%',#{licenseAddr},'%')
+			</if>
+			<if test="licensePic!=null and licensePic!=''">
+				and license_pic like  CONCAT('%',#{licensePic},'%')
+			</if>
+			<if test="organizationCode!=null and organizationCode!=''">
+				and organization_code like  CONCAT('%',#{organizationCode},'%')
+			</if>
+			<if test="organizationCodeUrl!=null and organizationCodeUrl!=''">
+				and organization_code_url like  CONCAT('%',#{organizationCodeUrl},'%')
+			</if>
+			<if test="otherInformation!=null and otherInformation!=''">
+				and other_information like  CONCAT('%',#{otherInformation},'%')
+			</if>
+			<if test="legalName!=null and legalName!=''">
+				and legal_name like  CONCAT('%',#{legalName},'%')
+			</if>
+			<if test="legalIdCard!=null and legalIdCard!=''">
+				and legal_id_card like  CONCAT('%',#{legalIdCard},'%')
+			</if>
+			<if test="accountType!=null and accountType!=''">
+				and account_type = #{accountType}
+			</if>
+			<if test="accountBank!=null and accountBank!=''">
+				and account_bank like  CONCAT('%',#{accountBank},'%')
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and account_name like  CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountCard!=null and accountCard!=''">
+				and account_card like  CONCAT('%',#{accountCard},'%')
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="wechatAccountCard!=null and wechatAccountCard!=''">
+				and wechat_account_card like  CONCAT('%',#{wechatAccountCard},'%')
+			</if>
+			<if test="alipayAccountCard!=null and alipayAccountCard!=''">
+				and alipay_account_card like  CONCAT('%',#{alipayAccountCard},'%')
+			</if>
+			<if test="licenseType!=null and licenseType!=''">
+				and license_type = #{licenseType}
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like  CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like  CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="contactsMail!=null and contactsMail!=''">
+				and contacts_mail like  CONCAT('%',#{contactsMail},'%')
+			</if>
+			<if test="companyStatus!=null and companyStatus!=''">
+				and company_status = #{companyStatus}
+			</if>
+			<if test="companyPassReason!=null and companyPassReason!=''">
+				and company_pass_reason like  CONCAT('%',#{companyPassReason},'%')
+			</if>
+			<if test="isRandom!=null and isRandom!=''">
+				and is_random = #{isRandom}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 根据对象查询列表FOR APP-->
+	<select id="selectForCompanyApp" resultMap="payv2busscompany_result_map" >
+		select id,channel_id,company_key,company_secret,company_name,company_scale,company_type,company_trade,company_range_province,company_range_city,license_num,license_addr,license_pic,license_type,contacts_name,contacts_phone,company_status,company_pass_reason,is_delete,create_time,update_time from payv2_buss_company
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+			<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+			<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+			<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+			<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+			<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+			<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+			<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+			
+				and license_type!=2
+		
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+			<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+		<!-- 根据对象查询列表FOR SHOP-->
+	<select id="selectForCompanyShop" resultMap="payv2busscompany_result_map" >
+		select id,channel_id,company_key,company_secret,company_name,company_scale,company_type,company_trade,company_range_province,company_range_city,license_num,license_addr,license_pic,license_type,contacts_name,contacts_phone,company_status,company_pass_reason,is_delete,create_time,update_time from payv2_buss_company
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+			<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+			<if test="companyName!=null ">
+				and company_name=#{companyName}
+			</if>
+			<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+			<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+			<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+			<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+			<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+			<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+			<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+			
+				and license_type!=1
+		
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+			<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCountByUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*) from  payv2_buss_company where user_name = #{userName}
+	</select>
+	
+	<select id="login" parameterType="java.lang.String" resultMap="payv2busscompany_result_map">
+		select 
+			id,channel_id,user_name,pass_word,company_key,company_secret,company_name,company_scale,company_type,company_trade,company_range_province,company_range_city,license_num,license_addr,license_pic,organization_code,organization_code_url,legal_name,legal_id_card,account_type,account_bank,account_name,account_card,license_type,contacts_name,contacts_phone,contacts_mail,company_status,company_pass_reason,is_delete,create_time,update_time 
+		from 
+			payv2_buss_company
+		where
+			user_name = #{userName} and pass_word = #{password}
+		<!-- AND company_status != 4  在代码里面判断-->
+	</select>
+	
+	<!-- 渠道商商户查询 根据渠道商名称或者了联系人姓名模糊查询-->
+	<select id="selectBussCompanyByNameLikeCount" resultType="java.lang.Integer" >
+		select count(1) from payv2_buss_company
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="passWord!=null ">
+				and pass_word=#{passWord}
+			</if>
+			<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+			<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+			<if test="companyName!=null ">
+				and (company_name like CONCAT('%',#{companyName},'%') or contacts_name like CONCAT('%',#{companyName},'%'))
+			</if>
+			<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+			<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+			<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+			<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+			<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+			<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+			<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+			<if test="organizationCode!=null ">
+				and organization_code=#{organizationCode}
+			</if>
+			<if test="organizationCodeUrl!=null ">
+				and organization_code_url=#{organizationCodeUrl}
+			</if>
+			<if test="legalName!=null ">
+				and legal_name=#{legalName}
+			</if>
+			<if test="legalIdCard!=null ">
+				and legal_id_card=#{legalIdCard}
+			</if>
+			<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+			<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+			<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+			<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+			<if test="licenseType!=null ">
+				and license_type=#{licenseType}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+			<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 渠道商商户查询 根据渠道商名称或者了联系人姓名模糊查询-->
+	<select id="selectBussCompanyByNameLike" resultMap="payv2busscompany_result_map" >
+		select id,channel_id,user_name,pass_word,company_key,company_secret,company_name,
+		company_scale,company_type,company_trade,company_trade_var,company_range_province,
+		company_range_city,company_addr,license_num,license_addr,license_pic,organization_code,
+		organization_code_url,other_information,legal_name,legal_id_card,account_type,account_bank,
+		account_name,account_card,wechat_account_card,alipay_account_card,license_type,contacts_name,
+		contacts_phone,company_status,company_pass_reason,is_delete,create_time,update_time 
+		from payv2_buss_company
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="passWord!=null ">
+				and pass_word=#{passWord}
+			</if>
+			<if test="companyKey!=null ">
+				and company_key=#{companyKey}
+			</if>
+			<if test="companySecret!=null ">
+				and company_secret=#{companySecret}
+			</if>
+			<if test="companyName!=null ">
+				and (company_name like CONCAT('%',#{companyName},'%') or contacts_name like CONCAT('%',#{companyName},'%'))
+			</if>
+			<if test="companyScale!=null ">
+				and company_scale=#{companyScale}
+			</if>
+			<if test="companyType!=null ">
+				and company_type=#{companyType}
+			</if>
+			<if test="companyTrade!=null ">
+				and company_trade=#{companyTrade}
+			</if>
+			<if test="companyRangeProvince!=null ">
+				and company_range_province=#{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null ">
+				and company_range_city=#{companyRangeCity}
+			</if>
+			<if test="licenseNum!=null ">
+				and license_num=#{licenseNum}
+			</if>
+			<if test="licenseAddr!=null ">
+				and license_addr=#{licenseAddr}
+			</if>
+			<if test="licensePic!=null ">
+				and license_pic=#{licensePic}
+			</if>
+			<if test="organizationCode!=null ">
+				and organization_code=#{organizationCode}
+			</if>
+			<if test="organizationCodeUrl!=null ">
+				and organization_code_url=#{organizationCodeUrl}
+			</if>
+			<if test="legalName!=null ">
+				and legal_name=#{legalName}
+			</if>
+			<if test="legalIdCard!=null ">
+				and legal_id_card=#{legalIdCard}
+			</if>
+			<if test="accountType!=null ">
+				and account_type=#{accountType}
+			</if>
+			<if test="accountBank!=null ">
+				and account_bank=#{accountBank}
+			</if>
+			<if test="accountName!=null ">
+				and account_name=#{accountName}
+			</if>
+			<if test="accountCard!=null ">
+				and account_card=#{accountCard}
+			</if>
+			<if test="licenseType!=null ">
+				and license_type=#{licenseType}
+			</if>
+			<if test="contactsName!=null ">
+				and contacts_name=#{contactsName}
+			</if>
+			<if test="contactsPhone!=null ">
+				and contacts_phone=#{contactsPhone}
+			</if>
+			<if test="companyStatus!=null ">
+				and company_status=#{companyStatus}
+			</if>
+			<if test="companyPassReason!=null ">
+				and company_pass_reason=#{companyPassReason}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+		</where>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 获取总数 -->
+	<select id="getCountBySearch" resultType="java.lang.Integer">
+		select count(*) from payv2_buss_company  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like CONCAT('%',#{userName},'%')
+			</if>
+			<if test="passWord!=null and passWord!=''">
+				and pass_word like CONCAT('%',#{passWord},'%')
+			</if>
+			<if test="payPassWord!=null and payPassWord!=''">
+				and pay_pass_word like CONCAT('%',#{payPassWord},'%')
+			</if>
+			<if test="companyKey!=null and companyKey!=''">
+				and company_key like CONCAT('%',#{companyKey},'%')
+			</if>
+			<if test="companySecret!=null and companySecret!=''">
+				and company_secret like CONCAT('%',#{companySecret},'%')
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and (company_name like CONCAT('%',#{companyName},'%') or user_name like CONCAT('%',#{companyName},'%'))
+			</if>
+			<if test="companyPhoto!=null and companyPhoto!=''">
+				and company_photo like CONCAT('%',#{companyPhoto},'%')
+			</if>
+			<if test="companyScale!=null and companyScale!=''">
+				and company_scale = #{companyScale}
+			</if>
+			<if test="companyType!=null and companyType!=''">
+				and company_type = #{companyType}
+			</if>
+			<if test="companyTrade!=null and companyTrade!=''">
+				and company_trade = #{companyTrade}
+			</if>
+			<if test="companyTradeVar!=null and companyTradeVar!=''">
+				and company_trade_var like CONCAT('%',#{companyTradeVar},'%')
+			</if>
+			<if test="companyRangeProvince!=null and companyRangeProvince!=''">
+				and company_range_province = #{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null and companyRangeCity!=''">
+				and company_range_city = #{companyRangeCity}
+			</if>
+			<if test="companyAddr!=null and companyAddr!=''">
+				and company_addr like CONCAT('%',#{companyAddr},'%')
+			</if>
+			<if test="licenseNum!=null and licenseNum!=''">
+				and license_num like CONCAT('%',#{licenseNum},'%')
+			</if>
+			<if test="licenseAddr!=null and licenseAddr!=''">
+				and license_addr like CONCAT('%',#{licenseAddr},'%')
+			</if>
+			<if test="licensePic!=null and licensePic!=''">
+				and license_pic like CONCAT('%',#{licensePic},'%')
+			</if>
+			<if test="organizationCode!=null and organizationCode!=''">
+				and organization_code like CONCAT('%',#{organizationCode},'%')
+			</if>
+			<if test="organizationCodeUrl!=null and organizationCodeUrl!=''">
+				and organization_code_url like CONCAT('%',#{organizationCodeUrl},'%')
+			</if>
+			<if test="otherInformation!=null and otherInformation!=''">
+				and other_information like CONCAT('%',#{otherInformation},'%')
+			</if>
+			<if test="legalName!=null and legalName!=''">
+				and legal_name like CONCAT('%',#{legalName},'%')
+			</if>
+			<if test="legalIdCard!=null and legalIdCard!=''">
+				and legal_id_card like CONCAT('%',#{legalIdCard},'%')
+			</if>
+			<if test="accountType!=null and accountType!=''">
+				and account_type = #{accountType}
+			</if>
+			<if test="accountBank!=null and accountBank!=''">
+				and account_bank like CONCAT('%',#{accountBank},'%')
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and account_name like CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountCard!=null and accountCard!=''">
+				and account_card like CONCAT('%',#{accountCard},'%')
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="wechatAccountCard!=null and wechatAccountCard!=''">
+				and wechat_account_card like CONCAT('%',#{wechatAccountCard},'%')
+			</if>
+			<if test="alipayAccountCard!=null and alipayAccountCard!=''">
+				and alipay_account_card like CONCAT('%',#{alipayAccountCard},'%')
+			</if>
+			<if test="licenseType!=null and licenseType!=''">
+				and license_type = #{licenseType}
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="contactsMail!=null and contactsMail!=''">
+				and contacts_mail like CONCAT('%',#{contactsMail},'%')
+			</if>
+			<if test="companyStatus!=null and companyStatus!=''">
+				and company_status = #{companyStatus}
+			</if>
+			<if test="companyPassReason!=null and companyPassReason!=''">
+				and company_pass_reason like CONCAT('%',#{companyPassReason},'%')
+			</if>
+			<if test="isRandom!=null and isRandom!=''">
+				and is_random = #{isRandom}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObjectBySearch" resultMap="payv2busscompany_result_map" >
+		
+		SELECT id,channel_id,user_name,pass_word,pay_pass_word,company_key,company_secret,company_name,company_photo,company_scale,company_type,company_trade,company_trade_var,company_range_province,company_range_city,company_addr,license_num,license_addr,license_pic,organization_code,organization_code_url,other_information,legal_name,legal_id_card,account_type,account_bank,account_name,account_card,way_arrival_type,way_arrival_value,wechat_account_card,alipay_account_card,license_type,contacts_name,contacts_phone,contacts_mail,company_status,company_pass_reason,is_random,is_delete,create_time,update_time FROM payv2_buss_company 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like  CONCAT('%',#{userName},'%')
+			</if>
+			<if test="passWord!=null and passWord!=''">
+				and pass_word like  CONCAT('%',#{passWord},'%')
+			</if>
+			<if test="payPassWord!=null and payPassWord!=''">
+				and pay_pass_word like  CONCAT('%',#{payPassWord},'%')
+			</if>
+			<if test="companyKey!=null and companyKey!=''">
+				and company_key like  CONCAT('%',#{companyKey},'%')
+			</if>
+			<if test="companySecret!=null and companySecret!=''">
+				and company_secret like  CONCAT('%',#{companySecret},'%')
+			</if>
+			<if test="companyName!=null and companyName!=''">
+				and (company_name like CONCAT('%',#{companyName},'%') or user_name like CONCAT('%',#{companyName},'%'))
+			</if>
+			<if test="companyPhoto!=null and companyPhoto!=''">
+				and company_photo like  CONCAT('%',#{companyPhoto},'%')
+			</if>
+			<if test="companyScale!=null and companyScale!=''">
+				and company_scale = #{companyScale}
+			</if>
+			<if test="companyType!=null and companyType!=''">
+				and company_type = #{companyType}
+			</if>
+			<if test="companyTrade!=null and companyTrade!=''">
+				and company_trade = #{companyTrade}
+			</if>
+			<if test="companyTradeVar!=null and companyTradeVar!=''">
+				and company_trade_var like  CONCAT('%',#{companyTradeVar},'%')
+			</if>
+			<if test="companyRangeProvince!=null and companyRangeProvince!=''">
+				and company_range_province = #{companyRangeProvince}
+			</if>
+			<if test="companyRangeCity!=null and companyRangeCity!=''">
+				and company_range_city = #{companyRangeCity}
+			</if>
+			<if test="companyAddr!=null and companyAddr!=''">
+				and company_addr like  CONCAT('%',#{companyAddr},'%')
+			</if>
+			<if test="licenseNum!=null and licenseNum!=''">
+				and license_num like  CONCAT('%',#{licenseNum},'%')
+			</if>
+			<if test="licenseAddr!=null and licenseAddr!=''">
+				and license_addr like  CONCAT('%',#{licenseAddr},'%')
+			</if>
+			<if test="licensePic!=null and licensePic!=''">
+				and license_pic like  CONCAT('%',#{licensePic},'%')
+			</if>
+			<if test="organizationCode!=null and organizationCode!=''">
+				and organization_code like  CONCAT('%',#{organizationCode},'%')
+			</if>
+			<if test="organizationCodeUrl!=null and organizationCodeUrl!=''">
+				and organization_code_url like  CONCAT('%',#{organizationCodeUrl},'%')
+			</if>
+			<if test="otherInformation!=null and otherInformation!=''">
+				and other_information like  CONCAT('%',#{otherInformation},'%')
+			</if>
+			<if test="legalName!=null and legalName!=''">
+				and legal_name like  CONCAT('%',#{legalName},'%')
+			</if>
+			<if test="legalIdCard!=null and legalIdCard!=''">
+				and legal_id_card like  CONCAT('%',#{legalIdCard},'%')
+			</if>
+			<if test="accountType!=null and accountType!=''">
+				and account_type = #{accountType}
+			</if>
+			<if test="accountBank!=null and accountBank!=''">
+				and account_bank like  CONCAT('%',#{accountBank},'%')
+			</if>
+			<if test="accountName!=null and accountName!=''">
+				and account_name like  CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountCard!=null and accountCard!=''">
+				and account_card like  CONCAT('%',#{accountCard},'%')
+			</if>
+			<if test="wayArrivalType!=null and wayArrivalType!=''">
+				and way_arrival_type = #{wayArrivalType}
+			</if>
+			<if test="wayArrivalValue!=null and wayArrivalValue!=''">
+				and way_arrival_value = #{wayArrivalValue}
+			</if>
+			<if test="wechatAccountCard!=null and wechatAccountCard!=''">
+				and wechat_account_card like  CONCAT('%',#{wechatAccountCard},'%')
+			</if>
+			<if test="alipayAccountCard!=null and alipayAccountCard!=''">
+				and alipay_account_card like  CONCAT('%',#{alipayAccountCard},'%')
+			</if>
+			<if test="licenseType!=null and licenseType!=''">
+				and license_type = #{licenseType}
+			</if>
+			<if test="contactsName!=null and contactsName!=''">
+				and contacts_name like  CONCAT('%',#{contactsName},'%')
+			</if>
+			<if test="contactsPhone!=null and contactsPhone!=''">
+				and contacts_phone like  CONCAT('%',#{contactsPhone},'%')
+			</if>
+			<if test="contactsMail!=null and contactsMail!=''">
+				and contacts_mail like  CONCAT('%',#{contactsMail},'%')
+			</if>
+			<if test="companyStatus!=null and companyStatus!=''">
+				and company_status = #{companyStatus}
+			</if>
+			<if test="companyPassReason!=null and companyPassReason!=''">
+				and company_pass_reason like  CONCAT('%',#{companyPassReason},'%')
+			</if>
+			<if test="isRandom!=null and isRandom!=''">
+				and is_random = #{isRandom}
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+</mapper>

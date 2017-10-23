@@ -18,6 +18,8 @@
 
 	String defaultEndDate = StringUtil.getDefaultDate() + " 23:59:59";
 	
+	boolean isFirstLoad = StringUtil.getInteger(request.getParameter("first_load"), 0)  == 1 ? true : false;
+	
 	String startDate = StringUtil
 			.getString(request.getParameter("startdate"), defaultStartDate);
 	String endDate = StringUtil
@@ -29,7 +31,7 @@
 	
 	List<SpModel> spList = new SpServer().loadSp();
 	List<SpTroneModel> spTroneList = new SpTroneServer().loadSpTroneList();
-	List<DetailDataVo> list = new MoServer().loadMoDetail(startDate, endDate, spId, spTroneId, keyWord);
+	List<DetailDataVo> list = isFirstLoad ? new MoServer().loadMoDetail(startDate, endDate, spId, spTroneId, keyWord) : new ArrayList<DetailDataVo>();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -123,6 +125,7 @@
 	<div class="main_content">
 		<div class="content" >
 			<form action="mo_detail.jsp"  method="post" style="margin-top: 10px" >
+				<input type="hidden" name="first_load" value="1" />
 				<dl>
 					<dd class="dd01_me" style="margin-left:-15px">开始时间</dd>
 					<dd class="dd03_me">
@@ -159,6 +162,7 @@
 					<dd class="ddbtn" style="margin-left: 10px; margin-top: 0px;">
 						<input class="btn_match" name="search" value="查 询" type="submit"  />
 					</dd>
+					<dd><label style="margin-left: 20px;">总条数：<%= list.size() %></label></dd>
 					</dl>
 			</form>
 		</div>
@@ -166,6 +170,7 @@
 			<thead>
 				<tr>
 					<td>序号</td>
+					<td>CP</td>
 					<td>SP</td>
 					<td>SP业务</td>
 					<td>IMEI</td>
@@ -177,9 +182,9 @@
 					<td>城市</td>
 					<td>价格</td>
 					<td>指令</td>
-					<td>通道</td>
 					<td>配置指令</td>
 					<td>配置通道</td>
+					<td>状态</td>
 				</tr>
 			</thead>
 			<tbody>		
@@ -192,6 +197,7 @@
 						%>
 				<tr>
 					<td><%= index++ %></td>
+					<td><%= model.getCpName() %></td>
 					<td><%= model.getSpName() %></td>
 					<td><%= model.getSpTroneName() %></td>
 					<td><%= model.getImei() %></td>
@@ -203,9 +209,9 @@
 					<td><%= model.getCityName() %></td>
 					<td><%= model.getPrice() %></td>
 					<td><%= model.getOrder() %></td>
-					<td><%= model.getTroneNum() %></td>
 					<td><%= model.getConfigOrder() %></td>
 					<td><%= model.getConfigTrone() %></td>
+					<td><%= model.getStatus() %></td>
 				</tr>
 						<%
 					}

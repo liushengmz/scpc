@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>APP版本审核</title>
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>复制链接</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		html,body{
+			font-family: "微软雅黑" "microsoft yahei";
+		}
+		.fl{
+			float:left;
+		}
+		.fr{
+			float:right;
+		}
+		.title {
+		    background: #dcdcdc;
+		    height: 30px;
+		    line-height: 30px;
+		}
+		.infor {
+		    margin-left: 20px;
+		    font-size: 20px;
+		    color: #333;
+		}
+		.closed {
+		    font-size: 30px;
+		    color: #333;
+		}
+		.sure{
+			height: 100px;
+		}
+		.firstdl{
+			margin-top: 30px;
+		}
+		dt{
+			float: left;
+			width: 45%;
+			text-align: right;
+		}
+		dd{
+			float: left;
+			width: 55%;
+			text-indent: 10px;
+		}
+		dt,dd{
+			height: 30px;
+			line-height: 30px;
+		}
+		.closeds{
+			border-radius: 5px;
+			float: left;
+			padding: 0 15px;
+			height: 30px;
+			line-height: 30px;
+			background: #5FBFE7;
+			margin-left: 45%;
+			margin-top: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="title">
+		<div class="infor fl">下载</div>
+		<div class="closed fr">×</div>
+	</div>
+	<div class="sure">
+		<dl class="firstdl">
+			<dt>APP名称:</dt>
+			<dd>${payv2AppVersion.appName}</dd>
+		</dl>
+		<dl>
+			<dt>APP类型:</dt>
+			<dd>
+			<#if payv2AppVersion.appType==1>Android</#if>
+			<#if payv2AppVersion.appType==2>ios</#if>
+			<#if payv2AppVersion.appType==3>网页</#if>
+			</dd>
+		</dl>
+		<#if payv2AppVersion.appType==1>
+		<dl>
+			<dt>Android包:</dt>
+			<dd><a href="${payv2AppVersion.appFileUrl}" class="urls">下载</a></dd>
+		</dl>
+		</#if>
+		<#if payv2AppVersion.appType==2>
+		<dl>
+			<dt>ipa包:</dt>
+			<dd><a href="${payv2AppVersion.appFileUrl}" class="urls">下载</a></dd>
+		</dl>
+		</#if>
+		
+<!-- 		<#if dl.status==1>
+		<dl>
+			<dl>
+				<dt>链接地址:</dt>
+				<dd>${payv2AppVersion.appStoreUrl}</dd>
+			</dl>
+		</dl>
+		</#if> -->
+		<#if payv2AppVersion.appType==2>
+		<dl>
+		<dl>
+			<dt>链接地址:</dt>
+			<dd><input type="text" value="${payv2AppVersion.appStoreUrl}" class="dd_input"></dd>
+		</dl>
+		</dl>
+		</#if>
+		
+		<#if payv2AppVersion.appType==3>
+		<dl>
+			<dt>链接地址:</dt>
+			<dd><input type="text" value="${payv2AppVersion.appStoreUrl}" class="dd_input"></dd>
+		</dl>
+		</#if>
+
+	</div>
+	<div class="close">
+		<div class="closeds">关闭</div>
+	</div>
+	
+	<script type="text/javascript">
+	$(function(){
+	 	$(".closeds").bind("click", function(){
+	 		layer_close();
+	 	});
+	});
+	
+	</script>
+</body>
+</html>

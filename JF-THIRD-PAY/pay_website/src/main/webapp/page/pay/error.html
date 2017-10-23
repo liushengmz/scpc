@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.icon{
+			width: 2rem;
+			height: 2rem;
+			margin: 0 auto;
+			margin-top: 1rem;
+			background-image: url(../public/img/defeet.png);
+			background-size:100% 100%;
+		}
+		.container{
+			width: 88%;
+			margin: 0 auto;
+			font-size: .32rem;
+			text-align: center;
+			margin-top: .4rem;
+		}
+		.return{
+			width: 88%;
+			height: .8rem;
+			line-height: .8rem;
+			background-color: #2581f4;
+			color: #fff;
+			font-size: .32rem;
+			margin: 0 auto;
+			text-align: center;
+			border-radius: 5px;
+			margin-top: .5rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="icon"></div>
+	<div class="container" id="container">签名错误</div>
+	<div class="return" id="return">返回上级页面</div>
+	<script>
+		var a=document.documentElement.clientWidth/7.2;
+		document.documentElement.style.fontSize=a+'px';
+		window.onresize=function(){
+			var a=document.documentElement.clientWidth/7.2;
+			document.documentElement.style.fontSize=a+'px';
+		}
+		document.getElementById("return").onclick=function(){
+			history.go(-2)
+		}
+		document.getElementById("container").innerHTML=decodeURIComponent(location.href.split("?")[1])
+	</script>
+	
+</body>
+</html>

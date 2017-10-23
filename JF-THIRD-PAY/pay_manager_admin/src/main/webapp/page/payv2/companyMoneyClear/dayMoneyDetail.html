@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>账单详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<div style="width: 90% ; height: 90%; margin: 0 auto;">
+		<div class="data">
+			<label>账单信息</label>
+			<table class="table">
+			  	
+			  	<tr>
+			  		<td>状态：
+			  			<#if map.status==1>
+							已结算
+						</#if>
+						<#if map.status==2>
+							未结算
+						</#if>
+			  		</td>
+			  		<td>商户账单号：${map.companyCheckId}</td>
+			  	</tr>
+			  	<tr>			  		
+			  		<td>
+						<#if map.clearTime??>
+							出账时间：${map.clearTime}
+						</#if>
+					</td>
+
+					<#if map.status==1>
+						<td>
+							<#if map.settleTime??>							
+								结算时间：${map.settleTime?number?number_to_date!}
+							</#if>
+						</td>
+					</#if>	  		
+			  		
+			  	</tr>
+			</table>
+		</div>
+
+		<div class="data" style="border-bottom: 1px solid black; border-top: 1px solid black; padding-top: 40px;padding-bottom: 40px;">
+			<label>账单明细</label>
+			<table class="table table-border table-bordered table-hover">
+				<thead>
+					<tr class="text-c">
+						<td>支付通道名称</td>					
+						<td>交易支付净额</td>
+						<td>成本费率</td>
+						<td>成本手续费</td>
+						<td>商户签约费率</td>
+						<td>商户手续费</td>
+						<td>结算金额</td>
+					</tr>
+				</thead>
+				<tbody id="dayClearDate">
+					<#if bussDetailList ?? && bussDetailList ? size gt 0>
+					<#list bussDetailList as dl >
+						<tr class="text-c">							
+							<td>${dl.rateName}</td>
+							<td>${dl.bussMoney}</td>
+							<td>${dl.costRate}‰</td>
+							<td>${dl.costRateMoney}</td>
+							<td>${dl.bussWayRate}‰</td>
+							<td>${dl.bussWayRateMoney}</td>
+							<td>${dl.accountsMonry}</td>							
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="data">
+			<label>结算信息</label>
+			<table class="table text-c">		  	
+			  	<tr>
+			  		<td>商户名称：${payv2BussCompany.companyName}</td>
+			  		<td>账单结算金额：${map.accountsMonry}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>交易金额：${map.cleanpayMoney}</td>
+			  		<td>手续费：${map.rateMoney}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>账户名称：${payv2BussCompany.accountName}</td>
+			  		<td>账户类型：
+			  			<#if payv2BussCompany.accountType==1>
+							个人账户
+						</#if>
+						<#if payv2BussCompany.accountType==2>
+							公司账户
+						</#if>
+			  		</td>
+			  	</tr>
+			  	<tr>
+			  		<td>开户银行：${payv2BussCompany.accountBank}</td>
+			  		<td>开户账号：${payv2BussCompany.accountCard}</td>
+			  	</tr>
+			  	<!-- <tr>
+			  		<td colspan="2" >备注：	<input type="text" name="" id="nodes"></td>		  		
+			  	</tr> -->
+				<#if map.status==2>
+					<tr>
+				  		<td style="float: right;">
+				  			<button name="" id="" class="btn btn-success" onclick="moneyClear()">
+							 提交结算</button>
+						</td>		  		
+			  		</tr>
+				</#if>
+			  	
+			</table>
+		</div>
+	</div>
+</body>
+<style type="text/css">
+	.data {margin-top: 30px;}
+	table {margin-top: 10px;}
+</style>
+
+<script type="text/javascript">
+	function moneyClear(){
+		var companyCheckId = {};
+		companyCheckId.companyCheckId = ${map.companyCheckId};
+
+		layer.confirm("确认结算该笔账单？", function(index) {
+			
+			//后台请求保存数据
+			$.axse("${basePath}/Payv2CompanyMoneyClear/moneyClear.do",companyCheckId, function(d){
+				if(d.resultCode == 200){
+					layer.msg('结算成功!',{
+						icon : 1,
+						time : 1000
+					});
+					//跳转到日账单分页列表，重新查询当前页数据					
+					window.parent.ac();
+					var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                    parent.layer.close(index);
+					
+				}else{
+					Huimodal_alert("审核失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert("审核失败,服务器异常!",1500);
+			});
+		});
+	};
+</script>
+</html>

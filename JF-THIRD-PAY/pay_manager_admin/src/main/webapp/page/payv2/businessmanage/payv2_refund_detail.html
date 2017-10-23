@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>账单详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+	<div style="width: 90% ; height: 90%; margin: 0 auto;">
+			<table class="table">			  	
+			  	<tr>
+			  		<td>订单状态：退款成功</td>
+			  		<td>支付集订单号：${dataMap.orderNum}</td>
+			  		<td>商户账单号：${dataMap.merchantOrderNum}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>退款订单号：${dataMap.refundNum}</td>
+			  		<td>银行流水号：${dataMap.bankTransaction}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>来源渠道：${dataMap.channelName}</td>
+			  		<td>来源商户：${dataMap.companyName}</td>			  		
+			  		<td>来源应用：${dataMap.appName}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>支付方式：${dataMap.rateTypeName}</td>
+			  		<td>支付通道：${dataMap.rateName}</td>
+			  	</tr>			  	
+			</table>
+			<div class="line1" style="font-size: 0px; line-height: 0px; border-top: solid 2px #ddd;"></div>
+			<table class="table">			  	
+			  	<tr>
+			  		<td>交易时间：
+			  			<#if dataMap.payTime??>
+							${dataMap.payTime?number?number_to_datetime!}
+						</#if>
+			  		</td>
+			  		<td>退款时间：
+			  			<#if dataMap.refundTime??>
+							${dataMap.refundTime?number?number_to_datetime!}
+						</#if>
+			  		</td>
+			  	</tr>
+			  	<tr>
+			  		<td>订单金额：${dataMap.payMoney}</td>
+			  		<td>到账金额：${dataMap.payMoney?number - dataMap.refundMoney?number - dataMap.payWayMoney?number}</td>
+			  	</tr>
+			  	<tr>
+			  		<td>退款金额：${dataMap.refundMoney}</td>
+			  		<td>手续费：${dataMap.payWayMoney}</td>
+			  	</tr>  	
+			</table>
+	</div>
+</body>
+<style type="text/css">
+	table {margin: 30px auto;}
+	td {font-size: 14px;}
+</style>
+</html>

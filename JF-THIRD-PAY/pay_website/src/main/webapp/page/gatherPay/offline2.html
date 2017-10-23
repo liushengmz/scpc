@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/css2.css" />
+	</head>
+	<body>
+		<div class="title">
+			<div class="tlCon">
+				<div class="return"></div>
+				<div class="headline">优惠买单</div>
+			</div>
+		</div>
+		<div class="address">
+			<i></i><span>郑州天旺广场餐厅</span>
+		</div>
+		<div class="totalMoney">
+			<div class="tmCon">
+				<div class="tmUp">
+					<div class="ze fl">消费总额</div>
+					<div class="in fr">
+						<input type="text" class="inpu" placeholder="￥"/>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="tmDown">询问服务员后输入金额</div>
+			</div>
+		</div>
+		<div class="purse">
+			<div class="psPays">
+				<div class="purseIcon fl">
+					<img src="img/btp.png">
+				</div>
+				<div class="purseIntro fl">
+					<div class="purseName">包投钱包</div>
+					<div class="purseOnsale">每日限量单每日限量单</div>
+				</div>
+				<div class="purseChoose fr">
+					<img src="img/c.png">
+				</div>
+				<div class="reduceMoney fr">-￥<span>6.80</span></div>	
+			</div>
+			<div class="download">
+				还没有<span class="name2purse">包投钱包</span>，<span class="downloadPurse">点击此处</span>即可享受支付优惠
+			</div>
+		</div>
+		<div class="othersPay">
+			<div class="cardPay" choose="">
+				<div class="cpCon">
+					<div class="logoIcon fl">
+						<img src="img/wc.png" />
+					</div>
+					<div class="words fl">
+						<div class="wsUp">微信支付</div>
+						<div class="wsDown">推荐微信5.0及以上版本的用户使用</div>
+					</div>
+					<div class="choose fr c1"></div>
+				</div>
+			</div>
+		</div>
+		<div class="btn">确认支付</div>
+		<script type="text/javascript" src="js/zepto.min.js" ></script>
+		<script type="text/javascript" src="js/rem.js" ></script>
+		<script>
+			$(".cpCon").on("click",function(){
+				$(".choose").css("background-image","url(img/c.png)");
+				$(".purseChoose img").attr("src","img/c1.png");
+			});
+			$(".psPays").on("click",function(){
+				$(".choose").css("background-image","url(img/c1.png)");
+				$(".purseChoose img").attr("src","img/c.png");
+			});
+			$(".inpu").on("blur",function(){
+				if(!/^\d{1,5}$/.test($(this).val())){
+					alert("请输入0-99999之间的数字");
+					$(this).val("");
+				}
+			});
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>
+	</head>
+	<body>
+		<script src="../public/js/zepto.min.js"></script>
+		<script>
+			var shopKey=window.location.search.slice(9,window.location.search.length);
+			if(navigator.userAgent.indexOf("Alipay")!=-1){
+				window.location.href="router.html?shopKey="+shopKey;
+//				$.ajax({
+//				type:"get",
+//				url:"/payv2BussCompanyShop/qrcodeRelation.do",
+//				async:true,
+//				data:{"shopKey":shopKey},
+//				success:function(data){
+//					data=JSON.parse(data);
+//					if(data.resultCode==200){
+//						window.location.href=data.Data.alipayQrcode;
+//					}else{
+//						alert(data.message);
+//					}
+//				}
+//			});
+			}else if(navigator.userAgent.indexOf("MicroMessenger")!=-1){
+				//alert("暂不支持微信！");
+				$.ajax({
+					type:"get",
+					url:"/payv2BussCompanyShop/toWxReadyJSapiPayPage.do",
+					async:true,
+					data:{"shop_key":shopKey},
+					success:function(data){
+						data=JSON.parse(data);
+						if(data.resultCode==200){
+							window.location.href=data.Data.requestUrl;
+						}else{
+							alert(data.message);
+						}
+						
+					}
+				});
+			}else{
+				alert("请用支付宝或者微信扫码！");
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.pay.business.record.mapper.Payv2StatisticsDayChannelMapper">
+
+	<resultMap id="payv2statisticsdaychannel_result_map" type="com.pay.business.record.entity.Payv2StatisticsDayChannel" >
+		<id column="id" property="id" />
+		<result column="channel_id" property="channelId"/>
+		<result column="company_id" property="companyId"/>
+		<result column="order_count" property="orderCount"/>
+		<result column="success_order_count" property="successOrderCount"/>
+		<result column="success_order_money" property="successOrderMoney"/>
+		<result column="fail_order_count" property="failOrderCount"/>
+		<result column="fail_order_money" property="failOrderMoney"/>
+		<result column="statistics_time" property="statisticsTime"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from payv2_statistics_day_channel  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="orderCount!=null and orderCount!=''">
+				and order_count = #{orderCount}
+			</if>
+			<if test="successOrderCount!=null and successOrderCount!=''">
+				and success_order_count = #{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null and successOrderMoney!=''">
+				and success_order_money like CONCAT('%',#{successOrderMoney},'%')
+			</if>
+			<if test="failOrderCount!=null and failOrderCount!=''">
+				and fail_order_count = #{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null and failOrderMoney!=''">
+				and fail_order_money like CONCAT('%',#{failOrderMoney},'%')
+			</if>
+			<if test="statisticsTimeBegin!=null and statisticsTimeBegin!=''">
+				and statistics_time <![CDATA[ >= ]]> str_to_date(#{statisticsTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="statisticsTimeEnd!=null and statisticsTimeEnd!=''">
+				and statistics_time <![CDATA[ <= ]]> str_to_date(#{statisticsTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="com.pay.business.record.entity.Payv2StatisticsDayChannel" useGeneratedKeys="true" keyProperty="id">
+		insert into payv2_statistics_day_channel
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="channelId!=null ">
+				channel_id,
+			</if>
+      		<if test="companyId!=null ">
+				company_id,
+			</if>
+      		<if test="orderCount!=null ">
+				order_count,
+			</if>
+      		<if test="successOrderCount!=null ">
+				success_order_count,
+			</if>
+      		<if test="successOrderMoney!=null ">
+				success_order_money,
+			</if>
+      		<if test="failOrderCount!=null ">
+				fail_order_count,
+			</if>
+      		<if test="failOrderMoney!=null ">
+				fail_order_money,
+			</if>
+      		<if test="statisticsTime!=null ">
+				statistics_time,
+			</if>
+      		<if test="createTime!=null ">
+				create_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="channelId!=null ">
+      			#{channelId},
+			</if>
+      		<if test="companyId!=null ">
+      			#{companyId},
+			</if>
+      		<if test="orderCount!=null ">
+      			#{orderCount},
+			</if>
+      		<if test="successOrderCount!=null ">
+      			#{successOrderCount},
+			</if>
+      		<if test="successOrderMoney!=null ">
+      			#{successOrderMoney},
+			</if>
+      		<if test="failOrderCount!=null ">
+      			#{failOrderCount},
+			</if>
+      		<if test="failOrderMoney!=null ">
+      			#{failOrderMoney},
+			</if>
+      		<if test="statisticsTime!=null ">
+      			#{statisticsTime},
+			</if>
+      		<if test="createTime!=null ">
+      			#{createTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="com.pay.business.record.entity.Payv2StatisticsDayChannel">
+		delete from payv2_statistics_day_channel
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+      		<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+      		<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+      		<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+      		<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+      		<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+      		<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+      		<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+      		<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="com.pay.business.record.entity.Payv2StatisticsDayChannel">
+		update payv2_statistics_day_channel
+		<set>
+			<if test="channelId!=null ">
+				channel_id=#{channelId},
+			</if>
+			<if test="companyId!=null ">
+				company_id=#{companyId},
+			</if>
+			<if test="orderCount!=null ">
+				order_count=#{orderCount},
+			</if>
+			<if test="successOrderCount!=null ">
+				success_order_count=#{successOrderCount},
+			</if>
+			<if test="successOrderMoney!=null ">
+				success_order_money=#{successOrderMoney},
+			</if>
+			<if test="failOrderCount!=null ">
+				fail_order_count=#{failOrderCount},
+			</if>
+			<if test="failOrderMoney!=null ">
+				fail_order_money=#{failOrderMoney},
+			</if>
+			<if test="statisticsTime!=null ">
+				statistics_time=#{statisticsTime},
+			</if>
+			<if test="createTime!=null ">
+				create_time=#{createTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="com.pay.business.record.entity.Payv2StatisticsDayChannel" resultMap="payv2statisticsdaychannel_result_map">
+		select id,channel_id,company_id,order_count,success_order_count,success_order_money,fail_order_count,fail_order_money,statistics_time,create_time from payv2_statistics_day_channel
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="payv2statisticsdaychannel_result_map" >
+		select * from payv2_statistics_day_channel
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="companyId!=null ">
+				and company_id=#{companyId}
+			</if>
+			<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="payv2statisticsdaychannel_result_map" >
+		
+		SELECT id,channel_id,company_id,order_count,success_order_count,success_order_money,fail_order_count,fail_order_money,statistics_time,create_time FROM payv2_statistics_day_channel 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="orderCount!=null and orderCount!=''">
+				and order_count = #{orderCount}
+			</if>
+			<if test="successOrderCount!=null and successOrderCount!=''">
+				and success_order_count = #{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null and successOrderMoney!=''">
+				and success_order_money like  CONCAT('%',#{successOrderMoney},'%')
+			</if>
+			<if test="failOrderCount!=null and failOrderCount!=''">
+				and fail_order_count = #{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null and failOrderMoney!=''">
+				and fail_order_money like  CONCAT('%',#{failOrderMoney},'%')
+			</if>
+			<if test="statisticsTimeBegin!=null and statisticsTimeBegin!=''">
+				and statistics_time <![CDATA[ >= ]]> str_to_date(#{statisticsTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="statisticsTimeEnd!=null and statisticsTimeEnd!=''">
+				and statistics_time <![CDATA[ <= ]]> str_to_date(#{statisticsTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and create_time <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and create_time <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	<!-- 查询昨日数据各个指标总和 -->
+	<select id="getYesterdayStatistics" resultType="com.pay.business.record.entity.Payv2StatisticsDayChannel" resultMap="payv2statisticsdaychannel_result_map">
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money,
+			create_time,
+			channel_id	
+		FROM payv2_statistics_day_channel
+		<where>
+				TO_DAYS(NOW( ) ) - TO_DAYS( create_time) = 1
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+
+	
+	<!-- 查询前日数据各个指标总和 -->
+	<select id="getBeforeYesterdayStatistics" resultType="com.pay.business.record.entity.Payv2StatisticsDayChannel" resultMap="payv2statisticsdaychannel_result_map">
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money,
+			create_time,
+			channel_id	
+		FROM payv2_statistics_day_channel
+		<where>
+				TO_DAYS(NOW( ) ) - TO_DAYS( create_time) = 2
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	<!-- 获取昨日数据详情 按接入商 -->
+	<select id="getYesterdayInfoList" resultMap="payv2statisticsdaychannel_result_map" >
+		SELECT * FROM payv2_statistics_day_channel 
+		<where>
+			TO_DAYS(NOW( ) ) - TO_DAYS( create_time) = 1
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询近 7 15 30 各项指标总数 -->
+	<select id="getLatelyDayStatistics" resultType="com.pay.business.record.entity.Payv2StatisticsDayChannel" resultMap="payv2statisticsdaychannel_result_map">
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money
+		FROM payv2_statistics_day_channel
+		<where>
+			<if test="latelyDayType!=null and latelyDayType!=''">
+				DATE_SUB(CURDATE(), INTERVAL #{latelyDayType} DAY) <![CDATA[ <= ]]> date(create_time)
+			</if>
+			<!-- <if test="latelyDayType==15">
+				DATE_SUB(CURDATE(), INTERVAL 15 DAY) <= date(create_time)
+			</if>
+			<if test="latelyDayType==30">
+				DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(create_time)
+			</if> -->
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTime!=null ">
+				and create_time=#{createTime}
+			</if>
+		</where>
+	</select>
+	<!--以时间为维度 查询近 7 15 30 天 详情-->
+	<select id="getLatelyDayInfoList" resultMap="payv2statisticsdaychannel_result_map" >
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money,
+			create_time
+		FROM
+			payv2_statistics_day_channel
+		<where>
+			<if test="latelyDayType!=null and latelyDayType!=''">
+				DATE_SUB(CURDATE(), INTERVAL #{latelyDayType} DAY) <![CDATA[ <= ]]> date(create_time)
+			</if>
+			<!-- <if test="latelyDayType==15">
+				DATE_SUB(CURDATE(), INTERVAL 15 DAY) <= date(create_time)
+			</if>
+			<if test="latelyDayType==30">
+				DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(create_time)
+			</if> -->
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			GROUP BY day(create_time)
+		</where>
+	</select>
+	
+		<!--以接入商为维度 查询近 7 15 30 天 详情-->
+	<select id="getLatelyDayInfoByCompanyList" resultMap="payv2statisticsdaychannel_result_map" >
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money,
+			company_id
+		FROM
+			payv2_statistics_day_channel
+		<where>
+			<if test="latelyDayType!=null and latelyDayType!=''">
+				DATE_SUB(CURDATE(), INTERVAL #{latelyDayType} DAY) <![CDATA[ <= ]]> date(create_time)
+			</if>
+			<!-- <if test="latelyDayType==15">
+				DATE_SUB(CURDATE(), INTERVAL 15 DAY) <= date(create_time)
+			</if>
+			<if test="latelyDayType==30">
+				DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(create_time)
+			</if> -->
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			GROUP BY company_id
+		</where>
+	</select>
+	
+	<insert id="insertCustomBatch" parameterType="java.util.List">
+		insert into payv2_statistics_day_channel 
+			(channel_id,company_id,order_count,success_order_count,success_order_money,fail_order_count,fail_order_money,statistics_time,create_time)
+		VALUES
+		<foreach collection="list" item="maps" index="index" separator=",">
+			(#{maps.channel_id},#{maps.company_id},#{maps.allCount},#{maps.successCount},#{maps.allSuccessMoney},#{maps.failCount},#{maps.allFailMoney},#{maps.statistics_time},#{maps.create_time})
+		</foreach>
+	</insert>
+	
+	<!-- 根据时间段来计算数据各个指标总和 -->
+	<select id="getTimeStatistics" resultType="com.pay.business.record.entity.Payv2StatisticsDayChannel" resultMap="payv2statisticsdaychannel_result_map">
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money
+		FROM payv2_statistics_day_channel
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="channelId!=null ">
+				and channel_id=#{channelId}
+			</if>
+			<if test="orderCount!=null ">
+				and order_count=#{orderCount}
+			</if>
+			<if test="successOrderCount!=null ">
+				and success_order_count=#{successOrderCount}
+			</if>
+			<if test="successOrderMoney!=null ">
+				and success_order_money=#{successOrderMoney}
+			</if>
+			<if test="failOrderCount!=null ">
+				and fail_order_count=#{failOrderCount}
+			</if>
+			<if test="failOrderMoney!=null ">
+				and fail_order_money=#{failOrderMoney}
+			</if>
+			<if test="statisticsTime!=null ">
+				and statistics_time=#{statisticsTime}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	<!-- 根据时间段来计算数据各个指标曲线图 -->
+	<select id="getTimeInfoList" resultMap="payv2statisticsdaychannel_result_map" >
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money,
+			create_time
+		FROM
+			payv2_statistics_day_channel
+		<where>
+				1=1
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			GROUP BY day(create_time)
+		</where>
+	</select>
+	<!-- 根据时间段选择或者接入商来计算关键数据详情 -->
+	<select id="getTimeInfoByCompanyList" resultMap="payv2statisticsdaychannel_result_map" >
+		SELECT
+			IFNULL(SUM(order_count),0) 			AS order_count,
+			IFNULL(SUM(success_order_count),0) AS success_order_count,
+			IFNULL(SUM(success_order_money),0) AS success_order_money,
+			IFNULL(SUM(fail_order_count),0)    AS fail_order_count,
+			IFNULL(SUM(fail_order_money),0)    AS fail_order_money,
+			company_id
+		FROM
+			payv2_statistics_day_channel
+		<where>
+				1=1
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="channelId!=null and channelId!=''">
+				and channel_id = #{channelId}
+			</if>
+			<if test="companyId!=null and companyId!=''">
+				and company_id = #{companyId}
+			</if>
+			<if test="createTimeBegin!=null and createTimeBegin!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ >= ]]> str_to_date(#{createTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="createTimeEnd!=null and createTimeEnd!=''">
+				and DATE_FORMAT(create_time,'%Y-%m-%d') <![CDATA[ <= ]]> str_to_date(#{createTimeEnd},  '%Y-%m-%d') 
+			</if>
+			GROUP BY company_id
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "lib/lib.html" />
+<title>SDK管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		SDK管理 <span class="c-gray en">&gt;</span> SDK版本列表 <a
+			class="btn btn-success radius r mr-20"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"> <i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	
+	<div class="pd-20 text-c">
+		<div class="text-c">
+			<form action="${basePath}/Payv2AppVersion/Payv2AppVersionList.do">
+				<input type="hidden" id="appId" value="${map.appId!}" name="appId"/>
+				平台：<select class="select" datatype="*" name="appType" id="appType" nullmsg="请选择！" style="width: 150px">
+		        	 		<option value="">全部</option>
+		        	 		<option value="1" <#if map.appType==1>selected="selected"</#if>>android</option>
+			       	 		<option value="2" <#if map.appType==2>selected="selected"</#if>>ios</option>
+			       	 		<option value="3" <#if map.appType==3>selected="selected"</#if>>WEB</option>
+	        			</select>
+	        	状态：<select class="select" datatype="*" name="status" id="status" nullmsg="请选择！" style="width: 150px">
+		        	 		<option value="">全部</option>
+			       	 		<option value="2" <#if map.status==2>selected="selected"</#if>>审核中</option>
+			       	 		<option value="3" <#if map.status==3>selected="selected"</#if>>使用中</option>
+			       	 		<option value="4" <#if map.status==4>selected="selected"</#if>>已下线</option>
+			       	 		<option value="5" <#if map.status==4>selected="selected"</#if>>未通过</option>
+	        			</select>		
+	        	<input id="resetButton" class="btn" type="button" value="清空"></input>
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe665;</i> 搜索
+				</button>
+			</form>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+			<span class="l">
+				<a class="btn btn-primary radius" onclick="" href="javascript:addSdkVersion();">
+				<i class="Hui-iconfont">&#xe600;</i>上传新版本</a></span> <span class="r"> 
+			</span>
+		</div>
+		<div class="mt-20">
+			<div id="page" class="holder"></div>
+			<table
+				class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="35">编号</th>
+						<th width="100">所属应用</th>
+						<th width="80">类型</th>
+						<th width="80">版本号</th>
+						<th width="300">更新内容</th>
+						<th width="80">状态</th>
+						<th width="130">创建时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					 <#list list.dataList as dl>
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.appName!}</td>
+							<td>
+								<#if dl.appType== 1>
+									Android
+								<#elseif dl.appType==2>
+									IOS
+								<#else>
+									WEB	
+								</#if>
+								
+							</td>
+							<td>${dl.appVersion!}</td>
+							<td>${dl.updateExplain!}</td>
+							<td>
+								<#if dl.status==1>
+									<span class="using">待提交</span>
+								<#elseif dl.status==2>
+									<span class="stoped">审核中</span>
+								<#elseif dl.status==3>
+									<span class="success">使用中</span>
+								<#elseif dl.status==4>
+									<span class="stoped">已下线</span>
+								<#elseif dl.status==5>
+									<span class="stoped">未通过</span>			
+								</#if>
+							</td>
+							<td>${(dl.createTime?string('yyyy-MM-dd'))!}</td>
+							<td class="td-manage">
+								<#if dl.status==2>
+									<a title="删除" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="del(this,${dl.id!})" style="text-decoration:none"><i class="Hui-iconfont">删除</i></a>
+								<#elseif dl.status==3>
+									<a title="下线" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="sdk_update(this,${dl.id!},'下线','4')" style="text-decoration:none"><i class="Hui-iconfont">下线</i></a>
+									<a title="下载包" href="javascript:;"  onclick="app_download('下载包','${basePath}/Payv2AppVersion/toDownload.do?id='+${dl.id!},1000);"  class="ml-5" style="text-decoration:none">下载包</a>
+								<#elseif dl.status==4>
+									<a title="上线" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="sdk_update(this,${dl.id!},'上线','3')" style="text-decoration:none"><i class="Hui-iconfont">上线</i></a>	
+									<a title="删除" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="del(this,${dl.id!})" style="text-decoration:none"><i class="Hui-iconfont">删除</i></a>
+								<#elseif dl.status==5>
+									<a title="删除" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="del(this,${dl.id!})" style="text-decoration:none"><i class="Hui-iconfont">删除</i></a>
+									<a title="查看原因" href="javascript:;" class="btn btn-secondary  size-MINI radius" onclick="shop_view('查看失败原因','${basePath}/Payv2AppVersion/getPassReason.do?id='+${dl.id!},500);" style="text-decoration:none"><i class="Hui-iconfont">查看原因</i></a>
+								</#if>
+							</td>
+						</tr>
+					</#list>
+				  </#if>
+				</tbody>
+			</table>
+			<div class="page_list"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+	 	$("#resetButton").bind("click", function(){
+	 		$("#appVersion").val("");
+	 		$("#appType").val("");
+	 	});
+	});
+	
+	$(function(){
+	 	laypage({
+	 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: ${list.endPage! }, //总页数
+	 	    groups: 10, //连续显示分页数
+	 	    first: '首页', //若不显示，设置false即可
+	 	    last: '尾页', //若不显示，设置false即可
+	 	    curr:${list.curPage!},
+	 	   	hash: true, //开启hash
+	 	    skin: '#00AA91',
+	 	    jump: function(obj,first){ //触发分页后的回调
+// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+	 	    	if(!first){
+	 	         	 window.location.href="${basePath}/Payv2AppVersion/Payv2AppVersionList.do?curPage="+obj.curr +"&pageData="+10
+	 	         	 					+ "&appType="+$("#appType").val()
+	 	         	 					+ "&appId="+$("#appId").val()
+	 	         	 					+ "&status="+$("#status").val();
+	 	    	}
+	 	    }
+	 	});
+	});
+	
+	//上传
+	function addSdkVersion(title, url, w, h){
+		var url = '${basePath}/Payv2AppVersion/addPayv2AppVersionTc.do?appId='+$("#appId").val();
+		layer_show('上传', url, w, h);
+	}
+	/*删除*/
+	function del(obj, id) {
+		layer.confirm('确认要删除吗？', function(index) {
+			var data = {};
+			data.id = id;
+			//后台请求保存数据
+			$.axse("${basePath}/Payv2AppVersion/delPayv2AppVersion.do",  data, function(d){
+				if(d.resultCode == 200){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!', {
+						icon : 1,
+						time : 1000
+					});
+				}else{
+					Huimodal_alert("删除失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert("删除失败,请重试!",1500);
+			});
+		});
+	}
+	
+	//上架下架
+	function sdk_update(obj,id,str,status){
+		layer.confirm("确定"+str+"？", function(index) {
+			var data = {};
+			data.id = id;
+			data.status = status;
+			//后台请求保存数据
+			$.axse("${basePath}/Payv2AppVersion/updatePayv2AppVersion.do",  data, function(d){
+				if(d.resultCode == 200){
+					layer.msg('已'+str+'!', {
+						icon : 1,
+						time : 1000
+					});
+					window.location.href="${basePath}/Payv2AppVersion/Payv2AppVersionList.do?appId="+$("#appId").val();
+				}else{
+					Huimodal_alert(str+"失败,请重试!",1500);
+				}
+			},
+			function(d){
+				Huimodal_alert(str+"失败,请重试!",1500);
+			});
+		});
+	}
+	/*查看*/
+	function shop_view(title,url,w,h){
+		layer_show(title, url, w,500);
+	}
+	/*下载*/
+	function app_download(title,url,w,h){
+		layer_show(title, url, w, h);
+	}
+	</script>
+</body>
+</html>

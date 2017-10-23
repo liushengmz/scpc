@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "lib/lib.html" />
+<title>渠道对账</title>
+
+
+
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+</head>
+
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		财务清算管理<span class="c-gray en">&gt;</span> 渠道对账 <a
+			class="btn btn-success radius r mr-20"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"> <i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div style="margin-top: 40px;margin-left: 40px;">
+		<div id="tab_demo" class="HuiTab">
+				<div class="row">
+				  <div class="col-md-12">
+				  	<label>待对账账单：</label>
+				  	<input type="hidden" value="" id="timeHelp">
+				  	<div id="bill"></div>
+				  </div>
+				 </div>
+		</div>
+	</div>
+	<input type="hidden" value="" id="batch">
+	<input type="hidden" value="" id="toBillList">
+	<div style="padding-top: 100px; " id="lists">
+		
+		<div class="right"><input type="button" value="全部出账(会自动判断可出账的通道)" class="btn btn-success radius" onclick="batchOut()"></div>
+		<div class="right"><input type="button" value="一键对账" class="btn btn-success radius" onclick="billsOut()"></div>
+		<div style="margin-top: 20px;  display: block;" id="dayClear" class="">
+			<table class="table table-border table-bordered table-hover table-bg table-sort table-striped">
+				<tr class='text-c'>
+	    			<td>支付通道</td>
+	    			<td>账单数<br/>上游/平台</td>
+	    			<td>账单金额<br/>上游/平台</td>
+	    			<td>平台未支付订单数</td>
+	   				<td>差错订单数</td>
+	   				<td>状态</td>
+	   				<td>是否自动对账</td>
+	 				<td>操作</td>
+				</tr>
+				<tbody id="dayClearDate">
+				</tbody>
+			</table>
+			<div class="page_list" ></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function(){  
+    	$.get("/channelClean/getBills.do", function(result){
+    		if(result.code==200){
+    			var data = result.data;
+	    		for(var i=0;i<data.length;i++){
+	    			$("#bill").append("<input id='"+data[i]+"' type='button' value='"+data[i]+"' onclick='buildBills(this.value)' class='btn btn-success'>");
+	    			if(i==0){
+	    				buildBills(data[i]);
+	    			}
+	    		}
+    		}else {
+    			alert(result.msg);
+    		}
+    		
+    	});
+	});  
+	
+	//<!-- 对账列表 -->
+	function buildBills(date){
+		$("#timeHelp").val(date);
+		
+		layer.msg('正在加载'+date+'的数据', {
+		  icon: 16
+		  ,shade: 0.3
+		  ,time:1000
+		});
+		setTimeout(function () { 
+			$.get("/channelClean/getBillList.do?date="+date, function(result){
+			if(result.code==200){
+				var data = result.data;
+				
+				$("#dayClearDate").empty();
+				var xxx = new Array();
+				var yyy = new Array();
+				for(var i=0; i < data.length; i++){
+					var status = "<span class='label label-secondary radius'>待出账</span>";
+					var operation = '<input type="button" value="出账" onclick="outOrder('+data[i].rateid+');" class="btn btn-success radius">';
+					xxx.push(data[i].rateid);
+					var auto = "<span class='label label-secondary radius'>是</span>";
+					if (data[i].differ != 0) {
+						status = "<span class='label label-danger radius'>待平账</span>";
+						operation = '<input type="button" value="差错详情" onclick="differ_view(' + data[i].rateid + ');" class="btn btn-danger radius">';
+						xxx.splice(xxx.length-1,1);
+					}
+					if (data[i].upcount == 0) {
+						status = "<span class='label label-warning radius'>上游无账单</span>";
+						operation += ' | <input type="button" value="对账" onclick="toBills(' + data[i].rateid + ');" class="btn btn-warning radius">';
+						yyy.push(data[i].rateid);
+					}
+					if (data[i].auto != 1){
+						auto = "<span class='label label-warning radius'>否</span>";
+					}
+					var x = data[i].downcount-data[i].unpay;
+					var y = data[i].downall-data[i].unMoney;
+					var differStatus = "";
+					if(data[i].differ > 0) {
+						differStatus = "<td><span class='label label-danger radius'>"+data[i].differ+"</span></td>";
+					} else {
+						differStatus = "<td><span class='label label-success radius'>"+data[i].differ+"</span></td>";
+					}
+					$("#dayClearDate").append(
+					"<tr class='text-c'>"+
+						"<td>"+data[i].name+"</td>"+
+						"<td>"+data[i].upcount+" / "+x+"</td>"+
+						"<td>"+data[i].upall+" / "+y.toFixed(2)+"</td>"+
+						"<td>"+data[i].unpay+"</td>"+differStatus+
+						"<td>"+status+"</td>"+
+						"<td>"+auto+"</td>"+
+						"<td>"+operation+"</td>"+
+						"</tr>");
+				}
+				$("#batch").val(xxx);
+				$("#toBillList").val(yyy);
+			}else {
+    			alert(result.msg);
+    		}
+		});
+	    }, 1000);
+		
+		for(var i = 0, len = $("#bill").children().length;i<len;i++){
+			var values = $("#bill").children().eq(i).val();
+			if(values == date) {
+				$("#bill").children().eq(i).removeClass("btn-success").addClass("btn-primary");
+			} else {
+				$("#bill").children().eq(i).removeClass("btn-primary").addClass("btn-success");
+			}
+		}
+		
+	}
+	
+	function toBills(rateid){
+		layer.msg('对账执行中...', {
+		  icon: 16
+		  ,shade: 0.3
+		});
+		$.get("/channelClean/toBills.do?date="+$("#timeHelp").val()+"&rateid="+rateid, function(result){
+			console.log(result);
+			if(result.code==200){
+				layer.msg('对账成功', {icon: 1});
+				window.location.reload();
+			}else {
+				layer.msg(result.msg, {icon: 2});
+			}
+		})
+	}
+	
+	function outOrder(rateid){
+		layer.confirm('即将出账!请确认该通道下所有账单都对账无误!', {
+			btn: ['我已确定','再去看看']
+		}, function(){
+    		layer.msg('正在出账', {
+			  icon: 16
+			  ,shade: 0.3
+			});
+			$.get("/channelClean/outOrder.do?date="+$("#timeHelp").val()+"&rateid="+rateid, function(result){
+				console.log(result);
+				if(result.code==200){
+					layer.msg('出账成功', {icon: 1});
+					window.location.reload();
+				}else {
+					layer.msg(result.msg, {icon: 2});
+				}
+			});
+		}, function(){
+		 
+		});
+	}
+	
+	function differ_view(rateid,w,h){
+		layer_show("查看", '/channelClean/differDetail.do?date='+$("#timeHelp").val()+'&rateid='+rateid+'', w, h);
+	}
+	
+	function billsOut(){
+		var array = $("#toBillList").val().split(",");
+		var bills = new Array();
+		for(var i=0;i<array.length;i++){
+			if(array[i] != "") {
+				bills.push(array[i]);
+			}
+		}
+		if(bills.length == 0) {
+			layer.msg('无需要对账的通道', function(){});
+			return;
+		}
+		layer.confirm('确定批量对账？!', {
+			btn: ['我已确定','再去看看']
+		}, function(){
+			var count = 0;
+			for(var i=0;i<array.length;i++){
+				count++;
+				$.get("/channelClean/toBills.do?date="+$("#timeHelp").val()+"&rateid="+bills[i], function(result){
+					if(result.code!=200){
+						console.log(bills[i]);
+						console.log(result.msg);
+						return false;
+					}
+				});
+			}
+			
+    		layer.msg('正在批量执行，请稍等页面自动刷新！', {
+			  icon: 16
+			  ,shade: 0.3
+			});
+			
+			if(count==array.length){
+				setTimeout("buildBills('"+$("#timeHelp").val()+"')",1000);
+			}
+		}, function(){
+		 
+		});
+		
+	}
+	
+	function batchOut(){
+		var array = $("#batch").val().split(",");
+		var newBatchList = new Array();
+		for(var i=0;i<array.length;i++){
+			if(array[i] != "") {
+				newBatchList.push(array[i]);
+			}
+		}
+		
+		if(newBatchList.length == 0) {
+			layer.msg('无可出账的通道', function(){});
+			return;
+		}
+	
+		layer.confirm('会自动判断可出账的通道!请确定所有可出账的通道数据无误!', {
+			btn: ['我已确定','再去看看']
+		}, function(){
+			var count = 0;
+			for(var i=0;i<array.length;i++){
+				count++;
+				$.get("/channelClean/outOrder.do?date="+$("#timeHelp").val()+"&rateid="+newBatchList[i], function(result){
+					if(result.code!=200){
+						console.log(newBatchList[i]);
+						console.log(result.msg);
+						return false;
+					}
+				});
+			}
+			
+    		layer.msg('正在批量执行，请稍等页面自动刷新！', {
+			  icon: 16
+			  ,shade: 0.3
+			});
+			
+			if(count==array.length){
+				setTimeout("buildBills('"+$("#timeHelp").val()+"')",1000);
+			}
+		}, function(){
+		 
+		});
+	}
+	
+</script>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>订单详情</title>
+	<#include "lib/lib.html" />
+</head>
+<body>
+<form action="" method="post" class="form form-horizontal" id="form-APP-add">
+	<div class="pop_main">
+		<h3>基本信息</h3>
+		<dl  class="adddl">
+			<dt><label>支付集订单号：</label></dt>
+			<dd>
+				<label>${payv2PayOrder.orderNum!"&nbsp;"}</label>
+			</dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>订单名称：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.orderName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>所属渠道商：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.channelName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>商品名称：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.goodsName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>订单描述：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.orderDescribe!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>商户订单号：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.merchantOrderNum!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>所属商户：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.companyName!"&nbsp;"}</label></dd>
+		</dl>
+<!-- 		<dl  class="adddl">
+			<dt><label>下单用户：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.userName!"&nbsp;"}</label></dd>
+		</dl> -->
+		<dl  class="adddl">
+			<dt><label>订单类型：</label>
+			</dt>
+			<dd><label>
+			<#if payv2PayOrder.orderType==1>
+				app（线上）
+			</#if>
+			<#if payv2PayOrder.orderType==2>
+				店铺（线下）
+			</#if>
+			</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>所属应用：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.appName!}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>支付渠道：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.wayName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>支付渠道路由：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.rateName!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>支付类型：</label>
+			</dt>
+			<dd><label>
+			<#if payv2PayOrder.rateType==1>
+				app支付
+			</#if>
+			<#if payv2PayOrder.rateType==2>
+				web
+			</#if>
+			<#if payv2PayOrder.rateType==3>
+				扫码
+			</#if>	
+			</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>银行流水号：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.bankTransaction!"&nbsp;"}</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>订单金额：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.payMoney!} 元</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>折扣后的金额：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.payDiscountMoney!} 元</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>通道费：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.payWayMoney!} 元</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>优惠金额：</label>
+			</dt>
+			<dd><label>${payv2PayOrder.discountMoney!} 元</label></dd>
+		</dl>
+		<dl  class="adddl">
+			<dt><label>支付状态：</label>
+			</dt>
+			<dd><label>
+			<#if payv2PayOrder.payStatus==1>
+				支付成功
+			</#if>
+			<#if payv2PayOrder.payStatus==2>
+				支付失败
+			</#if>
+			<#if payv2PayOrder.payStatus==3>
+				未支付
+			</#if>
+			<#if payv2PayOrder.payStatus==4>
+				超时
+			</#if>
+			<#if payv2PayOrder.payStatus==5>
+				扣款成功回调失败
+			</#if>
+			</label></dd>
+		</dl>
+	</div>
+</body>
+</html>

@@ -39,6 +39,7 @@ public class SpTroneApiDao
 					model.setMatchKeyword(StringUtil.getString(rs.getString("match_keyword"), ""));
 					model.setApiFields(StringUtil.getString(rs.getString("api_fields"), ""));
 					model.setLocateMatch(rs.getInt("locate_match"));
+					model.setApiParametes(StringUtil.getString(rs.getString("api_parametes"), "")); 
 					
 					list.add(model);
 				}
@@ -95,7 +96,8 @@ public class SpTroneApiDao
 					model.setMatchKeyword(StringUtil.getString(rs.getString("match_keyword"), ""));
 					model.setApiFields(StringUtil.getString(rs.getString("api_fields"), ""));
 					model.setLocateMatch(rs.getInt("locate_match"));
-					
+					model.setApiParametes(StringUtil.getString(rs.getString("api_parametes"), "")); 
+
 					list.add(model);
 				}
 				return list;
@@ -125,6 +127,7 @@ public class SpTroneApiDao
 					model.setMatchKeyword(StringUtil.getString(rs.getString("match_keyword"), ""));
 					model.setApiFields(StringUtil.getString(rs.getString("api_fields"), ""));
 					model.setLocateMatch(rs.getInt("locate_match"));
+					model.setApiParametes(StringUtil.getString(rs.getString("api_parametes"), "")); 
 					
 					return model;
 				}
@@ -136,7 +139,7 @@ public class SpTroneApiDao
 	public boolean addSpTroneApiModel(SpTroneApiModel model)
 	{
 		String sql = "insert into " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone_api(name,match_field,match_keyword,api_fields,"
-				+ "locate_match) values(?,?,?,?,?)";
+				+ "locate_match,api_parametes) values(?,?,?,?,?,?)";
 		
 		Map<Integer, Object> map = new HashMap<Integer, Object>();
 		
@@ -145,6 +148,7 @@ public class SpTroneApiDao
 		map.put(3, model.getMatchKeyword());
 		map.put(4, model.getApiFields());
 		map.put(5, model.getLocateMatch());
+		map.put(6,model.getApiParametes());
 		
 		return new JdbcControl().execute(sql, map);
 	}
@@ -152,7 +156,7 @@ public class SpTroneApiDao
 	public boolean updateSpTroneApiModel(SpTroneApiModel model)
 	{
 		String sql = "update " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone_api set name = ?,match_field = ?,match_keyword = ?,api_fields = ?,"
-				+ "locate_match = ? where id = ?";
+				+ "locate_match = ?,api_parametes where id = ?";
 		
 		Map<Integer, Object> map = new HashMap<Integer, Object>();
 		
@@ -161,8 +165,9 @@ public class SpTroneApiDao
 		map.put(3, model.getMatchKeyword());
 		map.put(4, model.getApiFields());
 		map.put(5, model.getLocateMatch());
-		map.put(6, model.getId());
-		
+		map.put(6, model.getApiParametes());
+		map.put(7, model.getId());
+ 		
 		return new JdbcControl().execute(sql, map);
 	}
 	

@@ -8,7 +8,14 @@ public class SpTroneApiModel
 	private String matchKeyword;
 	private String apiFields;
 	private int locateMatch;
+	private String apiParametes;
 	
+	public String getApiParametes() {
+		return apiParametes;
+	}
+	public void setApiParametes(String apiParametes) {
+		this.apiParametes = apiParametes;
+	}
 	public int getId()
 	{
 		return id;

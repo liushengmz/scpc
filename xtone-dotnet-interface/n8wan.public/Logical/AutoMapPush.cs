@@ -82,6 +82,18 @@ namespace n8wan.Public.Logical
             if (tOrder != null)
             {//匹配到一个渠道
                 base.SetConfig(tOrder);
+                if (PushFlag == E_CP_SYNC_MODE.Auto)
+                {
+                    var lc = new SmsTroneLimitChecker(this.dBase);
+                    lc.Trone = this.Trone;
+                    if (lc.DoCheck(this.PushObject as tbl_mrItem))
+                    {
+                        PushFlag = E_CP_SYNC_MODE.ForceHide;
+                        WriteTrackLog("超日月限，强制扣量");
+                    }
+
+                }
+
                 return base.DoPush();
 
             }

@@ -17,6 +17,7 @@
 	int locateMatch = StringUtil.getInteger(request.getParameter("locate_match"), 0);
 	int matchFiles = StringUtil.getInteger(request.getParameter("match_field"), 0);
 	String matchKeyWord = StringUtil.getString(request.getParameter("match_keyword"), "");
+	String apiParametes = StringUtil.getString(request.getParameter("api_parametes"), "");
 	
 	
 	SpTroneApiModel model = new SpTroneApiModel();
@@ -27,6 +28,7 @@
 	model.setLocateMatch(locateMatch);
 	model.setMatchField(matchFiles);
 	model.setMatchKeyword(matchKeyWord);
+	model.setApiParametes(apiParametes);
 	
 	if(id>0)
 	{

@@ -133,6 +133,7 @@
     <Compile Include="Logical\ISMS_DataItem.cs" />
     <Compile Include="Logical\CityToPhone.cs" />
     <Compile Include="Logical\ITimeCacheItem.cs" />
+    <Compile Include="Logical\SmsTroneLimitChecker.cs" />
     <Compile Include="Logical\StaticCacheTimeline.cs" />
     <Compile Include="Logical\XmlBaseSync.cs" />
     <Compile Include="Logical\JSonBaseSync.cs" />

@@ -125,6 +125,19 @@
 					<br />
 					<br />
 					<br />
+					
+					<dd class="dd00_me"></dd>
+					<dd class="dd01_me">可变参数</dd>
+					<dd >
+					<input name="api_parametes"/>
+					</dd>
+					
+					<br />
+					<br />
+					<br />
+					
+					
+					
 					<dd class="dd00"></dd>
 					<dd class="dd00_me"></dd>
 					<dd class="ddbtn" style="margin-left: 100px; margin-top: 10px">

@@ -57,6 +57,8 @@
 		$("#input_id").val("<%= model.getId() %>");
 		$("#input_sp_trone_api_name").val("<%= model.getName() %>");
 		$("#input_match_keyword").val("<%= model.getMatchKeyword() %>");
+		$("[name='api_parametes']").val("<%= model.getApiParametes()%>");
+		
 		setRadioCheck("match_field",<%= model.getMatchField() %>);
 		setRadioCheck("locate_match",<%= model.getLocateMatch() %>);
 		var apiFildes = "<%= model.getApiFields() %>";
@@ -77,7 +79,7 @@
 		<div class="content" style="margin-top: 10px">
 			<dl>
 				<dd class="ddbtn" style="width:200px" >
-				<label>增加业务API</label>
+				<label>修改业务API</label>
 				</dd>
 			</dl>
 			<br />	<br />
@@ -157,6 +159,18 @@
 					<br />
 					<br />
 					<br />
+					
+					<dd class="dd00_me"></dd>
+					<dd class="dd01_me">可变参数</dd>
+					<dd >
+					<input name="api_parametes" size="64"/>
+					</dd>
+					
+					<br />
+					<br />
+					<br />
+					
+					
 					<dd class="dd00"></dd>
 					<dd class="dd00_me"></dd>
 					<dd class="ddbtn" style="margin-left: 100px; margin-top: 10px">

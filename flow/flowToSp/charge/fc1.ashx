@@ -21,12 +21,14 @@ public class Fc1 : FlowLibraryNet.Logical.FlowChargeHandler
 
     protected override bool DoCharge()
     {
+
+
         //var order = "";
         var dict = new System.Collections.Generic.Dictionary<string, string>();
         dict["userid"] = username;
         dict["userpwd"] = Enparameter(pwd);
-        dict["phone"] = Enparameter(OrderInfo.mobile);
-        dict["orderid"] = Enparameter(OrderInfo.sp_order_id);
+        dict["phone"] = Enparameter(OrderInfo.Mobile);
+        dict["orderid"] = Enparameter(OrderInfo.SpOrderId);
 
         dict["flowvalue"] = Enparameter(FlowSizeInfo.GetSizeName(LightDataModel.tbl_f_basic_priceItem.FlowSizeUnitEnum.Auto));//流量ID
 
@@ -37,7 +39,7 @@ public class Fc1 : FlowLibraryNet.Logical.FlowChargeHandler
 
 
         //encMD5(username + Enparameter(pwd) + Enparameter(phone) + Enparameter(order) + Enparameter(M) + key
-
+        //return true;
         var url = "http://103.47.139.66:8088/flowInterface/API/Aflowrecharge.ashx";
         var html = GetHTML(url, dict, 0, null);
         //CallAPI(url);

@@ -16,14 +16,14 @@ public class FB1 : FlowLibraryNet.Logical.FlowCallbackHandler
     protected override void UpdateOrderInfo()
     {
 
-        OrderInfo.sp_status = Request["state"];
-        OrderInfo.sp_error_msg = Request["stateinfo"];
+        OrderInfo.SpStatus = Request["state"];
+        OrderInfo.SpErrorMsg = Request["stateinfo"];
 
-        switch (OrderInfo.sp_status)
+        switch (OrderInfo.SpStatus)
         {
-            case "1": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Success; break;
-            case "0": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Charging; break;
-            case "-1": OrderInfo.statusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.ChargFail; break;
+            case "1": OrderInfo.StatusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Success; break;
+            case "0": OrderInfo.StatusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.Charging; break;
+            case "-1": OrderInfo.StatusE = FlowLibraryNet.Logical.ChangeOrderStatusEnum.ChargFail; break;
         }
     }
 

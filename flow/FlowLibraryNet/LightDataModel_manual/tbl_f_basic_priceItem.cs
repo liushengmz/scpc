@@ -1,4 +1,4 @@
-﻿using n8wan.Public.Logical;
+﻿using Shotgun.Model.Logical;
 using System;
 using System.Collections.Generic;
 using System.Linq;

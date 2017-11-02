@@ -12,7 +12,7 @@ namespace FlowLibraryNet.Logical
     public abstract class FlowCallbackHandler : FlowBaseHandler
     {
         private CpOrderDao _orderDao;
-        private tbl_f_cp_order_listItem _orderInfo;
+        private IFlowOrderInfo _orderInfo;
 
         public override void BeginProcess()
         {
@@ -46,7 +46,7 @@ namespace FlowLibraryNet.Logical
 #if DEBUG 
             catch (Exception ex)
             {
-                OrderInfo.statusE = ChangeOrderStatusEnum.InnerError;
+                OrderInfo.StatusE = ChangeOrderStatusEnum.InnerError;
                 WriteError("内部错误：" + ex.Message);
                 WriteLog("未处理错误：{0}", ex.ToString());
             }
@@ -63,13 +63,13 @@ namespace FlowLibraryNet.Logical
             if (string.IsNullOrEmpty(appset))
                 throw new Exception("回调模板未匹配，config -> configuration/appSettings/NotifyForwardUrl");
 
-            var url = string.Format(appset, Server.UrlEncode(OrderInfo.sp_order_id));
+            var url = string.Format(appset, Server.UrlEncode(OrderInfo.SpOrderId));
             ThreadPool.QueueUserWorkItem(e =>
             {
                 string html;
                 try
                 {
-                    html = n8wan.Public.Library.DownloadHTML(url, null, 1000, null);
+                    html = Shotgun.Library.HttpUtil.DownloadHTML(url, null, 1000, null);
                 }
                 catch (Exception ex) { html = ex.Message; }
                 Shotgun.Library.SimpleLogRecord.WriteLog("NotifyForwardUrl", string.Format("{0} {1}", url, html));
@@ -91,7 +91,7 @@ namespace FlowLibraryNet.Logical
         /// <param name="v"></param>
         protected void WriteError(string v) => WriteResult(v);
 
-        protected tbl_f_cp_order_listItem OrderInfo { get => _orderInfo; }
+        protected IFlowOrderInfo OrderInfo { get => _orderInfo; }
 
 
         private bool LoadOrderInfo()

@@ -10,7 +10,7 @@ namespace FlowLibraryNet.Logical
     {
         Dao.CpOrderDao orderDao;
         private ChangeErrorEnum _errcode;
-        private tbl_f_cp_order_listItem _orderInfo;
+        private IFlowOrderInfo _orderInfo;
         private tbl_f_basic_priceItem _basePrice;
 
         public sealed override void BeginProcess()
@@ -24,18 +24,18 @@ namespace FlowLibraryNet.Logical
                 }
                 else if (!DoCharge())
                 {
-                    OrderInfo.statusE = ChangeOrderStatusEnum.SpUnkowError;
+                    OrderInfo.StatusE = ChangeOrderStatusEnum.SpUnkowError;
                     WriteLog("充值失败，{0}", ErrorMesage);
                     if (_errcode == ChangeErrorEnum.OK)
                         SetError(ChangeErrorEnum.ChargeFail);
                 }
                 else
-                    OrderInfo.statusE = ChangeOrderStatusEnum.Charging;
+                    OrderInfo.StatusE = ChangeOrderStatusEnum.Charging;
             }
 #if !DEBUG 
             catch (Exception ex)
             {
-                OrderInfo.statusE = ChangeOrderStatusEnum.InnerError;
+                OrderInfo.StatusE = ChangeOrderStatusEnum.InnerError;
                 SetError("内部错误：" + ex.Message, ChangeErrorEnum.InnerError);
                 WriteLog("未处理错误：{0}", ex.ToString());
                 UpdateSpResult("N/A", ErrorMesage);
@@ -89,14 +89,14 @@ namespace FlowLibraryNet.Logical
             return SetError(ChangeErrorEnum.OK);
         }
 
-        public tbl_f_cp_order_listItem OrderInfo { get { return _orderInfo; } }
+        public IFlowOrderInfo OrderInfo { get { return _orderInfo; } }
 
         public void UpdateSpResult(string code, string message)
         {
             if (OrderInfo == null)
                 return;
-            OrderInfo.sp_error_msg = message;
-            OrderInfo.sp_status = code;
+            OrderInfo.SpErrorMsg = message;
+            OrderInfo.SpStatus = code;
         }
 
         public LightDataModel.tbl_f_basic_priceItem FlowSizeInfo
@@ -105,7 +105,7 @@ namespace FlowLibraryNet.Logical
             {
                 if (_basePrice != null)
                     return _basePrice;
-                _basePrice = tbl_f_basic_priceItem.GetRowById(dBase, OrderInfo.base_price_id);
+                _basePrice = tbl_f_basic_priceItem.GetRowById(dBase, OrderInfo.PriceId);
                 if (_basePrice == null)
                     throw new ArgumentException("订单关联的基础价格信息丢失！");
                 return _basePrice;

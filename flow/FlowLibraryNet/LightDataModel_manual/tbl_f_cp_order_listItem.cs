@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LightDataModel
 {
-    partial class tbl_f_cp_order_listItem : Shotgun.Model.Logical.DynamicDataItem
+    partial class tbl_f_cp_order_listItem : Shotgun.Model.Logical.DynamicDataItem, IFlowOrderInfo
     {
 
         public const string FIX_TABLE_NAME = "tbl_f_cp_order_list_";
@@ -23,7 +23,6 @@ namespace LightDataModel
             get { return FIX_TABLE_NAME; }
         }
 
-        public ChangeOrderStatusEnum statusE { get => (ChangeOrderStatusEnum)status; set => status = (int)value; }
 
         #region 静态方法
         /// <summary>
@@ -66,6 +65,18 @@ namespace LightDataModel
         {
             return GetRowById(dBase, id, null);
         }
+
+        #endregion
+
+        #region IFlowOrderInfo
+
+        string IFlowOrderInfo.SpOrderId { get { return this.sp_order_id; } set { sp_order_id = value; } }
+
+        ChangeOrderStatusEnum IFlowOrderInfo.StatusE { get => (ChangeOrderStatusEnum)status; set => status = (int)value; }
+        string IFlowOrderInfo.SpErrorMsg { get => this.sp_error_msg; set => this.sp_error_msg = value; }
+        string IFlowOrderInfo.SpStatus { get => this.sp_status; set => this.sp_status = value; }
+        int IFlowOrderInfo.PriceId { get => this.base_price_id; set => this.base_price_id = value; }
+        string IFlowOrderInfo.Mobile { get => this.sp_order_id; set => sp_order_id = value; }
 
         #endregion
 

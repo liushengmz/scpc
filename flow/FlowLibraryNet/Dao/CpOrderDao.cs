@@ -38,6 +38,7 @@ namespace FlowLibraryNet.Dao
         {
             if (dBase.Disposed)
                 _ro.Dispose();
+            _ro = null;
         }
 
         /// <summary>
@@ -45,29 +46,42 @@ namespace FlowLibraryNet.Dao
         /// </summary>
         /// <param name="customId">自定义规则：yyyyMM+id,如：20170788888</param>
         /// <returns></returns>
-        public tbl_f_cp_order_listItem GetCustomId(string customId)
+        public IFlowOrderInfo GetCustomId(string customId)
         {
-            customId = "SCOR_PREFIX_" + customId;
-            var m = _ro.GetModel<tbl_f_cp_order_listItem>(customId);
+            customId = GetRedisKey(customId);
+            IFlowOrderInfo m = null;
+            if (customId.StartsWith("SCOR_PREFIX_"))
+                m = _ro.GetModel<tbl_f_cp_order_listItem>(customId);
+            else
+                m = _ro.GetModel<tbl_f_ch_orderItem>(customId);
+
             if (m != null)
                 m.id = (int)(StackExchange.Redis.RedisValue)m["MONTH_TABLE_ID"];
             return m;
         }
 
-        public void Update(tbl_f_cp_order_listItem m)
+        public void Update(IFlowOrderInfo m)
         {
-            var customId = "SCOR_PREFIX_" + m.sp_order_id;
-            _ro.SetModel(m, customId);
+            var up = (Shotgun.Database.IUpatedataInfo)m;
+            var customId = GetRedisKey(m.SpOrderId);
+            _ro.SetModel(up, customId);
 
-            var tmp = new tbl_f_cp_order_list_tempItem();
-            tmp.id = m.id;
-            tmp.sp_status = m.sp_status;
-            tmp.sp_error_msg = m.sp_error_msg;
-            tmp.status = m.status;
+            //var tmp = new tbl_f_cp_order_list_tempItem();
+            //tmp.id = m.id;
+            //tmp.sp_status = m.sp_status;
+            //tmp.sp_error_msg = m.sp_error_msg;
+            //tmp.status = m.status;
 
-            dBase.SaveData(m);
-            dBase.SaveData(tmp);
+            dBase.SaveData(up);
+            //dBase.SaveData(tmp);
 
+        }
+
+        static string GetRedisKey(string vrKey)
+        {
+            if (vrKey.StartsWith("CC"))
+                return "CCOD_" + vrKey;
+            return "SCOR_PREFIX_" + vrKey;
         }
     }
 }

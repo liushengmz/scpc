@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Shotgun.Database;
 
 namespace LightDataModel
 {
@@ -144,6 +145,12 @@ namespace LightDataModel
                 this._price = value;
             }
         }
+
+        internal static tbl_f_basic_priceItem GetRowById(IBaseDataClass2 dBase, object base_price_id)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 运营商daily_config.tbl_operator.id
         /// </summary>

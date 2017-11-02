@@ -262,7 +262,7 @@ namespace FlowLibraryNet.Logical
                 WriteLog(url);
                 if (!String.IsNullOrEmpty(postdata))
                     WriteLog(postdata);
-                html = n8wan.Public.Library.DownloadHTML(url, postdata, encode, e =>
+                html = Shotgun.Library.HttpUtil.DownloadHTML(url, postdata, encode, e =>
                 {
                     if (timeout > 0)
                     {

@@ -33,11 +33,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="n8wan.Public">
-      <HintPath>..\..\xtone-dotnet-interface\n8wan.public\bin\Release\n8wan.Public.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.10.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.10\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Shotgun.Library">
-      <HintPath>..\..\xtone-dotnet-interface\Shotgun.Library\bin\Release\Shotgun.Library.dll</HintPath>
+    <Reference Include="Shotgun.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\VS.Online\Shotgun.Library\bin\Release\Shotgun.Library.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\StackExchange.Redis.Mono.1.0.0\lib\StackExchange.Redis.dll</HintPath>
@@ -56,20 +57,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dao\CpOrderDao.cs" />
+    <Compile Include="Database\DBDriver.cs" />
+    <Compile Include="Database\MySqlDBClass.cs" />
     <Compile Include="LightDataModel\tbl_f_basic_priceItem.cs" />
+    <Compile Include="LightDataModel\tbl_f_ch_orderItem.cs" />
     <Compile Include="LightDataModel_manual\tbl_f_basic_priceItem.cs" />
+    <Compile Include="LightDataModel_manual\tbl_f_ch_orderItem.cs" />
     <Compile Include="LightDataModel_manual\tbl_f_cp_order_list_tempItem.cs" />
     <Compile Include="Logical\ChangeErrorEnum.cs" />
     <Compile Include="Logical\ChangeOrderStatusEnum.cs" />
     <Compile Include="Logical\FlowBaseHandler.cs" />
     <Compile Include="Logical\FlowCallbackHandler.cs" />
     <Compile Include="Logical\FlowChargeHandler.cs" />
+    <Compile Include="Logical\IFlowOrderInfo.cs" />
     <Compile Include="Logical\RedisOpeartor.cs" />
     <Compile Include="LightDataModel_manual\tbl_f_cp_order_listItem.cs" />
     <Compile Include="LightDataModel\tbl_f_cp_order_listItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -22,6 +22,11 @@ public class JsonUtil
 		return null;
 	}
 	
+	public static JSONObject getJsonFromString(String json)
+	{
+		return JSONObject.fromObject(json);
+	}
+	
 	public static String getJsonArrayFromObject(Object obj)
 	{
 		try

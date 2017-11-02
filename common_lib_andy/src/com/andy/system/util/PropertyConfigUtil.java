@@ -75,7 +75,7 @@ public class PropertyConfigUtil
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("config.properties file not found (" + e.getMessage() + ")");
 		}
 		finally
 		{

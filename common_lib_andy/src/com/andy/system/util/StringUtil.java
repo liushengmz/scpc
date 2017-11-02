@@ -77,6 +77,21 @@ public class StringUtil
 		}
 		return defaultValue;
 	}
+	
+	public static boolean getBoolean(String str,boolean defaultValue)
+	{
+		if(isNullOrEmpty(str))
+			return defaultValue;
+		
+		if("true".equalsIgnoreCase(str.trim()))
+			return true;
+		
+		if("false".equalsIgnoreCase(str.trim()))
+			return false;
+		
+		return defaultValue;
+	}
+	
 
 	private final static char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -148,6 +163,11 @@ public class StringUtil
 		values = values.substring(0, values.length() - 1);
 
 		return values;
+	}
+	
+	public static void main(String[] args)
+	{
+		System.out.println(Boolean.getBoolean("1"));
 	}
 
 }

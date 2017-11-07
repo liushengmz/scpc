@@ -178,7 +178,7 @@ getdata();
 function getdata(){
 	$.ajax({
 		typr:"get",
-		url:"/online/payv2BussCompanyApp/toEditPayv2BussCompanyApp.do",
+		url:"../online/payv2BussCompanyApp/toEditPayv2BussCompanyApp.do",
 		data:{"id":thisid},
 		async:false,
 		success:function(data){

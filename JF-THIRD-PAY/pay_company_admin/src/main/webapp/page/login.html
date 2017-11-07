@@ -6,9 +6,9 @@
 		<meta name="renderer" content="webkit|ie-stand">
 		<meta name="force-rendering" content="webkit">
 		<meta http-equiv="x-ua-compatible" content="IE=edge,11,10,9" >
-		<link rel="stylesheet" href="../public/css/base.css" />
-		<link rel="stylesheet" href="../public/css/login.css" />
-		<link rel="shortcut icon" href="../favico.ico" />		
+		<link rel="stylesheet" href="./public/css/base.css" />
+		<link rel="stylesheet" href="./public/css/login.css" />
+		<link rel="shortcut icon" href="./favico.ico" />		
 	</head>
 	<script type="text/javascript">
 		var projectPath = window.document.location.pathname.substring(0,window.document.location.pathname.substr(1).indexOf('/')+1);
@@ -27,20 +27,20 @@
 				</div>
 				<div class="checkCode">
 					<input type="text" placeholder="验证码"/>
-					<img src="../static/PictureCheckCode.jpeg" />
+					<img src="./static/PictureCheckCode.jpeg" />
 				</div>
-				<div class="forget"><a href="../page/forget.html">忘记密码?</a></div>
+				<div class="forget"><a href="./page/forget.html">忘记密码?</a></div>
 				<div class="loging">登录</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="../public/js/jquery.min.js"></script>
-		<script type="text/javascript" src="../public/js/md5.js"></script>
+		<script type="text/javascript" src="./public/js/jquery.min.js"></script>
+		<script type="text/javascript" src="./public/js/md5.js"></script>
 		<script type="text/javascript">
 			$(window).on("resize",function(){
 				history.go(0)
 			})
 			$("body").on("click",".checkCode img",function(){
-				$(this).attr("src", "../static/PictureCheckCode.jpeg?d="+new Date());
+				$(this).attr("src", "./static/PictureCheckCode.jpeg?d="+new Date());
 			})
 			$("body").on("keyup",function(e){
 				if(e.keyCode==13){
@@ -50,7 +50,7 @@
 					if($(".username input").val()&&$(".password input").val()&&$(".checkCode input").val()){
 						$.ajax({
 							type:"get",
-							url:"../sys/asynValidateImgCode.do",
+							url:"./sys/asynValidateImgCode.do",
 							async:true,
 							data:{"imgCode":$(".checkCode input").val()},
 							success:function(data){
@@ -58,7 +58,7 @@
 								if(!!data&&data.resultCode==200){
 									checkData();	
 								}else{
-									$(".checkCode img").attr("src", "../static/PictureCheckCode.jpeg?d="+new Date());
+									$(".checkCode img").attr("src", "./static/PictureCheckCode.jpeg?d="+new Date());
 									alert("验证码错误");
 								}
 							}
@@ -76,7 +76,7 @@
 				if($(".username input").val()&&$(".password input").val()&&$(".checkCode input").val()){
 					$.ajax({
 						type:"get",
-						url: "../sys/asynValidateImgCode.do",
+						url: "./sys/asynValidateImgCode.do",
 						async:true,
 						data:{"imgCode":$(".checkCode input").val()},
 						success:function(data){
@@ -84,7 +84,7 @@
 							if(!!data&&data.resultCode==200){
 								checkData();	
 							}else{
-								$(".checkCode img").attr("src","../static/PictureCheckCode.jpeg?d="+new Date());
+								$(".checkCode img").attr("src","./static/PictureCheckCode.jpeg?d="+new Date());
 								alert("验证码错误");
 							}
 						}
@@ -103,7 +103,7 @@
 				password = md5(md5(password));
 				$.ajax({
 					type:"get",
-					url:"../sys/login.do",
+					url:"./sys/login.do",
 					async:true,
 					data:{"password":password,"userName":username},
 					success:function(data){
@@ -115,12 +115,12 @@
 							localStorage.isSwitch = data.Data.isTabSwitch;
 							localStorage.mail = data.Data.email;
 							if(data.Data.currentUserStatus==1){
-								location.href="../page/data.html";
+								location.href="./page/data.html";
 							}else if(data.Data.currentUserStatus==2){
 								//location.href="/page/dataOffline.html"
 							}
 						}else{
-							$(".checkCode img").attr("src","../static/PictureCheckCode.jpeg?d="+new Date());
+							$(".checkCode img").attr("src","./static/PictureCheckCode.jpeg?d="+new Date());
 							alert(data.message);
 						}
 					}

@@ -112,8 +112,8 @@ public class Payv2PayOrderRefundServiceImpl extends BaseServiceImpl<Payv2PayOrde
 
 		resultMap.put("order_num", payOrder.getOrderNum()); // 支付集订单
 		resultMap.put("buss_order_num", payOrder.getMerchantOrderNum()); // 商户订单
-		resultMap.put("pay_money", payOrder.getPayMoney()); // 支付金额
-		resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney()); // //最终支付金额
+		resultMap.put("pay_money", payOrder.getPayMoney().toString()); // 支付金额
+		resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney().toString()); // //最终支付金额
 		if(null!=payOrder.getPayTime()){
 			resultMap.put("pay_time", DateStr(payOrder.getPayTime()==null?payOrder.getCreateTime():payOrder.getPayTime())); // 支付时间// yyyyMMddHHmmss
 		}
@@ -578,13 +578,13 @@ public class Payv2PayOrderRefundServiceImpl extends BaseServiceImpl<Payv2PayOrde
 				resultMap.put("refund_num", orderRefund.getRefundNum()); // 退款单号
 				resultMap.put("order_num", orderRefund.getOrderNum()); // 支付集订单号
 				resultMap.put("buss_order_num", orderRefund.getMerchantOrderNum()); // 商户订单号
-				resultMap.put("refund_money", orderRefund.getRefundMoney()); // 退款金额
+				resultMap.put("refund_money", orderRefund.getRefundMoney().toString()); // 退款金额
 				resultMap.put("refund_reason", orderRefund.getRefundReason()); // 退款原因
 				resultMap.put("refund_time", orderRefund.getRefundTime()); // 退款时间
 				resultMap.put("refund_type", orderRefund.getRefundType() == 1 ? "Y" : "N"); // 退款类型
 																							// Y全额退款，N部分退款
-				resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney()); // 最终支付金额
-				resultMap.put("pay_money", payOrder.getPayMoney()); // 支付金额
+				resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney().toString()); // 最终支付金额
+				resultMap.put("pay_money", payOrder.getPayMoney().toString()); // 支付金额
 				resultMap.put("order_name", payOrder.getOrderName()); // 订单名称
 			} else {
 				resultMap.put("error_code", "ORDER_ERROR");
@@ -785,13 +785,13 @@ public class Payv2PayOrderRefundServiceImpl extends BaseServiceImpl<Payv2PayOrde
 				resultMap.put("refund_num", orderRefund.getRefundNum()); // 退款单号
 				resultMap.put("order_num", orderRefund.getOrderNum()); // 支付集订单号
 				resultMap.put("buss_order_num", orderRefund.getMerchantOrderNum()); // 商户订单号
-				resultMap.put("refund_money", orderRefund.getRefundMoney()); // 退款金额
+				resultMap.put("refund_money", orderRefund.getRefundMoney().toString()); // 退款金额
 				resultMap.put("refund_reason", orderRefund.getRefundReason()); // 退款原因
 				resultMap.put("refund_time", orderRefund.getRefundTime()); // 退款时间
 				resultMap.put("refund_type", orderRefund.getRefundType() == 1 ? "Y" : "N"); // 退款类型
 																							// Y全额退款，N部分退款
-				resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney()); // 最终支付金额
-				resultMap.put("pay_money", payOrder.getPayMoney()); // 支付金额
+				resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney().toString()); // 最终支付金额
+				resultMap.put("pay_money", payOrder.getPayMoney().toString()); // 支付金额
 				resultMap.put("order_name", payOrder.getOrderName()); // 订单名称
 			} else {
 				resultMap.put("error_code", "ORDER_ERROR");

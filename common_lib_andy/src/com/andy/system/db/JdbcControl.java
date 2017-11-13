@@ -29,7 +29,6 @@ public class JdbcControl
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
 			logger.error("query sql [" + sql + "] error :" + ex.getMessage());
 		}
 		finally
@@ -155,7 +154,6 @@ public class JdbcControl
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
 			logger.error("execute sql [" + sql + "] error:" + ex.getMessage());
 		}
 		finally
@@ -185,7 +183,7 @@ public class JdbcControl
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			logger.error("logParamsInfo sql [" + sql + "] error:" + ex.getMessage());
 		}
 	}
 	

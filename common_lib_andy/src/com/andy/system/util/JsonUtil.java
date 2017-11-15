@@ -9,11 +9,11 @@ public class JsonUtil
 {
 	private static Logger logger = Logger.getLogger(JsonUtil.class);
 	
-	public static String getJsonFormObject(Object obj)
+	public static JSONObject getJsonFormObject(Object obj)
 	{
 		try
 		{
-			return JSONObject.fromObject(obj).toString();
+			return JSONObject.fromObject(obj);
 		}
 		catch(Exception ex)
 		{

@@ -12,7 +12,8 @@ public class pushtest : IHttpHandler
         var m = new n8wan.Public.Model.CPDataPushModel();
         int i;
         int.TryParse(context.Request["paycode"], out i);
-        m.PayCode = i;
+
+        m.PayCode = i % 100000;
         m.Linkid = context.Request["linkid"];
         m.Mobile = context.Request["mobile"];
         m.Msg = context.Request["msg"];

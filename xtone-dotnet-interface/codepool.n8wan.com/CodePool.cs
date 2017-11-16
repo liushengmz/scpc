@@ -91,7 +91,7 @@ namespace n8wan.codepool
             _orderInfo.iccid = request["iccid"];
             _orderInfo.packagename = request["package"];
             _orderInfo.mobile = request["phone"] ?? request["mobile"];
-            _orderInfo.ExtrData = request["cpparams"];
+            _orderInfo.ExtrData = request["cpparams"] ?? request["params"];
 
             _orderInfo.ip = request.UserHostAddress;
             if (string.IsNullOrEmpty(_orderInfo.mobile))
@@ -103,7 +103,7 @@ namespace n8wan.codepool
             {
                 return SetErrorMesage(ErrorCode.Invalid_Parameter, "手机号码长度错误");
             }
-           
+
             InitUserExtrInfo();
             return SetSuccess();
         }

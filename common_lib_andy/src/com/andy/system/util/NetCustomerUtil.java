@@ -9,8 +9,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 
 

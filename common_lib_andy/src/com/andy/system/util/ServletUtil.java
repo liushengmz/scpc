@@ -89,7 +89,7 @@ public class ServletUtil
 		}
 		catch(Exception ex)
 		{
-			System.out.println(ex.getMessage());
+			logger.error(ex.getMessage());
 		}
 		
 		if(StringUtil.isNullOrEmpty(query))
@@ -104,17 +104,17 @@ public class ServletUtil
 	
 	public static Map<String,String> getRequestParams(HttpServletRequest request,String chartSet)
 	{
+		if(request==null)
+			return null;
+		
 		Map<String, String> queryParams = getQueryParams(request);
 		
 		String defaultChartSet = StringUtil.isNullOrEmpty(chartSet) ? "UTF-8" : chartSet;
 		
 		Map<String, String> postParams = getPostParams(request,defaultChartSet);
-		
-		if(queryParams!=null)
-		{
-			if(postParams!=null && !postParams.isEmpty())
-				queryParams.putAll(postParams);
-		}
+	
+		if(postParams!=null && !postParams.isEmpty())
+			queryParams.putAll(postParams);
 		
 		logger.debug(queryParams.toString());
 		

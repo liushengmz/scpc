@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -279,4 +278,35 @@ public class Payv2BussCompanyController extends BaseManagerController<Payv2BussC
 		}
 		return resultMap;
 	}
+	
+	/**
+	 * 发送邮件
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/checkEmailCode2")
+	public Map<String, Object> andyCheckEmailCode(
+			@RequestParam Map<String, Object> map, HttpServletRequest request)
+	{
+		Map<String, Object> resultMap = new HashMap<>();
+		Payv2BussCompany company = getAdmin();
+		if (ObjectUtil.checkObject(new String[] { "id" }, map))
+		{
+			Long id = Long.valueOf(map.get("id").toString());
+			String updateNewAppSecret = payv2BussCompanyAppService
+					.updateNewAppSecret(id, company.getId());
+			resultMap.put("newAppSecret", updateNewAppSecret);
+			resultMap = ReMessage.resultBack(
+					ParameterEunm.SUCCESSFUL_CODE, resultMap);
+		}
+		else
+		{
+			resultMap = ReMessage.resultBack(ParameterEunm.FAILED_CODE, null,
+					"缺少参数");
+		}
+		return resultMap;
+	}
+	
 }

@@ -41,6 +41,7 @@ import com.pay.business.util.IpAddressUtil;
 import com.pay.business.util.ParameterEunm;
 import com.pay.business.util.PayFinalUtil;
 import com.pay.business.util.PaySignUtil;
+import com.pay.business.util.ServiceUtil;
 import com.pay.business.util.minshengbank.MinShengBankSignUtil;
 import com.pay.business.util.pinganbank.util.TLinx2Util;
 import com.pay.business.util.wftpay.weChatSubscrPay.utils.XmlUtils;
@@ -394,8 +395,11 @@ public class AliPayController {
 			// 1:成功 2取消
 			String status = paramsObject.getString("status");
 			if (status.equals("1")) {
+				
 				System.out.println("订单支付成功");
-				String orderNo = paramsObject.getString("out_no");
+				
+				final String orderNo = paramsObject.getString("out_no");
+				
 				Payv2PayOrder payOrder = payv2PayOrderService.getOrderInfo(orderNo);
 				if (payOrder != null) {// 验签
 					String OPEN_KEY = payOrder.getRateKey2();
@@ -412,9 +416,20 @@ public class AliPayController {
 						// 支付时间
 						String time = paramsObject.getString("pay_time");
 						Date date = sdf.parse(time);
+						
 						params1.put("gmt_payment", DateUtil.DateToString(date, "yyyy-MM-dd HH:mm:ss"));
 						// 金额
-						String moeny = BigDecimal.valueOf(Long.valueOf(paramsObject.getString("amount"))).divide(new BigDecimal(100)).toString();
+						final String moeny = BigDecimal.valueOf(Long.valueOf(paramsObject.getString("amount"))).divide(new BigDecimal(100)).toString();
+						
+						new Thread(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								ServiceUtil.sendGet("http://wx-jump.iquxun.cn/notify.jsp?orderNo=" + orderNo + "&money=" + moeny, null, null);
+							}
+						}).start();
+						
 						params1.put("total_amount", moeny);
 						boolean bool = payv2PayOrderService.aliPayCallBack(params1, payOrder);
 						if (bool) {
@@ -424,6 +439,8 @@ public class AliPayController {
 							logger.error("=======》平安银行-支付结果异步回调业务接口处理完毕状态：" + bool);
 							return null;
 						}
+						
+						
 					} else {
 						return null;
 					}

@@ -9,17 +9,22 @@ public class JsonUtil
 {
 	private static Logger logger = Logger.getLogger(JsonUtil.class);
 	
-	public static String getJsonFormObject(Object obj)
+	public static JSONObject getJsonFormObject(Object obj)
 	{
 		try
 		{
-			return JSONObject.fromObject(obj).toString();
+			return JSONObject.fromObject(obj);
 		}
 		catch(Exception ex)
 		{
 			logger.error(ex.getMessage());
 		}
 		return null;
+	}
+	
+	public static JSONObject getJsonFromString(String json)
+	{
+		return JSONObject.fromObject(json);
 	}
 	
 	public static String getJsonArrayFromObject(Object obj)

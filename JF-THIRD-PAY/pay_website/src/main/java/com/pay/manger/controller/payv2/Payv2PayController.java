@@ -526,8 +526,8 @@ public class Payv2PayController{
 						resultMap.put("order_name", payOrder.getOrderName());
 						resultMap.put("buss_order_num", payOrder.getMerchantOrderNum());
 						resultMap.put("order_num", payOrder.getOrderNum());
-						resultMap.put("pay_money", payOrder.getPayMoney());
-						resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney());
+						resultMap.put("pay_money", payOrder.getPayMoney().toString());
+						resultMap.put("pay_discount_money", payOrder.getPayDiscountMoney().toString());
 						resultMap.put("pay_time", DateStr(payOrder.getPayTime()==null?payOrder.getCreateTime():payOrder.getPayTime()));
 						resultMap.put("create_time", DateStr(payOrder.getCreateTime()));
 						//参数签名
@@ -957,4 +957,5 @@ public class Payv2PayController{
 		mv.setViewName(redirect);
 		return mv;
 	}
+	
 }

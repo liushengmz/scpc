@@ -784,6 +784,9 @@ public class Payv2PayOrderServiceImpl extends BaseServiceImpl<Payv2PayOrder, Pay
 				// 通知商户
 				result = HttpUtil.httpPost(notifyUrl, param);
 			}
+			
+			result = result.trim().toUpperCase();
+			
 			System.out.println("回调商户接收："+result);
 			// 通知商户请求失败
 			if (!"SUCCESS".equals(result.toUpperCase())) {
@@ -2497,13 +2500,17 @@ public class Payv2PayOrderServiceImpl extends BaseServiceImpl<Payv2PayOrder, Pay
 		return payv2PayOrderMapper.selectOrderSum(map);
 	}
 	public static void main(String[] args) {
-		Long companyId=1l;
-		Long rateId=2l;
-		Date as = new Date();
-		String time = DateUtil.DateToString(as, "yyyyMMdd");
-		String companyRedisKey=companyId+rateId+time;
-		System.out.println(companyRedisKey);
-		String companyRedisKey1=companyId+"CID"+rateId+"RID"+time;
-		System.out.println(companyRedisKey1);
+//		Long companyId=1l;
+//		Long rateId=2l;
+//		Date as = new Date();
+//		String time = DateUtil.DateToString(as, "yyyyMMdd");
+//		String companyRedisKey=companyId+rateId+time;
+//		System.out.println(companyRedisKey);
+//		String companyRedisKey1=companyId+"CID"+rateId+"RID"+time;
+//		System.out.println(companyRedisKey1);
+		
+		String result = "﻿SUCCESS";
+		System.out.println("SUCCESS".equals(result.toUpperCase()));
+		System.out.println("SUCCESS".equalsIgnoreCase(result));
 	}
 }

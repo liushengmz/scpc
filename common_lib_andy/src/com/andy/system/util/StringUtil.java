@@ -2,6 +2,8 @@
 package com.andy.system.util;
 
 import java.security.MessageDigest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
@@ -77,6 +79,21 @@ public class StringUtil
 		}
 		return defaultValue;
 	}
+	
+	public static boolean getBoolean(String str,boolean defaultValue)
+	{
+		if(isNullOrEmpty(str))
+			return defaultValue;
+		
+		if("true".equalsIgnoreCase(str.trim()))
+			return true;
+		
+		if("false".equalsIgnoreCase(str.trim()))
+			return false;
+		
+		return defaultValue;
+	}
+	
 
 	private final static char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -148,6 +165,91 @@ public class StringUtil
 		values = values.substring(0, values.length() - 1);
 
 		return values;
+	}
+	
+	/**
+	 * 下划线字符串转驼峰标识字符串
+	 * @param line
+	 * @param smallCamel 是否小驼峰
+	 * @return
+	 */
+	public static String underlineToCamel(String line, boolean smallCamel)
+	{
+		if(isNullOrEmpty(line))
+			return "";
+
+		StringBuffer sb = new StringBuffer();
+		Pattern pattern = Pattern.compile("([A-Za-z\\d]+)(_)?");
+		Matcher matcher = pattern.matcher(line);
+		while (matcher.find())
+		{
+			String word = matcher.group();
+			sb.append(smallCamel && matcher.start() == 0
+					? Character.toLowerCase(word.charAt(0))
+					: Character.toUpperCase(word.charAt(0)));
+			int index = word.lastIndexOf('_');
+			if (index > 0)
+			{
+				sb.append(word.substring(1, index).toLowerCase());
+			}
+			else
+			{
+				sb.append(word.substring(1).toLowerCase());
+			}
+		}
+		return sb.toString();
+	}
+	
+	private static final char UNDERLINE = '_';
+
+	public static String camelToUnderline(String param)
+	{
+		if (isNullOrEmpty(param))
+		{
+			return "";
+		}
+		int len = param.length();
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+		{
+			char c = param.charAt(i);
+			if (Character.isUpperCase(c))
+			{
+				sb.append(UNDERLINE);
+				sb.append(Character.toLowerCase(c));
+			}
+			else
+			{
+				sb.append(c);
+			}
+		}
+		return sb.toString();
+	} 
+	
+	public static String concatDbQuerySql(String[] columns,String keyWord)
+	{
+		String sql = "AND (";
+		
+		if(columns==null || columns.length==0 || isNullOrEmpty(keyWord))
+			return "";
+		
+		keyWord = SqlUtil.sqlEncode(keyWord);
+		
+		for(String column : columns)
+		{
+			sql += column + " LIKE '%" + keyWord + "%'" + " OR ";
+		}
+		
+		sql = sql.substring(0, sql.length() - 4) + ")";
+		
+		return sql;
+	}
+	
+	public static void main(String[] args)
+	{
+		String[] columns = {"nick_name","qq","mail"};
+		String keyWord = "Andy";
+		System.out.println(concatDbQuerySql(columns, keyWord));
 	}
 
 }

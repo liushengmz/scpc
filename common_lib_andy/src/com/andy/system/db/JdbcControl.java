@@ -14,6 +14,34 @@ public class JdbcControl
 {
 	Logger logger = Logger.getLogger(JdbcControl.class);
 	
+	public Object query(String sql,Map<Integer, Object> param,QueryCallBack callBack)
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			conn = ConnConfigMain.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			for(Integer key : param.keySet())
+			{
+				pstmt.setObject(key, param.get(key));
+			}
+			rs = pstmt.executeQuery();
+			logger.info("finish query sql [ " + sql + " ]");
+			return callBack.onCallBack(rs);
+		}
+		catch(Exception ex)
+		{
+			logger.error("query sql [" + sql + "] error :" + ex.getMessage());
+		}
+		finally
+		{
+			free(rs,pstmt,conn);
+		}
+		return null;
+	}
+	
 	public Object query(String sql,QueryCallBack callBack)
 	{
 		Connection conn = null;
@@ -29,7 +57,6 @@ public class JdbcControl
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
 			logger.error("query sql [" + sql + "] error :" + ex.getMessage());
 		}
 		finally
@@ -155,7 +182,6 @@ public class JdbcControl
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
 			logger.error("execute sql [" + sql + "] error:" + ex.getMessage());
 		}
 		finally
@@ -185,7 +211,7 @@ public class JdbcControl
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			logger.error("logParamsInfo sql [" + sql + "] error:" + ex.getMessage());
 		}
 	}
 	
@@ -211,7 +237,8 @@ public class JdbcControl
 		}
 	}
 	
-	public static void free(ResultSet rs,Statement stmt,Connection conn)
+	
+	public void free(ResultSet rs,Statement stmt,Connection conn)
 	{
 		try{ if(rs!=null)rs.close(); }catch(Exception ex){}
 		try{ if(stmt!=null)stmt.close(); }catch(Exception ex){}

@@ -35,7 +35,26 @@ public class PayOrderRefundNewController{
 	@Autowired
 	private Payv2PayOrderRefundService payv2PayOrderRefundService;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("order_name", "苹果手机");
+		map.put("pay_money", 0.01);
+		map.put("refund_num", "RR20171023122551239479");
+		map.put("order_num", "DD20171023102500820697138");
+		map.put("refund_type", "Y");
+		map.put("refund_time", 1508732752000F);
+		map.put("refund_money", 0.01);
+		map.put("refund_reason", "");
+		map.put("pay_discount_money", 0.01);
+		map.put("buss_order_num", "20171023002");
+		//map.put("sign", "c361b34755ad225700aa548d6a91eeb6");
+		
+		String app = "af4c1c5afbe9a1ce5a8e30745803a051";
+		String key = "YiCfUyuVx1dxshpSh6GG9QPNWjpZFkDdlxwH2yjd";
+		
+		System.out.println(PaySignUtil.getSign(map, key));
+		//System.out.println(PaySignUtil.checkSign(map, key));
 		
 	}
 	

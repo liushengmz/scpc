@@ -75,7 +75,7 @@
 				</dl>
 				<dl class="appSecret">
 					<dt>应用秘钥：</dt>
-					<dd class="text"><span class="btn-span">重置</span></dd>
+					<dd class="text" id="dd_reset"><span class="btn-span">重置</span></dd>
 				</dl>
 				<dl class="appIcon">
 					<dt>应用图标：</dt>
@@ -241,14 +241,23 @@
 					</div>
 					
 				</div>
-				<div class="bottom2" >
-					<div class=phoneNumber>已向138****1111的手机发送验证码</div>
+				<!-- Modify By Andy 2017.11.06 -->
+				<!--  
+				<div class="bottom2" style="display: none" >
+					<div class=phoneNumber>确定更新密钥吗？更新后请更新相应的计费请求。</div>
 					<div class="sureNumber">
 						<label>短信验证码:</label>
 						<input type="text" placeholder="输入收到的短信验证码" />
 						<div class="send fr" style="cursor:pointer;">发送验证码</div>
 					</div>
 					<div class=" surebtn surebtn3">确定</div>
+					<div class="bottom3">取消</div>
+				</div>
+				-->
+				<div class="bottom2" id="div_skey" style="display:block">
+					<div class=phoneNumber>确定更新密钥吗？更新后请更新相应的计费请求。</div>
+					<div class="surebtn surebtn3" id="div_btn_confirm">确定</div>
+					<div class="surebtn surebtn4" id="div_btn_cancel">取消</div>
 				</div>
 				<div class="bottom3">
 					<div class="keyTips">新的秘钥</div>
@@ -343,6 +352,9 @@
 				}
 			})
 		})
+		
+		
+		/*
 		$("body").on("click",".btn-span",function(){
 			
 			//console.log(str)
@@ -354,6 +366,8 @@
 			$(".window2").show();
 			$(".bottom2").show();
 		})
+		*/
+		/*
 		$("body").on("click",".surebtn3",function(){
 			if($(".sureNumber input").val()){
 				paramtwo.id=thisid;
@@ -387,6 +401,7 @@
 			}
 			
 		})
+		*/
 		$("body").on("click",".send",function(){
 			var _this=$(this);
 			var time=60;
@@ -433,5 +448,62 @@
 		//console.log(thisid)
 		</script>
 	</body>
+<script type="text/javascript">
 
+	//Add By Andy 2017.11.06 For Cancel The Verify Code Before Change The sKey 
+	//页面加载后绑定事件
+	$(function()
+	{
+		console.log("hello boy");
+		
+		$("#dd_reset").click(function()
+		{
+			$(".bg").show();
+			$(".window2").show();
+			$(".bottom2").show();
+		});
+		
+		$("#div_btn_cancel").click(function()
+		{
+			$(".bg").hide();
+			$(".window2").hide();
+			$(".bottom2").hide();
+		});
+		
+		$("#div_btn_confirm").click(function()
+		{
+			paramtwo.id=thisid;
+			paramtwo.code= "123456";
+			$.ajax({
+				type:"get",
+				url:"../online/payv2BussCompany/checkEmailCode2.do",
+				data:paramtwo,
+				async:false,
+				success:function(data)
+				{
+					console.log(data);
+					
+					if(!!data&&data.resultCode==200)
+					{
+						$(".newKey").html(data.Data.newAppSecret);
+						$(".bottom2").hide();
+						$(".bottom3").show();
+					}
+					else
+					{
+						if(!!data.message)
+						{
+							alert(data.message);
+						}
+						else
+						{
+							$("body").html(data);
+						}
+					}
+				}
+			})
+		});
+	});
+
+</script>
 </html>

@@ -33,6 +33,34 @@ public class MapUtil
 	}
 	
 	/**
+	 * 把MAP拼成指定的KEY VALUE的值
+	 * @param map
+	 * @param kvMildle 键值对中间的字符 默认值为 "="
+	 * @param splitor 分隔符 默认值为 "&"
+	 * @return
+	 */
+	public static <K,V> String trandMapToValue(Map<K,V> map,String kvMildle,String splitor)
+	{
+		if(map==null || map.size()<=0 )
+			return null;
+		
+		if(StringUtil.isNullOrEmpty(kvMildle))
+			kvMildle = "=";
+		
+		if(StringUtil.isNullOrEmpty(splitor))
+			splitor = "&";
+		
+		StringBuffer sb = new StringBuffer();
+		
+		for(K key : map.keySet())
+		{
+			sb.append(key + kvMildle + map.get(key) + splitor);
+		}
+		
+		return sb.substring(0, sb.length() - splitor.length());
+	}
+	
+	/**
 	 * 检查MAP中是否存在着对应的KEY
 	 * @param map
 	 * @param keys

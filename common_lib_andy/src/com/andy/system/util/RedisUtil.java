@@ -56,9 +56,9 @@ public final class RedisUtil
 				try
 				{
 					JedisPoolConfig config = new JedisPoolConfig();
-					config.setMaxActive(MAX_ACTIVE);
 					config.setMaxIdle(MAX_IDLE);
-					config.setMaxWait(MAX_WAIT);
+					config.setMaxWaitMillis(MAX_WAIT);
+					config.setMaxTotal(MAX_ACTIVE);
 					config.setTestOnBorrow(TEST_ON_BORROW);
 					jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
 					logger.info("REDIS START CONNECT ...");
@@ -116,7 +116,7 @@ public final class RedisUtil
 	{
 		if (jedis != null)
 		{
-			jedisPool.returnResource(jedis);
+			jedisPool.close();
 		}
 	}
 	

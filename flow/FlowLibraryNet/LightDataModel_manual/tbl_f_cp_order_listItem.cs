@@ -70,13 +70,16 @@ namespace LightDataModel
 
         #region IFlowOrderInfo
 
-        string IFlowOrderInfo.SpOrderId { get { return this.sp_order_id; } set { sp_order_id = value; } }
+        string IFlowOrderInfo.OrderId { get { return this.sp_order_id; } set { sp_order_id = value; } }
 
         ChangeOrderStatusEnum IFlowOrderInfo.StatusE { get => (ChangeOrderStatusEnum)status; set => status = (int)value; }
         string IFlowOrderInfo.SpErrorMsg { get => this.sp_error_msg; set => this.sp_error_msg = value; }
         string IFlowOrderInfo.SpStatus { get => this.sp_status; set => this.sp_status = value; }
-        int IFlowOrderInfo.PriceId { get => this.base_price_id; set => this.base_price_id = value; }
-        string IFlowOrderInfo.Mobile { get => this.sp_order_id; set => sp_order_id = value; }
+        int IFlowOrderInfo.PriceId { get => this.base_price_id; }
+        string IFlowOrderInfo.Mobile { get => this.sp_order_id; }
+
+        int IFlowOrderInfo.Rang { get => this.use_rang; }
+        OperatorType IFlowOrderInfo.Operator { get => (OperatorType)this.@operator; }
 
         #endregion
 

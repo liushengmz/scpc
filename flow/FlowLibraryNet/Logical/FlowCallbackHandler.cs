@@ -63,7 +63,7 @@ namespace FlowLibraryNet.Logical
             if (string.IsNullOrEmpty(appset))
                 throw new Exception("回调模板未匹配，config -> configuration/appSettings/NotifyForwardUrl");
 
-            var url = string.Format(appset, Server.UrlEncode(OrderInfo.SpOrderId));
+            var url = string.Format(appset, Server.UrlEncode(OrderInfo.OrderId));
             ThreadPool.QueueUserWorkItem(e =>
             {
                 string html;

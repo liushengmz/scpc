@@ -28,7 +28,7 @@ public class Fc1 : FlowLibraryNet.Logical.FlowChargeHandler
         dict["userid"] = username;
         dict["userpwd"] = Enparameter(pwd);
         dict["phone"] = Enparameter(OrderInfo.Mobile);
-        dict["orderid"] = Enparameter(OrderInfo.SpOrderId);
+        dict["orderid"] = Enparameter(OrderInfo.OrderId);
 
         dict["flowvalue"] = Enparameter(FlowSizeInfo.GetSizeName(LightDataModel.tbl_f_basic_priceItem.FlowSizeUnitEnum.Auto));//流量ID
 
@@ -112,7 +112,7 @@ public class Fc1 : FlowLibraryNet.Logical.FlowChargeHandler
             byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
             return Convert.ToBase64String(resultArray, 0, resultArray.Length);
         }
-        catch (Exception ex)
+        catch (Exception )
         {
 
             return null;

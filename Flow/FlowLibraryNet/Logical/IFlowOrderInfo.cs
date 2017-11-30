@@ -8,12 +8,22 @@ namespace FlowLibraryNet.Logical
 {
     public interface IFlowOrderInfo
     {
-        string SpOrderId { get; set; }
+        string OrderId { get; set; }
         ChangeOrderStatusEnum StatusE { get; set; }
         string SpErrorMsg { get; set; }
         string SpStatus { get; set; }
-        int PriceId { get; set; }
-        string Mobile { get; set; }
+        int PriceId { get; }
+        string Mobile { get; }
+
+        /// <summary>
+        /// 1 联通 2 电信 3 移动 4 虚拟
+        /// </summary>
+        OperatorType Operator { get; }
+
+        /// <summary>
+        /// 0全国 1省内
+        /// </summary>
+        int Rang { get; }
 
         int id { get; set; }
         int sp_api_id { get; set; }

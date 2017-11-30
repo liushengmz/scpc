@@ -92,6 +92,7 @@ namespace n8wan.codepool
             _orderInfo.packagename = request["package"];
             _orderInfo.mobile = request["phone"] ?? request["mobile"];
             _orderInfo.ExtrData = request["cpparams"] ?? request["params"];
+            _orderInfo.extra_param = request["extraParam"];
 
             _orderInfo.ip = request.UserHostAddress;
             if (string.IsNullOrEmpty(_orderInfo.mobile))

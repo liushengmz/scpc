@@ -69,13 +69,17 @@ namespace LightDataModel
         #endregion
 
         #region IFlowOrderInfo
-        string IFlowOrderInfo.SpOrderId { get => this.server_order; set => this.server_order = value; }
+        /// <summary>
+        /// 我方平台订单号
+        /// </summary>
+        string IFlowOrderInfo.OrderId { get => this.server_order; set => this.server_order = value; }
 
         string IFlowOrderInfo.SpErrorMsg { get => this.sp_err_msg; set => this.sp_err_msg = value; }
         string IFlowOrderInfo.SpStatus { get => this.sp_status; set => this.sp_status = value; }
-        int IFlowOrderInfo.PriceId { get => this.price_id; set => this.price_id = value; }
-        string IFlowOrderInfo.Mobile { get => this.mobile; set => this.mobile = value; }
+        int IFlowOrderInfo.PriceId { get => this.price_id; }
+        string IFlowOrderInfo.Mobile { get => this.mobile; }
 
+        int IFlowOrderInfo.Rang { get => this.rang; }
 
         ChangeOrderStatusEnum IFlowOrderInfo.StatusE
         {
@@ -102,6 +106,7 @@ namespace LightDataModel
             }
         }
 
+        OperatorType IFlowOrderInfo.Operator { get => (OperatorType)this.@operator; }
 
         #endregion
 

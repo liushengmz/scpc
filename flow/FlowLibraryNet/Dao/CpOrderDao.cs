@@ -63,7 +63,7 @@ namespace FlowLibraryNet.Dao
         public void Update(IFlowOrderInfo m)
         {
             var up = (Shotgun.Database.IUpatedataInfo)m;
-            var customId = GetRedisKey(m.SpOrderId);
+            var customId = GetRedisKey(m.OrderId);
             _ro.SetModel(up, customId);
 
             //var tmp = new tbl_f_cp_order_list_tempItem();

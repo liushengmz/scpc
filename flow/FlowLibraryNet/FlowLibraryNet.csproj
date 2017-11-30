@@ -70,6 +70,7 @@
     <Compile Include="Logical\FlowCallbackHandler.cs" />
     <Compile Include="Logical\FlowChargeHandler.cs" />
     <Compile Include="Logical\IFlowOrderInfo.cs" />
+    <Compile Include="Logical\OperatorType.cs" />
     <Compile Include="Logical\RedisOpeartor.cs" />
     <Compile Include="LightDataModel_manual\tbl_f_cp_order_listItem.cs" />
     <Compile Include="LightDataModel\tbl_f_cp_order_listItem.cs" />

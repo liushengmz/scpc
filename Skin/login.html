@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="css/base.css" rel="stylesheet" />
+    <style type="text/css">
+        body { background-color: transparent; }
+        form { background-color: rgba(255, 255, 255, 0.95); width: 420px; border: 1px solid #000000; border-radius: 6px; padding: 10px 10px 25px 10px; display: block; }
+        .icon { background: no-repeat center center url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAABYCAYAAAATOhxeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8yOS8xNwvyGrsAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAChklEQVRYhe3YwYtVZRjH8c9zZ4QwBCvSEETRCKTGTSk50DZsPUi0a68EbfofgsCNuYzAhYi4mo0b3YhFixASaiUoohCaYsOkaDNPi/ueueeeOac512h3fptzz3t+z/e87/O+XDi/yExtiohFHMdu3MMVXG/zR3MwIvZgCYcwV3u0jl9xKTPvd0Ii4nV8hdfK0O94hDewq4w9xteZ+bgLcgoL5a0X8WNmPo2I7fgQJzDCL5n5bVU3aixjodwuZ+bVzHwKmflXZl7Fcnl+OCL2VrXztaUdKNdVXNOuy7hZXv6oDbK9XJ9hpY2Qmeu42xwf1X6/mHjbt71L8xARTHZkW0QcwBqioy7wHPcyc7w7EXES7zVm1kc3M/NM1ZPDMxZXWmC6sXAL58uM2paSxmfoMxysBpuQ1czc1P2mImK1ft/swZx+mvLN2shWNSF9D8iUrwlZ6wmZ8jUb+3ZEfGHr3dnfBlnBDryKd3vOpqrbWM45/DlDseI/R8vf48vof9niATJABsgAGSADZIAMkAEyQAbIAPlvan6+bSgijuIT7MF9XM7Mn1q9LZnSDnyK9xszXcfPuJCZU9FIMw6axynjUKpLv+FMZv5dDTR7cmwLgPL8WH2gnimNcGQLQKUPin/TTLaZxGBbaXfxb4KE7uSmqSlfHTLLt21nVvACD3pCHpoEWRNIib9u9ITcKP5NM4EfjCOhf9Ot4tvQFKTEhGdxuwNwG2erOLEVEhGvYBE7OyA7sVh8k7rq2JcA83Ps6wDUdQffV7lsFda9iS+Nc9e++gOnM/PBKMaZ4dKMAMW/FBExh4/wsf6nta638CTwjXEU9LJaGemfaHVpbc640++YhLqz6CG++wdJZ8lzq9DBxwAAAABJRU5ErkJggg=="); width: 24px; height: 24px; margin: 6px 4px 6px 24px; display: inline-block; position: absolute; border-right: 1px solid #dcdcdc; }
+        .icon-user { background-position: 2px -66px; }
+        .icon-password { background-position: 2px 2px; }
+        h1 { width: 100%; line-height: 48px; border-bottom: 1px solid #dcdcdc; margin: 0; padding: 0; text-align: center; color: #666; text-shadow: 2px 2px 2px #ccc; }
+        .login-input-box { margin-top: 12px; width: 100%; margin-left: auto; margin-right: auto; display: inline-block; }
+            .login-input-box input { width: 340px; height: 32px; margin-left: 18px; border: 1px solid #dcdcdc; border-radius: 4px; padding-left: 42px; }
+                .login-input-box input:hover { border: 1px solid #ff7d0a; }
+                .login-input-box input:after { border: 1px solid #ff7d0a; }
+
+        .remember-box { width: auto; height: auto; margin-left: 18px; margin-top: 12px; font-size: 12px; color: #6a6765; }
+        .login-button-box { margin-top: 12px; width: 100%; margin-left: auto; margin-right: auto; display: inline-block; }
+            .login-button-box button { background-color: #ff7d0a; color: #ffffff; font-size: 16px; width: 386px; height: 40px; margin-left: 18px; border: 1px solid #ff7d0a; border-radius: 4px; }
+                .login-button-box button:hover { background-color: #ee7204; }
+                .login-button-box button:active { background-color: #ee7204; }
+    </style>
+</head>
+<body>
+
+    <form onsubmit="parent.onLogin(); return false;">
+        <h1>Welcome</h1>
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input type="text" placeholder="Please enter your username">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input type="password" placeholder="Please enter your password">
+        </div>
+        <div class="remember-box">
+            <label>
+                <input type="checkbox">&nbsp;Remember Me
+            </label>
+        </div>
+        <div class="login-button-box">
+            <button>Login</button>
+        </div>
+    </form>
+
+
+</body>
+</html>
+

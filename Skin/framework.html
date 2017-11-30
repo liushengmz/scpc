@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>这是一个框架</title>
+    <link href="css/base.css" rel="stylesheet" />
+    <style type="text/css">
+        .nav .logo { background-image: url(https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png); padding-left: 128px; font-size: 28px; }
+    </style>
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        var globaCfg = { "title": null }
+        function page_onload() {
+            globaCfg.title = document.title;
+            page_onresize();
+            var menu = $.get({
+                "url": "./scripts/demomenu.js",
+                "async": false,
+                "success": memu_init,
+                "dataType": "json"
+            });
+
+            $(window).resize(page_onresize);
+
+            var dt = new Date();
+            var weekName = ["日", "一", "二", "三", "四", "五", "六"];
+            $(".nav .userInfo span").html(dt.toLocaleDateString() + " 星期" + weekName[dt.getDay()]);
+
+            var hash = location.hash;
+            if (hash.length < 2)
+                return;
+
+            var i = hash.indexOf(",");
+            if (i == -1) {
+                InsertNewTab(hash.substring(1));
+                return;
+            }
+            var lnk = $("[target='" + hash.substring(1, i) + "']");
+            if (lnk.length == 0) {
+                alert("您没有权限打开该页面");
+                return;
+            }
+            lnk.data("vHref", decodeURI(hash.substring(i + 1)));
+            lnk.click();
+
+        }
+        function memu_init(json) {
+            var root = $("#clinet .memu");
+            root.html(null);
+            var ul, li, h1;
+            root.append(ul = $("<ul></ul>"));
+            for (var r0 = 0; r0 < json.length; r0++) {
+                create_menuitem(json[r0], ul, 0);
+            }
+        }
+
+        function create_menuitem(item, root, dept) {
+            var li = $("<li></li>");
+            li.appendTo(root);
+
+            var url = item["url"];
+            if (!!url) {
+                var lnk = $("<a></a>");
+                lnk.attr("href", url);
+                lnk.text(item.name)
+                lnk.attr("target", "ifrm_" + item.id);
+                lnk.click(new Function("memu_onclick(this,{'isLink':true}); return false;"));
+                lnk.appendTo(li);
+                return;
+            }
+            var txt;
+            if (dept == 0) {
+                txt = $("<h1></h1>");
+                root = $("<ul></ul>");
+            }
+            else {
+                txt = $("<h2></h2>");
+                txt.attr("class", "icon_menu_allow");
+                root = $("<ol></ol>");
+            }
+            txt.click(new Function("memu_onclick(this,{'isLink':false})"));
+            txt.text(item.name);
+            txt.appendTo(li);
+            root.appendTo(li);
+            for (var i = 0; i < item.childs.length; i++) {
+                create_menuitem(item.childs[i], root, dept + 1);
+            }
+        }
+
+
+        function InsertNewTab(urlObj, name) {
+            var txt, url;
+
+            if (typeof urlObj == "object") {
+                txt = $(urlObj).text();
+                name = urlObj.target;
+                url = $(urlObj).data("vHref");
+                if (!!!url)
+                    url = urlObj.href;
+                else
+                    $(urlObj).removeData("vHref");
+            }
+            else {
+                txt = urlObj;
+                url = urlObj;
+            }
+
+            var li = $("<li></li>");
+            li.html(txt);
+            li.attr("id", "tabName_" + name);
+
+            $("#tabHaed").append(li);
+            li.click(new Function("tab_onclcik(this,null);"))
+            li.dblclick(new Function("tab_ondblclcik(this,null);"))
+
+            var frm = $("<iframe></iframe>");
+            frm.attr("name", name);
+            frm[0].onload = new Function("frame_onload(this,{'haed':'" + li.attr("id") + "'})");
+
+            var div = $("<div></div>");
+            div.attr("id", "frm_" + (new Date().getTime()));
+            li.data("fId", div.attr("id"));
+            div.append(frm);
+            $("#tabBody").append(div);
+            frm.attr("src", url);
+            activeTab(li);
+        }
+
+        function frame_onload(sender, e) {
+            var isActive = $("#" + e.head).attr("class") == "actived";
+            if (isActive)
+                return;
+            UrlReopenMask($(sender));
+        }
+        ///生成重url地址，即锚记
+        function UrlReopenMask(jFrm) {
+
+            var url;
+            try {
+                url = jFrm[0].contentWindow.location.href;
+            }
+            catch (e) {
+                url = jFrm.attr("src");
+            }
+
+
+            var mUrl = document.URL;
+            var i = mUrl.indexOf("/", 10);
+            if (i != -1) {
+                mUrl = mUrl.substring(0, i);
+                if (url.substring(0, i) == mUrl)
+                    url = url.substring(i);
+            }
+
+            var hash = jFrm.attr("name") + "," + encodeURI(url);
+            if (location.hash.length > 1 && location.hash.substring(1) == hash)
+                return;
+            location.hash = hash;
+
+        }
+
+        //切换tab选项
+        function activeTab(jTab) {
+            if (jTab.attr("class") == "actived")
+                return;
+            $("#tabHaed li").removeAttr("class");
+            jTab.attr("class", "actived");
+
+            $("#tabBody div").removeAttr("class");
+            $("#" + jTab.data("fId")).attr("class", "actived");
+
+            $(".memu a.actived").removeClass();
+
+            var frm = $("#" + jTab.data("fId") + " iframe");
+            var name = frm.attr("name");
+            $(".memu a[target=" + name + "]").addClass("actived");
+            UrlReopenMask(frm);
+        }
+
+        function page_onresize() {
+            var h = $(window).height();
+            $("#clinet").height(h - $("#clinet").offset().top);
+        }
+        //tab 单击
+        function tab_onclcik(sender, e) {
+            activeTab($(sender));
+        }
+        //tab 双击
+        function tab_ondblclcik(sender, e) {
+            var li = $(sender);
+            $("#" + li.data("fId")).remove();
+            li.remove();
+            var lis = $("#tabHaed li")
+            if (lis.length == 0)
+                return;
+            activeTab($(lis[0]));
+        }
+
+        ///目录项点击事件
+        function memu_onclick(sender, e) {
+
+            if (e.isLink) {
+                sender.className = "actived";
+            }
+            else {
+                sender = sender.parentNode;
+                if (sender.className == "actived")
+                    sender.className = "";
+                else
+                    sender.className = "actived";
+                return;
+            }
+
+            var node = sender.parentNode;
+            while (node != null) {
+                if (node.tagName == "LI")
+                    node.className = "actived";
+                node = node.parentNode;
+            }
+
+            var li = $("#tabName_" + sender.target);
+            if (li.length == 0) {
+                InsertNewTab(sender);
+                return;
+            }
+            activeTab(li);
+
+        }
+
+
+        function doLogin() {
+            var div = $("<div></div>");
+            var ifrm = $("<iframe></iframe>");
+            ifrm.attr("src", "login.html");
+            div.append(ifrm);
+            div.attr("class", "loginMask");
+            div.attr("id", "loginFrm");
+            $("body").append(div);
+        }
+        function onLogin() {
+            $("#loginFrm").remove();
+        }
+
+    </script>
+
+
+</head>
+<body onload="page_onload(); doLogin();">
+    <div class="nav">
+        <div class="logo">
+            这是一个系统
+        </div>
+        <div class="userInfo">
+            哟，<b>客官</b>您来啦。
+            | 今天是：<span></span>
+        </div>
+        <div class="c"></div>
+    </div>
+    <div id="clinet">
+        <div class="memu">
+            <ul>
+                <li class="actived">
+                    <h1>一级菜单</h1>
+                    <ul>
+                        <li class="actived">
+                            <h2 class="icon_menu_allow">二级菜单1.1</h2>
+                            <ol>
+                                <li><a href="http://the-x.cn/" target="frm_1_1_1" onclick="memu_onclick(this, null); return false;">the-x.cn</a></li>
+                                <li><a href="http://baidu.com/" target="frm_1_1_2" onclick="return memu_onclick(this, null); return false;">baidu.com</a></li>
+                            </ol>
+                        </li>
+
+                        <li>
+                            <h2 class="icon_menu_allow">二级菜单1.2</h2>
+                            <ol>
+                                <li>真实菜单项1.2.1</li>
+                                <li>真实菜单项1.2.2</li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h1>一级菜单2</h1>
+                    <ul>
+                        <li>
+                            <h2 class="icon_menu_allow">二级菜单2</h2>
+                            <ol>
+                                <li>真实菜单项2.1</li>
+                                <li>真实菜单项2.2</li>
+                            </ol>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="body">
+            <ul id="tabHaed" class="title"></ul>
+            <div id="tabBody" class="tabbody"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -31,6 +31,9 @@ public class SpTroneServer
 		
 		int spTroneId = new SpTroneDao().addSpTrone(spTroneModel);
 		
+		if(spTroneId<0)
+			return false;
+		
 		new TroneDao().addTroneList(spTroneId, spTroneModel.getTroneList());
 		
 		return true;
@@ -92,7 +95,7 @@ public class SpTroneServer
 			int sendSms = StringUtil.getInteger(params.get("send_sms"), 0);
 			int status = StringUtil.getInteger(params.get("status"), 0);
 			int ratio = StringUtil.getInteger(params.get("ratio"), 0);
-			int flowTypeId = StringUtil.getInteger(params.get("flow_type"), 0);
+			int rang = StringUtil.getInteger(params.get("rang"), -1);
 			String remark = StringUtil.getString(params.get("remark"), "");
 			String proRatioStatusList = StringUtil.getString(params.get("pro_ratio_check"), "");
 			String proNames = "";
@@ -141,7 +144,7 @@ public class SpTroneServer
 			model.setRatio(ratio);
 			model.setStatus(status);
 			model.setProNames(proNames);
-			model.setFlowTypeId(flowTypeId);
+			model.setRang(rang);
 			model.setTroneList(list);
 			
 			return model;

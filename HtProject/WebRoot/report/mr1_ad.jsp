@@ -54,9 +54,6 @@
 	int cpCommerceUserId = StringUtil.getInteger(request.getParameter("cp_commerce_user"), -1);
 	int isUnHoldData = StringUtil.getInteger(request.getParameter("is_unhold_data"), -1);
 	int jsTypeId = StringUtil.getInteger(request.getParameter("js_type"), -1);
-	int companyId = StringUtil.getInteger(request.getParameter("company_id"), -1);
-	
-	companyId = 2;
 	
 	
 	int spCommerceId = StringUtil.getInteger(ConfigManager.getConfigData("SP_COMMERCE_GROUP_ID"), -1);
@@ -82,7 +79,6 @@
 	params.setCpCommerceUserId(cpCommerceUserId + "");
 	params.setIsUnHoldData(isUnHoldData);
 	params.setJsType(jsTypeId);
-	params.setCompanyId(companyId);
 	
 	Map<String, Object> map = new MrServer().getMrData(params);
 	
@@ -412,7 +408,7 @@ function arrayReverse(arr) {
 <body>
 	<div class="main_content">
 		<div class="content" >
-			<form action="mr_company.jsp" method="get" style="margin-top: 10px">
+			<form action="mr1_ad.jsp" method="get" style="margin-top: 10px">
 				<dl>
 					<dd class="dd01_me">开始日期</dd>
 					<dd class="dd03_me">
@@ -450,6 +446,7 @@ function arrayReverse(arr) {
 						<select name="trone" id="sel_trone" title="请选择通道"
 							style="width: 110px;"></select>
 					</dd>
+					<!--  
 					<dd class="dd01_me">数据类型</dd>
 					<dd class="dd04_me">
 						<select name="data_type" id="sel_data_type" style="width: 100px;">
@@ -460,6 +457,8 @@ function arrayReverse(arr) {
 							<option value="3">第三方支付</option>
 						</select>
 					</dd>
+					-->
+					<!--  
 					<dd class="dd01_me">导量类型</dd>
 					<dd class="dd04_me">
 						<select name="is_unhold_data" id="sel_is_unhold_data" style="width: 100px;">
@@ -468,6 +467,7 @@ function arrayReverse(arr) {
 							<option value="0">非导量</option>
 						</select>
 					</dd>
+					-->
 					<br />
 					<br />
 					<br />
@@ -513,6 +513,7 @@ function arrayReverse(arr) {
 						</select>
 					</dd>
 					-->
+					<!--  
 					<dd class="dd01_me">运营商</dd>
 					<dd class="dd04_me">
 						<select name="operator" id="sel_operator" style="width: 100px;">
@@ -565,6 +566,7 @@ function arrayReverse(arr) {
 							%>
 						</select>
 					</dd>
+					-->
 					<dd class="dd01_me" style="font-weight: bold; font-size: 14px">展示方式</dd>
 					<dd class="dd04_me">
 						<select name="sort_type" id="sel_sort_type" title="展示方式"
@@ -576,22 +578,30 @@ function arrayReverse(arr) {
 							<option value="10">SP业务</option>
 							<option value="6">SP通道</option>
 							<option value="5">CP</option>
+							<!--  
 							<option value="18">CP业务</option>
 							<option value="7">CP通道</option>
-							<!-- <option value="8">省份</option> -->
-							<!-- <option value="9">城市</option> -->
-							<!-- <option value="11">按小时</option> -->
-							<option value="12">SP商务</option> 
-							<option value="13">CP商务</option> 
-							<!-- <option value="14">运营商</option> -->
-							<!-- <option value="15">数据类型</option> -->
-							<!-- <option value="16">第一业务线</option> -->
-							<!-- <option value="17">第二业务线</option> -->
+							<option value="8">省份</option>
+							<option value="9">城市</option>
+							<option value="11">按小时</option>
+							<option value="12">SP商务</option>
+							<option value="13">CP商务</option>
+							<option value="14">运营商</option>
+							<option value="15">数据类型</option>
+							<option value="16">第一业务线</option>
+							<option value="17">第二业务线</option>
+							-->
 						</select>
 					</dd>
 					<dd class="ddbtn" style="margin-left: 10px; margin-top: 0px;">
 						<input class="btn_match" name="search" value="查 询" type="submit" />
 					</dd>
+					<!--  
+					<dd class="dd01_me">
+						<a style="color: blue;"
+							href="mr_lr.jsp?<%=request.getQueryString()%>">查看利润</a>
+					</dd>
+					-->
 				</dl>
 			</form>
 		</div>
@@ -602,11 +612,8 @@ function arrayReverse(arr) {
 					<td onclick="TableSorter('table_id',1,'date')"><%=titles[showType - 1]%></td>
 					<td onclick="TableSorter('table_id',2,'float')">数据量(条)</td>
 					<td onclick="TableSorter('table_id',3,'float')">金额(元)</td>
-					<td onclick="TableSorter('table_id',4,'float')">失败量(条)</td>
 					<td onclick="TableSorter('table_id',5,'float')">推送量(条)</td>
-					<td onclick="TableSorter('table_id',6,'float')">失败金额(元 )</td>
 					<td onclick="TableSorter('table_id',7,'float')">推送金额(元)</td>
-					<td onclick="TableSorter('table_id',8,'String')">失败率</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -619,12 +626,8 @@ function arrayReverse(arr) {
 					<td><%=model.getTitle1()%></td>
 					<td><%=model.getDataRows()%></td>
 					<td><%=StringUtil.getDecimalFormat(model.getAmount())%></td>
-					<td><%=model.getDataRows() - model.getShowDataRows()%></td>
 					<td><%=model.getShowDataRows()%></td>
-
-					<td><%=StringUtil.getDecimalFormat(model.getAmount() - model.getShowAmount())%></td>
 					<td><%=StringUtil.getDecimalFormat(model.getShowAmount())%></td>
-					<td><%=StringUtil.getPercent(model.getDataRows() - model.getShowDataRows(), model.getDataRows())%></td>
 				</tr>
 				<%
 					}
@@ -636,13 +639,8 @@ function arrayReverse(arr) {
 					<td></td>
 					<td>总数据量(条)：<%=dataRows%></td>
 					<td>总金额(元)：<%=StringUtil.getDecimalFormat(amount)%></td>
-					<td>总失败量(条)：<%=dataRows - showDataRows%>
-					</td>
 					<td>总推送量(条)：<%=showDataRows%></td>
-
-					<td>总失败金额(元 )：<%=StringUtil.getDecimalFormat(amount - showAmount)%></td>
 					<td>总推送金额(元)：<%=StringUtil.getDecimalFormat(showAmount)%></td>
-					<td>总失败率：<%=StringUtil.getPercent(dataRows - showDataRows, dataRows)%></td>
 				</tr>
 			</tbody>
 		</table>

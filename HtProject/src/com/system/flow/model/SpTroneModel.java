@@ -10,11 +10,10 @@ public class SpTroneModel
 	private String spTroneName;
 	private int spApiId;
 	private int priceId;
-	private String priceName;
+	private int price;
 	private int rang;
-	private String flowTypeName;
-	private int type;
-	private int flowTypeId;
+	private String flowName;
+	private int flowSize;
 	private int ratio;
 	private int sendSms;
 	private String proNames;
@@ -22,6 +21,8 @@ public class SpTroneModel
 	private int status;
 	private List<TroneModel> troneList;
 	private String spApiName;
+	private String operatorName;
+	
 	
 	public int getId()
 	{
@@ -42,14 +43,6 @@ public class SpTroneModel
 	public int getPriceId()
 	{
 		return priceId;
-	}
-	public int getType()
-	{
-		return type;
-	}
-	public int getFlowTypeId()
-	{
-		return flowTypeId;
 	}
 	public int getRatio()
 	{
@@ -83,14 +76,6 @@ public class SpTroneModel
 	{
 		this.priceId = priceId;
 	}
-	public void setType(int type)
-	{
-		this.type = type;
-	}
-	public void setFlowTypeId(int flowTypeId)
-	{
-		this.flowTypeId = flowTypeId;
-	}
 	public void setRatio(int ratio)
 	{
 		this.ratio = ratio;
@@ -115,17 +100,29 @@ public class SpTroneModel
 	{
 		return spTroneName;
 	}
-	public String getPriceName()
+	public int getPrice()
 	{
-		return priceName;
+		return price;
 	}
 	public int getRang()
 	{
 		return rang;
 	}
-	public String getFlowTypeName()
+	public String getFlowName()
 	{
-		return flowTypeName;
+		return flowName;
+	}
+	public int getFlowSize()
+	{
+		return flowSize;
+	}
+	public void setFlowName(String flowName)
+	{
+		this.flowName = flowName;
+	}
+	public void setFlowSize(int flowSize)
+	{
+		this.flowSize = flowSize;
 	}
 	public void setSpName(String spName)
 	{
@@ -135,17 +132,13 @@ public class SpTroneModel
 	{
 		this.spTroneName = spTroneName;
 	}
-	public void setPriceName(String priceName)
+	public void setPrice(int price)
 	{
-		this.priceName = priceName;
+		this.price = price;
 	}
 	public void setRang(int rang)
 	{
 		this.rang = rang;
-	}
-	public void setFlowTypeName(String flowTypeName)
-	{
-		this.flowTypeName = flowTypeName;
 	}
 	public void setStatus(int status)
 	{
@@ -166,6 +159,14 @@ public class SpTroneModel
 	public void setSpApiName(String spApiName)
 	{
 		this.spApiName = spApiName;
+	}
+	public String getOperatorName()
+	{
+		return operatorName;
+	}
+	public void setOperatorName(String operatorName)
+	{
+		this.operatorName = operatorName;
 	}
 	
 	

@@ -19,7 +19,7 @@ public final class RedisUtil
 
 	// 访问密码
 	private static String		AUTH			= ConfigManager.getConfigData("REDIS_SERVER_AUTH", "123456");
-
+	
 	// 可用连接实例的最大数目，默认值为8；
 	// 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
 	private static int			MAX_ACTIVE		= 1024;

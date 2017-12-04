@@ -26,7 +26,7 @@
 		}
 		else
 		{
-			out.println("<script>history.go(-1);alert('增加失败，请联系管理 员')</scirpt>");
+			out.println("<script>alert('增加失败，请联系管理 员');history.go(-1);</script>");
 		}
 		
 		return;

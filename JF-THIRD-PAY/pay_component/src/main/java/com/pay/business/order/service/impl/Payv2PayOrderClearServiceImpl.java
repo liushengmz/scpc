@@ -554,7 +554,9 @@ public class Payv2PayOrderClearServiceImpl extends BaseServiceImpl<Payv2PayOrder
 		}
 		//平安银行对账接口：微信，支付宝
 		else if(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN.equals(rate.getDictName())
-				||PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN.equals(rate.getDictName())){
+				||PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN.equals(rate.getDictName())
+				||PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN.equals(rate.getDictName())
+				){
 			LOGGER.info("通道为：-----》" + rate.getDictName());
 			LOGGER.info("平安银行对账开始");
 			String OPEN_ID=rate.getRateKey1();
@@ -573,6 +575,10 @@ public class Payv2PayOrderClearServiceImpl extends BaseServiceImpl<Payv2PayOrder
 				}
 				if(PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN.equals(rate.getDictName())){
 					pmtTag = "AlipayPAZH";
+				}
+				if(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN.equals(rate.getDictName()))
+				{
+					pmtTag = "QQ_SCAN";
 				}
 				//交易类型：1交易 2：退款：这里不限制
 				String ordType=null;

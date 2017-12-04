@@ -42,6 +42,7 @@ import com.pay.business.util.ParameterEunm;
 import com.pay.business.util.PayFinalUtil;
 import com.pay.business.util.PaySignUtil;
 import com.pay.business.util.ServiceUtil;
+import com.pay.business.util.StringUtil;
 import com.pay.business.util.minshengbank.MinShengBankSignUtil;
 import com.pay.business.util.pinganbank.util.TLinx2Util;
 import com.pay.business.util.wftpay.weChatSubscrPay.utils.XmlUtils;
@@ -369,6 +370,85 @@ public class AliPayController {
 		logger.info("=======》民生银行支付回调请求耗时:" + (System.currentTimeMillis() - time1));
 		return resultMap;
 	}
+	
+	@ResponseBody
+    @RequestMapping("tcPayCallBack")
+	public String TcPayCallback(HttpServletRequest request, HttpServletResponse response)
+	{
+		
+		try
+		{
+			request.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("utf-8");
+			response.setHeader("Content-type", "text/html;charset=UTF-8");
+
+			String orderNo =  request.getParameter("orderNo");
+			String userName = request.getParameter("userName");
+			String result = request.getParameter("result");
+			String amount = request.getParameter("amount");
+			String pay_time = request.getParameter("pay_time");
+			String pay_channel = request.getParameter("pay_channel");
+			
+			String sign = request.getParameter("sign");
+			
+			System.out.println("通财支付回调:" + orderNo + "-" + userName + "-" + result + "-" + amount + "-" + pay_time  + "-" + pay_channel + "-" + sign);
+			
+			if(StringUtil.isNullOrEmpty(orderNo)
+					||StringUtil.isNullOrEmpty(userName)
+					||StringUtil.isNullOrEmpty(result)
+					||StringUtil.isNullOrEmpty(amount)
+					||StringUtil.isNullOrEmpty(pay_time)
+					||StringUtil.isNullOrEmpty(pay_channel)
+					||StringUtil.isNullOrEmpty(sign))
+			{
+				System.out.println("通财支付回调参数不齐全");
+				return "no";
+			}
+			
+			Payv2PayOrder payOrder = payv2PayOrderService.getOrderInfo(orderNo);
+			
+			if (null != payOrder)
+			{
+				String sKey = payOrder.getRateKey2();
+				String md5Value = StringUtil.getMd5String(orderNo + userName + result + amount + pay_time + pay_channel + sKey, 32);
+				System.out.println("md5Value:" + md5Value);
+				if (md5Value.equalsIgnoreCase(sign))
+				{
+					Map<String, String> params = new HashMap<String, String>();
+					params.put("out_trade_no", orderNo);
+					params.put("trade_status", "TRADE_SUCCESS");
+					params.put("trade_no", StringUtil.getString(request.getParameter("payNo"),""));
+					params.put("gmt_payment", pay_time);
+					params.put("total_amount", amount);
+					
+					boolean success = payv2PayOrderService.aliPayCallBack(params, payOrder);
+					
+					System.out.println("通财支付接收回调:" + success);
+					
+					if(success)
+					{
+						return "ok";
+					}
+				}
+				else
+				{
+					System.out.println("通财支付回调验签失败");
+				}
+			}
+			else
+			{
+				System.out.println("通财支付回调订单[" + orderNo + "]不存在");
+				return "no";
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+		return "no";
+	}
+	
 	/**
 	 * PayCallback 
 	 * 平安银行各种支付方式异步回调
@@ -478,6 +558,12 @@ public class AliPayController {
 			e.printStackTrace();
 		}
 		logger.info("回调请求耗时:" + (System.currentTimeMillis() - time1));
+	}
+	
+	public static void main(String[] args)
+	{
+		String md5Value = StringUtil.getMd5String("DD20171204141927656294280" + "wendy@dataeye.com" + "1" + "0.01" + "2017-12-04 14:19:55" + "152" + "02aaa7a41e59a2a14445017029a50e24", 32);
+		System.out.println(md5Value);
 	}
 	
 }

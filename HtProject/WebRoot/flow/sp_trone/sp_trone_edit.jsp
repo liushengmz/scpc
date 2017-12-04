@@ -295,6 +295,8 @@
 		
 		$("#sel_sp_api_id").val("<%= spTroneModel.getSpApiId() %>");
 		
+		$("#sel_rang").val("<%= spTroneModel.getRang() %>");
+		
 		for(var i=0; i<proArray.length; i++)
 		{
 			$("#pro_ratio_" + proArray[i]).val(ratioValuesArray[i]);
@@ -366,6 +368,18 @@
 									<%
 								}
 							%>
+						</select>
+					</dd>
+					
+					<br />
+					<br />
+					<br />
+					<dd class="dd01_me">流量类型</dd>
+					<dd class="dd04_me">
+						<select name="rang" id="sel_rang" title="流量类型" style="width: 200px" >
+							<option value="-1">请选择流量类型</option>
+							<option value="0">全国有效</option>
+							<option value="1">省内有效</option>
 						</select>
 					</dd>
 					

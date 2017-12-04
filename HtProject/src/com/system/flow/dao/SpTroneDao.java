@@ -34,13 +34,12 @@ public class SpTroneDao
 					model.setSpName(StringUtil.getString(rs.getString("sp_name"), ""));
 					model.setSpApiId(rs.getInt("sp_api_id"));
 					model.setPriceId(rs.getInt("price_id"));
-					model.setType(rs.getInt("type"));
-					model.setFlowTypeId(rs.getInt("flow_type_id"));
 					model.setRatio(rs.getInt("ratio"));
 					model.setSendSms(rs.getInt("send_sms"));
 					model.setProNames(StringUtil.getString(rs.getString("pro_names"), ""));
 					model.setRemark(StringUtil.getString(rs.getString("remark"), ""));
 					model.setStatus(rs.getInt("status"));
+					model.setRang(rs.getInt("rang"));
 					
 					return model;
 				}
@@ -51,7 +50,8 @@ public class SpTroneDao
 	
 	public Map<String, Object> loadSpTrone(int pageIndex, String keyWord)
 	{
-		String queryData = "a.id,b.id sp_id,b.short_name sp_name,a.name sp_trone_name,c.name sp_api_name,CONCAT(f.name_cn,'-',d.name,'-',d.num) price_name,e.use_rang,e.time_type,e.name flow_type_name,a.ratio,a.send_sms,a.pro_names,a.remark,a.status";
+		String queryData = "a.id,b.id sp_id,b.short_name sp_name,a.name sp_trone_name,c.name sp_api_name, "
+				+ "d.price ,d.name flow_name,d.num flow_size,a.rang,a.ratio,a.send_sms,a.pro_names,a.remark,a.status,f.name_cn";
 		
 		String sql = " SELECT " + Constant.CONSTANT_REPLACE_STRING;
 		
@@ -59,7 +59,6 @@ public class SpTroneDao
 		sql += " LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_f_sp b ON a.sp_id = b.id";
 		sql += " LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_f_sp_api c ON a.sp_api_id = c.id";
 		sql += " LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_f_basic_price d ON a.price_id = d.id";
-		sql += " LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_f_flow_type e ON a.flow_type_id";
 		sql += " LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_operator f ON d.operator = f.flag";
 		sql += " WHERE 1=1 ";
 		
@@ -106,16 +105,18 @@ public class SpTroneDao
 							model.setId(rs.getInt("id"));
 							model.setSpName(StringUtil.getString(rs.getString("sp_name"), ""));
 							model.setSpId(rs.getInt("sp_id"));
-							model.setFlowTypeName(StringUtil.getString(rs.getString("flow_type_name"), ""));
-							model.setPriceName(StringUtil.getString(rs.getString("price_name"), ""));
+							model.setFlowName(StringUtil.getString(rs.getString("flow_name"), ""));
+							model.setFlowSize(rs.getInt("flow_size"));
+							model.setPrice(rs.getInt("price"));
 							model.setProNames(StringUtil.getString(rs.getString("pro_names"), ""));
 							model.setSpTroneName(StringUtil.getString(rs.getString("sp_trone_name"), ""));
 							model.setSpApiName(StringUtil.getString(rs.getString("sp_api_name"), ""));
 							model.setRemark(StringUtil.getString(rs.getString("remark"), ""));
 							model.setSendSms(rs.getInt("send_sms"));
 							model.setStatus(rs.getInt("status"));
-							model.setRang(rs.getInt("use_rang"));
+							model.setRang(rs.getInt("rang"));
 							model.setRatio(rs.getInt("ratio"));
+							model.setOperatorName(StringUtil.getString(rs.getString("name_cn"), ""));
 							
 							list.add(model);							
 						}
@@ -129,26 +130,26 @@ public class SpTroneDao
 	
 	public int addSpTrone(SpTroneModel model)
 	{
-		String sql = "insert into " + Constant.DB_DAILY_CONFIG + ".tbl_f_sp_trone(sp_id,name,sp_api_id,price_id,flow_type_id,ratio,send_sms,pro_names,remark,status) values(?,?,?,?,?,?,?,?,?,?);";
+		String sql = "insert into " + Constant.DB_DAILY_CONFIG + ".tbl_f_sp_trone(sp_id,name,sp_api_id,price_id,ratio,send_sms,pro_names,remark,status,rang) values(?,?,?,?,?,?,?,?,?,?);";
 		
 		Map<Integer, Object> map = new HashMap<Integer, Object>();
 		map.put(1, model.getSpId());
 		map.put(2,model.getSpTroneName());
 		map.put(3, model.getSpApiId());
 		map.put(4, model.getPriceId());
-		map.put(5, model.getFlowTypeId());
-		map.put(6, model.getRatio());
-		map.put(7, model.getSendSms());
-		map.put(8, model.getProNames());
-		map.put(9, model.getRemark());
-		map.put(10, model.getStatus());
+		map.put(5, model.getRatio());
+		map.put(6, model.getSendSms());
+		map.put(7, model.getProNames());
+		map.put(8, model.getRemark());
+		map.put(9, model.getStatus());
+		map.put(10, model.getRang());
 		
 		return new JdbcControl().insertWithGenKey(sql, map);
 	}
 	
 	public void updateSpTrone(SpTroneModel model)
 	{
-		String sql = "UPDATE daily_config.tbl_f_sp_trone SET sp_id = ?,name = ?,sp_api_id = ?,price_id = ? ,flow_type_id = ? ,ratio = ? ,send_sms = ? ,pro_names = ?,remark = ? ,STATUS = ? WHERE id = ?";
+		String sql = "UPDATE " + Constant.DB_DAILY_CONFIG + ".tbl_f_sp_trone SET sp_id = ?,name = ?,sp_api_id = ?,price_id = ? , ratio = ? ,send_sms = ? ,pro_names = ?,remark = ? ,status = ?, rang = ? WHERE id = ?";
 		
 		Map<Integer, Object> map = new HashMap<Integer, Object>();
 		
@@ -156,14 +157,19 @@ public class SpTroneDao
 		map.put(2, SqlUtil.sqlEncode(model.getSpTroneName()));
 		map.put(3, model.getSpApiId());
 		map.put(4, model.getPriceId());
-		map.put(5, model.getFlowTypeId());
-		map.put(6, model.getRatio());
-		map.put(7, model.getSendSms());
-		map.put(8, SqlUtil.sqlEncode(model.getProNames()));
-		map.put(9, SqlUtil.sqlEncode(model.getRemark()));
-		map.put(10, model.getStatus());
+		map.put(5, model.getRatio());
+		map.put(6, model.getSendSms());
+		map.put(7, SqlUtil.sqlEncode(model.getProNames()));
+		map.put(8, SqlUtil.sqlEncode(model.getRemark()));
+		map.put(9, model.getStatus());
+		map.put(10, model.getRang());
 		map.put(11, model.getId());
 		
 		new JdbcControl().execute(sql,map);
+	}
+	
+	public static void main(String[] args)
+	{
+		new SpTroneDao().loadSpTrone(1, "");
 	}
 }

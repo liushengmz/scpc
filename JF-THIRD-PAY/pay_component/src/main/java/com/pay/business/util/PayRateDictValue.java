@@ -165,6 +165,17 @@ public class PayRateDictValue {
 	 */
 	public static final String PAY_TYPE_GUOFU_PASSIVE_QQ_SCAN = "PAY_TYPE_GUOFU_PASSIVE_QQ_SCAN";
 	
+	
+	/**
+	 * 平安QQ用户主扫码
+	 */
+	public static final String PAY_TYPE_PA_BANK_QQ_SCAN = "PAY_TYPE_PA_BANK_QQ_SCAN";
+	
+	/**
+	 * 通财支付QQ主扫码
+	 */
+	public static final String PAY_TYPE_TCPAY_QQ_SCAN = "PAY_TYPE_TCPAY_QQ_SCAN";
+	
 	/**
 	 * 调用支付通道
 	 * @param dictName
@@ -445,6 +456,7 @@ public class PayRateDictValue {
 			case PAY_TYPE_PABANk_WEIXIN_SCAN:
 			case PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN:
 			case PAY_TYPE_PABANk_GZH_WEIXIN_SCAN:
+			case PAY_TYPE_PA_BANK_QQ_SCAN:
 				String OPEN_ID=orderMap.get("rateKey1");
 				String OPEN_KEY=orderMap.get("rateKey2");
 				String pmtTag = "";
@@ -456,6 +468,10 @@ public class PayRateDictValue {
 				if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN)) {
 					// 支付宝为：这里是支付宝扫码
 					pmtTag = "AlipayPAZH";
+				}
+				if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
+					// 支付宝为：这里是支付宝扫码
+					pmtTag = "QQ_SCAN";
 				}
 				String ordName = orderMap.get("orderNum");
 				// 金额

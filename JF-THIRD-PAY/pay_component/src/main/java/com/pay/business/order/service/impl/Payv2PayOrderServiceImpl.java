@@ -83,6 +83,7 @@ import com.pay.business.util.ParameterEunm;
 import com.pay.business.util.PayFinalUtil;
 import com.pay.business.util.PayRateDictValue;
 import com.pay.business.util.PaySignUtil;
+import com.pay.business.util.ServiceUtil;
 import com.pay.business.util.alipay.AliPay;
 import com.pay.business.util.alipay.PayConfigApi;
 import com.pay.business.util.guofu.GuoFuPay;
@@ -793,8 +794,20 @@ public class Payv2PayOrderServiceImpl extends BaseServiceImpl<Payv2PayOrder, Pay
 				order.setCallbackTime(new Date());
 				order.setPayStatus(PayFinalUtil.PAY_ORDER_SUCCESS_BACKFAIL); // 支付成功回调失败
 				payv2PayOrderMapper.updateByEntity(order);
-				logger.info("=========》通知商户接口访问失败");
-				return false;
+				logger.info("=========》通知商户接口访问失败，已启动重新传送机制");
+				
+				final String orderNo = order.getOrderNum();
+				
+				new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						ServiceUtil.sendGet("http://h5pay.iquxun.cn/Pay_CallBack.ashx?order_num=" + orderNo, null, null);
+					}
+				}).start();
+				
+				return true;
 			} else {
 				order.setCallbackTime(new Date());
 				order.setPayStatus(PayFinalUtil.PAY_ORDER_SUCCESS); // 支付成功
@@ -1251,7 +1264,8 @@ public class Payv2PayOrderServiceImpl extends BaseServiceImpl<Payv2PayOrder, Pay
 							||ppwr.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN)
 							||ppwr.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
 							||ppwr.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_GZH)
-							||ppwr.getDictName().equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN))
+							||ppwr.getDictName().equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
+							||ppwr.getDictName().equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN))
 					{
 						String OPEN_ID=ppwr.getRateKey1();
 						String OPEN_KEY=ppwr.getRateKey2();

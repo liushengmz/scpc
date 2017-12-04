@@ -1,3 +1,4 @@
+<%@page import="com.system.model.Menu2Model"%>
 <%@page import="com.system.cache.RightConfigCacheMgr"%>
 <%@page import="com.system.util.StringUtil"%>
 <%@page import="com.system.model.MenuHeadModel"%>
@@ -44,6 +45,32 @@
 			sValue = sCookie.getValue();
 			out.print(sName + "--" + sValue + "<br />");
 		}
+	}
+	else if(type==4)
+	{
+		UserModel user = (UserModel)session.getAttribute("user");
+		
+		UserRightModel rightModel = RightServer.loadUserRightModel(user);
+		
+		String url = StringUtil.getString(request.getParameter("url"), "");
+		
+		System.out.println("url:" + url);
+		
+		if(rightModel!=null)
+		{
+			for(Menu2Model model : rightModel.getMenu2List())
+			{
+				System.out.println("model.getUrl():" + model.getUrl());
+				System.out.println("model.getActionUrl():" + model.getActionUrl());
+				System.out.println(model.getUrl().contains(url) || model.getActionUrl().contains(url));
+			}
+		}
+		else
+		{
+			System.out.println("sorry url empty");
+		}
+		
+		out.println("YET...TAKE A LOOK AT ME NOW !");
 	}
 	else
 	{

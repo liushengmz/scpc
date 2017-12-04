@@ -337,7 +337,8 @@ public class Payv2PayOrderRefundServiceImpl extends BaseServiceImpl<Payv2PayOrde
 				||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN)
 				||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
 				||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_GZH)
-				||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)) {
+				||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
+				||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
 			// 生成退款订单号 RR+appId+orderNum
 			orderRefund = createRefundOrder(orderRefund, payOrder, refundMoney, map, null);
 			//兴业深圳退款
@@ -464,7 +465,8 @@ public class Payv2PayOrderRefundServiceImpl extends BaseServiceImpl<Payv2PayOrde
 					||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN)
 					||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
 					||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_GZH)
-					||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)) {
+					||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
+					||scd.getDictName().equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
 				System.out.println("平安银行退款接口调起");
 				String OPEN_ID = ppwr.getRateKey1();
 				String OPEN_KEY = ppwr.getRateKey2();

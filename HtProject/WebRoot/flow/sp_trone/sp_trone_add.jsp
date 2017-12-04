@@ -188,10 +188,10 @@
 			return;
 		}
 		
-		if ($("#sel_flow_type_id").val() == "-1") 
+		if ($("#sel_rang").val() == "-1") 
 		{
 			alert("请选择流量类型");
-			$("#sel_flow_type_id").focus();
+			$("#sel_rang").focus();
 			return;
 		}
 		
@@ -323,14 +323,12 @@
 					<br />
 					<br />
 					<br />
-					<dd class="dd01_me">使用范围</dd>
+					<dd class="dd01_me">流量类型</dd>
 					<dd class="dd04_me">
-						<select name="flow_type" id="sel_flow_type" title="使用范围" style="width: 200px" >
-							<option value="-1">请选择使用范围</option>
-							<option value="1">全国有效-月底结束-不限充值省份</option>
-							<option value="2">全国有效-月底结束-限当省号码</option>
-							<option value="3">省内有效-月底结束-限当省号码</option>
-							<option value="4">全国有效-20天有效-不限充值省份</option>
+						<select name="rang" id="sel_rang" title="流量类型" style="width: 200px" >
+							<option value="-1">请选择流量类型</option>
+							<option value="0">全国有效</option>
+							<option value="1">省内有效</option>
 						</select>
 					</dd>
 

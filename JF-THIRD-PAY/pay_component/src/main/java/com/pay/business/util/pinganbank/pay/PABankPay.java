@@ -87,6 +87,13 @@ public class PABankPay {
 		
 		System.out.println("PARAMS:" + s);
 		
+		String paTag = pmtTag;
+		
+		if("QQ_SCAN".equals(pmtTag))
+		{
+			paTag = "QpayCS";
+		}
+		
 		// 初始化参数
 		String timestamp = new Date().getTime() / 1000 + ""; // 时间
 
@@ -106,7 +113,7 @@ public class PABankPay {
 				datamap.put("sub_openid", sub_openid);
 			}
 			datamap.put("out_no", outNo);
-			datamap.put("pmt_tag", pmtTag);
+			datamap.put("pmt_tag", paTag);
 			datamap.put("pmt_name", pmtName);
 			datamap.put("ord_name", ordName);
 			datamap.put("original_amount", originalAmount + "");
@@ -840,10 +847,23 @@ public class PABankPay {
 		/**
 		 * 下单测试
 		 */
-//		 String date=String.valueOf(new Date().getTime());
-//		 System.out.println("测试订单号为："+date);
-//		 Map<String, String> map=queryOrder(date, "Weixin", null, "微信公众号测试", 1, null, null, 1, null, null, null, null,null, null, "https://www.baidu.com/","http://aijinfupay.tunnel.echomod.cn/aiJinFuPay/PABankScanPayCallBack.do","e9d825cabb3c15230d20df841882deae","abc38f0827c52dc45634da1d2aee767e",null,null,1);
-//		 System.out.println(map);
+		 String date=String.valueOf(new Date().getTime());
+		
+		 
+		 String orderNo = "AD" + String.valueOf(new Date().getTime());
+		 
+		 System.out.println("测试订单号为："+ orderNo);
+		 
+//		 Map<String, String> map=queryOrder(orderNo, "Weixin", null, "微信公众号测试", 
+//				 //1是price
+//				 1, null, null, 1, null, null, null, null,null, null, "https://www.baidu.com/","http://aijinfupay.tunnel.echomod.cn/aiJinFuPay/PABankScanPayCallBack.do","e9d825cabb3c15230d20df841882deae","abc38f0827c52dc45634da1d2aee767e",null,null,1);
+		 
+		 Map<String, String> map = queryOrder(orderNo, "QQ_SCAN", null, orderNo, 1, null, 
+				 null, 1, null, null, null, 
+				 null, null, null, "https://pay.iquxun.cn/page/pay/re.html", "https://pay.iquxun.cn/aiJinFuPay/PABankScanPayCallBack.do", "43fa7c0d5418ee8ae95587fe557d2121", "f8b701174807c0e15c9daa1c642a9975", 
+				 null, null, 1);
+		 
+		 System.out.println(map);
 		/**
 		 * 取消订单测试
 		 */

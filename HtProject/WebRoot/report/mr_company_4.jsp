@@ -56,8 +56,7 @@
 	int jsTypeId = StringUtil.getInteger(request.getParameter("js_type"), -1);
 	int companyId = StringUtil.getInteger(request.getParameter("company_id"), -1);
 	
-	companyId = 2;
-	
+	companyId = 4;
 	
 	int spCommerceId = StringUtil.getInteger(ConfigManager.getConfigData("SP_COMMERCE_GROUP_ID"), -1);
 	List<UserModel> userList = new UserServer().loadUserByGroupId(spCommerceId);
@@ -412,7 +411,7 @@ function arrayReverse(arr) {
 <body>
 	<div class="main_content">
 		<div class="content" >
-			<form action="mr_company.jsp" method="get" style="margin-top: 10px">
+			<form action="mr_company_4.jsp" method="get" style="margin-top: 10px">
 				<dl>
 					<dd class="dd01_me">开始日期</dd>
 					<dd class="dd03_me">

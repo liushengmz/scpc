@@ -29,6 +29,8 @@ import com.pay.business.util.mail.MailRun;
 import com.pay.business.util.minshengbank.HttpMinshengBank;
 import com.pay.business.util.pinganbank.config.TestParams;
 import com.pay.business.util.pinganbank.pay.PABankPay;
+import com.pay.business.util.tcpay.pay.TcPay;
+import com.pay.business.util.StringUtil;
 import com.pay.business.util.xyBankWeChatPay.XyBankPay;
 import com.pay.business.util.xyShenzhen.XYSZBankPay;
 
@@ -299,6 +301,17 @@ public class AliPayServiceImpl implements AliPayService {
 				return XYSZBankPay.xySZWFTAliaScanPay(out_trade_no, total_fee, body, "119.137.35.50", OPEN_ID, OPEN_KEY);
 			}
 			
+			if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_TCPAY_QQ_SCAN))
+			{
+				String payType = "QQR"; //QQR 微信扫码
+				String orderNo =  orderMap.get("orderNum");
+				int price = StringUtil.getInteger(DecimalUtil.yuanToCents(orderMap.get("payMoney").toString()),1);
+				String appID = orderMap.get("rateKey1");
+				String openKey  = orderMap.get("rateKey2");
+				String productNo = orderMap.get("rateKey3");
+				String returnUrl = "http://www.baidu.com/";
+				return TcPay.tpPayOrder(payType, orderNo, productNo, price, appID, openKey, returnUrl);
+			}
 			
 			/**
 			 * 平安银行：微信 ，支付宝，扫码支付,公众号特殊支付
@@ -306,7 +319,8 @@ public class AliPayServiceImpl implements AliPayService {
 			if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN)
 					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN)
 					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
-					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)) {
+					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
+					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
 				
 				String OPEN_ID=orderMap.get("rateKey1");
 				String OPEN_KEY=orderMap.get("rateKey2");
@@ -315,13 +329,18 @@ public class AliPayServiceImpl implements AliPayService {
 					String pmtTag = "";
 					if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN)
 							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
-							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)) {
+							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
+							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
 						// 微信:这里是微信扫码
 						pmtTag = "Weixin";
 					}
 					if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN)) {
 						// 支付宝为：这里是支付宝扫码
 						pmtTag = "AlipayPAZH";
+					}
+					if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
+						// 支付宝为：这里是支付宝扫码
+						pmtTag = "QQ_SCAN";
 					}
 					String ordName = orderMap.get("orderNum");
 					// 金额

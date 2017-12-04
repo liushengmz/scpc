@@ -71,7 +71,7 @@
 						<dd class="dd01_me">关键字</dd>
 						<dd class="dd03_me">
 							<input name="keyword" id="input_keyword" value="<%= keyWord %>"
-								type="text" style="width: 150px">
+								type="text" style="width: 100px">
 						</dd>
 						<dd class="ddbtn" style="margin-left: 10px; margin-top: 0px;">
 							<input class="btn_match" name="search" value="查 询" type="submit">
@@ -86,8 +86,10 @@
 					<td>序号</td>
 					<td>供应商名称</td>
 					<td>业务名称</td>
-					<td>流量包</td>
 					<td>流量类型</td>
+					<td>运营商</td>
+					<td>流量包</td>
+					<td>价格</td>
 					<td>折扣</td>
 					<td>发送短信</td>
 					<td>开通省份</td>
@@ -107,8 +109,10 @@
 					<td><%=(pageIndex - 1) * Constant.PAGE_SIZE + rowNum++%></td>
 					<td><%= model.getSpName()%></td>
 					<td><%= model.getSpTroneName() %></td>
-					<td><%= model.getPriceName() %></td>
 					<td><%= rangs[model.getRang()] %></td>
+					<td><%= model.getOperatorName() %></td>
+					<td><%= model.getFlowName() %></td>
+					<td><%= model.getPrice() %></td>
 					<td><%= model.getRatio() %></td>
 					<td><%= sendSms[model.getSendSms()] %></td>
 					<td><%= model.getProNames() %></td>

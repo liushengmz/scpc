@@ -77,8 +77,9 @@ public class SpTroneDao
 
 		JdbcControl control = new JdbcControl();
 		
-		map.put("rows", control.query(
-				sql.replace(Constant.CONSTANT_REPLACE_STRING, "count(*)"),
+		String sqlCount = "SELECT COUNT(*) FROM(" + sql.replace(Constant.CONSTANT_REPLACE_STRING, "count(*)") + ") ssff";
+		
+		map.put("rows", control.query(sqlCount,
 				new QueryCallBack()
 				{
 					@Override

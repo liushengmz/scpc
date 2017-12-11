@@ -115,7 +115,7 @@
 					<td><%= model.getPrice() %></td>
 					<td><%= model.getRatio() %></td>
 					<td><%= sendSms[model.getSendSms()] %></td>
-					<td><%= model.getProNames() %></td>
+					<td width="300px"><%= model.getProNames() %></td>
 					<td><%= model.getRemark() %></td>
 					<td><%= status[model.getStatus()] %></td>
 					<td><a href="sp_trone_edit.jsp?query=<%= query %>&id=<%= model.getId() %>">修改</a></td>

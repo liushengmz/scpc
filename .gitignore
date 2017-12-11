@@ -9,6 +9,8 @@
 
 #java below
 *.class
+.vs
+packages
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

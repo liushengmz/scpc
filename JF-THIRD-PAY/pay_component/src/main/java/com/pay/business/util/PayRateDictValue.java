@@ -172,6 +172,11 @@ public class PayRateDictValue {
 	public static final String PAY_TYPE_PA_BANK_QQ_SCAN = "PAY_TYPE_PA_BANK_QQ_SCAN";
 	
 	/**
+	 * 平安微信H5支付
+	 */
+	public static final String PAY_TYPE_PA_BANK_WX_H5_SCAN = "PAY_TYPE_PA_BANK_WX_H5_SCAN";
+	
+	/**
 	 * 通财支付QQ主扫码
 	 */
 	public static final String PAY_TYPE_TCPAY_QQ_SCAN = "PAY_TYPE_TCPAY_QQ_SCAN";
@@ -461,7 +466,8 @@ public class PayRateDictValue {
 				String OPEN_KEY=orderMap.get("rateKey2");
 				String pmtTag = "";
 				if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN)
-						|| orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)) {
+						|| orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
+						|| orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_WX_H5_SCAN)) {
 					// 微信:这里是微信扫码
 					pmtTag = "Weixin";
 				}
@@ -494,8 +500,13 @@ public class PayRateDictValue {
 					qxPayType = 3;
 				}
 				
+				if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_WX_H5_SCAN))
+				{
+					qxPayType = 4;
+				}
+				
 				Map<String, String> paMap = PABankPay.queryOrder(orderNum, pmtTag, null, ordName, Integer.valueOf(originalAmount), null, null,
-						Integer.valueOf(tradeAmount), null, null, null, null, null, null, jumpUrl, notifyUrl,OPEN_ID,OPEN_KEY,null,null,qxPayType);
+						Integer.valueOf(tradeAmount), null, null, null, null, null, null, jumpUrl, notifyUrl,OPEN_ID,OPEN_KEY,null,null,null,qxPayType);
 				if("10000".equals(paMap.get("code"))){
 					resultMap.put("webStr", paMap.get("qr_code"));
 				}else {

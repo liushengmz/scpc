@@ -303,7 +303,7 @@ public class GateWayServiceImpl implements GateWayService {
 				// 这个参数是区别是否是公众号支付：公众号支付必传参数
 				String jumpUrl =null;
 				returnMap = PABankPay.queryOrder(outNo, pmtTag, null, ordName, Integer.valueOf(originalAmount), null, null, Integer.valueOf(tradeAmount), null,
-						null, null, null, null, null, jumpUrl, notifyUrl, OPEN_ID, OPEN_KEY,sub_appid,sub_openid,2);
+						null, null, null, null, null, jumpUrl, notifyUrl, OPEN_ID, OPEN_KEY,sub_appid,sub_openid,null,2);
 				// 成功
 				if (returnMap.get("code").toString().equals("10000")) {
 					returnMap.put("orderNum", outNo);

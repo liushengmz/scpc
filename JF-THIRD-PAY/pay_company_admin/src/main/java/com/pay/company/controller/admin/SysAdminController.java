@@ -370,6 +370,11 @@ public class SysAdminController extends BaseManagerController<Payv2BussCompany, 
 					 * String filePath = getFilePath(request);
 					 * deleteFile(filePath);
 					 */
+					
+					HttpSession andySession = request.getSession();
+					andySession.setAttribute("userName", userName);
+					andySession.setAttribute("bussCompanyId", bussCompany.getId());
+					
 					setAdmin(bussCompany);
 				}
 			} else {

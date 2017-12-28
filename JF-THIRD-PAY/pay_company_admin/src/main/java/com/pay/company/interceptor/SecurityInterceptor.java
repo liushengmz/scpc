@@ -24,13 +24,17 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
         HttpSession session = req.getSession();
-        Payv2BussCompany user = null;
+        Payv2BussCompany user=null;
+        Payv2BussCompany andyUser = null;
         if (session != null) {
             // 从session 里面获取用户名的信息
             user =  (Payv2BussCompany) session.getAttribute("admin");
+            andyUser = (Payv2BussCompany)session.getAttribute("andyUser");
         }
+        
+        System.out.println("进入了拦截器，取得session user:" + user);
         // 判断如果没有取到用户信息，就跳转到登陆页面，提示用户进行登陆
-        if (user == null || "".equals(user.toString())) {
+        if (session.isNew() || user == null || "".equals(user.toString())) {
             // res.sendRedirect(LOGIN_URL);
             // res.setCharacterEncoding("UTF-8");
             // res.setContentType("application/json; charset=utf-8");

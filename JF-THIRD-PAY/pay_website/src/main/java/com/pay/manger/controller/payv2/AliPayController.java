@@ -398,7 +398,6 @@ public class AliPayController {
 					||StringUtil.isNullOrEmpty(result)
 					||StringUtil.isNullOrEmpty(amount)
 					||StringUtil.isNullOrEmpty(pay_time)
-					||StringUtil.isNullOrEmpty(pay_channel)
 					||StringUtil.isNullOrEmpty(sign))
 			{
 				System.out.println("通财支付回调参数不齐全");

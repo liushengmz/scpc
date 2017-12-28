@@ -320,7 +320,9 @@ public class AliPayServiceImpl implements AliPayService {
 					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_ALI_SCAN)
 					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
 					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
-					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
+					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)
+					||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_WX_H5_SCAN)) 
+			{
 				
 				String OPEN_ID=orderMap.get("rateKey1");
 				String OPEN_KEY=orderMap.get("rateKey2");
@@ -330,7 +332,8 @@ public class AliPayServiceImpl implements AliPayService {
 					if (orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_WEIXIN_SCAN)
 							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PINGAN_BANK_WEIXIN_GZH_QX_SCAN)
 							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PABANk_GZH_WEIXIN_SCAN)
-							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)) {
+							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_QQ_SCAN)
+							||orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_WX_H5_SCAN)) {
 						// 微信:这里是微信扫码
 						pmtTag = "Weixin";
 					}
@@ -367,8 +370,15 @@ public class AliPayServiceImpl implements AliPayService {
 						qxPayType = 3;
 					}
 					
+					if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_WX_H5_SCAN))
+					{
+						qxPayType = 4;
+					}
+					
+					String ip = String.valueOf(map.get("address"));
+					
 					Map<String, String> paMap = PABankPay.queryOrder(outNo, pmtTag, null, ordName, Integer.valueOf(originalAmount), null, null,
-							Integer.valueOf(tradeAmount), null, null, null, null, null, null, jumpUrl, notifyUrl,OPEN_ID,OPEN_KEY,null,null,qxPayType);
+							Integer.valueOf(tradeAmount), null, null, null, null, null, null, jumpUrl, notifyUrl,OPEN_ID,OPEN_KEY,null,null,ip,qxPayType);
 					if (Integer.valueOf(paMap.get("code").toString()) != 10000) {
 						MailRun.send(orderMap.get("dictName"), paMap.get("msg"), orderMap.get("orderNum"), orderMap.get("rateId"), pbca.getAppName(),
 								orderMap.get("payMoney"), orderMap.get("companyName"), orderMap.get("rateCompanyName"), orderMap.get("payWayName"));

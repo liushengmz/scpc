@@ -29,6 +29,10 @@ public class BaseManagerController<T, E>  {
     public Payv2BussCompany getAdmin() {
         Payv2BussCompany admin = (Payv2BussCompany) getSessionAttr("admin");
         if (admin != null) {
+        	
+        	Object userName = getSessionAttr("userName");
+        	Object bussCompanyId = getSessionAttr("bussCompanyId");
+        	System.out.println("Andy Log : userName : " + userName + ";bussCompanyId:" + bussCompanyId + ";admin id:" + admin.getId());
             return admin;
         }
         return null;
@@ -52,6 +56,7 @@ public class BaseManagerController<T, E>  {
      */
     protected Object getSessionAttr(String code) {
         HttpSession session = getSession();
+        
         if (session != null && ValidatorUtil.isNotEmpty(code)) {
             return getSession().getAttribute(code);
         } else {
@@ -70,7 +75,8 @@ public class BaseManagerController<T, E>  {
     protected HttpSession getSession() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //30分钟session失效
-        request.getSession().setMaxInactiveInterval(1800);
+        //12小时SESSION有效 MODIFY BY ANDY.CHEN
+        request.getSession().setMaxInactiveInterval(43200);
         return request.getSession();
     }
     

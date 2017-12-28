@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,23 @@ public class Payv2BussCompanyAppController extends BaseManagerController<Payv2Bu
 		filterMap(map);
 		resultMap.put("map", map);
 		map.put("isDelete", "2");
+		
 		Payv2BussCompany company = getAdmin();
+		
+//		Payv2BussCompany andyCompany = null;
+//		
+//		HttpSession andySession = request.getSession();
+//		
+//		andyCompany = (Payv2BussCompany)andySession.getAttribute("andyUser");
+//		
+//		System.out.println("Andy Log: payv2BussCompanyAppList session andyUser is null:" + (andyCompany==null));
+//		
+//		if(andyCompany!=null && andyCompany.getId()!=company.getId())
+//		{
+//			company = andyCompany;
+//			System.out.println("Andy Log: 这里肯定是用户串户了");
+//		}
+		
 		map.put("companyId", company.getId());
 		PageObject<Payv2BussCompanyApp> pageList = null;
 		try {

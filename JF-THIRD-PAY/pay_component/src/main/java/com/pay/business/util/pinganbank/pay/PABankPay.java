@@ -71,10 +71,10 @@ public class PABankPay {
 	 */
 	public static Map<String, String> queryOrder(String outNo, String pmtTag, String pmtName, String ordName, Integer originalAmount, Integer discountAmount,
 			Integer ignoreAmount, Integer tradeAmount, String tradeAccount, String tradeNo, String tradeResult, String remark, String authCode, String tag,
-			String jumpUrl, String notifyUrl,String OPEN_ID,String OPEN_KEY,String sub_appid,String sub_openid,int type) {
+			String jumpUrl, String notifyUrl,String OPEN_ID,String OPEN_KEY,String sub_appid,String sub_openid,String ip,int type) {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		
-		if(((type==3||type==1)&&"Weixin".equalsIgnoreCase(pmtTag)))
+		if(((type==3||type==1 || type==4)&&"Weixin".equalsIgnoreCase(pmtTag)))
 		{
 			jumpUrl = "https://pay.iquxun.cn/page/pay/re.html";
 		}
@@ -91,7 +91,7 @@ public class PABankPay {
 		
 		if("QQ_SCAN".equals(pmtTag))
 		{
-			paTag = "QpayCS";
+			paTag = "Qpay";
 		}
 		
 		// 初始化参数
@@ -129,16 +129,36 @@ public class PABankPay {
 			datamap.put("jump_url", jumpUrl);
 			datamap.put("notify_url", notifyUrl);
 			
+			//微信H5
+			if(type==4)
+			{
+				String info = "{\"h5_info\": {\"type\":\"Wap\",\"wap_url\": \"https://pay.qq.com\",\"wap_name\": \"腾讯充值\"}}";
+				
+				//此处测试
+				datamap.clear();
+				datamap.put("notify_url", notifyUrl);
+				datamap.put("original_amount", originalAmount + "");
+				datamap.put("trade_amount", tradeAmount + "");
+				datamap.put("ord_name", ordName);
+				datamap.put("out_no", outNo);
+				datamap.put("spbill_create_id", ip);
+				datamap.put("trade_type", "MWEB");
+				datamap.put("scene_info", info);
+				datamap.put("pmt_tag", "WeixinOL");
+				
+			}
 
 			/**
 			 * 1 data字段内容进行AES加密，再二进制转十六进制(bin2hex)
 			 */
 			TLinx2Util.handleEncrypt(datamap, postmap,OPEN_KEY);
+			
 
 			/**
 			 * 2 请求参数签名 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行md5加密(小写)，得到签名
 			 */
 			TLinx2Util.handleSign(postmap,OPEN_KEY);
+			
 
 			/**
 			 * 3 请求、响应
@@ -210,6 +230,13 @@ public class PABankPay {
 						resultMap.put("jsapi_paysign", String.valueOf(o.get("paySign")));
 						resultMap.put("code","10000");
 						System.out.println("=====>平安银行微信公众号支付调起成功");
+					}
+					//微信H5
+					if(type==4)
+					{
+						resultMap.put("qr_code", String.valueOf(o.get("mweb_url")));
+						resultMap.put("code", "10000");
+						resultMap.put("out_trade_no", outNo);
 					}
 				} else {
 					resultMap.put("code", "10001");
@@ -842,6 +869,41 @@ public class PABankPay {
 		return returnMap;
 
 	}
+	
+	private static void test()
+	{
+		String outNo= "DD" + System.currentTimeMillis();
+		String pmtTag= "Weixin";
+		String pmtName=null;
+		String ordName=outNo;
+		Integer originalAmount=1;
+		Integer discountAmount=null;
+		Integer ignoreAmount=null;
+		Integer tradeAmount=1;
+		String tradeAccount=null;
+		String tradeNo=null;
+		String tradeResult=null;
+		String remark=null;
+		String authCode=null;
+		String tag=null;
+		String jumpUrl= "https://pay.iquxun.cn/page/pay/re.html";
+		String notifyUrl="https://pay.iquxun.cn/aiJinFuPay/PABankScanPayCallBack.do";
+		String OPEN_ID="112ffe903993b9816fbf9a92e453e849";
+		String OPEN_KEY="ba3a2500774ce7d399974eee7c645c9b";
+		String sub_appid=null;
+		String sub_openid=null;
+		int type=4;
+		String ip = "14.25.52.137";
+		
+		Map<String, String> reMap = PABankPay.queryOrder(outNo, pmtTag, pmtName, ordName, originalAmount,
+				discountAmount, ignoreAmount, tradeAmount, tradeAccount,
+				tradeNo, tradeResult, remark, authCode, tag, jumpUrl, notifyUrl,
+				OPEN_ID, OPEN_KEY, sub_appid, sub_openid, ip, type);
+		
+		System.out.println(reMap);
+		
+	}
+	
 	// 测试main
 	public static void main(String[] args) {
 		/**
@@ -854,16 +916,21 @@ public class PABankPay {
 		 
 		 System.out.println("测试订单号为："+ orderNo);
 		 
+		 test();
+		 
 //		 Map<String, String> map=queryOrder(orderNo, "Weixin", null, "微信公众号测试", 
 //				 //1是price
 //				 1, null, null, 1, null, null, null, null,null, null, "https://www.baidu.com/","http://aijinfupay.tunnel.echomod.cn/aiJinFuPay/PABankScanPayCallBack.do","e9d825cabb3c15230d20df841882deae","abc38f0827c52dc45634da1d2aee767e",null,null,1);
 		 
+		 /*
 		 Map<String, String> map = queryOrder(orderNo, "QQ_SCAN", null, orderNo, 1, null, 
 				 null, 1, null, null, null, 
 				 null, null, null, "https://pay.iquxun.cn/page/pay/re.html", "https://pay.iquxun.cn/aiJinFuPay/PABankScanPayCallBack.do", "43fa7c0d5418ee8ae95587fe557d2121", "f8b701174807c0e15c9daa1c642a9975", 
-				 null, null, 1);
+				 null, null, "14.28.136.229" ,1);
 		 
 		 System.out.println(map);
+		 
+		 */
 		/**
 		 * 取消订单测试
 		 */

@@ -1,13 +1,20 @@
 package com.system.server;
 
 import java.util.List;
+import java.util.Map;
 
 import com.system.dao.WmDataDao;
+import com.system.dao.WmSummerDao;
 import com.system.model.WmDataModel;
 import com.system.vmodel.WmDataShowModel;
 
 public class WmDataServer
 {
+	public List<Map<String, Object>> loadWmShowTypeData(String startDate,String endDate,int spId,int troneId,int cpId,int showType)
+	{
+		return new WmSummerDao().loadWmShowTypeData(startDate, endDate, spId,troneId,cpId, showType);
+	}
+	
 	public List<WmDataShowModel> loadWmData(String startDate,String endDate,int spId,int cpId,String keyWord)
 	{
 		return new WmDataDao().loadWmData(startDate, endDate, spId, cpId, keyWord);

@@ -37,4 +37,29 @@ public class WmSpDao
 			}
 		});
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<WmSpModel> loadTrone()
+	{
+		String sql = "select * from " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_wm_trone order by convert(trone_name using gbk) asc";
+		return (List<WmSpModel>)new JdbcControl().query(sql, new QueryCallBack()
+		{
+			
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				List<WmSpModel> list = new ArrayList<WmSpModel>();
+				
+				while(rs.next())
+				{
+					WmSpModel model = new WmSpModel();
+					model.setId(rs.getInt("id"));
+					model.setFullName(StringUtil.getString(rs.getString("trone_name"), ""));
+					list.add(model);
+				}
+				
+				return list;
+			}
+		});
+	}
 }

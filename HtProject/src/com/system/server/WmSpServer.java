@@ -11,4 +11,9 @@ public class WmSpServer
 	{
 		return new WmSpDao().loadSp();
 	}
+	
+	public List<WmSpModel> loadTrone()
+	{
+		return new WmSpDao().loadTrone();
+	}
 }

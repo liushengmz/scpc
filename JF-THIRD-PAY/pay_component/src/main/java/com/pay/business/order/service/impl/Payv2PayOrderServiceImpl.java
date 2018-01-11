@@ -803,7 +803,7 @@ public class Payv2PayOrderServiceImpl extends BaseServiceImpl<Payv2PayOrder, Pay
 					@Override
 					public void run()
 					{
-						ServiceUtil.sendGet("http://h5pay.iquxun.cn/Pay_CallBack.ashx?order_num=" + orderNo, null, null);
+						ServiceUtil.sendGet("http://hpay.iquxun.cn/Pay_CallBack.ashx?order_num=" + orderNo, null, null);
 					}
 				}).start();
 				

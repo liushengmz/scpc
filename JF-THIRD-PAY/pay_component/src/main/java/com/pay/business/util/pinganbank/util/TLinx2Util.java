@@ -113,6 +113,7 @@ public class TLinx2Util {
     public static void handleEncrypt(TreeMap<String, String> datamap, TreeMap<String, String> postmap,String OPEN_KEY) throws Exception {
 
         JSONObject dataobj = JSONObject.fromObject(datamap);
+        
         String data    = TLinxAESCoder.encrypt(dataobj.toString(),OPEN_KEY);    // AES加密，并bin2hex
 
         postmap.put("data", data);

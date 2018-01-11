@@ -182,6 +182,21 @@ public class PayRateDictValue {
 	public static final String PAY_TYPE_TCPAY_QQ_SCAN = "PAY_TYPE_TCPAY_QQ_SCAN";
 	
 	/**
+	 * 商务通微信扫码
+	 */
+	public static final String PAY_TYPE_SWT_WEIXIN_SCAN = "PAY_TYPE_SWT_WEIXIN_SCAN";
+	
+	/**
+	 * 商务通支付宝扫码
+	 */
+	public static final String PAY_TYPE_SWT_ALI_SCAN = "PAY_TYPE_SWT_ALI_SCAN";
+	
+	/**
+	 * 商务通QQ扫码
+	 */
+	public static final String PAY_TYPE_SWT_QQ_SCAN = "PAY_TYPE_SWT_QQ_SCAN";
+	
+	/**
 	 * 调用支付通道
 	 * @param dictName
 	 * @param orderMap

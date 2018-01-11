@@ -134,18 +134,18 @@ public class PABankPay {
 			{
 				String info = "{\"h5_info\": {\"type\":\"Wap\",\"wap_url\": \"https://pay.qq.com\",\"wap_name\": \"腾讯充值\"}}";
 				
-				//此处测试
 				datamap.clear();
 				datamap.put("notify_url", notifyUrl);
 				datamap.put("original_amount", originalAmount + "");
 				datamap.put("trade_amount", tradeAmount + "");
 				datamap.put("ord_name", ordName);
 				datamap.put("out_no", outNo);
-				datamap.put("spbill_create_id", ip);
+				datamap.put("spbill_create_ip", ip);
 				datamap.put("trade_type", "MWEB");
 				datamap.put("scene_info", info);
 				datamap.put("pmt_tag", "WeixinOL");
 				
+				System.out.println(datamap);
 			}
 
 			/**
@@ -893,7 +893,7 @@ public class PABankPay {
 		String sub_appid=null;
 		String sub_openid=null;
 		int type=4;
-		String ip = "14.25.52.137";
+		String ip = "113.88.178.80";
 		
 		Map<String, String> reMap = PABankPay.queryOrder(outNo, pmtTag, pmtName, ordName, originalAmount,
 				discountAmount, ignoreAmount, tradeAmount, tradeAccount,

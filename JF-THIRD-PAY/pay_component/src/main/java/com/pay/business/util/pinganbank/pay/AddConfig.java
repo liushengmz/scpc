@@ -64,10 +64,18 @@ public class AddConfig {
 			 * 1 data字段内容进行AES加密，再二进制转十六进制(bin2hex)
 			 */
 			String data = handleEncrypt(datamap, OPEN_KEY);
+			
 
 			postmap.put("data", data);
 			System.out.println("=====data=====" + data);
 
+			
+			System.out.println("datamap:" + datamap);
+			System.out.println("getmap:" + getmap);
+			System.out.println("postmap:" + postmap);
+			System.out.println("OPEN_KEY:" + OPEN_KEY);
+			System.out.println("PRIVATE_KEY:" + PRIVATE_KEY);
+			
 			/**
 			 * 2 请求参数签名 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行RSA加密(小写),二进制转十六进制，得到签名
 			 */

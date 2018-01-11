@@ -29,6 +29,8 @@ import com.pay.business.util.mail.MailRun;
 import com.pay.business.util.minshengbank.HttpMinshengBank;
 import com.pay.business.util.pinganbank.config.TestParams;
 import com.pay.business.util.pinganbank.pay.PABankPay;
+import com.pay.business.util.swt.SwtPayOrder;
+import com.pay.business.util.swt.SwtUrlConfig;
 import com.pay.business.util.tcpay.pay.TcPay;
 import com.pay.business.util.StringUtil;
 import com.pay.business.util.xyBankWeChatPay.XyBankPay;
@@ -301,6 +303,9 @@ public class AliPayServiceImpl implements AliPayService {
 				return XYSZBankPay.xySZWFTAliaScanPay(out_trade_no, total_fee, body, "119.137.35.50", OPEN_ID, OPEN_KEY);
 			}
 			
+			/**
+			 * 走了通财支付的QQ扫码
+			 */
 			if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_TCPAY_QQ_SCAN))
 			{
 				String payType = "QQR"; //QQR 微信扫码
@@ -312,6 +317,39 @@ public class AliPayServiceImpl implements AliPayService {
 				String returnUrl = "http://www.baidu.com/";
 				return TcPay.tpPayOrder(payType, orderNo, productNo, price, appID, openKey, returnUrl);
 			}
+			
+			/**
+			 * 走了商务通的扫码 
+			 */
+			if (orderMap.get("dictName")
+					.equals(PayRateDictValue.PAY_TYPE_SWT_WEIXIN_SCAN)
+					|| orderMap.get("dictName")
+							.equals(PayRateDictValue.PAY_TYPE_SWT_ALI_SCAN)
+					|| orderMap.get("dictName")
+							.equals(PayRateDictValue.PAY_TYPE_SWT_QQ_SCAN))
+			{
+				String merchantId = orderMap.get("rateKey1");
+				String subChnMerno = orderMap.get("rateKey2");
+				String skey = orderMap.get("rateKey3");
+				int payType = 1;
+				
+				if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_SWT_WEIXIN_SCAN))
+					payType= 1;
+				else if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_SWT_ALI_SCAN))
+					payType= 2;
+				else if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_SWT_QQ_SCAN))
+					payType = 3;
+				
+				String orderNo = orderMap.get("orderNum");
+				String price = "" + StringUtil.getInteger(DecimalUtil.yuanToCents(orderMap.get("payMoney").toString()),1);;
+				String product = orderMap.get("orderNum");
+				String ip = String.valueOf(map.get("ip"));
+				String notifyUrl = SwtUrlConfig.NOTIFY_URL; 
+				String returnUrl = ""; 
+				String userCode = "";
+				return SwtPayOrder.queryOrder(merchantId, subChnMerno, skey, payType, orderNo, price, product, ip, notifyUrl, returnUrl, userCode);
+			}
+			
 			
 			/**
 			 * 平安银行：微信 ，支付宝，扫码支付,公众号特殊支付
@@ -370,12 +408,16 @@ public class AliPayServiceImpl implements AliPayService {
 						qxPayType = 3;
 					}
 					
+					String ip = String.valueOf(map.get("ip"));
+					
 					if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_PA_BANK_WX_H5_SCAN))
 					{
 						qxPayType = 4;
+						if(ip==null || "".equals(ip))
+							ip = String.valueOf(map.get("address"));
+						System.out.println("Andy Tag IP:" + ip);
 					}
 					
-					String ip = String.valueOf(map.get("address"));
 					
 					Map<String, String> paMap = PABankPay.queryOrder(outNo, pmtTag, null, ordName, Integer.valueOf(originalAmount), null, null,
 							Integer.valueOf(tradeAmount), null, null, null, null, null, null, jumpUrl, notifyUrl,OPEN_ID,OPEN_KEY,null,null,ip,qxPayType);

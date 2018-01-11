@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import com.pay.business.util.ServiceUtil;
 import com.pay.business.util.StringUtil;
 import com.pay.business.util.minshengbank.MinShengBankSignUtil;
 import com.pay.business.util.pinganbank.util.TLinx2Util;
+import com.pay.business.util.swt.SwtPayUtil;
 import com.pay.business.util.wftpay.weChatSubscrPay.utils.XmlUtils;
 import com.pay.business.util.xyBankWeChatPay.XyBankPay;
 import com.pay.manger.util.StringHandleUtil;
@@ -437,6 +439,93 @@ public class AliPayController {
 			else
 			{
 				System.out.println("通财支付回调订单[" + orderNo + "]不存在");
+				return "no";
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+		return "no";
+	}
+	
+	/**
+	 * 商务通回调
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+    @RequestMapping("SwtPayCallBack")
+	public String SwtPayCallback(HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			request.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("utf-8");
+			response.setHeader("Content-type", "text/html;charset=UTF-8");
+			
+			String requestData = ServiceUtil.requestPostData(request);
+			
+			if(StringUtil.isNullOrEmpty(requestData))
+				return "ERROR";
+			
+			Map<String,String> queryMap = new HashMap<String,String>();
+			
+			for(String keyValue : requestData.split("&"))
+			{
+				String[] kv = keyValue.split("=");
+				queryMap.put(kv[0], kv.length > 1 ? kv[1] : "");
+			}
+
+			String orderNo =  queryMap.get("orderId");
+			
+			if(null==orderNo || "".equals(orderNo))
+				return "ERROR";
+			
+			String sign = queryMap.get("signature");
+			
+			Payv2PayOrder payOrder = payv2PayOrderService.getOrderInfo(String.valueOf(orderNo));
+			
+			if (null != payOrder)
+			{
+				String sKey = payOrder.getRateKey3();
+				
+				String md5Value = SwtPayUtil.MD5(requestData.substring(0,requestData.lastIndexOf("&")) + sKey); 
+				
+				//验签通过
+				if (md5Value.equalsIgnoreCase(sign))
+				{
+					Map<String, String> params = new HashMap<String, String>();
+					params.put("out_trade_no", String.valueOf(orderNo));
+					params.put("trade_status", "TRADE_SUCCESS");
+					params.put("trade_no",String.valueOf(orderNo));
+					params.put("gmt_payment", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+					params.put("total_amount", String.valueOf(queryMap.get("orderAmt")));
+					boolean success = payv2PayOrderService.aliPayCallBack(params, payOrder);
+					
+					if(success)
+					{
+						String result = "<root><merchantRes versionId=\"3\" signType=\"MD5\" ";
+						
+						result += "merchantId=\"" + payOrder.getRateKey1() + "\"  orderId=\"" + orderNo + "\" status=\"1\" ";
+						
+						String signValue = SwtPayUtil.MD5("merchantId=" + payOrder.getRateKey1() + "&orderId=" + orderNo + "&signType=MD5&status=1&versionId=3" + payOrder.getRateKey3());
+						
+						result += " signature=\"" + signValue + "\" /></root>";
+						
+						return result;
+					}
+				}
+				else
+				{
+					System.out.println("AndyTag:商务通支付回调验签失败");
+				}
+			}
+			else
+			{
+				System.out.println("商务通支付回调订单[" + orderNo + "]不存在");
 				return "no";
 			}
 		}

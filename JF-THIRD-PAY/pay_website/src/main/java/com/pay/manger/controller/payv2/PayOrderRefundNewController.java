@@ -37,6 +37,41 @@ public class PayOrderRefundNewController{
 	
 	public static void main(String[] args) throws Exception
 	{
+		testPayRefund();
+	}
+	
+	public static void testPayRefund()
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("order_name", "苹果手机");
+		map.put("pay_money", 0.01);
+		map.put("refund_num", "RR20171023122551239479");
+		map.put("order_num", "DD20171023102500820697138");
+		map.put("refund_type", "Y");
+		map.put("refund_time", 1508732752000F);
+		map.put("refund_money", 0.01);
+		map.put("refund_reason", "");
+		map.put("pay_discount_money", 0.01);
+		map.put("buss_order_num", "20171023002");
+		//map.put("sign", "c361b34755ad225700aa548d6a91eeb6");
+		
+		String app = "3e2e917fcab840f08a2ec904931a388f";
+		String key = "BGxoSzVgrNKAclakrE5S0ajQI1Wo00qHTXpreM6k";
+		
+		try
+		{
+			System.out.println(PaySignUtil.getSign(map, key));
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println(PaySignUtil.checkSign(map, key));
+	}
+	
+	public static void test1()
+	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("order_name", "苹果手机");
 		map.put("pay_money", 0.01);
@@ -53,9 +88,16 @@ public class PayOrderRefundNewController{
 		String app = "af4c1c5afbe9a1ce5a8e30745803a051";
 		String key = "YiCfUyuVx1dxshpSh6GG9QPNWjpZFkDdlxwH2yjd";
 		
-		System.out.println(PaySignUtil.getSign(map, key));
+		try
+		{
+			System.out.println(PaySignUtil.getSign(map, key));
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//System.out.println(PaySignUtil.checkSign(map, key));
-		
 	}
 	
 	/**

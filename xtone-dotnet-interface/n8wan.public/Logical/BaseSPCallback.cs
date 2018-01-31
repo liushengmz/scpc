@@ -1108,7 +1108,7 @@ namespace n8wan.Public.Logical
             {
                 var mr = (LightDataModel.tbl_mrItem)m;
                 mr.sp_trone_id = sp_trone.id;
-                if (mr.ivr_time > 20)
+                if (mr.ivr_time > 10)
                 {
                     m.trone_id = C_IVR_TIME_CFG_ERROR;
                     return null;
@@ -1329,11 +1329,14 @@ namespace n8wan.Public.Logical
         {
             get
             {
-                if (_hasMoTroneOrderId != 1)
+                if (_hasMoTroneOrderId != -1)
                     return _hasMoTroneOrderId != 0;
                 var d = System.Configuration.ConfigurationManager.AppSettings["MoTroneOrderId"];
                 if (string.IsNullOrEmpty(d))
-                    return (_hasMoTroneOrderId = 0) != 0;
+                {
+                    _hasMoTroneOrderId = 0;
+                    return false;
+                }
 
                 DateTime dt;
                 if (DateTime.TryParse(d, out dt))

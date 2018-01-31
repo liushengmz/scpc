@@ -199,7 +199,7 @@ namespace n8wan.Public.Logical
             l.Filter.AndFilters.Add(tbl_api_orderItem.Fields.api_id, _apiMatchAPI.id);
             l.Filter.AndFilters.Add(tbl_api_orderItem.Fields.trone_id, Trone.id);
             //l.Filter.AndFilters.Add(tbl_api_orderItem.Fields.status, new int[] { 1011, 1013, 2023 });//一次成，2次成功，二次超时
-
+            l.SortKey.Add(tbl_api_orderItem.Fields.PrimaryKey, EM_SortKeyWord.desc);
 
             var t = l.GetRowByFilters();
             if (t != null)

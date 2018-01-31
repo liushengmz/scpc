@@ -68,9 +68,7 @@ namespace n8wan.Public.Logical
                 {
                     base.WriteLog(-3, string.Format("配置有冲突! cfgId:{0} linkid:{1}", m.id.ToString(), PushObject.GetValue(EPushField.LinkID)));
                     WriteTrackLog(string.Format("配置有冲突! cfgId:{0} linkid:{1}", m.id.ToString(), PushObject.GetValue(EPushField.LinkID)));
-                    continue;
                 }
-                //isRecord = true;
                 matchCount++;
             }
             if (matchCount > 1)
@@ -91,11 +89,8 @@ namespace n8wan.Public.Logical
                         PushFlag = E_CP_SYNC_MODE.ForceHide;
                         WriteTrackLog("超日月限，强制扣量");
                     }
-
                 }
-
                 return base.DoPush();
-
             }
 
             if (PushObject.cp_id == 34)

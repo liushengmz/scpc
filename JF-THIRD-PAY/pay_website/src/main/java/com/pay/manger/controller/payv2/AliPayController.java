@@ -1,11 +1,9 @@
 package com.pay.manger.controller.payv2;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,8 +15,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +41,17 @@ import com.pay.business.util.PayFinalUtil;
 import com.pay.business.util.PaySignUtil;
 import com.pay.business.util.ServiceUtil;
 import com.pay.business.util.StringUtil;
+import com.pay.business.util.kftpay.KftUrlConfig;
+import com.pay.business.util.kftpay.NotifySignUtil;
 import com.pay.business.util.minshengbank.MinShengBankSignUtil;
 import com.pay.business.util.pinganbank.util.TLinx2Util;
 import com.pay.business.util.swt.SwtPayUtil;
+import com.pay.business.util.tcpay.util.JsonUtil;
 import com.pay.business.util.wftpay.weChatSubscrPay.utils.XmlUtils;
 import com.pay.business.util.xyBankWeChatPay.XyBankPay;
 import com.pay.manger.util.StringHandleUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * @Title: AliPayController.java
@@ -451,6 +453,142 @@ public class AliPayController {
 	}
 	
 	/**
+	 * 快付通回调
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+    @RequestMapping("KftPayCallBack")
+	public String KftPayCallback(HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			request.setCharacterEncoding("utf-8");
+			
+			response.setCharacterEncoding("utf-8");
+			
+			response.setHeader("Content-type", "text/html;charset=UTF-8");
+			
+			String requestData = ServiceUtil.requestPostData(request);
+			
+			System.out.println("KFT LOG requestData:" + requestData);
+			
+			if(StringUtil.isNullOrEmpty(requestData))
+				return "ERROR";
+			
+			Map<String,String> queryMap = new HashMap<String,String>();
+			
+			for(String keyValue : requestData.split("&"))
+			{
+				String[] kv = keyValue.split("=");
+				queryMap.put(kv[0], kv.length > 1 ? kv[1] : "");
+			}
+			
+			boolean isSignOk = NotifySignUtil.testVerifySign(KftUrlConfig.KEY_CER_FILE_URL, requestData);
+			
+			//boolean isSignOk = NotifySignUtil.verifySign(KftUrlConfig.KEY_CER_FILE_URL, queryMap, URLDecoder.decode(queryMap.get("signatureInfo"),"UTF-8"));
+			
+			boolean isSucces =  "1".equals(queryMap.get("status"));
+			
+			if(!isSucces)
+			{
+				System.out.println("KTF PAY IS FAIL");
+				return "ERROR";
+			}
+			
+			if(isSignOk)
+			{
+				String orderNo = queryMap.get("orderNo");
+				
+				Payv2PayOrder payOrder = payv2PayOrderService.getOrderInfo(orderNo);
+				
+				if(payOrder==null)
+				{
+					System.out.println("KFT 未找到相应的定单：" + orderNo);
+					
+					return "ERROR";
+				}
+				else
+				{
+					Map<String, String> params = new HashMap<String, String>();
+					
+					params.put("out_trade_no", orderNo);
+					
+					params.put("trade_status", "TRADE_SUCCESS");
+					
+					//这个是上游订单号
+					params.put("trade_no",queryMap.get("channelNo"));
+					
+					params.put("gmt_payment", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+					
+					params.put("total_amount",String.valueOf((double)NumberUtils.createInteger(queryMap.get("settlementAmount"))/100));
+					
+					payv2PayOrderService.aliPayCallBack(params, payOrder);
+					
+					return "SUCCESS";
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println("KFT ERROR:" + ex.getMessage());
+		}
+		
+		return "ERROR";
+	}
+	
+	/**
+	 * 快付通查询回调
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+    @RequestMapping("KftQueryCallBack")
+	public String KftQueryCallback(HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			String orderNo = StringUtil.getString(request.getParameter("orderNo"), "");
+			String price = StringUtil.getString(request.getParameter("price"), "");
+			String bankNo = StringUtil.getString(request.getParameter("bankNo"), "");
+			
+			if(StringUtil.isNullOrEmpty(orderNo))
+				return "NO";
+			
+			Payv2PayOrder payOrder = payv2PayOrderService.getOrderInfo(orderNo);
+			
+			if(payOrder==null)
+				return "NO";
+			
+			Map<String, String> params = new HashMap<String, String>();
+			
+			params.put("out_trade_no", orderNo);
+			
+			params.put("trade_status", "TRADE_SUCCESS");
+			
+			//这个是上游订单号
+			params.put("trade_no",bankNo);
+			
+			params.put("gmt_payment", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+			
+			params.put("total_amount",String.valueOf((double)NumberUtils.createInteger(price)/100));
+			
+			payv2PayOrderService.aliPayCallBack(params, payOrder);
+			
+			return "OK";
+		}
+		catch(Exception ex)
+		{
+			logger.info(ex.getMessage());
+		}
+		
+		return "NO";
+	}
+	
+	
+	/**
 	 * 商务通回调
 	 * @param request
 	 * @param response
@@ -467,6 +605,8 @@ public class AliPayController {
 			response.setHeader("Content-type", "text/html;charset=UTF-8");
 			
 			String requestData = ServiceUtil.requestPostData(request);
+			
+			System.out.println("SWT LOG requestData:" + requestData);
 			
 			if(StringUtil.isNullOrEmpty(requestData))
 				return "ERROR";
@@ -490,6 +630,9 @@ public class AliPayController {
 			
 			if (null != payOrder)
 			{
+				
+				Double oriPayMoney = payOrder.getPayMoney();
+				
 				String sKey = payOrder.getRateKey3();
 				
 				String md5Value = SwtPayUtil.MD5(requestData.substring(0,requestData.lastIndexOf("&")) + sKey); 
@@ -500,9 +643,20 @@ public class AliPayController {
 					Map<String, String> params = new HashMap<String, String>();
 					params.put("out_trade_no", String.valueOf(orderNo));
 					params.put("trade_status", "TRADE_SUCCESS");
-					params.put("trade_no",String.valueOf(orderNo));
+					
+					//这个是上游订单号
+					params.put("trade_no",queryMap.get("payOrdNo"));
+					
 					params.put("gmt_payment", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-					params.put("total_amount", String.valueOf(queryMap.get("orderAmt")));
+					
+					double totalAmount = (double)NumberUtils.createInteger(queryMap.get("orderAmt"))/100;
+					
+					//params.put("total_amount", String.valueOf(queryMap.get("orderAmt")));
+					
+					params.put("total_amount", String.valueOf( oriPayMoney < totalAmount ? oriPayMoney : totalAmount));
+					
+					System.out.println("SWT LOG params:" + params);
+					
 					boolean success = payv2PayOrderService.aliPayCallBack(params, payOrder);
 					
 					if(success)
@@ -532,6 +686,127 @@ public class AliPayController {
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
+		}
+
+		return "no";
+	}
+	
+	@ResponseBody
+    @RequestMapping("YmPayCallBack")
+	public String YmPayCallback(HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+			request.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("utf-8");
+			response.setHeader("Content-type", "text/html;charset=UTF-8");
+
+			String requestData = ServiceUtil.requestPostData(request);
+			
+			System.out.println("YM CALL BACK:" + requestData);
+			
+			JSONObject jo = JsonUtil.getJsonFromString(requestData);
+			
+			if(jo==null)
+			{
+				return "no";
+			}
+			
+			String orderNo = jo.getString("orderNo");
+			
+			Payv2PayOrder payOrder = payv2PayOrderService.getOrderInfo(orderNo);
+			
+			if (null != payOrder)
+			{
+				String sKey = payOrder.getRateKey2();
+				
+				Map<String, String> map = new HashMap<String, String>();
+				
+				map.put("resultCode", jo.getString("resultCode"));
+				map.put("resultMsg", jo.getString("resultMsg"));
+				map.put("resultStatus", jo.getString("resultStatus"));
+				map.put("resultTime", jo.getString("resultTime"));
+				map.put("merCode", jo.getString("merCode"));
+				map.put("orderNo", jo.getString("orderNo"));
+				map.put("orderAmount", jo.getString("orderAmount"));
+				map.put("payDate", jo.getString("payDate"));
+				map.put("payCompletionDate", jo.getString("payCompletionDate"));
+				
+				String sign = jo.getString("sign");
+				
+				Object[] keys = map.keySet().toArray();
+				
+				Arrays.sort(keys);
+				
+				String sourceKey = "";
+				
+				String oriStr = "";
+				
+				String value = "";
+					
+				for(Object s : keys)
+				{
+					value = map.get(s);
+					
+					if(value!=null && !"".equals(value))
+						sourceKey += ( s + "=" + value + "&");
+					
+					oriStr += ( s + "=" + value + "&");
+				}
+				
+				sourceKey = sourceKey.substring(0, sourceKey.length()-1);
+				
+				sourceKey += sKey;
+				
+				String md5Value = StringUtil.getMd5String(sourceKey, 32);
+				
+				System.out.println("md5Value:" + md5Value);
+				
+				if (md5Value.equalsIgnoreCase(sign))
+				{
+					if("000000".equalsIgnoreCase(map.get("resultCode")))
+					{
+						Map<String, String> params = new HashMap<String, String>();
+						params.put("out_trade_no", orderNo);
+						params.put("trade_status", "TRADE_SUCCESS");
+						params.put("trade_no", StringUtil.getString(request.getParameter("payNo"),""));
+						
+						params.put("total_amount",String.valueOf((double)NumberUtils.createInteger(map.get("orderAmount"))/100));
+						
+						//这个是上游订单号
+						params.put("trade_no","");
+						
+						params.put("gmt_payment", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+						
+						boolean success = payv2PayOrderService.aliPayCallBack(params, payOrder);
+						
+						System.out.println("通财支付接收回调:" + success);
+						
+						if(success)
+						{
+							return "success";
+						}
+					}
+					else
+					{
+						System.out.println("YM PAY FAIL");
+					}
+				}
+				else
+				{
+					System.out.println("YM PAY RE CALL ERROR");
+				}
+			}
+			else
+			{
+				System.out.println("YM PAY CALL [" + orderNo + "] NOT EXIST");
+				
+				return "no";
+			}
+		}
+		catch (Exception ex)
+		{
+			System.out.println("YM PAY RE CALL ERROR : " + ex.getMessage());
 		}
 
 		return "no";
@@ -650,8 +925,8 @@ public class AliPayController {
 	
 	public static void main(String[] args)
 	{
-		String md5Value = StringUtil.getMd5String("DD20171204141927656294280" + "wendy@dataeye.com" + "1" + "0.01" + "2017-12-04 14:19:55" + "152" + "02aaa7a41e59a2a14445017029a50e24", 32);
-		System.out.println(md5Value);
+		Double dd = (double)NumberUtils.createInteger("1")/100;
+		System.out.println(dd);
 	}
 	
 }

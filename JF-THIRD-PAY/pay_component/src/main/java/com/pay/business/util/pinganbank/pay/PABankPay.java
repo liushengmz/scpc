@@ -892,8 +892,11 @@ public class PABankPay {
 		String OPEN_KEY="ba3a2500774ce7d399974eee7c645c9b";
 		String sub_appid=null;
 		String sub_openid=null;
-		int type=4;
+		int type=3;
 		String ip = "113.88.178.80";
+		
+		OPEN_ID = "bc4bfb2f228548fbe4ff60185fb1047c";
+		OPEN_KEY = "9cb91951114ccfd2c5975ae79e9cb6bd";
 		
 		Map<String, String> reMap = PABankPay.queryOrder(outNo, pmtTag, pmtName, ordName, originalAmount,
 				discountAmount, ignoreAmount, tradeAmount, tradeAccount,

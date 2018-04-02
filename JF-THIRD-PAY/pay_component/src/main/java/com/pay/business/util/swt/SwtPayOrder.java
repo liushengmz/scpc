@@ -80,6 +80,8 @@ public class SwtPayOrder
 
 		String result = ServiceUtil.sendGet(SwtUrlConfig.PAY_URL, null, oriStr);
 		
+		System.out.println(result);
+		
 		Map<String, String> resultMap = new HashMap<String, String>();
 		
 		try
@@ -111,12 +113,12 @@ public class SwtPayOrder
 	
 	public static void main(String[] args)
 	{
-		String merchantId = "00000000001381";
-		String subChnMerno = "73b24f53ffc64486eb40d606456fb04d";
-		String skey = "K52LD7RU5K6KX1TFHXNR9ADQ";
+		String merchantId = "00000000019364";
+		String subChnMerno = "8db59328878e3a38073f7d9d60beb6a5";
+		String skey = "SB0XSDVY9WZO8CEPF09PWIKF";
 		int payType = 1;
 		String orderNo = "HID" + System.currentTimeMillis();
-		String price = "1";
+		String price = "101";
 		String product = "测试商品";
 		String ip = "189.23.43.11";
 		String notifyUrl = "https://pay.iquxun.cn/aiJinFuPay/SwtPayCallBack.do"; 

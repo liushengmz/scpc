@@ -776,6 +776,8 @@ public class Payv2PayOrderServiceImpl extends BaseServiceImpl<Payv2PayOrder, Pay
 		
 		String notifyUrl=order.getNotifyUrl() == null ? pbca.getCallbackUrl() : order.getNotifyUrl();
 		
+		System.out.println("notifyUrl:" + notifyUrl + ";param:" + param);
+		
 		//新接入商户回调方式
 		if(pbca.getIsNew()==1){
 			String result = "";

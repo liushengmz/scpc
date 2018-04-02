@@ -25,6 +25,8 @@ import com.pay.business.util.PayRateDictValue;
 import com.pay.business.util.RandomUtil;
 import com.pay.business.util.alipay.AliPay;
 import com.pay.business.util.alipay.AliPayConfig;
+import com.pay.business.util.kftpay.KftPay;
+import com.pay.business.util.kftpay.KftUrlConfig;
 import com.pay.business.util.mail.MailRun;
 import com.pay.business.util.minshengbank.HttpMinshengBank;
 import com.pay.business.util.pinganbank.config.TestParams;
@@ -35,6 +37,7 @@ import com.pay.business.util.tcpay.pay.TcPay;
 import com.pay.business.util.StringUtil;
 import com.pay.business.util.xyBankWeChatPay.XyBankPay;
 import com.pay.business.util.xyShenzhen.XYSZBankPay;
+import com.pay.business.util.ympay.YmPay;
 
 /**
  * @Title: AliPayServiceImpl.java
@@ -319,6 +322,39 @@ public class AliPayServiceImpl implements AliPayService {
 			}
 			
 			/**
+			 * 走了溢美支付
+			 */
+			if (orderMap.get("dictName")
+					.equals(PayRateDictValue.PAY_TYPE_YM_WEIXIN_SCAN)
+					|| orderMap.get("dictName")
+							.equals(PayRateDictValue.PAY_TYPE_YM_ALI_SCAN)
+					|| orderMap.get("dictName")
+							.equals(PayRateDictValue.PAY_TYPE_YM_QQ_SCAN))
+			{
+				String orderNo =  orderMap.get("orderNum");
+				
+				int price = StringUtil.getInteger(DecimalUtil.yuanToCents(orderMap.get("payMoney").toString()),1);
+				
+				String merCode = orderMap.get("rateKey1");
+				
+				String skey  = orderMap.get("rateKey2");
+				
+				String returnUrl = "http://www.baidu.com/";
+				
+				int payType = 1;
+				
+				if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_YM_WEIXIN_SCAN))
+					payType= 1;
+				else if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_YM_ALI_SCAN))
+					payType= 2;
+				else if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_YM_QQ_SCAN))
+					payType = 3;
+				
+				
+				return YmPay.queryOrder(merCode, skey, payType, orderNo, price, returnUrl);
+			}
+			
+			/**
 			 * 走了商务通的扫码 
 			 */
 			if (orderMap.get("dictName")
@@ -348,6 +384,44 @@ public class AliPayServiceImpl implements AliPayService {
 				String returnUrl = ""; 
 				String userCode = "";
 				return SwtPayOrder.queryOrder(merchantId, subChnMerno, skey, payType, orderNo, price, product, ip, notifyUrl, returnUrl, userCode);
+			}
+			
+			/**
+			 * 走了快付通的扫码 
+			 */
+			if (orderMap.get("dictName")
+					.equals(PayRateDictValue.PAY_TYPE_KFT_QQ_SCAN)
+					|| orderMap.get("dictName")
+							.equals(PayRateDictValue.PAY_TYPE_KFT_WEIXIN_SCAN)
+					|| orderMap.get("dictName")
+							.equals(PayRateDictValue.PAY_TYPE_KFT_ALI_SCAN))
+			{
+				String merchantId = orderMap.get("rateKey1");
+				
+				String secMerchantId = orderMap.get("rateKey2");
+				
+				int payType = 1;
+				
+				if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_KFT_QQ_SCAN))
+					payType= 1;
+				else if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_KFT_WEIXIN_SCAN))
+					payType= 2;
+				else if(orderMap.get("dictName").equals(PayRateDictValue.PAY_TYPE_KFT_ALI_SCAN))
+					payType = 3;
+				
+				String orderNo = orderMap.get("orderNum");
+				
+				String price = "" + StringUtil.getInteger(DecimalUtil.yuanToCents(orderMap.get("payMoney").toString()),1);
+				
+				String product = orderMap.get("orderNum");
+				
+				String ip = String.valueOf(map.get("ip"));
+				
+				String returnUrl = ""; 
+				
+				String userCode = "";
+				
+				return KftPay.queryOrder(merchantId, secMerchantId, payType, orderNo, price, product, ip, returnUrl, userCode);
 			}
 			
 			

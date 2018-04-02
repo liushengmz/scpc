@@ -196,6 +196,37 @@ public class PayRateDictValue {
 	 */
 	public static final String PAY_TYPE_SWT_QQ_SCAN = "PAY_TYPE_SWT_QQ_SCAN";
 	
+	
+	/**
+	 * 快付通用户主动QQ扫码
+	 */
+	public static final String PAY_TYPE_KFT_QQ_SCAN = "PAY_TYPE_KFT_QQ_SCAN";
+	
+	/**
+	 * 快付通用户主动WX扫码
+	 */
+	public static final String PAY_TYPE_KFT_WEIXIN_SCAN = "PAY_TYPE_KFT_WEIXIN_SCAN";
+	
+	/**
+	 * 快付通用户主动ALI扫码
+	 */
+	public static final String PAY_TYPE_KFT_ALI_SCAN = "PAY_TYPE_KFT_ALI_SCAN";
+	
+	/**
+	 * 溢美用户主动QQ扫码
+	 */
+	public static final String PAY_TYPE_YM_QQ_SCAN = "PAY_TYPE_YM_QQ_SCAN";
+	
+	/**
+	 * 溢美用户主动WX扫码
+	 */
+	public static final String PAY_TYPE_YM_WEIXIN_SCAN = "PAY_TYPE_YM_WEIXIN_SCAN";
+	
+	/**
+	 * 溢美用户主动ALI扫码
+	 */
+	public static final String PAY_TYPE_YM_ALI_SCAN = "PAY_TYPE_YM_ALI_SCAN";
+	
 	/**
 	 * 调用支付通道
 	 * @param dictName

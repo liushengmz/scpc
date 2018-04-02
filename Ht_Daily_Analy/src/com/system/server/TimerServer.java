@@ -21,12 +21,26 @@ public class TimerServer
 	public void startTimer()
 	{
 		ConfigManager.setConfigFilePath("");
+		
 		startAnalyDataTimer();
-		startUpdateDataTimer();
-		startXyQdAnalyDataTimer();
+		
+		startWatchDataTimer();
+		
+		//startUpdateDataTimer();
+		//startXyQdAnalyDataTimer();
 	}
+	
+	private void startWatchDataTimer()
+	{
+
+		log.info("已启动数据监控报警...");
+		Timer timer = new Timer();
+		timer.schedule(new  AlarmDataTimerTask(), 300000, 300000);
+	}
+	
 
 	// 更新推送数据在中午12点
+	@SuppressWarnings("unused")
 	private void startUpdateDataTimer()
 	{
 		Calendar ca = Calendar.getInstance();
@@ -98,6 +112,7 @@ public class TimerServer
 	}
 
 	// 每隔一小时更新一下翔云渠道数据
+	@SuppressWarnings("unused")
 	private void startXyQdAnalyDataTimer()
 	{
 		Calendar ca = Calendar.getInstance();
@@ -148,6 +163,16 @@ public class TimerServer
 			new UserServer().startAnalyUser();
 			new AnalyMrDailyServer().startAnalyDailyMr();
 			new FeeServer().startAnalyFee();
+		}
+	}
+	
+	//每隔5分钟扫描一次需要监控的数据
+	private class AlarmDataTimerTask extends TimerTask
+	{
+		@Override
+		public void run()
+		{
+			AlarmServer.startAnalyAlarmData();
 		}
 	}
 

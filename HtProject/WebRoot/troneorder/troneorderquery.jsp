@@ -21,7 +21,7 @@
 <%
 	UserModel user=(UserModel)session.getAttribute("user");
 	int userId=user.getId();
-
+	
 	int pageIndex = StringUtil.getInteger(request.getParameter("pageindex"), 1);
 
 	String query = Base64UTF.encode(request.getQueryString());
@@ -182,6 +182,7 @@
 							%>
 						</select>
 					</dd>
+					<!--  
 					<dd class="dd01_me">SP</dd>
 					<dd class="dd04_me">
 						<select name="sp_id" id="sel_sp" title="选择SP" onclick="namePicker(this,spList,onSpDataSelect)">
@@ -198,10 +199,13 @@
 							%>
 						</select>
 					</dd>
+					-->
+					<!--
 					<dd class="dd01_me">SP业务</dd>
 					<dd class="dd04_me">
 						<select name="sp_trone_id" id="sel_sp_trone_id" ></select>
 					</dd>
+					-->
 					<dd class="dd01_me">状态</dd>
 					<dd class="dd04_me">
 						<select name="trone_status" id="sel_trone_status" >
@@ -225,15 +229,11 @@
 				<tr>
 					<td>序号</td>
 					<td>CP</td>
-					<td>SP名称</td>
+					<td>SPID</td>
 					<td>SP业务名称</td>
 					<td>通道名称</td>
 					<td>价格</td>
 					<td>指令</td>
-					<td>扣量设置</td>
-					<td>扣量比</td>
-					<td>同步金额</td>
-					<td>起扣数</td>
 					<td>模糊</td>
 					<td>启用</td>
 					<td>操作</td>
@@ -249,15 +249,11 @@
 				<tr <%= model.getDisable() == 1 ? stopStyle : "" %>>
 					<td><%=(pageIndex-1)*Constant.PAGE_SIZE + rowNum++ %></td>
 					<td><%=model.getCpShortName()%></td>
-					<td><%=model.getSpShortName() %></td>
+					<td><%= model.getSpId() + 1000 %></td>
 					<td><%=model.getSpTroneName()%></td>
 					<td><%=model.getTroneName() %></td>
 					<td><%= model.getPrice() %></td>
 					<td><%=model.getOrderNum() %></td>
-					<td><%=model.getIsHoldCustom()==0 ? "URL" : "当前" %></td>
-					<td><%=model.getHoldPercent() %></td>
-					<td><%=model.getHoldAmount() %></td>
-					<td><%=model.getHoldAcount()%></td>
 					<td><%=model.getDynamic()==1 ? "是" : "否" %></td>
 					<td><%=model.getDisable() ==0 ? "是" : "否" %></td>
 					<td>

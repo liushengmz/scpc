@@ -22,6 +22,8 @@
 <%
 
 	boolean isUpdateStatus = StringUtil.getInteger(request.getParameter("udpate_status"), -1) == 1 ? true : false;
+
+	boolean isUpdateWatchData = StringUtil.getInteger(request.getParameter("udpate_watch_data"), -1) == 1 ? true : false;
 	
 	if(isUpdateStatus)
 	{
@@ -34,6 +36,22 @@
 		new SpTroneServer().updateSpTroneStatus(id, status);
 		
 		out.print(id + "," + status + ",OK");
+		
+		return;
+	}
+	
+	if(isUpdateWatchData)
+	{
+		int id = StringUtil.getInteger(request.getParameter("id"), -1);
+		
+		int isWatchData = StringUtil.getInteger(request.getParameter("is_watch_data"), 0);
+		
+		if(id<0)
+			return;
+		
+		new SpTroneServer().updateSpTroneAlarm(id, isWatchData);
+		
+		out.print(id + "," + isWatchData + ",OK");
 		
 		return;
 	}
@@ -87,7 +105,7 @@
 	String[] troneTypes = {"实时","隔天","IVR","第三方支付"};
 	
 	//0对公周结；1对公双周结；2对公月结；3对私周结；4对私双周结；5对私月结,6见帐单结,7对公N+1结,8,"对公N+3结"
-	String[] jsTypes = {"对公周结","对公双周结","对公N+1结","对私周结","对私双周结","对私月结","见帐单结","对公N+2结","对公N+3结"};
+	String[] jsTypes = {"对公周结","对公双周结","对公N+1结","对私周结","对私双周结","对私月结","见帐单结","对公N+2结","对公N+3结","对公N+5结","对公N+5结","对公N+6结"};
 	
 	String jiuSuanName = ConfigManager.getConfigData("JIE_SUNA_NAME", "结算率");
 	
@@ -406,6 +424,34 @@ function importProvince()
 		getAjaxValue("user_sptrone.jsp?udpate_status=1&id=" + spTroneId + "&status=" + status,onStatusChangeSuc);
 	}
 	
+	function changeSpTroneWatchData(spTroneId)
+	{
+		var isWatchData = document.getElementById("hid_is_watch_data_" + spTroneId).value;
+		
+		if(isWatchData==0)
+			isWatchData=1
+		else
+			isWatchData=0;
+		
+		getAjaxValue("user_sptrone.jsp?udpate_watch_data=1&id=" + spTroneId + "&is_watch_data=" + isWatchData,onTroneWatchChangeSuc);
+	}
+	
+	function onTroneWatchChangeSuc(data)
+	{
+		console.log("data:" + data);
+		
+		var result = data.split(",");
+		
+		if(result.length==3)
+		{
+			if(result[2]=="OK")
+			{
+				document.getElementById("hid_is_watch_data_" + result[0]).value = result[1];
+				$("#td_is_watch_data_" + result[0]).html(result[1]==1 ? "是":"否");
+			}
+		}
+	}
+	
 </script>
 
 
@@ -479,6 +525,7 @@ function importProvince()
 					<td>商务人员</td>
 					<td>数据类型</td>
 					<td>结算类型</td>
+					<td>监控</td>
 					<td><%= jiuSuanName %></td>
 					<td style="max-width: 400px">省份</td>
 					<td>状态</td>
@@ -495,6 +542,7 @@ function importProvince()
 					<td><%=(pageIndex - 1) * Constant.PAGE_SIZE + rowNum++%>
 						<input type="hidden" id="hid_<%= model.getId() %>" value="<%= model.getJieSuanLv() %>" />
 						<input type="hidden" id="hid_status_<%= model.getId() %>" value="<%= model.getStatus() %>" />
+						<input type="hidden" id="hid_is_watch_data_<%= model.getId() %>" value="<%= model.getIsWatchData() %>" />
 					</td>
 					<td><%=model.getSpName()%></td>
 					<td><%=model.getServoceCodeName() %></td>
@@ -502,6 +550,7 @@ function importProvince()
 					<td><%= model.getCommerceUserName() %></td>
 					<td><%= troneTypes[model.getTroneType()]%></td>
 					<td><%= jsTypes[model.getJsTypes()] %></td>
+					<td id="td_is_watch_data_<%= model.getId() %>" onclick="changeSpTroneWatchData(<%= model.getId() %>)" ><%= model.getIsWatchData()==1 ? "是" : "否" %></td>
 					<td><span id="span_<%= model.getId() %>"><%= model.getJieSuanLv() %></span>
 					</td>
 					<td style="max-width: 400px"  ondblclick="editProvince('<%= model.getId() %>')">

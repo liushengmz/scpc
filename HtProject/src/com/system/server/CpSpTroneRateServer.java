@@ -1,19 +1,16 @@
 package com.system.server;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.system.dao.CpSpTroneRateDao;
 import com.system.model.CpSpTroneRateModel;
-import com.system.util.StringUtil;
 
 public class CpSpTroneRateServer
 {
+	private static boolean isRunningRateAnaly = false;
+	
+	
 	public Map<String, Object> loadCpSpTroneRate(String keyWord,int pageIndex)
 	{
 		return new CpSpTroneRateDao().loadCpSpTroneRate(keyWord, pageIndex);
@@ -51,7 +48,10 @@ public class CpSpTroneRateServer
 	
 	public void syncUnAddCpSpTroneRate()
 	{
-		new CpSpTroneRateDao().syncUnAddCpSpTroneRate();
+		if(isRunningRateAnaly)
+			return;
+		
+		isRunningRateAnaly = true;
 		
 		//更新tbl_trone_order里对应的 jie suan lv id
 		try
@@ -61,13 +61,38 @@ public class CpSpTroneRateServer
 				@Override
 				public void run()
 				{
-					new CpSpTroneRateDao().updateTroneOrderCpTroneRateId();
+					CpSpTroneRateDao dao = new CpSpTroneRateDao();
+					
+					dao.syncUnAddCpSpTroneRate();
+					
+					List<Map<String, Object>> list = dao.loadNullTroneOrderCpTroneRate();
+					
+					if(list==null || list.isEmpty())
+						return;
+					
+					for(Map<String, Object> map : list)
+					{
+						int troneOrderId = (Integer)map.get("troneOrderId");
+						
+						int spTroneId = (Integer)map.get("spTroneId");
+						
+						int cpId = (Integer)map.get("cpId");
+						
+						int cpTroneRateId = dao.loadCpTroneRate(spTroneId, cpId);
+						
+						dao.updateCpTroneRate(troneOrderId, cpTroneRateId);
+					}
+					
 				}
 			}).start();
 		}
 		catch(Exception ex)
 		{
 			System.out.println("SORRY, UPDATE TBL_TRONE_ORDER JIE SUAN LV ID FAIL:" + ex.getMessage());
+		}
+		finally
+		{
+			isRunningRateAnaly = false;
 		}
 	}
 	

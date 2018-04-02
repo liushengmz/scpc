@@ -197,6 +197,13 @@
 				<final.name>HtProject</final.name>
 			</properties>
 		</profile>
+		<profile>
+			<id>yhxf</id>
+			<properties>
+				<runtime.env>config\yhxf</runtime.env>
+				<final.name>HtProject</final.name>
+			</properties>
+		</profile>
 	</profiles>
 	<dependencies>
 		<dependency>

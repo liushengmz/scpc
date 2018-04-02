@@ -43,6 +43,9 @@ public class SpTroneModel
 	//当走API的时候，并且判断手机号的地区时，可以选择是否强制拒绝还是交由上游去处理
 	private int isForceHold;
 	
+	//增加是否监控数据
+	private int isWatchData;
+	
 	public int getTroneType()
 	{
 		return troneType;
@@ -274,6 +277,14 @@ public class SpTroneModel
 	public void setProvinceList(String provinceList)
 	{
 		this.provinceList = provinceList;
+	}
+	public int getIsWatchData()
+	{
+		return isWatchData;
+	}
+	public void setIsWatchData(int isWatchData)
+	{
+		this.isWatchData = isWatchData;
 	}
 	
 	

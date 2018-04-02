@@ -11,7 +11,6 @@ import com.system.constant.Constant;
 import com.system.database.JdbcControl;
 import com.system.database.QueryCallBack;
 import com.system.model.CpSpTroneRateModel;
-import com.system.model.CpBillingSptroneDetailModel;
 import com.system.util.StringUtil;
 
 public class CpSpTroneRateDao
@@ -207,6 +206,68 @@ public class CpSpTroneRateDao
 		new JdbcControl().execute(sql);
 	}
 	
+	public List<Map<String, Object>> loadNullTroneOrderCpTroneRate()
+	{
+		String sql = "SELECT a.id trone_order_id,c.id sp_trone_id,d.id cp_id FROM "
+				+ com.system.constant.Constant.DB_DAILY_CONFIG
+				+ ".tbl_trone_order a LEFT JOIN "
+				+ com.system.constant.Constant.DB_DAILY_CONFIG
+				+ ".tbl_trone b ON a.trone_id = b.id LEFT JOIN "
+				+ com.system.constant.Constant.DB_DAILY_CONFIG
+				+ ".tbl_sp_trone c ON b.sp_trone_id = c.id LEFT JOIN "
+				+ com.system.constant.Constant.DB_DAILY_CONFIG
+				+ ".tbl_cp d ON a.cp_id = d.id WHERE cp_jiesuanlv_id IS NULL AND cp_id <> 34 AND c.id IS NOT NULL";
+		
+		final List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		new JdbcControl().query(sql, new QueryCallBack()
+		{
+			
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				while(rs.next())
+				{
+					Map<String, Object> map = new HashMap<String, Object>();
+					
+					map.put("troneOrderId", rs.getInt("trone_order_id"));
+					map.put("spTroneId", rs.getInt("sp_trone_id"));
+					map.put("cpId", rs.getInt("cp_id"));
+					
+					list.add(map);
+				}
+				return null;
+			}
+		});
+		
+		return list;
+	}
+	
+	public void updateCpTroneRate(int troneOrderId,int cpTroneRateId)
+	{
+		String sql = "UPDATE " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order SET cp_jiesuanlv_id = " + cpTroneRateId + " WHERE id = " + troneOrderId;
+		new JdbcControl().execute(sql);
+	}
+	
+	public int loadCpTroneRate(int spTroneId,int cpId)
+	{
+		String sql = "SELECT id FROM " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp_trone_rate WHERE sp_trone_id = " + spTroneId + " AND cp_id = " + cpId;
+		
+		return (Integer)new JdbcControl().query(sql, new QueryCallBack()
+		{
+			@Override
+			public Object onCallBack(ResultSet rs) throws SQLException
+			{
+				if(rs.next())
+					return rs.getInt(1);
+
+				return -1;
+			}
+		});
+	}
+	
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<CpSpTroneRateModel> loadCpSpTroneRateList(final int cpId,int jsType,String startDate,String endDate)
 	{
@@ -240,6 +301,17 @@ public class CpSpTroneRateDao
 		});
 	}
 	
-	
+	public static void main(String[] args)
+	{
+String sql = "";
+		
+		sql += " UPDATE " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order," + com.system.constant.Constant.DB_DAILY_CONFIG + ".`tbl_cp_trone_rate`," + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone," + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone ";
+		sql += " SET " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order.`cp_jiesuanlv_id` = " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp_trone_rate.`id`";
+		sql += " WHERE " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order.`cp_id` = " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp_trone_rate.`cp_id` ";
+		sql += " AND " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone_order.trone_id = " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone.`id`";
+		sql += " AND " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_trone.`sp_trone_id` =  " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone.`id`";
+		sql += " AND " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone.id = " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_cp_trone_rate.`sp_trone_id`;";
+		System.out.println(sql);
+	}
 	
 }

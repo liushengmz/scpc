@@ -163,4 +163,9 @@ public class SpTroneServer
 		new SpTroneDao().updateSpTroneStatus(id, status);
 	}
 	
+	public void updateSpTroneAlarm(int id,int isWatchData)
+	{
+		new SpTroneDao().updateSpTroneAlarm(id, isWatchData);
+	}
+	
 }	

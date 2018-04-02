@@ -42,7 +42,7 @@
 	query = Base64UTF.encode(query);
 	
 	//0对公周结；1对公双周结；2对公月结；3对私周结；4对私双周结；5对私月结,6见帐单结,7对公N+1结,8对公N+3结
-	String[] jsTypes = {"对公周结","对公双周结","对公N+1结","对私周结","对私双周结","对私月结","见帐单结","对公N+2结","对公N+3结"};
+	String[] jsTypes = {"对公周结","对公双周结","对公N+1结","对私周结","对私双周结","对私月结","见帐单结","对公N+2结","对公N+3结","对公N+5结","对公N+5结","对公N+6结"};
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

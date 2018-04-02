@@ -270,6 +270,7 @@
 		
 		setRadioCheck("is_unhold_data",<%=spTroneModel.getIsUnHoldData()%>);
 		setRadioCheck("is_force_hold",<%= spTroneModel.getIsForceHold() %>);
+		setRadioCheck("is_watch_data",<%= spTroneModel.getIsWatchData() %>);
 		
 		unAllCkb();
 		$('[name=area[]]:checkbox').each(function() {
@@ -517,6 +518,16 @@
 							value="1"> <label style="font-size: 14px; float: left">开启</label>
 						<input type="radio" name="status" style="width: 35px; float: left"
 							value="0"> <label style="font-size: 14px; float: left">关闭</label>
+					</dd>
+					
+					<br /> <br /> <br />
+					<dd class="dd00_me"></dd>
+					<dd class="dd01_me">是否监控</dd>
+					<dd class="dd03_me">
+						<input type="radio" name="is_watch_data" style="width: 35px; float: left"
+							value="0"> <label style="font-size: 14px; float: left">否</label>
+						<input type="radio" name="is_watch_data" style="width: 35px; float: left"
+							value="1"> <label style="font-size: 14px; float: left">是</label>
 					</dd>
 					
 					<br />

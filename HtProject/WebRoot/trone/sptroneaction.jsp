@@ -47,6 +47,7 @@
 	
 	int isUnHoldData = StringUtil.getInteger(request.getParameter("is_unhold_data"), 0);
 	int isForceHold = StringUtil.getInteger(request.getParameter("is_force_hold"), 0);
+	int isWatchData = StringUtil.getInteger(request.getParameter("is_watch_data"), 0);
 	
 	//更新SP业务默认结算率
 	if(type==1)
@@ -81,6 +82,8 @@
 	model.setLimiteType(limiteType);
 	model.setIsUnHoldData(isUnHoldData);
 	model.setIsForceHold(isForceHold);
+	
+	model.setIsWatchData(isWatchData);
 	
 	if(id==-1)
 		new SpTroneServer().addSpTrone(model); 

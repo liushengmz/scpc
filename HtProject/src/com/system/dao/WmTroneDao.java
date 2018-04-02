@@ -46,4 +46,12 @@ public class WmTroneDao
 		});
 		
 	}
+	
+	public static void main(String[] args)
+	{
+		List<WmTroneModel> list = new WmTroneDao().loadTroneByCpUserId(546);
+		for(WmTroneModel model : list)
+			System.out.println(model.getId() + "--" + model.getTroneName());
+	}
+	
 }

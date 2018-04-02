@@ -41,7 +41,7 @@
 	String[] troneTypes = {"实时","隔天","IVR","第三方支付"};
 	
 	//0对公周结；1对公双周结；2对公月结；3对私周结；4对私双周结；5对私月结,6见帐单结,7对公N+1结,8"对公N+3结"
-	String[] jsTypes = {"对公周结","对公双周结","对公N+1结","对私周结","对私双周结","对私月结","见帐单结","对公N+2结","对公N+3结"};
+	String[] jsTypes = {"对公周结","对公双周结","对公N+1结","对私周结","对私双周结","对私月结","见帐单结","对公N+2结","对公N+3结","对公N+4结","对公N+5结","对公N+6结"};
 	
 	String jiuSuanName = ConfigManager.getConfigData("JIE_SUNA_NAME", "结算率");
 	
@@ -186,6 +186,7 @@
 					<td>结算类型</td>
 					<td><%= jiuSuanName %></td>
 					<td>是否导量</td>
+					<td>是否监控</td>
 					<td>日限</td>
 					<td>月限</td>
 					<td>状态</td>
@@ -213,6 +214,7 @@
 						<span id="span_<%= model.getId() %>"><%= model.getJieSuanLv() %></span>
 					</td>
 					<td><%= model.getIsUnHoldData()==0 ? "否" : "是" %></td>
+					<td><%= model.getIsWatchData()==0 ? "否" : "是" %></td>
 					<td><%= model.getDayLimit() %></td>
 					<td><%= model.getMonthLimit() %></td>
 					<td><%= model.getStatus()==1 ? "开启" : "关闭" %></td>

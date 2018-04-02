@@ -68,6 +68,7 @@
 						<select name="sp_id" id="sel_sp" >
 								<option value="-1">全部</option>
 								<%
+								
 								for(WmSpModel model : spList)
 								{
 									%>
@@ -138,8 +139,17 @@
 				</thead>
 				<tbody>
 				<%
+					int totalDataRows = 0;
+					Float totalDataAmount = 0F;
+					int showTotalDataRows = 0;
+					Float showTotalDataAmount = 0F;
+				
 					for(Map<String,Object> map : list)
 					{
+						totalDataRows +=  (Integer)map.get("dataRows");
+						totalDataAmount += (Float)map.get("dataAmount");
+						showTotalDataRows += (Integer)map.get("showDataRows");
+						showTotalDataAmount += (Float)map.get("showDataAmount");
 						%>
 					<tr>
 						<td><%= map.get("showName") %></td>
@@ -151,6 +161,13 @@
 						<%
 					}
 				%>
+				<tr>
+						<td>总数</td>
+						<td><%= totalDataRows %></td>
+						<td><%= StringUtil.getDecimalFormat(totalDataAmount) %></td>
+						<td><%= showTotalDataRows %></td>
+						<td><%= StringUtil.getDecimalFormat(showTotalDataAmount) %></td>
+				</tr>
 				</tbody>
 			</table>
 	</div>

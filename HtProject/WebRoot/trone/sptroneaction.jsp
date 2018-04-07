@@ -49,6 +49,9 @@
 	int isForceHold = StringUtil.getInteger(request.getParameter("is_force_hold"), 0);
 	int isWatchData = StringUtil.getInteger(request.getParameter("is_watch_data"), 0);
 	
+	int alarmStartHour = StringUtil.getInteger(request.getParameter("alarm_start_hour"), 0);
+	int alarmEndHour = StringUtil.getInteger(request.getParameter("alarm_end_hour"), 0);
+	
 	//更新SP业务默认结算率
 	if(type==1)
 	{
@@ -84,6 +87,8 @@
 	model.setIsForceHold(isForceHold);
 	
 	model.setIsWatchData(isWatchData);
+	model.setAlarmStartHour(alarmStartHour);
+	model.setAlarmEndHour(alarmEndHour);
 	
 	if(id==-1)
 		new SpTroneServer().addSpTrone(model); 

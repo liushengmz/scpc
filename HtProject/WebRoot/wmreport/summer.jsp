@@ -135,6 +135,7 @@
 						<td>上游金额(元)</td>
 						<td>渠道数据量(条)</td>
 						<td>渠道金额(元)</td>
+						<td>利润(元)</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -157,6 +158,7 @@
 						<td><%= StringUtil.getDecimalFormat((Float)map.get("dataAmount")) %></td>
 						<td><%= map.get("showDataRows") %></td>
 						<td><%= StringUtil.getDecimalFormat((Float)map.get("showDataAmount")) %></td>
+						<td><%= StringUtil.getDecimalFormat((Float)map.get("dataAmount")-(Float)map.get("showDataAmount")) %></td>
 					</tr>		
 						<%
 					}
@@ -167,6 +169,7 @@
 						<td><%= StringUtil.getDecimalFormat(totalDataAmount) %></td>
 						<td><%= showTotalDataRows %></td>
 						<td><%= StringUtil.getDecimalFormat(showTotalDataAmount) %></td>
+						<td><%= StringUtil.getDecimalFormat(totalDataAmount-showTotalDataAmount) %></td>
 				</tr>
 				</tbody>
 			</table>

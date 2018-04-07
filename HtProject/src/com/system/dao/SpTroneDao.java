@@ -557,6 +557,8 @@ public class SpTroneDao
 					model.setIsForceHold(rs.getInt("is_force_hold"));
 					
 					model.setIsWatchData(rs.getInt("is_watch_data"));
+					model.setAlarmStartHour(rs.getInt("alarm_start_hour"));
+					model.setAlarmEndHour(rs.getInt("alarm_end_hour"));
 					
 					return model;
 				}
@@ -570,13 +572,13 @@ public class SpTroneDao
 	{
 		String sql = "insert into " + com.system.constant.Constant.DB_DAILY_CONFIG + ".tbl_sp_trone(sp_id,name,operator,jiesuanlv,provinces,create_date,trone_type,trone_api_id,status,"
 				+ "day_limit,month_limit,user_day_limit,user_month_limit,product_id,js_type,is_on_api,shield_start_hour,shield_end_hour,"
-				+ "ramark,up_data_type,limit_type,is_unhold_data,is_force_hold,is_watch_data) values("
+				+ "ramark,up_data_type,limit_type,is_unhold_data,is_force_hold,is_watch_data,alarm_start_hour,alarm_end_hour) values("
 				+ model.getSpId() + ",'" + model.getSpTroneName() + "',"
 				+ model.getOperator() + "," + model.getJieSuanLv() + ",'"
 				+ model.getProvinces() + "',now()," + model.getTroneType() + ","+ model.getTroneApiId() +","+ model.getStatus() +"," + model.getDayLimit() + "," 
 				+ model.getMonthLimit() + "," + model.getUserDayLimit()  + "," +  model.getUserMonthLimit() + "," + model.getServiceCodeId() + "," + model.getJsTypes() 
 				+ ","+model.getApiStatus()+",'"+model.getShieldStart()+"','"+model.getShieldEnd()+"','"+SqlUtil.sqlEncode(model.getRemark())+"',"+model.getUpDataType()
-				+","+model.getLimiteType()+"," + model.getIsUnHoldData() + ","+ model.getIsForceHold() +"," + model.getIsWatchData() + ")";
+				+","+model.getLimiteType()+"," + model.getIsUnHoldData() + ","+ model.getIsForceHold() +"," + model.getIsWatchData() + ","+ model.getAlarmStartHour() +"," + model.getAlarmEndHour() + ")";
 		return new JdbcControl().execute(sql);
 	}
 	
@@ -590,7 +592,7 @@ public class SpTroneDao
 				+ model.getTroneApiId() + ",status = " + model.getStatus() + ",day_limit=" + model.getDayLimit() + ",month_limit=" + model.getMonthLimit() + ",user_day_limit=" 
 				+ model.getUserDayLimit() + ",user_month_limit=" + model.getUserMonthLimit() + ", product_id = " + model.getServiceCodeId() + ",js_type = " + model.getJsTypes() + ",is_on_api="+model.getApiStatus()+""
 				+ ",shield_start_hour='"+model.getShieldStart()+"',shield_end_hour='"+model.getShieldEnd()+"',ramark='"+SqlUtil.sqlEncode(model.getRemark())
-				+"',up_data_type="+model.getUpDataType()+",limit_type="+model.getLimiteType()+",is_unhold_data = "+ model.getIsUnHoldData() +", is_force_hold =" + model.getIsForceHold() + ",is_watch_data = " + model.getIsWatchData() + " where id =" + model.getId();
+				+"',up_data_type="+model.getUpDataType()+",limit_type="+model.getLimiteType()+",is_unhold_data = "+ model.getIsUnHoldData() +", is_force_hold =" + model.getIsForceHold() + ",is_watch_data = " + model.getIsWatchData() + ",alarm_start_hour=" + model.getAlarmStartHour() + ",alarm_end_hour=" + model.getAlarmEndHour() + " where id =" + model.getId();
 		
 		return new JdbcControl().execute(sql);
 	}

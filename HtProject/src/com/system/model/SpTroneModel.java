@@ -46,6 +46,9 @@ public class SpTroneModel
 	//增加是否监控数据
 	private int isWatchData;
 	
+	private int alarmStartHour;
+	private int alarmEndHour;
+	
 	public int getTroneType()
 	{
 		return troneType;
@@ -285,6 +288,22 @@ public class SpTroneModel
 	public void setIsWatchData(int isWatchData)
 	{
 		this.isWatchData = isWatchData;
+	}
+	public int getAlarmStartHour()
+	{
+		return alarmStartHour;
+	}
+	public int getAlarmEndHour()
+	{
+		return alarmEndHour;
+	}
+	public void setAlarmStartHour(int alarmStartHour)
+	{
+		this.alarmStartHour = alarmStartHour;
+	}
+	public void setAlarmEndHour(int alarmEndHour)
+	{
+		this.alarmEndHour = alarmEndHour;
 	}
 	
 	

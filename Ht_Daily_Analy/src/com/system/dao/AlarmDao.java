@@ -26,7 +26,7 @@ public class AlarmDao
 		sql += " LEFT JOIN " + Constant.DB_DAILY_CONFIG + ".tbl_user f ON e.commerce_user_id = f.id ";
 		sql += " WHERE a.trone_id > 0 ";
 		//这里只查询要监控的数据
-		sql += " AND d.is_watch_data = 1 AND d.status = 1 ";
+		sql += " AND d.is_watch_data = 1 AND d.status = 1 AND HOUR(NOW()) >= d.alarm_start_hour AND HOUR(NOW()) <= d.alarm_end_hour";
 		sql += " GROUP BY d.id ";
 		sql += " ORDER BY e.id,d.id ";
 		
@@ -115,7 +115,5 @@ public class AlarmDao
 			}
 		});
 	}
-	
-	
 	
 }

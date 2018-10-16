@@ -423,7 +423,7 @@ $(function()
 							<option value=4>4</option>
 							<option value=5>5</option>
 							<option value=6>6</option>
-							<option value=7>7</option>
+							<option selected="selected" value=7>7</option>
 							<option value=8>8</option>
 							<option value=9>9</option>
 							<option value=10>10</option>
@@ -465,8 +465,8 @@ $(function()
 							<option value=19>19</option>
 							<option value=20>20</option>
 							<option value=21>21</option>
-							<option value=22>22</option>
-							<option selected="selected" value=23>23</option>
+							<option selected="selected" value=22>22</option>
+							<option value=23>23</option>
 						</select>
 					</dd>
 					

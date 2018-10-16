@@ -187,8 +187,8 @@
 					<td><%= jiuSuanName %></td>
 					<td>是否导量</td>
 					<td>是否监控</td>
-					<td>日限</td>
-					<td>月限</td>
+					<td>监控启</td>
+					<td>监控停</td>
 					<td>状态</td>
 					<td>操作</td>
 				</tr>
@@ -215,8 +215,8 @@
 					</td>
 					<td><%= model.getIsUnHoldData()==0 ? "否" : "是" %></td>
 					<td><%= model.getIsWatchData()==0 ? "否" : "是" %></td>
-					<td><%= model.getDayLimit() %></td>
-					<td><%= model.getMonthLimit() %></td>
+					<td><%= model.getAlarmStartHour() %></td>
+					<td><%= model.getAlarmEndHour() %></td>
 					<td><%= model.getStatus()==1 ? "开启" : "关闭" %></td>
 					<td><a href="sptroneedit.jsp?query=<%= query %>&id=<%= model.getId() %>">修改</a></td>
 				</tr>

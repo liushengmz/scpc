@@ -19,7 +19,7 @@
 	int cpId = StringUtil.getInteger(request.getParameter("cp_id"), -1);
 	int troneId = StringUtil.getInteger(request.getParameter("trone_id"), -1);
 	int showType = StringUtil.getInteger(request.getParameter("showType"), 1);
-	String[] showName = {"","日期","上游","下游","产品","所属公司"};
+	String[] showName = {"","日期","上游","下游","产品","所属公司","月份"};
 	List<Map<String,Object>> list = new WmDataServer().loadWmShowTypeData(startDate, endDate, spId, troneId,cpId, showType);
 	List<WmSpModel> spList = new WmSpServer().loadSp();
 	List<WmCpModel> cpList = new WmCpServer().loadCp();
@@ -112,6 +112,7 @@
 					<dd class="dd04_me">
 						<select name="showType" id="selShowType"  >
 								<option value="1">日期</option>
+								<option value="6">月份</option>
 								<option value="2">上游</option>
 								<option value="4">产品</option> 
 								<option value="3">下游</option>
